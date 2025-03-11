@@ -11,8 +11,6 @@ Welcome to my school repository! This repository contains materials, assignments
 - **SWI**
 - **UPR**
 
-(Replace placeholders with actual course names.)
-
 ## 🚀 How to Use
 - Clone the repository:
   ```bash
