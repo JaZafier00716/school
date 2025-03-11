@@ -1,0 +1,59 @@
+U1 - Prohlizeni katalogu
+Main scenario:
+1.	Zakaznik zvoli katalog knih
+2.	System prezentuje vsechny knihy
+3.	Zakaznik zvoli parametry knihy (autor, rok vydani...)
+4.	System prezentuje vsechny knihy se zvolenymi parametry
+5.	Zakaznik zvoli knihu, u ktere chce zobrazit nahled
+6.	<<extends>> U11 Nahled knihy
+
+Extensions:
+1.A	Use case je spusten z U10 - vyhledavani knihy
+	1.A.1	Continue by step 4
+4.A	Zadna kniha v systemu se neshoduje se zadanymi parametry
+	4.A.1	System oznami uzivateli zpravou na obrazovce, ze zadna kniha nebyla nalezena
+	4.A.2	Continue by step 3
+4.B	System nalezne prave jednu knihu
+	4.B.1	Continue by step 6
+
+U10 - Vyhledavani knihy
+Main scenario:
+1.	Zakaznik zvoli vyhledavaci pole
+2.	Zakaznik zada parametry o knize	
+3.	System prezentuje vsechny knihy se zvolenymi parametry
+4.	Zakaznik zvoli knihu, u ktere chce zobrazit nahled
+5.	<<extends>> U11 Nahled knihy
+
+Extensions:
+4.A	Zadna kniha v systemu se neshoduje se zadanymi parametry
+	4.A.1	System oznami uzivateli zpravou na obrazovce, ze zadna kniha nebyla nalezena
+	4.A.2	Continue by step 3
+4.B	System nalezne prave jednu knihu
+	4.B.1	Continue by step 5
+
+U11 - Nahled knihy
+Main scenario:
+1.	System prezentuje detailni informace o knize
+
+U3 - Zobrazeni zapujcenych knih
+Main scenario:
+1.	Prihlaseny uzivatel zvoli zobrazeni zapujcenych knih
+2.	System prezentuje seznam zapujcenych knih
+
+Extensions:
+2.A	System nenalne zadne zapujcene knihy
+	2.A.1	System oznami uzivateli neexistenci zapujcenych knih
+	
+U6 - Vraceni knihy
+Main scenario:
+1.	Zamestnanec zada do systemu nazev knihy a ID/jmeno registrovaneho zakaznika
+2.	System zpracuje vraceni kinihy
+3.	<<extends>> U15 - poplatek za pozdni vraceni
+
+Extension:
+2.A	Pozdni vraceni knihy
+	2.A.1	System oznami zamestnanci pozdni vraceni
+	2.A.2	Continue by step 3
+
+U15 - Poplatek za pozdni vraceni
+

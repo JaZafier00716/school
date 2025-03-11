@@ -1,0 +1,94 @@
+<html>
+<body>
+<div>
+Ticker AMC was not found
+</div>
+<table>
+<thead>
+<tr><th>Day</th><th>Ticker</th><th>Start</th><th>End</th><th>Diff</th><th>Volume</th></tr>
+</thead>
+<tbody>
+<tr>
+	<td>5</td>
+	<td>META</td>
+	<td>458.51</td>
+	<td>462.19</td>
+	<td>3.68</td>
+	<td>32_837_163</td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>GOOGL</td>
+	<td>687.75</td>
+	<td>690.60</td>
+	<td>2.85</td>
+	<td>84_021_759</td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>META</td>
+	<td>462.58</td>
+	<td>458.51</td>
+	<td>-4.07</td>
+	<td>53_629_189</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>AAPL</td>
+	<td>408.75</td>
+	<td>411.80</td>
+	<td>3.05</td>
+	<td>73_745_173</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>GOOGL</td>
+	<td>687.98</td>
+	<td>687.75</td>
+	<td>-0.23</td>
+	<td>70_074_900</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>META</td>
+	<td>461.47</td>
+	<td>462.58</td>
+	<td>1.11</td>
+	<td>27_544_538</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>AAPL</td>
+	<td>408.15</td>
+	<td>408.75</td>
+	<td>0.60</td>
+	<td>47_585_068</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>GOOGL</td>
+	<td>685.68</td>
+	<td>687.98</td>
+	<td>2.30</td>
+	<td>91_902_769</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>META</td>
+	<td>458.37</td>
+	<td>461.47</td>
+	<td>3.10</td>
+	<td>19_824_825</td>
+</tr>
+<tr>
+	<td>1</td>
+	<td>AAPL</td>
+	<td>403.28</td>
+	<td>408.15</td>
+	<td>4.87</td>
+	<td>71_579_480</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

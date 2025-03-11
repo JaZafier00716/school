@@ -1,0 +1,43 @@
+# Project: Knihovna
+# Makefile created by Red Panda C++ 1.1.2
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = Knihovna_private.res
+OBJ      = main.o kniha.o knihovna.o Soubor.o $(RES)
+LINKOBJ  = main.o kniha.o knihovna.o Soubor.o $(RES)
+CLEANOBJ  =  main.o kniha.o knihovna.o Soubor.o Knihovna_private.res Knihovna.exe
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = Knihovna.exe
+CXXFLAGS = $(CXXINCS)  -g3 -pipe -Wall -Wextra -D__DEBUG__
+CFLAGS   = $(INCS)  -g3 -pipe -Wall -Wextra -D__DEBUG__
+RM       = del /q /f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(CLEANOBJ) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp funkce.h
+	$(CPP) -c C:/Users/JaZafier/Desktop/Maturita/Prakticka/PRG/CPPTridy/Knihovna/main.cpp -o main.o $(CXXFLAGS) 
+
+kniha.o: kniha.cpp funkce.h
+	$(CPP) -c C:/Users/JaZafier/Desktop/Maturita/Prakticka/PRG/CPPTridy/Knihovna/kniha.cpp -o kniha.o $(CXXFLAGS) 
+
+knihovna.o: knihovna.cpp funkce.h
+	$(CPP) -c C:/Users/JaZafier/Desktop/Maturita/Prakticka/PRG/CPPTridy/Knihovna/knihovna.cpp -o knihovna.o $(CXXFLAGS) 
+
+Soubor.o: Soubor.cpp funkce.h
+	$(CPP) -c C:/Users/JaZafier/Desktop/Maturita/Prakticka/PRG/CPPTridy/Knihovna/Soubor.cpp -o Soubor.o $(CXXFLAGS) 
+
+Knihovna_private.res: Knihovna_private.rc 
+	$(WINDRES) -i Knihovna_private.rc --input-format=rc -o Knihovna_private.res -O coff 
+

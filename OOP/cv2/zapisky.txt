@@ -1,0 +1,30 @@
+Trida vs objekt:
+    Trida popisuje co objekty budou umet a co budou obsahovat
+    Objekt je instance tridy, je jiz naplneny konkretnimi hodnotami
+    Objekt je konkretni pripad, ktery vznikl z tridy
+  Konstruktor:
+    Metoda ktera vytvori a naplni objekt
+    Ma stejne jmeno jako trida
+    Libovolny pocet parametru
+    bez navratoveho typu
+  Destruktor:
+    Slouzi k zniceni objektu a uvolneni dynamicky alokovane pameti
+    Lze obejit diky funkcim/knihovnam v cpp
+    Bez parametru
+    bez navratoveho typu
+  new:
+    dynamicka alokace pameti
+      heap = halda
+      uvolni se az kdyz chceme a nebo na konci programu
+  stack:
+    staticka alokace
+    uvolni se na konci scopu (na konci relevantnich slozenych zavorek)
+
+
+DU1:
+Mame strukturu KeyValue (https://homel.vsb.cz/~kud007/oop_p.html)
+    1. udelat z ni strom
+        bude mit max 2 potomky
+        left, right
+    2. udelat z nej binarni vyhledavaci strom
+        kdyz chcu pridat novy objekt, tak se mensi hodnoty pridaji nalevo a vetsi napravo
