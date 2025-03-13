@@ -8,10 +8,10 @@ class InvoiceItem
 private:
   string name;
   double price;
+
 public:
+  InvoiceItem();
   InvoiceItem(string name, double price);
   string getName();
   double getPrice();
 };
-
-

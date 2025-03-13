@@ -10,12 +10,14 @@ private:
   string city;
   string zipCode;
   string houseNumber;
+
 public:
+  Address();
   Address(
-    string street, 
-    string city, 
-    string zipCode, 
-    string houseNumber);
+      string street,
+      string city,
+      string zipCode,
+      string houseNumber);
   string getFullAddress();
 };
 
@@ -23,8 +25,11 @@ class Person
 {
 private:
   string firstName;
-  string lastname;
+  string lastName;
+
 public:
+  Person();
+  Person(string lastName);
   Person(string firstName, string lastName);
   string getFullName();
 };

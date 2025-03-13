@@ -1,0 +1,14 @@
+const double funkce(const value) const;
+
+funkce() const;
+  funkce nemeni objekt
+  napr. neco vypisuje neco vraci
+
+funkce(const Item* const, const val2);
+  v pripade constu pred pointerem je ta hodnota za pointerem nemenna
+  v pripade constu za pointerem je pointer nemenny
+  v pripade val2 je hodnota nemenna
+
+const double funkce()
+  navratova hodnota je konstantni
+  

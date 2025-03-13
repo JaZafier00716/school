@@ -8,9 +8,9 @@ class Grades
 {
 private:
   string lecture_name;
-  int *grades;
+  int *;
   int grade_count;
-public:
+public:grades
   Grades(string lecture_name, int *grades, int grade_count);
   Grades();
   ~Grades();
