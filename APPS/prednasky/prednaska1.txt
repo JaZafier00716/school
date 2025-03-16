@@ -1,0 +1,11 @@
+55b za zkousku
+
+pokud bude u cviceni [x], tak budeme pouzivat pouze dokumentaci bez internetu
+
+pamet je usporadana jako sekvence Bytu
+
+PC/IP = Program counter/instruction pointer - ukazuje na posledni provedenou instrukci
+
+mov - v pripade konstant, musime uvadet velikost konstanty
+
+
