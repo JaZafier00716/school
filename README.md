@@ -14,7 +14,7 @@ Welcome to my school repository! This repository contains materials, assignments
 ## 🚀 How to Use
 - Clone the repository:
   ```bash
-  git clone https://github.com/yourusername/school-repo.git
+  git clone https://github.com/JaZafier00716/school.git
   ```
 - Navigate to a specific class folder for notes, assignments, and resources.
 - Feel free to contribute or suggest improvements!
