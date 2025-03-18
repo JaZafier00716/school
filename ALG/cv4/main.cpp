@@ -104,23 +104,24 @@ int main2()
   return 0;
 }
 
-void erastothenes(int N, int *L)
+void erastothenes(int N, int *L)    // vysledna slozitost je n * log (log n)
 {
   int *A = new int[N + 1];
 
   // Naplneni pole
-  for (int p = 2; p <= N; p++)
+  for (int p = 2; p <= N; p++)  // linearni - ale neresi algoritmus, takze podle nej nepocitame slozitost
   {
     A[p] = p;
   }
 
   // Prochazeni pole
-  for (int p = 2; p <= floor(sqrt(N)); p++)
+  for (int p = 2; p <= floor(sqrt(N)); p++) // logiratmicky
   {
     if (A[p] != 0)
     {
       // int j = p*p;  // Protoze mensi nasobky jsou jiz vyeliminovane
-      for (int j = p * p; j <= N; j += p)
+      // p*p meni slozitost nasledujiciho cyklu z linearniho na logiratmicky, jelikoz slozitost se exponencialne snizuje
+      for (int j = p * p; j <= N; j += p) // linearni
       {
         A[j] = 0;
       }
@@ -128,7 +129,7 @@ void erastothenes(int N, int *L)
   }
 
   int i = 0;
-  for (int p = 2; p <= N; p++)
+  for (int p = 2; p <= N; p++)  // linearni - ale neresi algoritmus, takze podle nej nepocitame slozitost
   {
     if (A[p] != 0)
     {
@@ -174,8 +175,106 @@ void hanoi(int count, int src, int dest, int help)
   hanoi(count - 1, help, dest, src);
 }
 
-int main()
+int main4()
 {
   hanoi(4, 1, 3, 2);
   return 0;
+}
+
+int find(int *pole, int N, int x) { // Worst case: linear, Best case: constant (on 1st position) A
+  for(int i = 0; i < N; i++) {
+    if(pole[i] == x) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+void unique(int *pole, int N) {
+  cout << "Unique: ";
+  int found = 0;
+  for (int i = 0; i < N; i++)
+  {
+    found = 0;
+    for (int j = 0; j < N; j++)
+    {
+      if(pole[i] == pole[j] && j != i) {
+        found = 1;
+        break;
+      }
+    }
+    if(found == 0) {
+      cout << pole[i] << "\t";
+    }
+    
+  }
+}
+
+
+void unique2(int *pole, int N) {
+  cout << "Unique: ";
+  int found = 0;
+
+  bool *u = new bool[N];
+  int *result = new int[N];
+  for (int i = 0; i < N; i++)
+  {
+    u[i] = true;
+  }
+  
+
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = i+1; j < N; j++)
+    {
+      if(pole[i] == pole[j]) {
+        u[i] = false;
+        u[j] = false;
+        break;
+      }
+    }
+  }
+
+
+  int idx = 0;
+  for (int i = 0; i < N; i++)
+  {
+    if(u[i]) {
+      result[idx] = pole[i];
+    }
+  }
+
+  delete[] u;
+}
+
+int fact(int n) {
+  if(n == 0) {
+    return 1;
+  }
+  return n * fact(n-1);
+}
+
+int main() {
+  srand((unsigned int)time(nullptr));
+
+  // int N = 10;
+  // int *arr = new int[N];
+
+  // int value = 5;
+
+  // for (int i = 0; i < N; i++)
+  // {
+  //   arr[i] = rand() % N;
+  //   cout << arr[i] << "\t";
+  // }
+  // cout << endl;
+
+  // cout << "Value: " << value << " found at: " << find(arr, N, value) << endl;
+  
+
+  // int pole[] = {1,2,1,1,3,4,3,5,6,8,5,9};
+
+  cout << fact(5);
+
+  // unique(pole, 12);
 }

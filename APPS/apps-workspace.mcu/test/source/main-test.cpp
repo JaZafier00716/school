@@ -1,20 +1,3 @@
-// **************************************************************************
-//
-//               Demo program for APPS labs
-//
-// Subject:      Computer Architectures and Parallel systems
-// Author:       Petr Olivka, petr.olivka@vsb.cz, 02/2025
-// Organization: Department of Computer Science, FEECS,
-//               VSB-Technical University of Ostrava, CZ
-//
-// File:         Main program for testing.
-//
-// **************************************************************************
-
-/**
- * @file    main-test.cpp
- * @brief   Application entry point.
- */
 #include <stdio.h>
 #include <functional>
 #include "board.h"
@@ -29,63 +12,67 @@
 
 #include "mcxn-kit.h"
 
-// **************************************************************************
-//! System initialization. Do not modify it!!!
-void _mcu_initialization() __attribute__(( constructor( 0x100 ) ));
+#define T 100
 
-void _mcu_initialization()
-{
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-    BOARD_InitDebugConsole();
-    CLOCK_EnableClock( kCLOCK_Gpio0 );
-    CLOCK_EnableClock( kCLOCK_Gpio1 );
-    CLOCK_EnableClock( kCLOCK_Gpio2 );
-    CLOCK_EnableClock( kCLOCK_Gpio3 );
-    CLOCK_EnableClock( kCLOCK_Gpio4 );
+class LED {
+public:
+    DigitalOut m_led;
+    uint32_t m_T0; // čas T0
+    uint32_t m_default_T0; // výchozí hodnota pro obnovení
+
+    LED(uint32_t t_led_pin) : m_led(t_led_pin), m_T0(0), m_default_T0(0) {}
+
+    void nastav_jas_proc(uint8_t t_jas_proc) {
+        m_T0 = static_cast<uint32_t>(t_jas_proc * T / 100);
+        m_default_T0 = m_T0;
+    }
+
+    void vypnout() {
+        m_T0 = 0;
+    }
+
+    void obnovit() {
+        m_T0 = m_default_T0;
+    }
+};
+
+LED g_red_led[] = { P3_16, P3_17 };
+DigitalIn g_button_off(P3_18);
+DigitalIn g_button_on(P3_19);
+
+void pwm_control() {
+    static uint32_t ticks = 0;
+
+    for (auto &led : g_red_led) {
+        led.m_led = (ticks < led.m_T0) ? 0 : 1;
+    }
+
+    ticks = (ticks + 1) % T;
 }
-// **************************************************************************
 
-//! Global data
+void check_buttons() {
+    if (g_button_off.read() == 0) { // Tlačítko zhasnutí
+        for (auto &led : g_red_led) {
+            led.vypnout();
+        }
+    }
 
-//! LEDs on MCXN-KIT - instances of class DigitalOut
-DigitalOut g_led_P3_16( P3_16 );
-DigitalOut g_led_P3_17( P3_17 );
-
-//! Button on MCXN-KIT - instance of class DigitalIn
-DigitalIn g_but_P3_18( P3_18 );
-DigitalIn g_but_P3_19( P3_19 );
-DigitalIn g_but_P3_20( P3_20 );
-DigitalIn g_but_P3_21( P3_21 );
-
-void test_leds();
-void test_lcd();
-void test_i2c();
-
-int main()
-{
-    PRINTF( "Testing program started!\r\n" );
-
-    // uncomment selected test
-    //	test_leds();
-    //	test_lcd();
-    //	test_i2c();
-
-    // ******************************************************************
-
-    // default test for 2 LEDs and 4 buttons
-    while ( 1 )
-    {
-        g_led_P3_16.write( !g_led_P3_16.read() );	// invert current state
-        g_led_P3_17.write( !g_led_P3_16.read() );	// blink asynchronously
-
-        delay_ms( 250 );                      		// delay
-
-        while ( g_but_P3_18.read() == 0 ||
-        		g_but_P3_19.read() == 0 ||
-				g_but_P3_20.read() == 0 ||
-				g_but_P3_21.read() == 0 ); 			// stop blinking
+    if (g_button_on.read() == 0) { // Tlačítko obnovení
+        for (auto &led : g_red_led) {
+            led.obnovit();
+        }
     }
 }
 
+int main() {
+    g_red_led[0].nastav_jas_proc(5);
+    g_red_led[1].nastav_jas_proc(40);
+
+    Ticker pwm1;
+    pwm1.attach(pwm_control, 1);
+
+    while (1) {
+        check_buttons();
+        __WFI();
+    }
+}

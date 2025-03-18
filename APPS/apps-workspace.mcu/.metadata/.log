@@ -252,3 +252,2390 @@ Caused by: java.io.IOException: The provided location '/home/jazafier/mcuxpresso
 
 !ENTRY org.eclipse.cdt.core 1 0 2025-03-17 10:13:18.095
 !MESSAGE Indexed 'leds' (29 sources, 218 headers) in 5.38 sec: 35,815 declarations; 67,228 references; 0 unresolved inclusions; 1 syntax errors; 3 unresolved names (0.0029%)
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:27:24.537
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 11:27:24.541
+!MESSAGE RedlinkServer telnet session connected on port 3025->36906 @ 127.0.0.1
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2025-03-17 11:27:35.481
+!MESSAGE Could not determine GDB version using command: arm-none-eabi-gdb --version
+!STACK 0
+java.lang.Exception: arm-none-eabi-gdb: error while loading shared libraries: libncursesw.so.5: cannot open shared object file: No such file or directory
+
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.getGDBVersion(LaunchUtils.java:352)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunch.getGDBVersion(GdbLaunch.java:536)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:157)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerGdbLaunchDelegate.launch(LinkServerGdbLaunchDelegate.java:156)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1040)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1243)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2025-03-17 11:28:05.080
+!MESSAGE Could not determine GDB version using command: arm-none-eabi-gdb --version
+!STACK 0
+java.lang.Exception: arm-none-eabi-gdb: error while loading shared libraries: libncursesw.so.5: cannot open shared object file: No such file or directory
+
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.getGDBVersion(LaunchUtils.java:352)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunch.getGDBVersion(GdbLaunch.java:536)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:157)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerGdbLaunchDelegate.launch(LinkServerGdbLaunchDelegate.java:156)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1040)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1243)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.cdt.dsf.gdb 4 5012 2025-03-17 11:28:37.872
+!MESSAGE Could not determine GDB version using command: arm-none-eabi-gdb --version
+!STACK 0
+java.lang.Exception: arm-none-eabi-gdb: error while loading shared libraries: libncursesw.so.5: cannot open shared object file: No such file or directory
+
+	at org.eclipse.cdt.dsf.gdb.launching.LaunchUtils.getGDBVersion(LaunchUtils.java:352)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunch.getGDBVersion(GdbLaunch.java:536)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugSession(GdbLaunchDelegate.java:157)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launchDebugger(GdbLaunchDelegate.java:109)
+	at org.eclipse.cdt.dsf.gdb.launching.GdbLaunchDelegate.launch(GdbLaunchDelegate.java:97)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerGdbLaunchDelegate.launch(LinkServerGdbLaunchDelegate.java:156)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:805)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:716)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1040)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$1.run(DebugUIPlugin.java:1243)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:45:40.589
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 41F545E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 11:45:59.041
+!MESSAGE 0x5, Wire Ack Fault - target connected?
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:46:14.405
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 11:46:15.407
+!MESSAGE RedlinkServer telnet session connected on port 3025->37094 @ 127.0.0.1
+
+!ENTRY com.nxp.mcuxpresso.core.debug 4 0 2025-03-17 11:46:17.851
+!MESSAGE There is already a running debug session for the launch configuration 'test LinkServer Debug'.
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:46:25.453
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: 3198B5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:49:58.484
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 11:49:59.486
+!MESSAGE RedlinkServer telnet session connected on port 3025->41008 @ 127.0.0.1
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:50:08.570
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: F7AAB5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:51:59.843
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 11:52:00.845
+!MESSAGE RedlinkServer telnet session connected on port 3025->38588 @ 127.0.0.1
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 -1 2025-03-17 11:52:13.239
+!MESSAGE Read timed out
+
+!STACK 0
+java.io.IOException: Read timed out
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.receive(RedlinkServerClient.java:1100)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1188)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1173)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1160)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.probeList(RedlinkServerClient.java:1072)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.common.RedlinkServerEmuHandler.discoverEmulators(RedlinkServerEmuHandler.java:224)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.linux.AbstractLinuxServerProbe.discoverEmulators(AbstractLinuxServerProbe.java:72)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmus(EmulatorsDB.java:268)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmulatorInfo(EmulatorsDB.java:208)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getAvailableEmulators(EmulatorsDB.java:139)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.getAvailableEmulators(TargetDiscovery.java:515)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.probeDiscovery(LinkServerLaunchConfigHandler.java:631)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.checkProbe(LinkServerLaunchConfigHandler.java:948)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1268)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.runEventLoop(EventLoopProgressMonitor.java:126)
+	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.isCanceled(EventLoopProgressMonitor.java:100)
+	at org.eclipse.core.internal.jobs.JobManager.join(JobManager.java:1121)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.refresh(ProbesDialog.java:677)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.intializeWidgets(ProbesDialog.java:1277)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.createButtonsForButtonBar(ProbesDialog.java:946)
+	at org.eclipse.jface.dialogs.Dialog.createButtonBar(Dialog.java:665)
+	at org.eclipse.jface.dialogs.TrayDialog.createButtonBar(TrayDialog.java:239)
+	at org.eclipse.jface.dialogs.TitleAreaDialog.createContents(TitleAreaDialog.java:167)
+	at org.eclipse.jface.window.Window.create(Window.java:431)
+	at org.eclipse.jface.dialogs.Dialog.create(Dialog.java:1094)
+	at org.eclipse.jface.window.Window.open(Window.java:788)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1276)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1155)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:648)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:555)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:402)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1432)
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 4 2025-03-17 11:52:13.240
+!MESSAGE Read timed out
+
+!STACK 0
+java.io.IOException: Read timed out
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.receive(RedlinkServerClient.java:1100)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1188)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1173)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1160)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.probeList(RedlinkServerClient.java:1072)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.common.RedlinkServerEmuHandler.discoverEmulators(RedlinkServerEmuHandler.java:224)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.linux.AbstractLinuxServerProbe.discoverEmulators(AbstractLinuxServerProbe.java:72)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmus(EmulatorsDB.java:268)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmulatorInfo(EmulatorsDB.java:208)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getAvailableEmulators(EmulatorsDB.java:139)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.getAvailableEmulators(TargetDiscovery.java:515)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.probeDiscovery(LinkServerLaunchConfigHandler.java:631)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.checkProbe(LinkServerLaunchConfigHandler.java:948)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1268)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.runEventLoop(EventLoopProgressMonitor.java:126)
+	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.isCanceled(EventLoopProgressMonitor.java:100)
+	at org.eclipse.core.internal.jobs.JobManager.join(JobManager.java:1121)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.refresh(ProbesDialog.java:677)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.intializeWidgets(ProbesDialog.java:1277)
+	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.createButtonsForButtonBar(ProbesDialog.java:946)
+	at org.eclipse.jface.dialogs.Dialog.createButtonBar(Dialog.java:665)
+	at org.eclipse.jface.dialogs.TrayDialog.createButtonBar(TrayDialog.java:239)
+	at org.eclipse.jface.dialogs.TitleAreaDialog.createContents(TitleAreaDialog.java:167)
+	at org.eclipse.jface.window.Window.create(Window.java:431)
+	at org.eclipse.jface.dialogs.Dialog.create(Dialog.java:1094)
+	at org.eclipse.jface.window.Window.open(Window.java:788)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1276)
+	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1155)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:648)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:555)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:402)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1432)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.receive(RedlinkServerClient.java:1100)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1188)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1173)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.sendReceive(RedlinkServerClient.java:1160)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.probeList(RedlinkServerClient.java:1072)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.common.RedlinkServerEmuHandler.discoverEmulators(RedlinkServerEmuHandler.java:224)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.linux.AbstractLinuxServerProbe.discoverEmulators(AbstractLinuxServerProbe.java:72)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmus(EmulatorsDB.java:268)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getEmulatorInfo(EmulatorsDB.java:208)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.EmulatorsDB.getAvailableEmulators(EmulatorsDB.java:139)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.getAvailableEmulators(TargetDiscovery.java:515)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.probeDiscovery(LinkServerLaunchConfigHandler.java:631)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.checkProbe(LinkServerLaunchConfigHandler.java:948)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1268)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.240
+!MESSAGE 	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.runEventLoop(EventLoopProgressMonitor.java:126)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.dialogs.EventLoopProgressMonitor.isCanceled(EventLoopProgressMonitor.java:100)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.internal.jobs.JobManager.join(JobManager.java:1121)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.refresh(ProbesDialog.java:677)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.intializeWidgets(ProbesDialog.java:1277)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.ProbesDialog.createButtonsForButtonBar(ProbesDialog.java:946)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.dialogs.Dialog.createButtonBar(Dialog.java:665)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.dialogs.TrayDialog.createButtonBar(TrayDialog.java:239)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.dialogs.TitleAreaDialog.createContents(TitleAreaDialog.java:167)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.window.Window.create(Window.java:431)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.dialogs.Dialog.create(Dialog.java:1094)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.window.Window.open(Window.java:788)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.promptDiscovery(AbstractNXPLaunchConfigHandler.java:1276)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.AbstractNXPLaunchConfigHandler.createMissingLaunchConfigurations(AbstractNXPLaunchConfigHandler.java:1394)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LinkServerLaunchConfigHandler.createMissingLaunchConfigurations(LinkServerLaunchConfigHandler.java:494)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:360)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createMissingLaunchConfigurations(NXPLaunchConfigUtils.java:444)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.nxp.mcuxpresso.core.debug.launch.NXPLaunchConfigUtils.createLaunchConfigurations(NXPLaunchConfigUtils.java:988)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.crt.quickstart.utils.QSUtilDebug.linkSelected(QSUtilDebug.java:259)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.crt.quickstart.views.DebugCommandHandler.execute(DebugCommandHandler.java:36)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.handlers.HandlerProxy.execute(HandlerProxy.java:283)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.handlers.E4HandlerProxy.execute(E4HandlerProxy.java:99)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at jdk.internal.reflect.GeneratedMethodAccessor53.invoke(Unknown Source)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.internal.di.InjectorImpl.invokeUsingClass(InjectorImpl.java:298)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.internal.di.InjectorImpl.invoke(InjectorImpl.java:232)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.contexts.ContextInjectionFactory.invoke(ContextInjectionFactory.java:174)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.core.commands.internal.HandlerServiceHandler.execute(HandlerServiceHandler.java:165)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.commands.Command.executeWithChecks(Command.java:488)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at com.crt.quickstart.actions.DebugAction.run(DebugAction.java:111)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.PluginAction.runWithEvent(PluginAction.java:239)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.WWinPluginAction.runWithEvent(WWinPluginAction.java:218)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:580)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.jface.action.ActionContributionItem.lambda$5(ActionContributionItem.java:453)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:5854)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1529)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:5064)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:4516)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1155)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:648)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:555)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:402)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:52:13.241
+!MESSAGE 	at org.eclipse.equinox.launcher.Main.main(Main.java:1432)
+
+!ENTRY com.nxp.mcuxpresso.core.debug 4 0 2025-03-17 11:52:23.427
+!MESSAGE There is already a running debug session for the launch configuration 'test LinkServer Debug'.
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:52:27.184
+!MESSAGE Starting GDB server [ /usr/local/LinkServer_24.12.21/binaries/crt_emu_cm_redlink, --server, :10989, -msg-port=44767, -g, -mi, -2, -pMCXN947, -vendor=NXP, --bootromstall, 0x50000040, --reset=, -ProbeHandle=1, -CoreIndex=0, -cache=disable, --flash-hashing, --flash-driver=, -x, /home/jan/Documents/School/APPS/apps-workspace.mcu/test/Debug, --flash-dir, /usr/local/LinkServer_24.12.21/binaries/Flash, --flash-dir, /home/jan/Documents/School/APPS/apps-workspace.mcu/.mcuxpressoide_packages_support/MCXN947_support/Flash, --telnet, 3330, --romstalldelay, 600 ]
+
+!ENTRY com.nxp.mcuxpresso.core.debug 1 0 2025-03-17 11:52:28.243
+!MESSAGE Telnet session connected on port 3330->34790 @ 127.0.0.1
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:53:05.598
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 11:53:06.599
+!MESSAGE RedlinkServer telnet session connected on port 3025->40006 @ 127.0.0.1
+
+!ENTRY com.crt.log 1 0 2025-03-17 11:53:12.477
+!MESSAGE Starting GDB server [ /usr/local/LinkServer_24.12.21/binaries/crt_emu_cm_redlink, --server, :10989, -msg-port=32779, -g, -mi, -2, -pMCXN947, -vendor=NXP, --bootromstall, 0x50000040, --reset=, -ProbeHandle=1, -CoreIndex=0, -cache=disable, --flash-hashing, --flash-driver=, -x, /home/jan/Documents/School/APPS/apps-workspace.mcu/test/Debug, --flash-dir, /usr/local/LinkServer_24.12.21/binaries/Flash, --flash-dir, /home/jan/Documents/School/APPS/apps-workspace.mcu/.mcuxpressoide_packages_support/MCXN947_support/Flash, --telnet, 3330, --romstalldelay, 600 ]
+
+!ENTRY com.nxp.mcuxpresso.core.debug 1 0 2025-03-17 11:53:13.531
+!MESSAGE Telnet session connected on port 3330->36594 @ 127.0.0.1
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2025-03-17 11:53:59.875
+!MESSAGE Request for monitor: 'CountingRequestMonitor: Status ERROR: org.eclipse.cdt.dsf code=10004  children=[Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1; java.lang.Exception: Stopping Thread 1 failed: T06thread:1;]' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2025-03-17 11:53:59.875
+!MESSAGE Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1;
+!STACK 0
+java.lang.Exception: Stopping Thread 1 failed: T06thread:1;
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:00.170
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:00.170
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:00.170
+!MESSAGE Wire ACK Fault in DAP access
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:00.170
+!MESSAGE Debugging context: test LinkServer Debug
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2025-03-17 11:54:18.567
+!MESSAGE Request for monitor: 'CountingRequestMonitor: Status ERROR: org.eclipse.cdt.dsf code=10004  children=[Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1; java.lang.Exception: Stopping Thread 1 failed: T06thread:1;]' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2025-03-17 11:54:18.567
+!MESSAGE Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1;
+!STACK 0
+java.lang.Exception: Stopping Thread 1 failed: T06thread:1;
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:18.866
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:18.866
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:18.866
+!MESSAGE Wire ACK Fault in DAP access
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:18.866
+!MESSAGE Debugging context: test LinkServer Debug
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2025-03-17 11:54:26.147
+!MESSAGE Request for monitor: 'CountingRequestMonitor: Status ERROR: org.eclipse.cdt.dsf code=10004  children=[Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1; java.lang.Exception: Stopping Thread 1 failed: T06thread:1;]' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2025-03-17 11:54:26.147
+!MESSAGE Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1;
+!STACK 0
+java.lang.Exception: Stopping Thread 1 failed: T06thread:1;
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:26.446
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:26.446
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:26.446
+!MESSAGE Wire ACK Fault in DAP access
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:26.446
+!MESSAGE Debugging context: test LinkServer Debug
+
+!ENTRY org.eclipse.cdt.dsf 4 10005 2025-03-17 11:54:30.695
+!MESSAGE Request for monitor: 'CountingRequestMonitor: Status ERROR: org.eclipse.cdt.dsf code=10004  children=[Status ERROR: org.eclipse.cdt.dsf.gdb code=10004 Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1; java.lang.Exception: Stopping Thread 1 failed: T06thread:1;]' resulted in an error.
+!SUBENTRY 1 org.eclipse.cdt.dsf.gdb 4 10004 2025-03-17 11:54:30.695
+!MESSAGE Failed to execute MI command:
+-exec-interrupt
+Error message from debugger back end:
+Stopping Thread 1 failed: T06thread:1;
+!STACK 0
+java.lang.Exception: Stopping Thread 1 failed: T06thread:1;
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.processMIOutput(AbstractMIControl.java:1024)
+	at org.eclipse.cdt.dsf.mi.service.command.AbstractMIControl$RxThread.run(AbstractMIControl.java:853)
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:30.995
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:30.995
+!MESSAGE 19: Could not stop execution from running
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:30.995
+!MESSAGE Wire ACK Fault in DAP access
+!SUBENTRY 1 com.nxp.mcuxpresso.core.debug.support.linkserver 4 0 2025-03-17 11:54:30.995
+!MESSAGE Debugging context: test LinkServer Debug
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:54:55.170
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 11:56:38.999
+!MESSAGE 0x5, Wire Ack Fault - target connected?
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:56:45.937
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 11:58:13.852
+!MESSAGE 0x5, Wire Ack Fault - target connected?
+
+!ENTRY com.crt.log 4 -1 2025-03-17 11:58:20.938
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: ACBB35E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY com.crt.log 1 0 2025-03-17 12:01:44.031
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 12:01:45.032
+!MESSAGE RedlinkServer telnet session connected on port 3025->46420 @ 127.0.0.1
+
+!ENTRY com.nxp.mcuxpresso.core.debug 4 0 2025-03-17 12:01:47.469
+!MESSAGE There is already a running debug session for the launch configuration 'test LinkServer Debug'.
+
+!ENTRY com.crt.log 4 -1 2025-03-17 12:01:53.777
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2BDF5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 12:01:56.775
+!MESSAGE 0x5, Wire Ack Fault - target connected?
+!SESSION 2025-03-17 12:02:51.201 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=17.0.9
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+!ENTRY org.eclipse.core.resources 2 10035 2025-03-17 12:03:10.360
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY com.crt.log 4 -1 2025-03-17 12:03:18.610
+!MESSAGE The provided location '/poli/home/mcuxpresso/02/SDKPackages' is not a valid location.
+!STACK 0
+java.lang.Exception: java.io.IOException: The provided location '/poli/home/mcuxpresso/02/SDKPackages' is not a valid location.
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.getInstance(SDKManifestProvider.java:592)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.<init>(SDKChipVendorDatabase.java:330)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:233)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:987)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:255)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:65)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.buildDataBases(PartSupportConfiguration.java:96)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.<init>(PartSupportConfiguration.java:49)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.getInstance(PartSupportConfiguration.java:72)
+	at com.crt.config.database.TargetConfig.getCore(TargetConfig.java:690)
+	at com.crt.config.database.TargetConfig.initFromString(TargetConfig.java:1314)
+	at com.crt.config.database.TargetConfig.init(TargetConfig.java:1205)
+	at com.crt.config.database.TargetConfig.<init>(TargetConfig.java:662)
+	at com.crt.config.database.TargetConfig.loadTargetConfig(TargetConfig.java:380)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:92)
+	at com.crt.config.database.TargetConfigDatabase.findTargetConfig(TargetConfigDatabase.java:134)
+	at com.crt.config.database.TargetConfig.findTargetConfig(TargetConfig.java:112)
+	at com.crt.config.database.partssupport.AbstractLinkerScriptHandler.findEntry(AbstractLinkerScriptHandler.java:83)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.getLinkerScriptExtension(CRPOptionsApplies.java:41)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionValid(CRPOptionsApplies.java:67)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionVisible(CRPOptionsApplies.java:110)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.setCRPeDefines(CRPOptionsHandler.java:153)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.apply(CRPOptionsHandler.java:52)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.open(CRPOptionsHandler.java:128)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.handleValue(CRPOptionsHandler.java:99)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3093)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3049)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.load(ConfigurationDataProvider.java:406)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.loadConfiguration(ConfigurationDataProvider.java:573)
+	at org.eclipse.cdt.internal.core.settings.model.CConfigurationDescriptionCache.loadData(CConfigurationDescriptionCache.java:139)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescription.loadDatas(CProjectDescription.java:199)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.loadProjectDescription(XmlProjectDescriptionStorage.java:509)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.getProjectDescription(XmlProjectDescriptionStorage.java:239)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescriptionInternal(CProjectDescriptionManager.java:426)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:408)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:402)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:395)
+	at com.crt.config.database.TargetConfig.readProjectStorageElement(TargetConfig.java:416)
+	at com.crt.config.database.TargetConfig.getProjectStorageData(TargetConfig.java:341)
+	at com.crt.config.database.TargetConfig.getProjectStorage(TargetConfig.java:319)
+	at com.crt.config.database.TargetConfig.loadTargetConfig(TargetConfig.java:374)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:92)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:76)
+	at com.crt.config.database.TargetConfigDatabase.getDefault(TargetConfigDatabase.java:55)
+	at com.crt.config.database.TargetConfig.findTargetConfig(TargetConfig.java:112)
+	at com.crt.config.database.partssupport.AbstractLinkerScriptHandler.findEntry(AbstractLinkerScriptHandler.java:83)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.getLinkerScriptExtension(CRPOptionsApplies.java:41)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionValid(CRPOptionsApplies.java:67)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionVisible(CRPOptionsApplies.java:110)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.setCRPeDefines(CRPOptionsHandler.java:153)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.apply(CRPOptionsHandler.java:52)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.open(CRPOptionsHandler.java:128)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.handleValue(CRPOptionsHandler.java:99)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3093)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3049)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.load(ConfigurationDataProvider.java:406)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.loadConfiguration(ConfigurationDataProvider.java:573)
+	at org.eclipse.cdt.internal.core.settings.model.CConfigurationDescriptionCache.loadData(CConfigurationDescriptionCache.java:139)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescription.loadDatas(CProjectDescription.java:199)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.loadProjectDescription(XmlProjectDescriptionStorage.java:509)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.getProjectDescription(XmlProjectDescriptionStorage.java:239)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescriptionInternal(CProjectDescriptionManager.java:426)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:408)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:402)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:395)
+	at org.eclipse.cdt.internal.core.model.CProject.computeSourceRoots(CProject.java:610)
+	at org.eclipse.cdt.internal.core.model.CProject.computeChildren(CProject.java:631)
+	at org.eclipse.cdt.internal.core.model.CProject.buildStructure(CProject.java:595)
+	at org.eclipse.cdt.internal.core.model.Openable.generateInfos(Openable.java:264)
+	at org.eclipse.cdt.internal.core.model.CElement.openWhenClosed(CElement.java:428)
+	at org.eclipse.cdt.internal.core.model.CElement.getElementInfo(CElement.java:306)
+	at org.eclipse.cdt.internal.core.model.CElement.getElementInfo(CElement.java:296)
+	at org.eclipse.cdt.internal.core.model.Parent.getChildren(Parent.java:57)
+	at org.eclipse.cdt.internal.core.model.CProject.getSourceRoots(CProject.java:471)
+	at org.eclipse.cdt.internal.core.model.CModelManager.create(CModelManager.java:342)
+	at org.eclipse.cdt.core.model.CoreModel.create(CoreModel.java:124)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createTranslationUnit(CDocumentProvider.java:739)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:771)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:481)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4177)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1474)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:153)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1445)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1409)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3167)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2292)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3184)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3209)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:353)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:344)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:976)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:938)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:138)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:385)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:311)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:91)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:60)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:132)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:995)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:659)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.showTab(StackRenderer.java:1364)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:118)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:677)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$1.run(PartRenderingEngine.java:544)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:528)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ElementReferenceRenderer.createWidget(ElementReferenceRenderer.java:73)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:995)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:659)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveRenderer.processContents(PerspectiveRenderer.java:51)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.showTab(PerspectiveStackRenderer.java:82)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:118)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.postProcess(PerspectiveStackRenderer.java:64)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:677)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.WBWRenderer.processContents(WBWRenderer.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1083)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:648)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:555)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:402)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1432)
+Caused by: java.io.IOException: The provided location '/poli/home/mcuxpresso/02/SDKPackages' is not a valid location.
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.<init>(SDKManifestProvider.java:442)
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.getInstance(SDKManifestProvider.java:578)
+	... 215 more
+
+!ENTRY com.crt.log 4 -1 2025-03-17 12:03:18.613
+!MESSAGE The provided location '/home/jazafier/mcuxpresso/02/SDKPackages' is not a valid location.
+!STACK 0
+java.lang.Exception: java.io.IOException: The provided location '/home/jazafier/mcuxpresso/02/SDKPackages' is not a valid location.
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.getInstance(SDKManifestProvider.java:592)
+	at com.nxp.mcuxpresso.core.datamodels.SDKChipVendorDatabase.<init>(SDKChipVendorDatabase.java:330)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.eclipse.core.internal.registry.osgi.RegistryStrategyOSGI.createExecutableExtension(RegistryStrategyOSGI.java:233)
+	at org.eclipse.core.internal.registry.ExtensionRegistry.createExecutableExtension(ExtensionRegistry.java:987)
+	at org.eclipse.core.internal.registry.ConfigurationElement.createExecutableExtension(ConfigurationElement.java:255)
+	at org.eclipse.core.internal.registry.ConfigurationElementHandle.createExecutableExtension(ConfigurationElementHandle.java:65)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.buildDataBases(PartSupportConfiguration.java:96)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.<init>(PartSupportConfiguration.java:49)
+	at com.crt.config.database.partssupport.PartSupportConfiguration.getInstance(PartSupportConfiguration.java:72)
+	at com.crt.config.database.TargetConfig.getCore(TargetConfig.java:690)
+	at com.crt.config.database.TargetConfig.initFromString(TargetConfig.java:1314)
+	at com.crt.config.database.TargetConfig.init(TargetConfig.java:1205)
+	at com.crt.config.database.TargetConfig.<init>(TargetConfig.java:662)
+	at com.crt.config.database.TargetConfig.loadTargetConfig(TargetConfig.java:380)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:92)
+	at com.crt.config.database.TargetConfigDatabase.findTargetConfig(TargetConfigDatabase.java:134)
+	at com.crt.config.database.TargetConfig.findTargetConfig(TargetConfig.java:112)
+	at com.crt.config.database.partssupport.AbstractLinkerScriptHandler.findEntry(AbstractLinkerScriptHandler.java:83)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.getLinkerScriptExtension(CRPOptionsApplies.java:41)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionValid(CRPOptionsApplies.java:67)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionVisible(CRPOptionsApplies.java:110)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.setCRPeDefines(CRPOptionsHandler.java:153)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.apply(CRPOptionsHandler.java:52)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.open(CRPOptionsHandler.java:128)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.handleValue(CRPOptionsHandler.java:99)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3093)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3049)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.load(ConfigurationDataProvider.java:406)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.loadConfiguration(ConfigurationDataProvider.java:573)
+	at org.eclipse.cdt.internal.core.settings.model.CConfigurationDescriptionCache.loadData(CConfigurationDescriptionCache.java:139)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescription.loadDatas(CProjectDescription.java:199)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.loadProjectDescription(XmlProjectDescriptionStorage.java:509)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.getProjectDescription(XmlProjectDescriptionStorage.java:239)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescriptionInternal(CProjectDescriptionManager.java:426)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:408)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:402)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:395)
+	at com.crt.config.database.TargetConfig.readProjectStorageElement(TargetConfig.java:416)
+	at com.crt.config.database.TargetConfig.getProjectStorageData(TargetConfig.java:341)
+	at com.crt.config.database.TargetConfig.getProjectStorage(TargetConfig.java:319)
+	at com.crt.config.database.TargetConfig.loadTargetConfig(TargetConfig.java:374)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:92)
+	at com.crt.config.database.TargetConfigDatabase.load(TargetConfigDatabase.java:76)
+	at com.crt.config.database.TargetConfigDatabase.getDefault(TargetConfigDatabase.java:55)
+	at com.crt.config.database.TargetConfig.findTargetConfig(TargetConfig.java:112)
+	at com.crt.config.database.partssupport.AbstractLinkerScriptHandler.findEntry(AbstractLinkerScriptHandler.java:83)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.getLinkerScriptExtension(CRPOptionsApplies.java:41)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionValid(CRPOptionsApplies.java:67)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsApplies.isOptionVisible(CRPOptionsApplies.java:110)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.setCRPeDefines(CRPOptionsHandler.java:153)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.apply(CRPOptionsHandler.java:52)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.open(CRPOptionsHandler.java:128)
+	at com.crt.advproject.custom.optionhandlers.CRPOptionsHandler.handleValue(CRPOptionsHandler.java:99)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3093)
+	at org.eclipse.cdt.managedbuilder.core.ManagedBuildManager.performValueHandlerEvent(ManagedBuildManager.java:3049)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.load(ConfigurationDataProvider.java:406)
+	at org.eclipse.cdt.managedbuilder.internal.dataprovider.ConfigurationDataProvider.loadConfiguration(ConfigurationDataProvider.java:573)
+	at org.eclipse.cdt.internal.core.settings.model.CConfigurationDescriptionCache.loadData(CConfigurationDescriptionCache.java:139)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescription.loadDatas(CProjectDescription.java:199)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.loadProjectDescription(XmlProjectDescriptionStorage.java:509)
+	at org.eclipse.cdt.internal.core.settings.model.xml.XmlProjectDescriptionStorage.getProjectDescription(XmlProjectDescriptionStorage.java:239)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescriptionInternal(CProjectDescriptionManager.java:426)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:408)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:402)
+	at org.eclipse.cdt.internal.core.settings.model.CProjectDescriptionManager.getProjectDescription(CProjectDescriptionManager.java:395)
+	at org.eclipse.cdt.internal.core.model.CProject.computeSourceRoots(CProject.java:610)
+	at org.eclipse.cdt.internal.core.model.CProject.computeChildren(CProject.java:631)
+	at org.eclipse.cdt.internal.core.model.CProject.buildStructure(CProject.java:595)
+	at org.eclipse.cdt.internal.core.model.Openable.generateInfos(Openable.java:264)
+	at org.eclipse.cdt.internal.core.model.CElement.openWhenClosed(CElement.java:428)
+	at org.eclipse.cdt.internal.core.model.CElement.getElementInfo(CElement.java:306)
+	at org.eclipse.cdt.internal.core.model.CElement.getElementInfo(CElement.java:296)
+	at org.eclipse.cdt.internal.core.model.Parent.getChildren(Parent.java:57)
+	at org.eclipse.cdt.internal.core.model.CProject.getSourceRoots(CProject.java:471)
+	at org.eclipse.cdt.internal.core.model.CModelManager.create(CModelManager.java:342)
+	at org.eclipse.cdt.core.model.CoreModel.create(CoreModel.java:124)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createTranslationUnit(CDocumentProvider.java:739)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.createFileInfo(CDocumentProvider.java:771)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:481)
+	at org.eclipse.cdt.internal.ui.editor.CDocumentProvider.connect(CDocumentProvider.java:724)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4177)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:262)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1474)
+	at org.eclipse.ui.editors.text.TextEditor.doSetInput(TextEditor.java:153)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.internalDoSetInput(CEditor.java:1445)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.doSetInput(CEditor.java:1409)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.lambda$1(AbstractTextEditor.java:3167)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2292)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3184)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3209)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:353)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:344)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:58)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:976)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:938)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalInject(InjectorImpl.java:138)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:385)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:311)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:203)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:91)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:60)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:42)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:132)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:995)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:659)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.showTab(StackRenderer.java:1364)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:118)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:677)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$1.run(PartRenderingEngine.java:544)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:528)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ElementReferenceRenderer.createWidget(ElementReferenceRenderer.java:73)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:995)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:659)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveRenderer.processContents(PerspectiveRenderer.java:51)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.showTab(PerspectiveStackRenderer.java:82)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:118)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.postProcess(PerspectiveStackRenderer.java:64)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:677)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:150)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:72)
+	at org.eclipse.e4.ui.workbench.renderers.swt.WBWRenderer.processContents(WBWRenderer.java:658)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:673)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:763)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$2.run(PartRenderingEngine.java:728)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:47)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:712)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1083)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1046)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:648)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:342)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:555)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:173)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:152)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:208)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:136)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:402)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:651)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:588)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1459)
+	at org.eclipse.equinox.launcher.Main.main(Main.java:1432)
+Caused by: java.io.IOException: The provided location '/home/jazafier/mcuxpresso/02/SDKPackages' is not a valid location.
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.<init>(SDKManifestProvider.java:442)
+	at com.nxp.mcuxpresso.core.datamodels.providers.SDKManifestProvider.getInstance(SDKManifestProvider.java:578)
+	... 215 more
+
+!ENTRY com.crt.log 1 0 2025-03-17 12:03:37.588
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 12:03:37.592
+!MESSAGE RedlinkServer telnet session connected on port 3025->46656 @ 127.0.0.1
+
+!ENTRY com.crt.log 4 -1 2025-03-17 12:03:48.128
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: DECD45E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 12:03:58.723
+!MESSAGE 0x5, Wire Ack Fault - target connected?
+
+!ENTRY com.crt.log 1 0 2025-03-17 12:04:57.579
+!MESSAGE Trying to connect to redlink server on port 3025.
+
+!ENTRY com.nxp.mcuxpresso.core.debug.support.linkserver 1 0 2025-03-17 12:04:58.581
+!MESSAGE RedlinkServer telnet session connected on port 3025->41584 @ 127.0.0.1
+
+!ENTRY com.crt.log 4 -1 2025-03-17 12:05:07.137
+!MESSAGE Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+!STACK 0
+java.lang.Exception: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.crt.utils.general.Reporter.log(Reporter.java:592)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:265)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.connect(AbstractJtagDiscovery.java:211)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.discover(AbstractJtagDiscovery.java:156)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.TargetDiscovery.jtagDiscovery(TargetDiscovery.java:461)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.getEmulatorInfo(LaunchScriptUtils.java:257)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.init(LaunchScriptUtils.java:497)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:165)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.launch.LaunchScriptUtils.<init>(LaunchScriptUtils.java:152)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.services.TargetDiscoveryService.getTargetDiscovery(TargetDiscoveryService.java:138)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.override.LSFinalLaunchSequence$TargetDiscoveryJob.run(LSFinalLaunchSequence.java:129)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: java.lang.Exception: Unable to run part script index /usr/local/LinkServer_24.12.21/binaries/ToolScripts/LS_preconnect_MCXN9XX.scp.
+Probe Handle 1 Open
+Reset pin state: 01
+DpID = 6BA02477
+Error: Wire Ack Fault - target connected?
+Issuing Debug Session Request... 7
+
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 1st retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP request: 7 2nd retry...
+DM-AP status: C2A8D5E8
+DM-AP: AHB_OR_ERR (       8)
+DM-AP: DBG_OR_ERR (       4)
+DM-AP status: Wire Ack Fault - target connected?
+DM-AP return: FFFF
+Error: Wire Ack Fault - target connected?
+Disable GDET...
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+Error: Wire Ack Fault - target connected?
+
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.redlink.client.RedlinkServerClient.checkServerReply(RedlinkServerClient.java:229)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.executeScript(AbstractJtagDiscovery.java:293)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.doScript(AbstractJtagDiscovery.java:273)
+	at com.nxp.mcuxpresso.core.debug.support.linkserver.emulators.jtag.AbstractJtagDiscovery.preConnectScript(AbstractJtagDiscovery.java:260)
+	... 10 more
+
+!ENTRY [ERROR] [com.nxp.mcuxpresso.core.debug.support.linkserver] 0 0 2025-03-17 12:05:35.453
+!MESSAGE 0x5, Wire Ack Fault - target connected?
