@@ -65,10 +65,12 @@ class LED
 public:
     DigitalOut m_led;
     uint32_t m_T0;        // cas T0
+//    bool unlocked;
 
   LED( pin_name_t t_led_pin ) : m_led( t_led_pin )
     {
 	  m_T0 = 0;
+//	  unlocked = true;
     }
 
     void nastav_jas_proc( uint8_t t_jas_proc )
@@ -77,22 +79,21 @@ public:
     }
 };
 
-//class BTN
-//{
-//public:
-//	DigitalIn m_btn;
-//	bool clicked;
-//
-//	BTN(uint32_t t_btn_pin) : m_led(t_btn_pin)
-//	{
-//		clicked = false;
-//	}
-//};
+class BTN
+{
+public:
+	DigitalIn m_btn;
+	bool clicked;
+
+	BTN(pin_name_t t_btn_pin) : m_btn(t_btn_pin)
+	{
+		clicked = false;
+	}
+};
 
 LED g_red_led[] = { P3_16, P3_17 };
-
-//LED p16(P3_16);
-//LED p17(P3_17);
+LED g_red_arr[] = { P4_00, P4_01, P4_02, P4_03, P4_12, P4_13, P4_16, P4_20};
+BTN g_btn_arr[] = { P3_18, P3_19 };
 
 void pwm_control()
 {
@@ -117,13 +118,42 @@ void pwm_control()
   }
 }
 
+void btn_control() {
+	if(g_btn_arr[0].m_btn.read() == 0 && !g_btn_arr[0].clicked) {
+			for(int i = 0; i < 8; i++) {
+				g_red_arr[i].m_led.write(0);
+			}
+				g_btn_arr[0].clicked = false;
+			}
+			if(g_btn_arr[0].m_btn.read() == 1 && g_btn_arr[0].clicked) {
+				g_btn_arr[0].clicked = true;
+			}
+
+			if(g_btn_arr[1].m_btn.read() == 0 && !g_btn_arr[1].clicked) {
+				for(int i = 0; i < 8; i++) {
+					g_red_arr[i].m_led.write(1);
+				}
+				g_btn_arr[1].clicked = true;
+			}
+			if(g_btn_arr[1].m_btn.read() == 1 && g_btn_arr[1].clicked) {
+				g_btn_arr[1].clicked = false;
+			}
+}
+
 int main()
 {
 
   Ticker pwm1;
+  Ticker pwm2;
   pwm1.attach( pwm_control, 1 );
+  pwm2.attach( btn_control, 1 );
+
   g_red_led[0].nastav_jas_proc( 5 );
   g_red_led[1].nastav_jas_proc( 50 );
+
+  for (int i = 0; i < 8; i++) {
+	g_red_arr[i].nastav_jas_proc(i*10);
+  }
 
     while ( 1 ) __WFI();
 }
