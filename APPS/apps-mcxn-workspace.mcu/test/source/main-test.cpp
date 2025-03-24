@@ -49,16 +49,16 @@ void _mcu_initialization()
 //! Global data
 
 //! LEDs on MCXN-KIT - instances of class DigitalOut
-//DigitalOut g_led_P3_16( P3_16 );
-//DigitalOut g_led_P3_17( P3_17 );
+DigitalOut g_led_P3_16( P3_16 );
+DigitalOut g_led_P3_17( P3_17 );
 //
-////! Button on MCXN-KIT - instance of class DigitalIn
-//DigitalIn g_but_P3_18( P3_18 );
-//DigitalIn g_but_P3_19( P3_19 );
-//DigitalIn g_but_P3_20( P3_20 );
-//DigitalIn g_but_P3_21( P3_21 );
+//! Button on MCXN-KIT - instance of class DigitalIn
+DigitalIn g_but_P3_18( P3_18 );
+DigitalIn g_but_P3_19( P3_19 );
+DigitalIn g_but_P3_20( P3_20 );
+DigitalIn g_but_P3_21( P3_21 );
 
-#define T 50
+#define T 20
 
 class LED
 {
@@ -66,7 +66,7 @@ public:
     DigitalOut m_led;
     uint32_t m_T0;        // cas T0
 
-  LED( uint32_t t_led_pin ) : m_led( t_led_pin )
+  LED( pin_name_t t_led_pin ) : m_led( t_led_pin )
     {
 	  m_T0 = 0;
     }
@@ -77,34 +77,37 @@ public:
     }
 };
 
-class BTN
-{
-public:
-	DigitalIn m_btn;
-	bool clicked;
-
-	BTN(uint32_t t_btn_pin) : m_led(t_btn_pin)
-	{
-		clicked = false;
-	}
-};
+//class BTN
+//{
+//public:
+//	DigitalIn m_btn;
+//	bool clicked;
+//
+//	BTN(uint32_t t_btn_pin) : m_led(t_btn_pin)
+//	{
+//		clicked = false;
+//	}
+//};
 
 LED g_red_led[] = { P3_16, P3_17 };
 
+//LED p16(P3_16);
+//LED p17(P3_17);
+
 void pwm_control()
 {
-  static int tick = 0;
+  static unsigned int tick = 0;
 
-  if(tick < g_red_led[0].m_t0) {
-	  	 g_red_led[0].m_led.write(1);
+  if(tick < g_red_led[0].m_T0) {
+	  g_red_led[0].m_led.write(1);
   } else {
-	  	 g_red_led[0].m_led.write(0);
+	  g_red_led[0].m_led.write(0);
   }
 
-  if(tick < g_red_led[1].m_t0) {
-	  	 g_red_led[1].m_led.write(1);
+  if(tick < g_red_led[1].m_T0) {
+	  g_red_led[1].m_led.write(1);
   } else {
-	  	 g_red_led[1].m_led.write(0);
+	  g_red_led[1].m_led.write(0);
   }
 
   tick++;
@@ -118,9 +121,9 @@ int main()
 {
 
   Ticker pwm1;
-  pwm1.attach( pwm_control );
-    g_red_led[ 0 ].nastav_jas_proc( 5 );
-    g_red_led[ 1 ].nastav_jas_proc( 50 );
+  pwm1.attach( pwm_control, 1 );
+  g_red_led[0].nastav_jas_proc( 5 );
+  g_red_led[1].nastav_jas_proc( 50 );
 
     while ( 1 ) __WFI();
 }
