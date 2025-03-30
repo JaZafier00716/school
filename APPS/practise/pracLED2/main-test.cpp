@@ -75,7 +75,7 @@ public:
 	}
 };
 
-RGB_LED g_rdb_leds[RGB_LEDS_NUM] ={
+RGB_LED g_rgb_leds[RGB_LEDS_NUM] ={
 	{P0_14, P0_15, P0_22},
 	{P0_24, P0_25, P0_26},
 	{P0_28, P0_29, P0_30}
@@ -124,31 +124,31 @@ void pwm_control()
 	// 3 RGB LEDS
 	for (int i = 0; i < RGB_LEDS_NUM; i++)
 	{
-		if (tick < g_rdb_leds[i].r.m_T0 && g_rdb_leds[i].r.on) // R
+		if (tick < g_rgb_leds[i].r.m_T0 && g_rgb_leds[i].r.on) // R
 		{
-			g_rdb_leds[i].r.m_led.write(1);
+			g_rgb_leds[i].r.m_led.write(1);
 		}
 		else
 		{
-			g_rdb_leds[i].r.m_led.write(0);
+			g_rgb_leds[i].r.m_led.write(0);
 		}
 
-		if (tick < g_rdb_leds[i].g.m_T0 && g_rdb_leds[i].g.on) // G
+		if (tick < g_rgb_leds[i].g.m_T0 && g_rgb_leds[i].g.on) // G
 		{
-			g_rdb_leds[i].g.m_led.write(1);
+			g_rgb_leds[i].g.m_led.write(1);
 		}
 		else
 		{
-			g_rdb_leds[i].g.m_led.write(0);
+			g_rgb_leds[i].g.m_led.write(0);
 		}
 
-		if (tick < g_rdb_leds[i].b.m_T0 && g_rdb_leds[i].b.on) // B
+		if (tick < g_rgb_leds[i].b.m_T0 && g_rgb_leds[i].b.on) // B
 		{
-			g_rdb_leds[i].b.m_led.write(1);
+			g_rgb_leds[i].b.m_led.write(1);
 		}
 		else
 		{
-			g_rdb_leds[i].b.m_led.write(0);
+			g_rgb_leds[i].b.m_led.write(0);
 		}
 	}
 
@@ -165,29 +165,29 @@ void intensity_rgb() {	// RGB LEDS + BTN 0-3
 		{
 			if(g_btn_arr[0].m_btn.read() == 0) {	// BTN - R
 				if(g_rgb_leds[j].r.m_T0 < 100) {
-					g_rdb_leds[j].r.m_T0++;
+					g_rgb_leds[j].r.m_T0++;
 				}
 			} else {
 				if(g_rgb_leds[j].r.m_T0 > 0) {
-					g_rdb_leds[j].r.m_T0--;
+					g_rgb_leds[j].r.m_T0--;
 				}
 			}
 			if(g_btn_arr[1].m_btn.read() == 0) {	// BTN - G
 				if(g_rgb_leds[j].g.m_T0 < 100) {
-					g_rdb_leds[j].g.m_T0++;
+					g_rgb_leds[j].g.m_T0++;
 				}
 			} else {
 				if(g_rgb_leds[j].g.m_T0 > 0) {
-					g_rdb_leds[j].g.m_T0--;
+					g_rgb_leds[j].g.m_T0--;
 				}
 			}
 			if(g_btn_arr[2].m_btn.read() == 0) {	// BTN - B
 				if(g_rgb_leds[j].b.m_T0 < 100) {
-					g_rdb_leds[j].b.m_T0++;
+					g_rgb_leds[j].b.m_T0++;
 				}
 			} else {
 				if(g_rgb_leds[j].b.m_T0 > 0) {
-					g_rdb_leds[j].b.m_T0--;
+					g_rgb_leds[j].b.m_T0--;
 				}
 			}
 		}
@@ -263,9 +263,9 @@ int main()
 	// 3 RGB LEDS
 	for (int i = 0; i < RGB_LEDS_NUM; i++)
 	{
-		g_rdb_leds[i].r.nastav_jas_proc(10);
-		g_rdb_leds[i].g.nastav_jas_proc(10);
-		g_rdb_leds[i].b.nastav_jas_proc(10);
+		g_rgb_leds[i].r.nastav_jas_proc(10);
+		g_rgb_leds[i].g.nastav_jas_proc(10);
+		g_rgb_leds[i].b.nastav_jas_proc(10);
 	}
 
 	while (1)
