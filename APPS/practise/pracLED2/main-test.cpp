@@ -194,7 +194,7 @@ void intensity_rgb() {	// RGB LEDS + BTN 0-3
 }
 
 void inverse_led() {	// INTERN LEDS + BTN 4
-	if(g_btn_arr[BTN_NUM-1].!clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0) {
+	if(!g_btn_arr[BTN_NUM-1].clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0) {
 		g_red_led[0].on = !g_red_led[0].on;
 		g_red_led[1].on = !g_red_led[1].on;
 		g_btn_arr[BTN_NUM-1].clicked = true; // Debounce btn
@@ -206,33 +206,36 @@ void inverse_led() {	// INTERN LEDS + BTN 4
 
 void snake_led() {	// EXTERN LEDS + BTN 4
 	static int head_pos = -1;
-
+	int tail_pos = head_pos - SNAKE_LENGTH;
+	
 	for (int i = 0; i <= head_pos; i++)
 	{
-		if(i < head_pos) {
-			int temp = head_pos - SNAKE_LENGTH;
-			if(temp > 0) {
-				if(i < temp) {
-					g_red_arr[i].on = false;
-				} else {
-					g_red_arr[i].on = true;
-				}
+		if(i < LED_ROW_NUM) {
+			if(i < tail_pos) {	// check tail position
+				g_red_arr[i].on = false;
+			} else {
+				g_red_arr[i].on = true;
 			}
-			g_red_arr[i].nastav_jas_proc(10);
-		} else {
-			g_red_arr[head_pos].on = true;
-			g_red_arr[head_pos].nastav_jas_proc(100);
+
+			if(i < head_pos) {	// all leds before head
+				g_red_arr[i].nastav_jas_proc(10);
+			} else {		// head led
+				g_red_arr[head_pos].on = true;
+				g_red_arr[head_pos].nastav_jas_proc(100);
+			}
 		}
-		g_red_arr[i].on = true;
 	}
 	
-	if(head_pos > -1 || (g_btn_arr[BTN_NUM-1].!clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0)) { // if the snake has already started or if the button was pressed
-		if (head_pos - SNAKE_LENGTH <= 0) {	// if the snake has not yet 
+	if(head_pos > -1 || (!g_btn_arr[BTN_NUM-1].clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0)) { // if the snake has already started or if the button was pressed
+		if (head_pos - SNAKE_LENGTH < SNAKE_LENGTH) {	// if the snake has not yet finished 
 			head_pos++;
+		} else {
+			head_pos = -1;
 		}
-		if(head_pos-SNAKE_LENGTH >= SNAKE_LENGTH) {
-			head_pos = 0;
-		}
+		g_btn_arr[BTN_NUM-1].clicked = true;		// disable click
+	}
+	if(head_pos == -1 && g_btn_arr[BTN_NUM-1].clicked) {	// allow click
+		g_btn_arr[BTN_NUM-1].clicked = false;
 	}
 }
 
