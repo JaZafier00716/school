@@ -164,31 +164,43 @@ void intensity_rgb() {	// RGB LEDS + BTN 0-3
 		for (int j = 0; j < RGB_LEDS_NUM; j++)
 		{
 			if(g_btn_arr[0].m_btn.read() == 0) {	// BTN - R
-				g_rdb_leds[j].r.m_T0++;
+				if(g_rgb_leds[j].r.m_T0 < 100) {
+					g_rdb_leds[j].r.m_T0++;
+				}
 			} else {
-				g_rdb_leds[j].r.m_T0--;
+				if(g_rgb_leds[j].r.m_T0 > 0) {
+					g_rdb_leds[j].r.m_T0--;
+				}
 			}
 			if(g_btn_arr[1].m_btn.read() == 0) {	// BTN - G
-				g_rdb_leds[j].g.m_T0++;
+				if(g_rgb_leds[j].g.m_T0 < 100) {
+					g_rdb_leds[j].g.m_T0++;
+				}
 			} else {
-				g_rdb_leds[j].g.m_T0--;
+				if(g_rgb_leds[j].g.m_T0 > 0) {
+					g_rdb_leds[j].g.m_T0--;
+				}
 			}
 			if(g_btn_arr[2].m_btn.read() == 0) {	// BTN - B
-				g_rdb_leds[j].b.m_T0++;
+				if(g_rgb_leds[j].b.m_T0 < 100) {
+					g_rdb_leds[j].b.m_T0++;
+				}
 			} else {
-				g_rdb_leds[j].b.m_T0--;
+				if(g_rgb_leds[j].b.m_T0 > 0) {
+					g_rdb_leds[j].b.m_T0--;
+				}
 			}
 		}
 }
 
 void inverse_led() {	// INTERN LEDS + BTN 4
-	if(g_btn_arr[BTN_NUM].!clicked && g_btn_arr[BTN_NUM].m_btn.read() == 0) {
+	if(g_btn_arr[BTN_NUM-1].!clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0) {
 		g_red_led[0].on = !g_red_led[0].on;
 		g_red_led[1].on = !g_red_led[1].on;
-		g_btn_arr[BTN_NUM].clicked = true; // Debounce btn
+		g_btn_arr[BTN_NUM-1].clicked = true; // Debounce btn
 	}
-	if(g_btn_arr[BTN_NUM].clicked && g_btn_arr[BTN_NUM].m_btn.read() == 1) {
-		g_btn_arr[BTN_NUM].clicked = false; // Debounce btn
+	if(g_btn_arr[BTN_NUM-1].clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 1) {
+		g_btn_arr[BTN_NUM-1].clicked = false; // Debounce btn
 	}
 }
 
@@ -198,7 +210,7 @@ void snake_led() {	// EXTERN LEDS + BTN 4
 	for (int i = 0; i <= head_pos; i++)
 	{
 		if(i < head_pos) {
-			int temp = head_pos - SNAKE_LENGTH
+			int temp = head_pos - SNAKE_LENGTH;
 			if(temp > 0) {
 				if(i < temp) {
 					g_red_arr[i].on = false;
@@ -214,9 +226,12 @@ void snake_led() {	// EXTERN LEDS + BTN 4
 		g_red_arr[i].on = true;
 	}
 	
-	if(head_pos > -1 || (g_btn_arr[BTN_NUM].!clicked && g_btn_arr[BTN_NUM].m_btn.read() == 0)) { // if the snake has already started or if the button was pressed
+	if(head_pos > -1 || (g_btn_arr[BTN_NUM-1].!clicked && g_btn_arr[BTN_NUM-1].m_btn.read() == 0)) { // if the snake has already started or if the button was pressed
 		if (head_pos - SNAKE_LENGTH <= 0) {	// if the snake has not yet 
 			head_pos++;
+		}
+		if(head_pos-SNAKE_LENGTH >= SNAKE_LENGTH) {
+			head_pos = 0;
 		}
 	}
 }
