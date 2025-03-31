@@ -1,40 +1,27 @@
-#include "funkce.h"
+#include "ListArray.h"
 
 
 
-int main() {
+int main(int argc, char const *argv[]) {
+  if(argc != 4) {
+    cout << "Wrong number of arguments " << argc;
+    return -1;
+  }
 
-  int list_count;
-  cout << "Enter number of sorted lists:\t";
-  cin >> list_count;
+  int list_count = stoi(argv[1]);
+  string input_file_dir = argv[2];
+  string output_file = argv[3];
 
   ListArray arr(list_count);
+  arr.FillArray(input_file_dir);
 
-  arr.printLists();
+  // cout << "lists:" << endl;
+  // arr.printLists();
   
 
   List merged = arr.merge_lists();
 
-  merged.print_list();
-
-  // for (int i = 0; i < list_count; i++)
-  // {
-  //   lists[i].N = enter_list_size(i);
-  //   total_size += size;
-
-  //   lists[i].values = new int[lists[i].N];
-  //   get_list(&(lists[i]), size);
-
-  //   cout << "You have entered:" << endl;
-  //   print_list(lists[i], size);
-  // }
-  
-  // int *merged_list = new int[total_size];
-
-  // merge_lists(lists, list_count, total_size, &merged_list);
-  
-
-
+  merged.save_file(output_file);
   return 0;
 }
 
