@@ -21,4 +21,6 @@ public:
   void printLists();                              // Prints out contents of all lists
   TValue get_min_value();                         // returns minimal value among first values of lists
   List merge_lists();                             // Merges lists together
+  int get_min_index();
+  List merge_lists2();
 };

@@ -78,3 +78,13 @@ bool List::empty() // check if there are any elements left
 {
   return this->current_index >= this->values.size();
 }
+
+bool List::list_sorted() {
+  for (int i = 0; i < this->values.size()-1; i++)
+  {
+    if(this->values[i] > this->values[i+1]) {
+      return false;
+    }
+  }
+  return true;
+}

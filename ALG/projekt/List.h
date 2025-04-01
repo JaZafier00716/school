@@ -23,5 +23,6 @@ public:
   int get_first_element();
   void next_element(); // set next element as first
   bool empty();  // check if there are any elements left
+  bool list_sorted();
 };
 
