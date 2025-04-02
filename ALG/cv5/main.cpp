@@ -5,22 +5,24 @@
 #include <string>
 using namespace std;
 
-bool isMoveValid(const stack<int> &src, const stack<int> &dest) {
+bool isMoveValid(const stack<int> &src, const stack<int> &dest)
+{
   return !src.empty() && (dest.empty() || src.top() < dest.top());
 }
 
 void moveDisk(stack<int> &src, stack<int> &dest)
 {
-  if(isMoveValid(src, dest)) {
+  if (isMoveValid(src, dest))
+  {
     dest.push(src.top());
     src.pop();
-  } else {
+  }
+  else
+  {
     src.push(dest.top());
     dest.pop();
   }
-
 }
-
 
 void printTowers(stack<int> A, stack<int> B, stack<int> C, int N)
 {
@@ -44,7 +46,7 @@ void printTowers(stack<int> A, stack<int> B, stack<int> C, int N)
     {
       cout << "|\t";
     }
-    
+
     if (C.size() >= i)
     {
       cout << C.top() << "\t" << endl;
@@ -67,9 +69,9 @@ void towersOfHanoi(stack<int> &src, stack<int> &aux, stack<int> &dest, int N)
 
   towersOfHanoi(src, dest, aux, N - 1); // presunu n-1 disku z src na aux pomoci dest veze
   printTowers(src, aux, dest, 4);
-  moveDisk(src, dest);  // presunu posledni disk na cil
+  moveDisk(src, dest); // presunu posledni disk na cil
   printTowers(src, aux, dest, 4);
-  towersOfHanoi(aux, src, dest, N-1); // presunu z aux do dest pomoci src
+  towersOfHanoi(aux, src, dest, N - 1); // presunu z aux do dest pomoci src
 }
 
 int main2()
@@ -97,88 +99,178 @@ int main2()
   return 0;
 }
 
-
-void bubblesort1(int*arr, int N) {
+void bubblesort1(int *arr, int N)
+{
   for (int i = 0; i < N; i++)
   {
-    for (int j = 0; j < N-1; j++)
+    for (int j = 0; j < N - 1; j++)
     {
-      if(arr[j] > arr[j+1]) {
+      if (arr[j] > arr[j + 1])
+      {
         int tmp = arr[j];
-        arr[j] = arr[j+1];
-        arr[j+1] = tmp;
-      }
-    }
-    
-  }
-}
-
-
-void bubblesort2(int*arr, int N) {
-  for (int i = 0; i < N; i++)
-  {
-    for (int j = 0; j < N-1-i; j++)   // posledni hodnoty jsou serazene
-    {
-      if(arr[j] > arr[j+1]) {
-        int tmp = arr[j];
-        arr[j] = arr[j+1];
-        arr[j+1] = tmp;
-      }
-    }
-    
-  }
-}
-
-
-void bubblesort3(int*arr, int N) {
-  for (int i = 0; i < N; i++)
-  {
-    for (int j = 0; j < N-1-i; j++)   // posledni hodnoty jsou serazene
-    {
-      if(arr[j] > arr[j+1]) {
-        int tmp = arr[j];
-        arr[j] = arr[j+1];
-        arr[j+1] = tmp;
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
       }
     }
   }
 }
 
-void bubblesort(int *arr, int N) {
+void bubblesort2(int *arr, int N)
+{
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = 0; j < N - 1 - i; j++) // posledni hodnoty jsou serazene
+    {
+      if (arr[j] > arr[j + 1])
+      {
+        int tmp = arr[j];
+        arr[j] = arr[j + 1];
+        arr[j + 1] = tmp;
+      }
+    }
+  }
+}
+
+bool is_sorted(int *arr, int N)
+{
+  for (int j = 0; j < N-1; j++) // posledni hodnoty jsou serazene
+  {
+    if (arr[j] > arr[j + 1])
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+void bubblesort3(int *arr, int N)
+{
   bool change;
 
   do
   {
     change = false;
-    for (int i = 0; i < N-1; i++)
+    for (int i = 0; i < N - 1; i++)
     {
-      if(arr[i] > arr[i+1]) {
+      if (arr[i] > arr[i + 1])
+      {
         int temp = arr[i];
-        arr[i] = arr[i+1];
-        arr[i+1] = temp;
+        arr[i] = arr[i + 1];
+        arr[i + 1] = temp;
         change = true;
       }
     }
   } while (change);
-  
-  
-
 }
 
-
-int main() {
-  int arr[] = {1,5,4,9,0,3};
-
-  bubblesort1(arr, 6);
-
-  for (int i = 0; i < 6; i++)
+void selection_sort1(int *arr, int N)
+{
+  for (int i = 0; i < N-1; i++)
   {
-    cout << arr[i] << ", ";
+    int min = i;
+    for (int j = i + 1; j < N; j++)
+    {
+      if (arr[j] < arr[min])
+      {
+        min = j;
+      }
+    }
+    if(min != i) {
+      int temp = arr[min];
+      arr[min] = arr[i];
+      arr[i] = temp;
+    }
+
   }
-  cout << endl;
+}
+
+void selection_sort(int *arr, int N)
+{
+  for (int i = 0; i < N; i++)
+  {
+    for (int j = i + 1; j < N; j++)
+    {
+      if (arr[j] < arr[i])
+      {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+  }
+}
+
+void initArray(int*arr, int N) {
+  for (int i = 0; i < N; i++)
+  {
+    arr[i] = rand() % N;
+  }
   
 }
 
+int function(int *arr, int N, int k) {
+
+  for (int i = 0; i < k; i++)
+  {
+    int max = i;
+    for (int j = i+1; j < N; j++)
+    {
+      if(arr[j] > arr[max]) {
+        max = j;
+      }
+    }
+    if(max != i) {
+      int temp = arr[max];
+      arr[max] = arr[i];
+      arr[i] = temp;
+    }
+  }
+
+  return arr[k-1];
+  
+}
+
+int main()
+{
+  time_t seed = time(nullptr);
+  int N = 10000;
+  int*arr = new int[N];
+  
+  srand(seed);
+  initArray(arr, N);
+  int arr2[] = {1, 5, 4, 9, 0, 3};
+
+  cout << function(arr2, 6, 4) << endl;
 
 
+  // time_t start_time = time(nullptr);
+  // selection_sort1(arr, N);
+  // time_t end_time = time(nullptr);
+  // cout << endl;
+  // if(is_sorted(arr, N)) {
+  //   cout << "is sorted" << endl;
+  //   cout << "Elapsed time: " << end_time - start_time << " s" << endl;
+  // } else {
+  //   cout << "is not sorted" << endl;
+  // }
 
+  // srand(seed);
+  // initArray(arr, N);
+  // start_time = time(nullptr);
+  // bubblesort3(arr, N);
+  // end_time = time(nullptr);
+  
+  // cout << endl;
+  // if(is_sorted(arr, N)) {
+  //   cout << "is sorted" << endl;
+  //   cout << "Elapsed time: " << end_time - start_time << " s" << endl;
+  // } else {
+  //   cout << "is not sorted" << endl;
+  // }
+
+  // for (int i = 0; i < N; i++)
+  // {
+  //   cout << arr[i] << ", ";
+  // }
+}
