@@ -21,6 +21,7 @@ public:
   bool empty() const;
   int size() const;
   Card getAt(unsigned int index) const;
+  void removeAt(unsigned int index);
   void printDeck() const;
   void shuffle();
 };
@@ -79,6 +80,10 @@ void CardStack::printDeck() const {
 
 Card CardStack::getAt(unsigned int index) const {
   return this->deck.at(index);
+}
+
+void CardStack::removeAt(unsigned int index) {
+  this->deck.erase(deck.begin()+index);
 }
 
 // void CardStack::shuffle() {
