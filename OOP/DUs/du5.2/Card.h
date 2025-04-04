@@ -1,9 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <random>
-#define RED "\033[31m"
-#define BLUE "\033[34m"
+#define RED   "\033[31m"
+#define BLUE  "\033[34m"
 #define RESET "\033[0m"
 using namespace std;
 
@@ -74,7 +73,7 @@ string Card::getColor() const
     return "Black";
     break;
   default:
-    return "unknown";
+    return "Unknown";
     break;
   }
 }
@@ -111,5 +110,5 @@ string Card::getNumberString() const
 string Card::getFullCard() const
 {
   return (
-      (this->getColor() == "Red" ? RED : BLUE) + this->getNumberString() + " " + this->getSuitSymbol() + RESET);
+      (this->getColor() == "Red" ? RED : (this->getColor() == "Black" ? BLUE : RESET)) + this->getNumberString() + " " + this->getSuitSymbol() + RESET);
 }
