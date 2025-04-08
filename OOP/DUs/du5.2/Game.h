@@ -35,7 +35,6 @@ Game::Game(CardStack *deck)
   this->p2 = Player();
   this->last_card = Card();
   current_draw_pool = 0;
-  // this->suit = (Suits)-1;
   this->stall = false;
 }
 
@@ -112,7 +111,7 @@ void Game::turn()
     else
     {
       // Play cards
-      playedCard = this->p1_turn ? p1.play_card(this->last_card, abs(action), /*this->suit,*/ this->current_draw_pool, this->stall) : p2.play_card(this->last_card, abs(action), /*this->suit,*/ this->current_draw_pool, this->stall);
+      playedCard = this->p1_turn ? p1.play_card(this->last_card, abs(action), this->current_draw_pool, this->stall) : p2.play_card(this->last_card, abs(action), this->current_draw_pool, this->stall);
       if (playedCard.getNumber() == -1)
       {
         cout << "Card is not playable!!!" << endl
@@ -131,7 +130,6 @@ void Game::turn()
 
             cin >> suit_num;
           } while (suit_num < 0 | suit_num >= 4);
-          // this->suit = (Suits)suit_num;
           playedCard.setSuit((Suits)suit_num);
           break;
         case 14:
@@ -141,8 +139,6 @@ void Game::turn()
           this->current_draw_pool += 2;
         }
         this->last_card = playedCard; // set last card as played card
-        // playedCard.setSuit(this->suit);
-        // this->suit = (Suits)-1;    // reset color
       }
     }
 

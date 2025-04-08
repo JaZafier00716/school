@@ -11,7 +11,7 @@ public:
   Player();
   Player(CardStack cards);
 
-  bool can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall); // returns whether player can play target card on the top card
+  bool can_play_card(Card top_card, unsigned int card_id, int current_draw_pool, int stall); // returns whether player can play target card on the top card
   /*
     return values:
     -1  : invalid card
@@ -19,7 +19,7 @@ public:
     1   : card is queen
     2   : draw 2 cards
   */
-  Card play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall); // return effect of played card
+  Card play_card(Card top_card, unsigned int card_id, int current_draw_pool, int stall); // return effect of played card
   void addCard(Card card);
   void printHand();
 
@@ -36,7 +36,7 @@ Player::Player()
   this->card_count = 0;
 }
 
-bool Player::can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall)
+bool Player::can_play_card(Card top_card, unsigned int card_id, int current_draw_pool, int stall)
 {
   if(stall && top_card.getNumber() != 14) {
     return false;
@@ -59,10 +59,6 @@ bool Player::can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */
     return true;
   }
 
-  /* if(suit != -1) {  // if color has been changed, play card with that color
-    return this->cards.getAt(card_id).getSuitID() == suit;
-  } */
-
   if (this->cards.getAt(card_id).getSuitSymbol() == top_card.getSuitSymbol())
   { // if the symbols match
     return true;
@@ -74,9 +70,9 @@ bool Player::can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */
   return false;
 }
 
-Card Player::play_card(Card top_card, unsigned int card_id/* ,Suits suit */, int current_draw_pool, int stall)
+Card Player::play_card(Card top_card, unsigned int card_id, int current_draw_pool, int stall)
 {
-  if (!can_play_card(top_card, card_id, /* suit, */ current_draw_pool, stall))
+  if (!can_play_card(top_card, card_id, current_draw_pool, stall))
   {
     return Card();
   }
