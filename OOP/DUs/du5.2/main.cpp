@@ -2,7 +2,9 @@
 
 int main() {
   CardStack *cardDeck = CardStack::createSevenToAceDeck();
+  cardDeck->shuffle();
   Game *prsi = new Game(cardDeck);
+  // cardDeck->printDeck();
   prsi->drawHands();
   do {
     prsi->turn();

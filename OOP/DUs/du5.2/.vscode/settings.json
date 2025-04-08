@@ -5,6 +5,8 @@
     "optional": "cpp",
     "new": "cpp",
     "iostream": "cpp",
-    "ostream": "cpp"
+    "ostream": "cpp",
+    "algorithm": "cpp",
+    "vector": "cpp"
   }
 }

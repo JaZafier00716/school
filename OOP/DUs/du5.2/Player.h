@@ -11,7 +11,7 @@ public:
   Player();
   Player(CardStack cards);
 
-  bool can_play_card(Card top_card, unsigned int card_id, string color); // returns whether player can play target card on the top card
+  bool can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall); // returns whether player can play target card on the top card
   /*
     return values:
     -1  : invalid card
@@ -19,7 +19,7 @@ public:
     1   : card is queen
     2   : draw 2 cards
   */
-  Card play_card(Card top_card, unsigned int card_id, string color); // return effect of played card
+  Card play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall); // return effect of played card
   void addCard(Card card);
   void printHand();
 
@@ -36,8 +36,12 @@ Player::Player()
   this->card_count = 0;
 }
 
-bool Player::can_play_card(Card top_card, unsigned int card_id, string color)
+bool Player::can_play_card(Card top_card, unsigned int card_id,/* Suits suit, */ int current_draw_pool, int stall)
 {
+  if(stall && top_card.getNumber() != 14) {
+    return false;
+  }
+
   if(top_card.getNumber() == -1) {
     return true;
   }
@@ -46,7 +50,7 @@ bool Player::can_play_card(Card top_card, unsigned int card_id, string color)
     return false;
   }
 
-  if(top_card.getNumber() == 7) { // if number 7, you must play 7
+  if(top_card.getNumber() == 7 && current_draw_pool != 0) { // if number 7, you must play 7
     return this->cards.getAt(card_id).getNumber() == 7;
   }
 
@@ -55,9 +59,9 @@ bool Player::can_play_card(Card top_card, unsigned int card_id, string color)
     return true;
   }
 
-  if(color != "Undefined") {  // if color has been changed, play card with that color
-    return this->cards.getAt(card_id).getColor() == color;
-  }
+  /* if(suit != -1) {  // if color has been changed, play card with that color
+    return this->cards.getAt(card_id).getSuitID() == suit;
+  } */
 
   if (this->cards.getAt(card_id).getSuitSymbol() == top_card.getSuitSymbol())
   { // if the symbols match
@@ -70,11 +74,10 @@ bool Player::can_play_card(Card top_card, unsigned int card_id, string color)
   return false;
 }
 
-Card Player::play_card(Card top_card, unsigned int card_id, string color)
+Card Player::play_card(Card top_card, unsigned int card_id/* ,Suits suit */, int current_draw_pool, int stall)
 {
-  if (!can_play_card(top_card, card_id, color))
+  if (!can_play_card(top_card, card_id, /* suit, */ current_draw_pool, stall))
   {
-    cout << "You cannot play this card!" << endl;
     return Card();
   }
   Card card = this->cards.getAt(card_id);

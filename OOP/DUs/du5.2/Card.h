@@ -29,6 +29,8 @@ public:
   int getNumber() const;
   string getNumberString() const;
   string getFullCard() const;
+  int getSuitID() const;
+  void setSuit(Suits suit);
 };
 
 Card::Card()
@@ -58,6 +60,11 @@ string Card::getSuitSymbol() const
   default:
     return "unknown";
   }
+}
+
+int Card::getSuitID() const 
+{
+  return this->suit;
 }
 
 string Card::getColor() const
@@ -111,4 +118,8 @@ string Card::getFullCard() const
 {
   return (
       (this->getColor() == "Red" ? RED : (this->getColor() == "Black" ? BLUE : RESET)) + this->getNumberString() + " " + this->getSuitSymbol() + RESET);
+}
+
+void Card::setSuit(Suits suit) {
+  this->suit = suit;
 }

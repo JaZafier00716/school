@@ -10,7 +10,9 @@ private:
   bool p1_turn;
   Card last_card;
   int current_draw_pool;
-  string color;
+  // Suits suit;
+  bool stall;
+  string str_suit;
 
 public:
   static unsigned int start_card_num;
@@ -33,7 +35,8 @@ Game::Game(CardStack *deck)
   this->p2 = Player();
   this->last_card = Card();
   current_draw_pool = 0;
-  this->color = "Undefined";
+  // this->suit = (Suits)-1;
+  this->stall = false;
 }
 
 Card Game::drawCard()
@@ -59,152 +62,102 @@ void Game::turn()
 {
   int action;
   Card playedCard;
+  int N;
   do
   {
-
-    if (this->p1_turn)
+    do
     {
+
       cout << "===============" << endl;
-      cout << "P1 turn:" << endl;
+      cout << (this->p1_turn ? "P1 turn:" : "P2 turn:") << endl;
       cout << "===============" << endl;
       cout << "Current draw pool: " << this->current_draw_pool << endl;
       cout << "Last played card: " << (this->last_card.getNumber() == -1 ? "None" : this->last_card.getFullCard()) << endl;
-      p1.printHand();
+      this->p1_turn ? p1.printHand() : p2.printHand();
       cout << endl;
 
       cout << "===============" << endl;
       cout << "-1 : Draw a card / card pool" << endl;
-      int N = p1.cardNum();
+      (stall && cout << "-2: accept stall" << endl);
+      N = this->p1_turn ? p1.cardNum() : p2.cardNum();
       cout << (N > 1 ? "0-" : "") << N - 1 << ": Play card" << endl;
       cout << "===============" << endl;
       cout << "action:\t";
       cin >> action;
+    } while (action > N | action < -1);
 
-      if (action == -1)
+    if (action == -2)
+    {
+      stall = false;
+      break;
+    }
+
+    if (action == -1)
+    {
+      // Draw cards
+      if (this->current_draw_pool == 0)
       {
-        // Draw cards
-        if (this->current_draw_pool == 0)
-        {
-          p1.addCard(this->drawCard());
-        }
-        else
-        {
-          for (int i = 0; i < current_draw_pool; i++)
-          {
-            p1.addCard(this->drawCard());
-          }
-          current_draw_pool = 0;
-        }
-        break;
+        this->p1_turn ? p1.addCard(this->drawCard()) : p2.addCard(this->drawCard());
       }
       else
       {
-        // Play cards
-        playedCard = p1.play_card(this->last_card, abs(action), this->color);
-        if (playedCard.getNumber() == -1)
+        for (int i = 0; i < current_draw_pool; i++)
         {
-          cout << "Card is not playable!!!" << endl << endl;
-          continue; // Card could not be played
+          this->p1_turn ? p1.addCard(this->drawCard()) : p2.addCard(this->drawCard());
         }
-        else
-        {
-          if (playedCard.getNumber() == 12)
-          { // if the card is queen
-            int color_num;
-            do
-            {
-              cout << "Choose new color (0 - red, 1, black):\t";
-              cin >> color_num;
-            } while (color_num != 1 && color_num != 0);
-            this->color = (color_num == 0 ? "Red" : "Black");
-          }
-          switch (playedCard.getNumber())
-          {
-          case 7:
-            this->current_draw_pool += 2;
-          default:
-            this->last_card = playedCard; // set last card as played card
-            this->color = "Undefined";    // reset color
-          }
-        }
+        current_draw_pool = 0;
       }
+      break;
     }
     else
     {
-      cout << "===============" << endl;
-      cout << "P2 turn:" << endl;
-      cout << "===============" << endl;
-      cout << "Current draw pool: " << this->current_draw_pool << endl;
-      cout << "Last played card: " << (this->last_card.getNumber() == -1 ? "None" : this->last_card.getFullCard()) << endl;
-      p2.printHand();
-      cout << endl;
-
-      cout << "===============" << endl;
-      cout << "-1 : Draw a card / card pool" << endl;
-      int N = p2.cardNum();
-      cout << (N > 1 ? "0-" : "") << N - 1 << ": Play card" << endl;
-      cout << "===============" << endl;
-      cout << "action:\t";
-      cin >> action;
-
-      if (action == -1)
+      // Play cards
+      playedCard = this->p1_turn ? p1.play_card(this->last_card, abs(action), /*this->suit,*/ this->current_draw_pool, this->stall) : p2.play_card(this->last_card, abs(action), /*this->suit,*/ this->current_draw_pool, this->stall);
+      if (playedCard.getNumber() == -1)
       {
-        // Draw cards
-        if (this->current_draw_pool == 0)
-        {
-          p2.addCard(this->drawCard());
-        }
-        else
-        {
-          for (int i = 0; i < current_draw_pool; i++)
-          {
-            p2.addCard(this->drawCard());
-          }
-          current_draw_pool = 0;
-        }
-        break;
+        cout << "Card is not playable!!!" << endl
+             << endl;
+        continue; // Card could not be played
       }
       else
       {
-        // Play cards
-        playedCard = p2.play_card(this->last_card, abs(action), this->color);
-        if (playedCard.getNumber() == -1)
+        switch (playedCard.getNumber())
         {
-          cout << "Card is not playable!!!" << endl << endl;
-          continue; // Card could not be played
-        }
-        else
-        {
-          if (playedCard.getNumber() == 12)
-          { // if the card is queen
-            int color_num;
-            do
-            {
-              cout << "Choose new color (0 - red, 1, black):\t";
-              cin >> color_num;
-            } while (color_num != 1 && color_num != 0);
-            this->color = (color_num == 0 ? "Red" : "Black");
-          }
-          switch (playedCard.getNumber())
+        case 12: // if the card is queen
+          int suit_num;
+          do
           {
-          case 7:
-            this->current_draw_pool += 2;
-          default:
-            this->last_card = playedCard; // set last card as played card
-            this->color = "Undefined";    // reset color
-          }
+            cout << "Choose new Suit (0 - ♥, 1 - ♦, 2 - ♣, 3 - ♠):\t" << endl;
+
+            cin >> suit_num;
+          } while (suit_num < 0 | suit_num >= 4);
+          // this->suit = (Suits)suit_num;
+          playedCard.setSuit((Suits)suit_num);
+          break;
+        case 14:
+          this->stall = true;
+          break;
+        case 7:
+          this->current_draw_pool += 2;
         }
+        this->last_card = playedCard; // set last card as played card
+        // playedCard.setSuit(this->suit);
+        // this->suit = (Suits)-1;    // reset color
       }
     }
+
   } while (playedCard.getNumber() == -1);
   this->p1_turn = !p1_turn;
 }
 
-int Game::playerWin() {
-  if(p1.cardNum() == 0) {
+int Game::playerWin()
+{
+  if (p1.cardNum() == 0)
+  {
     return 1;
   }
-  if(p2.cardNum() == 0) {
+  if (p2.cardNum() == 0)
+  {
     return 2;
   }
   return 0;
