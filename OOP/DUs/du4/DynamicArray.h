@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <string>
-#define DEFAULT_SIZE
 using namespace std;
 
 class DynamicArray
@@ -18,7 +17,7 @@ public:
   DynamicArray(int *arr, unsigned int length);
   ~DynamicArray();
 
-  int getAt(unsigned int index);
+  int getAt(unsigned int index) const;
   int getSize() const;
   int getCount() const;
   void setAt(unsigned int index, int value);
@@ -58,7 +57,7 @@ DynamicArray::~DynamicArray()
   delete[] this->arr;
 }
 
-int DynamicArray::getAt(unsigned int index)
+int DynamicArray::getAt(unsigned int index) const
 {
   return this->arr[index];
 }
