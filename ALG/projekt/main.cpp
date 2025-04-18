@@ -1,6 +1,13 @@
 #include "ListArray.h"
 #include <chrono>
 
+
+/**
+ * @brief Entry point. Merges multiple lists loaded from files.
+ * @param argc Number of arguments.
+ * @param argv Arguments: <list_count> <input_directory> <output_file>.
+ * @return Exit code.
+ */
 int main(int argc, char const *argv[])
 {
   if (argc != 4)
