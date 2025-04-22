@@ -1,0 +1,20 @@
+strom mnozina uzlu a hran
+- je acyklicky, souvisly, neorientovany 
+- muze byt prazdny
+
+korenovy strom
+koren = specificky uzel (vychozi bod)
+- nema rodice
+
+binarni strom
+- ma maximalne 2 potomky
+
+binarni vyhledavaci strom
+- obsahuje pravidla pro vytvareni novych uzlu
+- standardne vlevo mensi hodnoty, vpravo vetsi hodnoty, ale muzeme ho otocit
+- slozitost vyhledavani odpovida 
+  - nejhure vysce stromu - linearni (vsechny prvky na jedne strane - zdegenerovany strom na spojovy seznam)
+  - nejlepe konstantni - prvek v korenu stromu
+- z definice by nemel mit duplicity 
+
+

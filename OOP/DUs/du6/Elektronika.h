@@ -7,8 +7,9 @@ class Elektronika
 {
 private:
 public:
-  virtual void printParameters() const {
-    cout << "nejaky vychozi text" << endl;
-  }
+  // virtual void printParameters() const {
+  //   cout << "nejaky vychozi text" << endl;
+  // }
+  virtual void printParameters() const = 0;
 };
 
