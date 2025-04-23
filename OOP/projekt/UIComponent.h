@@ -41,7 +41,7 @@ typedef struct {
  */
 class UIComponent
 {
-  private:
+private:
   static int componentCount; /**< Total number of created UI components */
   protected:
   UIComponentVariables vars; /** structure containing all variables */
