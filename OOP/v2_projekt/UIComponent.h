@@ -25,6 +25,6 @@ public:
   virtual void render() const override;
   unsigned int getID();
   string getTag();
-protected:
   void setID(unsigned int id);
+protected:
 };

@@ -26,7 +26,7 @@ enum Color
   BRIGHT_WHITE    /**< Bright white text */
 };
 
-class TextComponent : UIComponent
+class TextComponent : public UIComponent
 {
 private:
   string text;

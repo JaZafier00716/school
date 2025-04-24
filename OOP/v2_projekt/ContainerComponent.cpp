@@ -29,9 +29,10 @@ void ContainerComponent::addChild(UIComponent* child) {
   this->children.push_back(child);
 }
 
-void ContainerComponent::addChild(UIComponent* child, unsigned int containerIndex) {
+bool ContainerComponent::addChild(UIComponent* child, unsigned int containerIndex) {
   if(this->getID() == containerIndex) {
     this->addChild(child);
+    return true;
   } else {
     for (auto child : this->children)
     {
@@ -40,25 +41,26 @@ void ContainerComponent::addChild(UIComponent* child, unsigned int containerInde
       }
     }
   }
+  return false;
 }
 
 
 UIComponent* ContainerComponent::getChild(unsigned int childIndex) {
-  for (auto child : children)
-  {
-    if(child->getID() == childIndex) {
-      return child;
-    }
-    if(ContainerComponent* subContainer = dynamic_cast<ContainerComponent*>(child)) {
-      UIComponent* child = subContainer->getChild(childIndex);
-      if(child->getTag() != "not found") {
-        return child;
+  for (UIComponent* child : children) {
+      if (child->getID() == childIndex) {
+          return child;
       }
-    }
+
+      if (ContainerComponent* subContainer = dynamic_cast<ContainerComponent*>(child)) {
+          UIComponent* result = subContainer->getChild(childIndex);
+          if (result && result->getTag() != "not found") {
+              return result;
+          }
+      }
   }
 
-  return new UIComponent("not found");
-  
+  static UIComponent notFound("not found");
+  return &notFound;
 }
 
 

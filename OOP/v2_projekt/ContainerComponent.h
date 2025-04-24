@@ -20,11 +20,10 @@ public:
   /// @return returns child component when successful or component with tag "not found" when failed
   UIComponent* getChild(unsigned int childIndex);
 
-  void addChild(UIComponent* child, unsigned int containerIndex);
+  bool addChild(UIComponent* child, unsigned int containerIndex);
   void addChild(UIComponent* child);
 
   bool removeChild(unsigned int childIndex);
-
 
   void render() const override;
 };

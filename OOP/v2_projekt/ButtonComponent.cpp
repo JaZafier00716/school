@@ -19,7 +19,7 @@ ButtonComponent::~ButtonComponent()
   cout << "ButtonComponent destructor" << endl;
 }
 
-static string getBgAnsiCode(Color color)
+string ButtonComponent::getBgAnsiCode(Color color)
 {
   switch (color)
   {

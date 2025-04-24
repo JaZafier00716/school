@@ -2,7 +2,7 @@
 
 
 ImageComponent::ImageComponent(
-  const vector<ComponentAttribute>& attributes = {}
+  const vector<ComponentAttribute>& attributes
 ) : UIComponent("img", attributes)
 {
   this->addAttribute("src", "");
