@@ -1,0 +1,10 @@
+simulace bitvy
+
+bojovnik (rytir) - sprite
+  iterakce
+  metoda attack - dalsi bojovnik
+  Pouze pesti nebo *zbran, *stit    * - dobrovolne
+    efekt na souboj
+  
+trida bojiste
+  simulace bitvy

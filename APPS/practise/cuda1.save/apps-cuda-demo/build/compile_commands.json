@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/home/jazafier/Documents/school/build",
+  "command": "/usr/bin/gcc  -fsanitize=address -g -o CMakeFiles/snowflakes.dir/main.c.o -c /home/jazafier/Documents/school/UPR/Ukoly/Ukol10/main.c",
+  "file": "/home/jazafier/Documents/school/UPR/Ukoly/Ukol10/main.c",
+  "output": "CMakeFiles/snowflakes.dir/main.c.o"
+},
+{
+  "directory": "/home/jazafier/Documents/school/build",
+  "command": "/usr/bin/gcc  -fsanitize=address -g -o CMakeFiles/snowflakes.dir/sdl.c.o -c /home/jazafier/Documents/school/UPR/Ukoly/Ukol10/sdl.c",
+  "file": "/home/jazafier/Documents/school/UPR/Ukoly/Ukol10/sdl.c",
+  "output": "CMakeFiles/snowflakes.dir/sdl.c.o"
+},
+{
+  "directory": "/home/jazafier/Documents/school/build",
+  "command": "/usr/bin/gcc  -fsanitize=address -g -o CMakeFiles/snowflakes.dir/dynamic_array.c.o -c /home/jazafier/Documents/school/UPR/Ukoly/Ukol10/dynamic_array.c",
+  "file": "/home/jazafier/Documents/school/UPR/Ukoly/Ukol10/dynamic_array.c",
+  "output": "CMakeFiles/snowflakes.dir/dynamic_array.c.o"
+}
+]

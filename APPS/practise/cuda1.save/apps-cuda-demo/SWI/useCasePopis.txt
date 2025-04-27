@@ -1,0 +1,47 @@
+U5. Rezervace knihy
+
+Main scenario:
+1. Registrovaný zákazník dorazí na stránku knihy
+2. Systém prezentuje údaje pro potencionální rezervaci knihy
+3. Systém nabídne možnost rezervace knihy pokud je dostupná
+4. Registrovaný zákazník se rozhodne zarezervovat si knihu
+5. Systém zaregistruje knihu jako rezervovanou
+6. <<includes>> U14 nastaví upozornění na změnu dostupnosti
+
+-----------------------------------------------------------------------
+
+U14. Informace o změně dostupnosti knih
+
+Main scenario:
+ 
+
+-----------------------------------------------------------------------
+
+U4. Půjčení knihy
+
+Main scenario:
+1. Registrovaný zákazník dorazí na stránku knihy
+2. Systém prezentuje údaje pro potencionální zápůjčku
+3. Systém nabídne možnost zapůjčení knihy pokud je dostupná
+4. Registrovaný zákazník se rozhodne půjčit si knihu
+5. Systém zaregistruje knihu jako zapůjčenou
+6. <<includes>> U13 nastaví upozornění na konec zapůjčky
+
+Extensions:
+3.A Systém zjistí  že kniha není dostupná
+	3.A.1 Systém neumožní registrovanému uživateli zapůjčit knihu
+
+-----------------------------------------------------------------------
+
+U13. Informace o blížících se konců zápůjček
+
+Main scenario:
+1. Systém obdrží data o zápůjčce
+2. Systém zjistí jestli se blíží datum konce zápujčky
+3. Systém upozorní Registrovaného zákazníka na blížící se datum konce zápujčky
+
+Extensions:
+2.A.1 Systém zjistí že se ještě neblíží konec
+2.A.2 Systém čeká na další cyklus kroku 2
+
+------------------------------------------------------------------------

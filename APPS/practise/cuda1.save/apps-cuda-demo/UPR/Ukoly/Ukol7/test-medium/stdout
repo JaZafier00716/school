@@ -1,0 +1,218 @@
+<html>
+<body>
+<div>
+<h1>AAPL: highest volume</h1>
+<div>Day: 1</div>
+<div>Start price: 428.42</div>
+<div>End price: 428.35</div>
+<div>Volume: 86_159_980</div>
+</div>
+<table>
+<thead>
+<tr><th>Day</th><th>Ticker</th><th>Start</th><th>End</th><th>Diff</th><th>Volume</th></tr>
+</thead>
+<tbody>
+<tr>
+	<td>8</td>
+	<td>GOOGL</td>
+	<td>670.05</td>
+	<td>666.63</td>
+	<td>-3.42</td>
+	<td>21_837_107</td>
+</tr>
+<tr>
+	<td>8</td>
+	<td>GME</td>
+	<td>646.08</td>
+	<td>650.74</td>
+	<td>4.66</td>
+	<td>7_891_465</td>
+</tr>
+<tr>
+	<td>7</td>
+	<td>BBBY</td>
+	<td>696.32</td>
+	<td>698.63</td>
+	<td>2.31</td>
+	<td>76_573_039</td>
+</tr>
+<tr>
+	<td>7</td>
+	<td>GOOGL</td>
+	<td>671.13</td>
+	<td>670.05</td>
+	<td>-1.08</td>
+	<td>35_014_494</td>
+</tr>
+<tr>
+	<td>7</td>
+	<td>GME</td>
+	<td>650.69</td>
+	<td>646.08</td>
+	<td>-4.61</td>
+	<td>13_645_419</td>
+</tr>
+<tr>
+	<td><b>6</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>423.00</b></td>
+	<td><b>422.37</b></td>
+	<td><b>-0.63</b></td>
+	<td><b>8_292_977</b></td>
+</tr>
+<tr>
+	<td>6</td>
+	<td>GME</td>
+	<td>649.48</td>
+	<td>650.69</td>
+	<td>1.21</td>
+	<td>34_985_857</td>
+</tr>
+<tr>
+	<td><b>5</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>418.63</b></td>
+	<td><b>423.00</b></td>
+	<td><b>4.37</b></td>
+	<td><b>3_157_825</b></td>
+</tr>
+<tr>
+	<td>5</td>
+	<td>BBBY</td>
+	<td>696.53</td>
+	<td>696.32</td>
+	<td>-0.21</td>
+	<td>97_697_122</td>
+</tr>
+<tr>
+	<td>5</td>
+	<td>GOOGL</td>
+	<td>674.19</td>
+	<td>671.13</td>
+	<td>-3.06</td>
+	<td>24_926_513</td>
+</tr>
+<tr>
+	<td>5</td>
+	<td>GME</td>
+	<td>644.67</td>
+	<td>649.48</td>
+	<td>4.81</td>
+	<td>4_984_456</td>
+</tr>
+<tr>
+	<td><b>4</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>422.44</b></td>
+	<td><b>418.63</b></td>
+	<td><b>-3.81</b></td>
+	<td><b>12_385_197</b></td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>GOOGL</td>
+	<td>678.92</td>
+	<td>674.19</td>
+	<td>-4.73</td>
+	<td>85_328_245</td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>GME</td>
+	<td>640.31</td>
+	<td>644.67</td>
+	<td>4.36</td>
+	<td>80_921_954</td>
+</tr>
+<tr>
+	<td><b>3</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>425.25</b></td>
+	<td><b>422.44</b></td>
+	<td><b>-2.81</b></td>
+	<td><b>77_122_995</b></td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>BBBY</td>
+	<td>700.52</td>
+	<td>696.53</td>
+	<td>-3.99</td>
+	<td>19_743_903</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>GOOGL</td>
+	<td>682.22</td>
+	<td>678.92</td>
+	<td>-3.30</td>
+	<td>57_294_352</td>
+</tr>
+<tr>
+	<td>3</td>
+	<td>GME</td>
+	<td>644.14</td>
+	<td>640.31</td>
+	<td>-3.83</td>
+	<td>29_689_712</td>
+</tr>
+<tr>
+	<td><b>2</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>428.35</b></td>
+	<td><b>425.25</b></td>
+	<td><b>-3.10</b></td>
+	<td><b>2_275_538</b></td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>BBBY</td>
+	<td>700.66</td>
+	<td>700.52</td>
+	<td>-0.14</td>
+	<td>84_676_944</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>GME</td>
+	<td>639.97</td>
+	<td>644.14</td>
+	<td>4.17</td>
+	<td>48_065_060</td>
+</tr>
+<tr>
+	<td><b>1</b></td>
+	<td><b>AAPL</b></td>
+	<td><b>428.42</b></td>
+	<td><b>428.35</b></td>
+	<td><b>-0.07</b></td>
+	<td><b>86_159_980</b></td>
+</tr>
+<tr>
+	<td>1</td>
+	<td>BBBY</td>
+	<td>696.16</td>
+	<td>700.66</td>
+	<td>4.50</td>
+	<td>77_905_347</td>
+</tr>
+<tr>
+	<td>1</td>
+	<td>GOOGL</td>
+	<td>678.72</td>
+	<td>682.22</td>
+	<td>3.50</td>
+	<td>91_297_504</td>
+</tr>
+<tr>
+	<td>1</td>
+	<td>GME</td>
+	<td>639.72</td>
+	<td>639.97</td>
+	<td>0.25</td>
+	<td>70_133_481</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

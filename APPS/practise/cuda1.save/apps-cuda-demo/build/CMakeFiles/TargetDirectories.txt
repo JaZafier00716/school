@@ -1,0 +1,3 @@
+/home/jazafier/Documents/school/build/CMakeFiles/snowflakes.dir
+/home/jazafier/Documents/school/build/CMakeFiles/edit_cache.dir
+/home/jazafier/Documents/school/build/CMakeFiles/rebuild_cache.dir

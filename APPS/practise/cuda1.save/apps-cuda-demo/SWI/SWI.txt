@@ -1,0 +1,46 @@
+[User]
+Prihlasenie
+1 Uživaťel zadá: Email, Heslo
+2 Prihlasenie uživatela
+
+Extentions
+
+2A Neuspešne Prihlasenie - (zlé heslo)
+2A.1 Možnosť zmeny hesla
+	2A.1.1 Zadanie Emailu
+	2A.1.2 Odoslanie žiadosti 
+	2A.1.3 Systém pošle link na zmenu hesla na email
+	2A.1.4 Uživateľ zmeni heslo 
+2A.2 <extends>U21
+
+2B Registrácia - Neexistuje účet
+2B.1 Zadanie Údajov
+	Meno Priezvisko
+	Email
+	Tel. č.
+	Heslo 
+	Heslo znova
+2B.2 Potvrdenie o prečitaní terms of service
+2B.3 Odoslanie žiadosťi o registráciu
+2B.4 Systém skontroluje údaje a potvrdí/nepotvrdí registráciu
+2B.4 <extends>U12
+
+[Vedoucy Knihovny]
+U9
+1 Správa učtov
+
+1A Odstranenie učtu
+1A.1 Vybranie učtu
+1A.2 Potvrdenie vymazania
+1A.3 Poslanie emailu o vymazaniu účtu použivatelovy
+
+1B Vytvorenie učtu
+1B.1 <extends>U12
+1B.2 
+1B.3
+
+
+
+
+
+

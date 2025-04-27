@@ -1,0 +1,56 @@
+Pointer is a variable that holds a memory address of another variable
+
+How does memory work?
+	Table with addresses and values
+		Address is a location of the memory
+		Value is the data stored at that location
+
+So if we have for exaple int x = 4;
+	We now know, that 
+		we have got a 4B intager 
+		named 'x' 
+		stored at &x
+		that is set to value of 4
+
+So now that we know how memory works, I can now explain to you, how pointers work
+if we store an address in the value part we create an pointer to another location in memory
+
+So if we have for example int *pX = &x;
+	we know that we have got 
+		a pointer to an intager (4B value)
+		named 'pX'
+		thats' value is set to the address of x
+
+So if we have got int y = *pX;
+	we know that we have got
+		an intager
+		named 'y'
+		that is set to the value pX points to
+		*pX is what we call derefferencing
+			meaning that we just look at what is stored at the addres pX is pointing to
+		if we were to use just pX we would set y to the address stored as value in pX
+
+But why???
+	Because we have to... to avoid unreadable and unscaleable code
+		we breakdown functions based on an action they perform
+
+So if we for example have a function, 
+that updates an array or a structure
+the problem is that the array or structre is not in scope of that function
+to get around this we have to pass that array or structure by refference using pointes
+So that now the pointer is in scope of the updating function and can therefore be edited
+
+void updateArray(int array[], int newValue) {
+	int value[5] = new;
+}
+
+thanks to this we can write code that is clean and understandable while reducing the number
+of line by not copying same lines of code over and over again
+
+Another reason for this is using static vs. dynamic memory allocation
+	If we're using static allocation the computer always know how much space to reserve for
+	target variable
+
+	but what if we don't know how much space we need or the amount changes, than
+	we have to use dynamic allocation and to be able to access that memory we have to use
+	pointers

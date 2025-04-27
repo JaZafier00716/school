@@ -1,0 +1,212 @@
+// **************************************************************************
+//
+//               Demo program for APPS labs
+//
+// Subject:      Computer Architectures and Parallel systems
+// Author:       Petr Olivka, petr.olivka@vsb.cz, 02/2025
+// Organization: Department of Computer Science, FEECS,
+//               VSB-Technical University of Ostrava, CZ
+//
+// File:         Main program for testing.
+//
+// **************************************************************************
+
+/**
+ * @file    MCXN947_APPS.cpp
+ * @brief   Application entry point.
+ */
+#include <stdio.h>
+#include <functional>
+#include "board.h"
+#include "peripherals.h"
+#include "pin_mux.h"
+#include "clock_config.h"
+#include "fsl_debug_console.h"
+
+#include "fsl_gpio.h"
+#include "fsl_port.h"
+#include "fsl_mrt.h"
+
+#include "mcxn-kit.h"
+
+// **************************************************************************
+//! System initialization. Do not modify it!!!
+void _mcu_initialization() __attribute__(( constructor( 0x100 ) ));
+
+void _mcu_initialization()
+{
+    BOARD_InitBootPins();
+    BOARD_InitBootClocks();
+    BOARD_InitBootPeripherals();
+    CLOCK_EnableClock( kCLOCK_Gpio0 );
+    CLOCK_EnableClock( kCLOCK_Gpio1 );
+    CLOCK_EnableClock( kCLOCK_Gpio2 );
+    CLOCK_EnableClock( kCLOCK_Gpio3 );
+    CLOCK_EnableClock( kCLOCK_Gpio4 );
+}
+// **************************************************************************
+
+//! Global data
+
+//! LEDs on MCXN-KIT - instances of class DigitalOut
+DigitalOut g_led_P3_16( P3_16 );
+DigitalOut g_led_P3_17( P3_17 );
+//
+//! Button on MCXN-KIT - instance of class DigitalIn
+DigitalIn g_but_P3_18( P3_18 );
+DigitalIn g_but_P3_19( P3_19 );
+DigitalIn g_but_P3_20( P3_20 );
+DigitalIn g_but_P3_21( P3_21 );
+
+#define T 20
+
+/*
+ * Pro cviceni 6, odkomentujte vsechno s cv6 komentarem a zakomentujte vse s cv7 komentarem
+ *
+ */
+
+
+class LED
+{
+public:
+    DigitalOut m_led;
+    uint32_t m_T0;        // cas T0
+    bool on;
+
+  LED( pin_name_t t_led_pin ) : m_led( t_led_pin )
+    {
+	  m_T0 = 0;
+	  on = false;
+    }
+
+    void nastav_jas_proc( uint8_t t_jas_proc )
+    {
+        m_T0 = T * ((double)t_jas_proc/100);
+    }
+};
+
+class BTN
+{
+public:
+	DigitalIn m_btn;
+	bool clicked;
+
+	BTN(pin_name_t t_btn_pin) : m_btn(t_btn_pin)
+	{
+		clicked = false;
+	}
+};
+
+LED g_red_led[] = { P3_16, P3_17 };
+LED g_red_arr[] = { P4_00, P4_01, P4_02, P4_03, P4_12, P4_13, P4_16, P4_20};
+BTN g_btn_arr[] = { P3_18, P3_19 };
+
+void pwm_control()
+{
+  static unsigned int tick = 0;
+
+  if(tick < g_red_led[0].m_T0) {
+	  g_red_led[0].m_led.write(1);
+  } else {
+	  g_red_led[0].m_led.write(0);
+  }
+
+  if(tick < g_red_led[1].m_T0) {
+	  g_red_led[1].m_led.write(1);
+  } else {
+	  g_red_led[1].m_led.write(0);
+  }
+
+  tick++;
+
+  if(tick >= T) {
+	  tick = 0;
+  }
+}
+
+void pwm_control2()
+{
+  static unsigned int tick = 0;
+
+  for(int i = 0; i < 8; i++) {
+	if(tick < g_red_arr[i].m_T0 && g_red_arr[i].on) {
+		g_red_arr[i].m_led.write(1);
+	} else {
+		g_red_arr[i].m_led.write(0);
+	}
+  }
+
+  tick++;
+
+  if(tick >= T) {
+	  tick = 0;
+  }
+}
+
+void btn_control() {		// cv6
+	if(g_btn_arr[0].m_btn.read() == 0 && !g_btn_arr[0].clicked) {
+			for(int i = 0; i < 8; i++) {
+				g_red_arr[i].on = false;
+			}
+				g_btn_arr[0].clicked = false;
+			}
+			if(g_btn_arr[0].m_btn.read() == 1 && g_btn_arr[0].clicked) {
+				g_btn_arr[0].clicked = true;
+			}
+
+			if(g_btn_arr[1].m_btn.read() == 0 && !g_btn_arr[1].clicked) {
+				for(int i = 0; i < 8; i++) {
+					g_red_arr[i].on = true;
+				}
+				g_btn_arr[1].clicked = true;
+			}
+			if(g_btn_arr[1].m_btn.read() == 1 && g_btn_arr[1].clicked) {
+				g_btn_arr[1].clicked = false;
+			}
+}
+
+void btn_control2() {	// cv7
+	static int curr_led = 0;
+	for(int i = 0; i < 8; i++) {
+			if(i == curr_led) {
+				g_red_arr[i].on = 1;
+			} else {
+				g_red_arr[i].on = 0;
+			}
+	}
+
+	if(g_btn_arr[0].m_btn.read() == 0) {
+		if(curr_led < 7) {
+		curr_led++;
+		}
+	} else {
+		if(curr_led > 0) {
+			curr_led--;
+		}
+	}
+}
+
+int main()
+{
+
+  Ticker pwm1;
+  Ticker pwm2;
+  Ticker pwm3;
+  pwm1.attach( pwm_control, 1 );
+//  pwm2.attach( btn_control, 1 );		// cv6
+  pwm2.attach( btn_control2, 200);		// cv7
+  pwm3.attach( pwm_control2, 1);
+
+  g_red_led[0].nastav_jas_proc( 5 );
+  g_red_led[1].nastav_jas_proc( 50 );
+
+//  for (int i = 1; i <= 8; i++) {	// cv 6
+//	g_red_arr[i-1].nastav_jas_proc(i*10);
+//  }
+  for (int i = 1; i < 8; i++) {	// cv 7
+  	g_red_arr[i-1].nastav_jas_proc(10);
+  }
+  g_red_arr[7].nastav_jas_proc(100);
+
+    while ( 1 ) __WFI();
+}
