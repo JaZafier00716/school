@@ -58,15 +58,12 @@ int main( int t_numarg, char **t_arg )
     }
 
     // data for CUDA
-    CudaImg l_bgr_cuda_img(large_img.size().height, large_img.size().width, ( uchar3 * ) large_img.data), l_bw_cuda_img(small_img.size().height, small_img.size().width, ( uchar3 * ) small_img.data);
-    // l_bgr_cuda_img.m_size.x = l_bw_cuda_img.m_size.x = l_bgr_cv_img.size().width;
-    // l_bgr_cuda_img.m_size.y = l_bw_cuda_img.m_size.y = l_bgr_cv_img.size().height;
-    // l_bgr_cuda_img.m_p_uchar3 = ( uchar3 * ) l_bgr_cv_img.data;
-    // l_bw_cuda_img.m_p_uchar1 = ( uchar1 * ) l_bw_cv_img.data;
+    CudaImg l_large_cuda_img(large_img.size().height, large_img.size().width, ( uchar3 * ) large_img.data);
+    CudaImg l_small_cuda_img(small_img.size().height, small_img.size().width, ( uchar3 * ) small_img.data);
 
     // Function calling from .cu file
     // cu_run_grayscale( l_bgr_cuda_img, l_bw_cuda_img );
-    cu_insert_image( l_bgr_cuda_img, l_bw_cuda_img, {100, 100});
+    cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100, 100});
 
     // Show the Color and BW image
     // cv::imshow( "Color", l_bw_cv_img );
