@@ -25,8 +25,9 @@ namespace cv {
 
 // Function prototype from .cu file
 void cu_run_grayscale( CudaImg t_bgr_cuda_img, CudaImg t_bw_cuda_img );
-void cu_insert_image( CudaImg &t_cuda_big_img, CudaImg &t_cuda_small_img, int2 t_pos );
-
+void cu_insert_image( CudaImg &t_cuda_big_img, CudaImg &t_cuda_small_img, int2 t_pos, uchar3 mask);
+void cu_swap_image(CudaImg &t_cuda_img1, CudaImg &t_cuda_img2);
+void cu_swap2_image(CudaImg &t_cuda_img1, CudaImg &t_cuda_img2);
 
 int main( int t_numarg, char **t_arg )
 {
@@ -62,12 +63,24 @@ int main( int t_numarg, char **t_arg )
     CudaImg l_small_cuda_img(small_img.size().height, small_img.size().width, ( uchar3 * ) small_img.data);
 
     // Function calling from .cu file
-    // cu_run_grayscale( l_bgr_cuda_img, l_bw_cuda_img );
-    cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100, 100});
+    // // cu_run_grayscale( l_bgr_cuda_img, l_bw_cuda_img );
+    // cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100, 100}, {1,1,1});
+    // // cv::imshow( "normal", large_img );
+    // cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100+(int)l_small_cuda_img.m_size.x, 100}, {0,0,1});
+    // // cv::imshow( "red", large_img );
+    // cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100, 100+(int)l_small_cuda_img.m_size.y}, {0,1,0});
+    // // cv::imshow( "green", large_img );
+    // cu_insert_image( l_large_cuda_img, l_small_cuda_img, {100+(int)l_small_cuda_img.m_size.x, 100+(int)l_small_cuda_img.m_size.y}, {1,0,0});
+    // // cv::imshow( "blue", large_img );
+
+    cv::imshow( "insert all", large_img );
+    cu_swap2_image(l_large_cuda_img, l_small_cuda_img);
+    cv::imshow( "After", large_img );
 
     // Show the Color and BW image
     // cv::imshow( "Color", l_bw_cv_img );
-    cv::imshow( "Color", large_img );
     cv::waitKey( 0 );
+
+    while(1);
 }
 
