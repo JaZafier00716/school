@@ -141,17 +141,8 @@ __global__ void kernel_swap2_image(CudaImg t_cuda_img1, CudaImg t_cuda_img2, int
     t_cuda_img1.at3(l_y+t_pos.y, l_x+t_pos.x, l_bgr);
 }
 
-void cu_swap2_image(CudaImg &t_cuda_img1, CudaImg &t_cuda_img2)
+void cu_swap2_image(CudaImg &t_cuda_img1, CudaImg &t_cuda_img2, CudaImg &helper)
 {
-    char3 data[t_cuda_img1.m_size.y/2 + t_cuda_img1.m_size.x/2];
-
-    for(int i=0; i < t_cuda_img1.m_size.y/2 + t_cuda_img1.m_size.x/2;i++) {
-        data[i].x = 0;
-        data[i].y = 0;
-        data[i].z = 0;
-    }
-
-    CudaImg helper(t_cuda_img1.m_size.y/2, t_cuda_img1.m_size.x/2, data);
     cudaError_t l_cerr;
 
     int2 pos1 = make_int2(0, 0);
@@ -165,18 +156,22 @@ void cu_swap2_image(CudaImg &t_cuda_img1, CudaImg &t_cuda_img2)
     dim3 l_threads(l_block_size, l_block_size);
     
     kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos1);
-    // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos1);
+    kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos1);
+    kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos1);
 
     // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos2);
     // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos2);
+    // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos2);
 
     
     // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos3);
     // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos3);
+    // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos3);
 
     
-    // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos4);
-    // kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos4);
+    kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos4);
+    kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img2, helper, pos4);
+    kernel_swap2_image<<<l_blocks, l_threads>>>(t_cuda_img1, helper, pos4);
 
 
     if ((l_cerr = cudaGetLastError()) != cudaSuccess)
