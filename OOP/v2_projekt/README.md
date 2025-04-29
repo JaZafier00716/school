@@ -1,7 +1,9 @@
 
 # UI Component System
 
-This project implements a simple UI component system where you can create, manage, and render various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered.
+This project implements a pseudo markup language code generator, where you can create, manage, and render (print in terminal) various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered.
+
+This pseudo language is technically compatible with HTML, however the ensuring of correctness of final code is up to the user and user has to add DOCTYPE tag as it is not part of the pseudo language structure. 
 
 ## Project Structure
 
