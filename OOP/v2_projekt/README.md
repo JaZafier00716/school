@@ -83,6 +83,7 @@ The project is organized into multiple header and source files, each correspondi
   - `Image`: A component for displaying an image.
 
 ### Class diagram
+
 ![Class Diagram](./ClassDiagram.png)
 
 
