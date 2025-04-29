@@ -35,9 +35,9 @@ The project is organized into multiple header and source files, each correspondi
 │
 ├── main.cpp                      # Main entry point for running the UI system
 │
-├── ClassDiagram.png              # Class diagram - visual representation of inner structure
+├── input.input                   # Input file for executable
 |
-└── input.input                   # Input file for executable
+└── ClassDiagram.png              # Class diagram - visual representation of inner structure
 
 ```
 
