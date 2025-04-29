@@ -3,7 +3,8 @@
 
 This project implements a pseudo markup language code generator, where you can create, manage, and render (print in terminal) various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered.
 
-This pseudo language is technically compatible with HTML, however the ensuring of correctness of final code is up to the user and user has to add DOCTYPE tag as it is not part of the pseudo language structure. 
+Keep in mind that is is but a pseudo language and even though it is technically compatible with HTML, the correctness of final code is up to the user and user and moreover it is highly recommended for user to add !DOCTYPE tag as it is not part of the language structure and it should be included.
+
 
 ## Project Structure
 
