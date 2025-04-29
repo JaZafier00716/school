@@ -1,10 +1,15 @@
 #include "Page.h"
 #include <limits>
 
-unsigned int Page::maxID = 1;
-vector<unsigned int> Page::freeIDs;
-ContainerComponent Page::pageContainer("page");
+unsigned int Page::maxID = 1;                   /**< The maximum ID assigned so far. */
+vector<unsigned int> Page::freeIDs;             /**< List of available component IDs. */
+ContainerComponent Page::pageContainer("page"); /**< The container that holds all components. */
 
+/**
+ * @brief Returns the next available component ID.
+ *
+ * @return The next available ID for a new component.
+ */
 unsigned int Page::getNextID()
 {
   if (Page::freeIDs.empty())
@@ -19,6 +24,12 @@ unsigned int Page::getNextID()
   }
 }
 
+/**
+ * @brief Adds a component to the page container.
+ *
+ * @param component Pointer to the component to add.
+ * @return The ID of the added component, or -1 if the operation failed.
+ */
 unsigned int Page::addComponent(UIComponent *component)
 {
   unsigned int id = Page::getNextID();
@@ -27,6 +38,13 @@ unsigned int Page::addComponent(UIComponent *component)
   return id;
 }
 
+/**
+ * @brief Adds a child component to an existing child component by specifying the child ID.
+ *
+ * @param component Pointer to the child component.
+ * @param childID The ID of the child component.
+ * @return The ID of the child component if added successfully, or -1 if failed.
+ */
 int Page::addComponent(UIComponent *component, unsigned int childID)
 {
   unsigned int id = Page::getNextID();
@@ -41,6 +59,12 @@ int Page::addComponent(UIComponent *component, unsigned int childID)
   }
 }
 
+/**
+ * @brief Removes a component from the page container by its index.
+ *
+ * @param index The index of the component to remove.
+ * @return True if removal was successful, false if the component does not exist.
+ */
 bool Page::removeComponent(unsigned int index)
 {
   if (Page::pageContainer.removeChild(index))
@@ -54,17 +78,33 @@ bool Page::removeComponent(unsigned int index)
   }
 }
 
-bool Page::addAttribute(unsigned int componentIndex, const ComponentAttribute& attribute)
+/**
+ * @brief Adds an attribute to a specific component.
+ *
+ * @param componentIndex The index of the component to which the attribute should be added.
+ * @param attribute The attribute to add.
+ * @return True if the attribute was added successfully, false otherwise.
+ */
+bool Page::addAttribute(unsigned int componentIndex, const ComponentAttribute &attribute)
 {
   UIComponent *child = Page::pageContainer.getChild(componentIndex);
-  if((child)->getTag() == "not found") {
+  if ((child)->getTag() == "not found")
+  {
     return false;
-  } else {
+  }
+  else
+  {
     (child)->addAttribute(attribute);
     return true;
   }
 }
 
+/**
+ * @brief Returns a color code based on whether it's for text or background.
+ *
+ * @param text True if the color is for text, false for background.
+ * @return Color code corresponding to the requested type.
+ */
 Color Page::getColor(bool text)
 {
   unsigned int color;
@@ -95,6 +135,12 @@ Color Page::getColor(bool text)
   return (Color)color;
 }
 
+/**
+ * @brief Creates a new UI component based on the specified type.
+ *
+ * @param type The type of component to create (e.g., Text, Button, Container).
+ * @return Pointer to the newly created UI component.
+ */
 UIComponent *Page::createComponent(ComponentType type)
 {
   UIComponent *newComponent;
@@ -214,9 +260,10 @@ UIComponent *Page::createComponent(ComponentType type)
   return newComponent;
 }
 
-void Page::render() {
+/**
+ * @brief Renders the entire page, including all components and their attributes.
+ */
+void Page::render()
+{
   Page::pageContainer.render();
 }
-
-
-

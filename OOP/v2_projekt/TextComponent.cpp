@@ -1,33 +1,72 @@
 #include "TextComponent.h"
 
+/**
+ * @brief Constructs a TextComponent with optional tag, attributes, text content, and text color.
+ *
+ * @param tag The tag name of the component (default is empty).
+ * @param attributes The list of attributes for the component (default is empty).
+ * @param text The text content to display (default is empty).
+ * @param textColor The color of the text (default is DEFAULT).
+ */
 TextComponent::TextComponent(
-  const string& tag, 
-  const vector<ComponentAttribute>& attributes, 
-  const string& text,
-  Color textColor) : UIComponent(tag, attributes), text(text), textColor(textColor) {}
+    const string &tag,
+    const vector<ComponentAttribute> &attributes,
+    const string &text,
+    Color textColor) : UIComponent(tag, attributes), text(text), textColor(textColor) {}
 
+/**
+ * @brief Virtual destructor.
+ */
 TextComponent::~TextComponent()
 {
   cout << "TextComponent descructor" << endl;
 }
 
-void TextComponent::setText(const string& text) {
+/**
+ * @brief Sets the text content of the component.
+ *
+ * @param text The text to set.
+ */
+void TextComponent::setText(const string &text)
+{
   this->text = text;
 }
 
-void TextComponent::setText(const char* text) {
+/**
+ * @brief Sets the text content using a C-style string.
+ *
+ * @param text The C-style string to set as text.
+ */
+void TextComponent::setText(const char *text)
+{
   this->text = string(text);
 }
 
-string TextComponent::getText() const {
+/**
+ * @brief Returns the current text content.
+ *
+ * @return The text content as a string.
+ */
+string TextComponent::getText() const
+{
   return this->text;
 }
 
-void TextComponent::setTextColor(const Color textColor) {
+/**
+ * @brief Sets the color of the text.
+ *
+ * @param textColor The color to apply to the text.
+ */
+void TextComponent::setTextColor(const Color textColor)
+{
   this->textColor = textColor;
 }
 
-void TextComponent::render() const {
+/**
+ * @brief Renders the text component to the terminal.
+ */
+void TextComponent::render() const
+{
   this->printTagAttrib(false);
 
   cout << getTextAnsiCode(this->textColor) << this->text << getTextAnsiCode(Color::DEFAULT) << endl;

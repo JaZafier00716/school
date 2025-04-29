@@ -1,4 +1,7 @@
 #include "Page.h"
+#include <limits>
+#include <ios>
+using std::numeric_limits, std::streamsize;
 
 int main()
 {
@@ -24,6 +27,14 @@ int main()
     cout << "Choose your action:\t";
     cin >> action;
     cout << "-------------------------------" << endl;
+
+    if (cin.fail())
+    {
+      cin.clear();                                         // Clear error flag
+      cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Discard invalid input
+      cout << "Invalid input. Please enter an integer action.\n";
+      continue; // Skip this iteration and prompt again
+    }
 
     if (action >= 1 && action <= 5)
     {
@@ -191,9 +202,12 @@ int main()
           cin >> name;
           cout << "Enter attribute's value:\t";
           cin >> value;
-          if(Page::addAttribute(childContainerID, {name, value})) {
+          if (Page::addAttribute(childContainerID, {name, value}))
+          {
             cout << "Attribute added successfully" << endl;
-          } else {
+          }
+          else
+          {
             cout << "Component not found" << endl;
             cout << "Enter new child component's id:\t";
             cin >> childContainerID;
@@ -217,7 +231,7 @@ int main()
       }
       break;
     }
-    
+
     default:
       cout << "ERROR: Action not found" << endl;
       break;

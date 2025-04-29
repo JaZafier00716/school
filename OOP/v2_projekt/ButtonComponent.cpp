@@ -1,7 +1,15 @@
 #include "ButtonComponent.h"
 
+/**
+ * @brief Constructs a ButtonComponent with optional attributes, text, background color, and text color.
+ *
+ * @param attributes The list of attributes for the button (default is empty).
+ * @param text The text displayed on the button (default is "button").
+ * @param backgroundColor The background color of the button (default is DEFAULT).
+ * @param textColor The text color of the button (default is DEFAULT).
+ */
 ButtonComponent::ButtonComponent(
-    const vector<ComponentAttribute>& attributes,
+    const vector<ComponentAttribute> &attributes,
     const string &text,
     Color backgroundColor,
     Color textColor) : UIComponent("button", attributes)
@@ -14,11 +22,20 @@ ButtonComponent::ButtonComponent(
   this->addAttribute("type", "button");
 }
 
+/**
+ * @brief Virtual destructor.
+ */
 ButtonComponent::~ButtonComponent()
 {
   cout << "ButtonComponent destructor" << endl;
 }
 
+/**
+ * @brief Returns the ANSI escape code for a given background color.
+ *
+ * @param color The background color.
+ * @return The corresponding ANSI escape sequence as a string.
+ */
 string ButtonComponent::getBgAnsiCode(Color color)
 {
   switch (color)
@@ -62,6 +79,9 @@ string ButtonComponent::getBgAnsiCode(Color color)
   }
 }
 
+/**
+ * @brief Renders the button component to the terminal.
+ */
 void ButtonComponent::render() const
 {
   this->printTagAttrib(false);
