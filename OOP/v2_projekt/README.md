@@ -1,14 +1,51 @@
 
 # UI Component System
 
-This project implements a pseudo markup language code generator, where you can create, manage, and render (print in terminal) various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered.
+This project implements a pseudo markup language code generator, where you can create, manage, and render (print in terminal) various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered (printed to terminal in text form).
 
 Keep in mind that is is but a pseudo language and even though it is technically compatible with HTML, the correctness of final code is up to the user and user and moreover it is highly recommended for user to add !DOCTYPE tag as it is not part of the language structure and it should be included.
 
+## Project description
+
+Mějme systém pro tvorbu jednoduché webové stránky složené z textových a interaktivních komponent. Webová stránka je tvořena jedním hlavním kontejnerem (tzv. `pageContainer`), do kterého lze přidávat další komponenty nebo vnořené kontejnery.
+
+- Komponenty lze přidávat, odebírat a upravovat jejich atributy (např. classy, style, velikost, zarovnání).
+- Komponenty se dělí na následující typy:
+  - `Container` – slouží jako kontejner pro další komponenty
+  - `Text` – obsahuje text
+  - `Button` – tlačítko
+  - `Input` – vstupní pole
+  - `Image` – obrázek
+
+## Funkcionalita
+
+- Komponenty jsou identifikovány jedinečnými ID, která systém automaticky přiděluje.
+- Komponenty lze vkládat buď přímo na stránku, nebo do vnořených kontejnerů.
+- Komponenty lze odebrat pomocí jejich ID.
+- Každé komponentě lze přiřadit libovolný počet atributů ve formě dvojic *název, hodnota*.
+- Systém umožňuje vypsat (vykreslit) aktuální stav stránky v textové podobě.
+- Komponenty lze vyhledat podle jejich ID a upravovat jejich atributy.
+- Komponenty mají předdefinované vlastnosti dle svého typu, které nelze měnit:
+  - ID komponenty
+  - Typ komponenty (Text, Button, ...)
+
+## Uživatelské rozhraní
+
+Program běží v textovém režimu a uživatel má k dispozici následující akce:
 
 ## Project Structure
 
 The project is organized into multiple header and source files, each corresponding to a specific component or class within the system.
+
+0	|	Render your current website
+1	|	Add Container component
+2	|	Add Text component
+3	|	Add Button component
+4	|	Add Input component
+5	|	Add Image component
+6	|	Add attribute to component
+7	|	Remove component
+-1	|	End program
 
 ### File Structure
 
