@@ -12,7 +12,7 @@ The project is organized into multiple header and source files, each correspondi
 ```
 ./
 │
-├── AbstractComponent.cpp         # Pseudo iImplementation of the AbstractComponent class
+├── AbstractComponent.cpp         # Implementation of the AbstractComponent class
 ├── UIComponent.cpp               # Implementation of the UIComponent class
 ├── ContainerComponent.cpp        # Implementation of the ContainerComponent class
 ├── TextComponent.cpp             # Implementation of the TextComponent class

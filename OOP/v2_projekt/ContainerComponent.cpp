@@ -119,6 +119,7 @@ bool ContainerComponent::removeChild(unsigned int childIndex)
   {
     if (this->children[i]->getID() == childIndex)
     { // if child is found in the current container, return true
+      delete this->children[i];
       this->children.erase(this->children.begin() + i);
       return true;
     }
