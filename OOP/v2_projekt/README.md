@@ -33,15 +33,7 @@ Mějme systém pro tvorbu jednoduché webové stránky složené z textových a 
 
 Program běží v textovém režimu a uživatel má k dispozici následující akce:
 
--  0	|	Render your current website
--  1	|	Add Container component
--  2	|	Add Text component
--  3	|	Add Button component
--  4	|	Add Input component
--  5	|	Add Image component
--  6	|	Add attribute to component
--  7	|	Remove component
--  -1	|	End program
+<pre lang="markdown"> ``` 0 | Render your current website 1 | Add Container component 2 | Add Text component 3 | Add Button component 4 | Add Input component 5 | Add Image component 6 | Add attribute to component 7 | Remove component -1 | End program ``` </pre>
 
 ## Project Structure
 
