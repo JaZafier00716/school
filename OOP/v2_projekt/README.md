@@ -17,7 +17,7 @@ Mějme systém pro tvorbu jednoduché webové stránky složené z textových a 
   - `Input` – vstupní pole
   - `Image` – obrázek
 
-## Funkcionalita
+### Funkcionalita
 
 - Komponenty jsou identifikovány jedinečnými ID, která systém automaticky přiděluje.
 - Komponenty lze vkládat buď přímo na stránku, nebo do vnořených kontejnerů.
@@ -29,13 +29,9 @@ Mějme systém pro tvorbu jednoduché webové stránky složené z textových a 
   - ID komponenty
   - Typ komponenty (Text, Button, ...)
 
-## Uživatelské rozhraní
+### Uživatelské rozhraní
 
 Program běží v textovém režimu a uživatel má k dispozici následující akce:
-
-## Project Structure
-
-The project is organized into multiple header and source files, each corresponding to a specific component or class within the system.
 
 0	|	Render your current website
 1	|	Add Container component
@@ -46,6 +42,10 @@ The project is organized into multiple header and source files, each correspondi
 6	|	Add attribute to component
 7	|	Remove component
 -1	|	End program
+
+## Project Structure
+
+The project is organized into multiple header and source files, each corresponding to a specific component or class within the system.
 
 ### File Structure
 
