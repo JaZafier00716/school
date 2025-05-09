@@ -8,7 +8,6 @@ private:
 public:
   Hero(const Inventory& inventory = {});
 
-  // void AddItem(Item* item);
   Inventory* GetInventory();
 };
 
