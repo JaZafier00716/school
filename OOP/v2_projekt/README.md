@@ -1,5 +1,5 @@
 
-# UI Component System
+# Pseudo markup language code generator
 
 This project implements a pseudo markup language code generator, where you can create, manage, and render (print in terminal) various types of UI components. The core classes and structures are designed to manage components such as `Container`, `Text`, `Button`, `Input`, and `Image`. These components can be added to a page, manipulated, and rendered (printed to terminal in text form).
 
