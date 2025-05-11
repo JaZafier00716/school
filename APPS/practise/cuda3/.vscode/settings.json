@@ -1,0 +1,13 @@
+{
+  "files.associations": {
+    "array": "cpp",
+    "span": "cpp",
+    "string_view": "cpp",
+    "cmath": "cpp",
+    "string": "cpp",
+    "ranges": "cpp",
+    "bitset": "cpp",
+    "initializer_list": "cpp",
+    "valarray": "cpp"
+  }
+}
