@@ -1,0 +1,61 @@
+slozitost:
+  v jakem pomeru roste doba behu algoritmu se zmenou velikosti vstupnich dat
+
+sum(1) = max - min + 1
+
+sum(i) = [(max-min+1)*(max+min)]/2
+
+
+na zapoctu jen nejhorsi slozitost
+
+Vypocty slozitosti - rekurzivni - sekvencni
+
+fundamentalni datove struktury - fronta zasobnik, strom...
+
+tridici algoritmy - slovni popis principu
+  - vizualizace na n krocich
+  - muzeme dostat pseudokod a aplikovat ho na vstupnich datech
+
+Nejblizsi vzdalenost
+  - vzorec: c = sqrt(a^2 + b^2)
+    - d(u,v) = sqrt((u1-v2)^2 + (u2-v2)^2 + ... + (ui-vi)^2) - euklidovska vzdalenost
+  - s velkou pravdepodobnosti na zapoctu
+
+Konvexni obal
+  - v pocitacovych hrach - bounding boxy - obaleni do polygonu pro hitboxy
+
+problem obchodniho cestujiciho
+  - kazdy bod navstivit pouze jednou
+
+
+problem batohu
+  - 
+
+pruchod grafem do sirky do hloubky
+
+
+trideni vkladanim
+
+topologicke trideni
+  - acyklicky spojity graf
+  - vezmu vrchol z S (mnozina vrcholu bez vstupnich hran) a vlozim do L a odstranim vystupni hrany a presuju se na nasledujici prvek
+  - stanoveni procesu
+    - postup procesu vyroby automobilu (vytvorit karoserii, kolo, motor, atd. abych mohl vytvorit auto)
+
+Generovani permutaci
+  - Johnson trotter
+
+Vyhledavani pulenim intervalu
+
+Hledani medianu a interpolacni vyhledavani (mozno preskocit)
+
+3 standardni pruchody (L - leva, P - prava, r - root(koren))
+  - in order (LRP)
+  - pre order (RLP)
+  - post order (LPR)
+
+nasobeni velkych cisel a matic
+
+problem dvojice bodu - rozdel a panuj
+
+konvexni obal - rozdel a panuj
