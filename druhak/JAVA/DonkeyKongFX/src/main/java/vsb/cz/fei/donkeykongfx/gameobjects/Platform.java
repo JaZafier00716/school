@@ -18,15 +18,14 @@ public class Platform extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-//        gc.drawImage(
-//                platform.spriteSheet(),
-//                platform.getFramePosition().getX(),                         // source position x
-//                platform.getFramePosition().getY(),                         // source position y
-//                platform.getFrameSize().getWidth(),                         // width
-//                platform.getFrameSize().getHeight(),                        // height
-//                GetPosition().getX(), GetPosition().getY(), // target x/y
-//                GetDimension().getWidth(), GetDimension().getHeight() // target width/height
-//        );
+        drawSpriteFrame(
+                gc,
+                platform.getSpriteSheet(),
+                0,
+                platform.getFrameCount(),
+                getPosition().getX(),
+                getPosition().getY()
+        );
     }
 
     @Override

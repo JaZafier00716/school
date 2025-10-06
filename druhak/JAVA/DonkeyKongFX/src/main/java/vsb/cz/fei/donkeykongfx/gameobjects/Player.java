@@ -19,7 +19,8 @@ enum playerState {
 public class Player extends GameObject {
     private int frameIndex;
     private final AnimationData run;
-    private final AnimationData climb;
+    private final AnimationData climb_phase1;
+    private final AnimationData climb_phase2;
     private final AnimationData death;
     // Animation timing
     private double frameDuration = 0.1; // seconds per frame
@@ -29,13 +30,15 @@ public class Player extends GameObject {
 
     public Player(Dimension2D dimension, Point2D position) {
         super(dimension, position);
-
+        this.scale = 5.0;
+        this.spacing = 1.0;
         this.frameIndex = 0;
 
         this.run = new AnimationData("/images/run.png", 4);
-        this.climb = new AnimationData("/images/climb.png", 7);
+        this.climb_phase1 = new AnimationData("/images/climb_phase1.png", 2);
+        this.climb_phase2 = new AnimationData("/images/climb_phase2.png", 5);
         this.death = new AnimationData("/images/death.png", 5);
-        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE1;
+        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
         // FIX: running not rendering, why?
 
     }
@@ -43,36 +46,22 @@ public class Player extends GameObject {
     @Override
     public void render(GraphicsContext gc) {
         AnimationData currentAnim = switch (playerState) {
-            case IDLE, RUNNING -> run;
-            case CLIMBING_PHASE1 -> climb;
-            case CLIMBING_PHASE2 -> climb;
+            case CLIMBING_PHASE1 -> climb_phase1;
+            case CLIMBING_PHASE2 -> climb_phase2;
             case DEATH -> death;
-            // add death etc.
+            default -> run;
         };
 
-        Image sheet = currentAnim.getSpriteSheet();
-
-        double frameWidth = currentAnim.getFrameWidth();
-        double frameHeight = currentAnim.getFrameHeight()-2;
-        double spacing = 1; // 1px gap between frames
-
-        // Calculate x position for current frame
-        double sx = 1 + frameIndex * (frameWidth + spacing);
-        double sy = 1; // if all frames are in a row
-
-
-        // Upscale factor
-        double scale = 5; // or base on window scaling etc.
-
-        double dx = getPosition().getX();
-        double dy = getPosition().getY();
-
-        gc.drawImage(
-                sheet,
-                sx, sy, frameWidth, frameHeight,  // source (crop region)
-                dx, dy, frameWidth * scale, frameHeight * scale // destination (drawn size)
+        drawSpriteFrame(
+                gc,
+                currentAnim.getSpriteSheet(),
+                frameIndex,
+                currentAnim.getFrameCount(),
+                getPosition().getX(),
+                getPosition().getY()
         );
     }
+
 
 
     @Override
@@ -80,7 +69,8 @@ public class Player extends GameObject {
         frameTimer += deltaTime;
         if (frameTimer >= frameDuration) {
             switch (playerState) {
-                case CLIMBING_PHASE1 -> frameIndex = (frameIndex + 1) % climb.getFrameCount();
+                case CLIMBING_PHASE1 -> frameIndex = (frameIndex + 1) % climb_phase1.getFrameCount();
+                case CLIMBING_PHASE2 -> frameIndex = (frameIndex + 1) % climb_phase2.getFrameCount();
                 case RUNNING -> frameIndex = (frameIndex + 1) % run.getFrameCount();
                 case  DEATH -> frameIndex = (frameIndex + 1) % death.getFrameCount();
             }

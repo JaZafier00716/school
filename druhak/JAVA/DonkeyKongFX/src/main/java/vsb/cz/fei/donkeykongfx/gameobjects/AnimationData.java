@@ -34,7 +34,7 @@ public class AnimationData {
     }
 
     public double getFrameHeight() {
-        return spriteSheet.getHeight();
+        return spriteSheet.getHeight()-2;
     }
 }
 
