@@ -27,6 +27,7 @@ public class DrawingThread extends AnimationTimer {
     public DrawingThread(Canvas canvas) {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
+        gc.setImageSmoothing(false);
         this.level = new Level(canvas.getWidth(), canvas.getHeight());
     }
 

@@ -6,15 +6,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 import java.io.InputStream;
+import java.util.Objects;
 
-    enum playerState {
-        IDLE,
-        RUNNING,
-    };
+enum playerState {
+    IDLE,
+    RUNNING,
+    CLIMBING_PHASE1,
+    CLIMBING_PHASE2,
+    DEATH
+};
+
 public class Player extends GameObject {
     private int frameIndex;
-    private final AnimationData idle;
     private final AnimationData run;
+    private final AnimationData climb;
+    private final AnimationData death;
     // Animation timing
     private double frameDuration = 0.1; // seconds per frame
     private double frameTimer = 0;
@@ -24,65 +30,59 @@ public class Player extends GameObject {
     public Player(Dimension2D dimension, Point2D position) {
         super(dimension, position);
 
-        InputStream is = getClass().getResourceAsStream("/images/characters.png");
-        if (is == null) {
-            throw new RuntimeException("Image not found in resources!");
-        }
-
         this.frameIndex = 0;
 
-        this.run = new AnimationData(new Image(is), new Point2D(1, 1), new Dimension2D(16, 16), 4);
-        this.idle = new AnimationData(new Image(is), new Point2D(1, 1), new Dimension2D(16, 16), 1);
-
-        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+        this.run = new AnimationData("/images/run.png", 4);
+        this.climb = new AnimationData("/images/climb.png", 7);
+        this.death = new AnimationData("/images/death.png", 5);
+        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE1;
         // FIX: running not rendering, why?
 
     }
 
     @Override
     public void render(GraphicsContext gc) {
-        // Use parent class getters for position and dimension
-        switch (playerState){
-            case IDLE:
-                gc.drawImage(
-                        idle.spriteSheet(),
-                        idle.getFramePosition().getX(),                         // source position x
-                        idle.getFramePosition().getY(),                         // source position y
-                        idle.getFrameSize().getWidth(),                         // width
-                        idle.getFrameSize().getHeight(),                        // height
-                        GetPosition().getX(), GetPosition().getY(), // target x/y
-                        GetDimension().getWidth(), GetDimension().getHeight() // target width/height
-                );
-                break;
-            case RUNNING:
-                gc.drawImage(
-                        run.spriteSheet(),
-                        run.frame_position().getX() + frameIndex * (run.frame_size().getWidth()+2),                         // source position x
-                        run.frame_position().getY(),                         // source position y
-                        run.frame_size().getWidth(),                         // width
-                        run.frame_size().getHeight(),                        // height
-                        GetPosition().getX(), GetPosition().getY(), // target x/y
-                        GetDimension().getWidth(), GetDimension().getHeight() // target width/height
-                );
-                System.out.println(frameIndex + " " + run.getFramePosition() + " " + run.getFrameSize() + " " + (run.getFramePosition().getX() + frameIndex * (run.getFrameSize().getWidth()+2)));
-                break;
-            default:
-                gc.fillRect(GetPosition().getX(), GetPosition().getY(), GetDimension().getWidth(), GetDimension().getHeight());
+        AnimationData currentAnim = switch (playerState) {
+            case IDLE, RUNNING -> run;
+            case CLIMBING_PHASE1 -> climb;
+            case CLIMBING_PHASE2 -> climb;
+            case DEATH -> death;
+            // add death etc.
+        };
 
-        }
+        Image sheet = currentAnim.getSpriteSheet();
+
+        double frameWidth = currentAnim.getFrameWidth();
+        double frameHeight = currentAnim.getFrameHeight()-2;
+        double spacing = 1; // 1px gap between frames
+
+        // Calculate x position for current frame
+        double sx = 1 + frameIndex * (frameWidth + spacing);
+        double sy = 1; // if all frames are in a row
+
+
+        // Upscale factor
+        double scale = 5; // or base on window scaling etc.
+
+        double dx = getPosition().getX();
+        double dy = getPosition().getY();
+
+        gc.drawImage(
+                sheet,
+                sx, sy, frameWidth, frameHeight,  // source (crop region)
+                dx, dy, frameWidth * scale, frameHeight * scale // destination (drawn size)
+        );
     }
+
 
     @Override
     public void update(double deltaTime) {
         frameTimer += deltaTime;
         if (frameTimer >= frameDuration) {
             switch (playerState) {
-                case IDLE:
-                    frameIndex = (frameIndex + 1) % idle.frameCount();
-                    break;
-                case RUNNING:
-                    frameIndex = (frameIndex + 1) % run.frameCount();
-                    break;
+                case CLIMBING_PHASE1 -> frameIndex = (frameIndex + 1) % climb.getFrameCount();
+                case RUNNING -> frameIndex = (frameIndex + 1) % run.getFrameCount();
+                case  DEATH -> frameIndex = (frameIndex + 1) % death.getFrameCount();
             }
             frameTimer -= frameDuration;
         }

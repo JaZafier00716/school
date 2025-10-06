@@ -8,27 +8,23 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class GameObject {
     private Dimension2D dimension;
     private Point2D position;
+    protected double scale = 5.0; // default pixel upscale
 
     public GameObject(Dimension2D dimension, Point2D position) {
         this.dimension = dimension;
         this.position = position;
     }
 
-    public GameObject() {
-        this.dimension = new Dimension2D(0, 0);
-        this.position = new Point2D(0, 0);
-    }
-
-    protected Dimension2D GetDimension() {
+    protected Dimension2D getDimension() {
         return dimension;
     }
 
-    protected Point2D GetPosition() {
+    protected Point2D getPosition() {
         return position;
     }
 
     public abstract void render(GraphicsContext gc);
-
     public abstract void update(double deltaTime);
 }
+
 
