@@ -2,14 +2,14 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public abstract class GameObject {
     private Dimension2D dimension;
     private Point2D position;
-    protected double scale = 5.0; // pixel-art scaling
-    protected double spacing = 1.0; // 1px gap between frames in sheet
 
     public GameObject(Dimension2D dimension, Point2D position) {
         this.dimension = dimension;
@@ -25,39 +25,46 @@ public abstract class GameObject {
         return dimension;
     }
 
-    protected Point2D getPosition() {
+    public Point2D getPosition() {
         return position;
     }
 
+    protected void setPosition(Point2D position) {
+        this.position = position;
+    }
+
     /**
-     * Common helper to draw a cropped + scaled frame from a sprite sheet.
+     * Draws a specific frame from a multi-row sprite sheet.
+     * Each row can represent a different animation (e.g., idle/run/climb).
      *
-     * @param gc the GraphicsContext
-     * @param sheet the sprite sheet Image
-     * @param frameIndex the index of the frame to render
-     * @param frameCount how many frames the animation has
-     * @param x position X on screen
-     * @param y position Y on screen
+     * @param gc          the GraphicsContext
+     * @param sprite      the sprite sheet with animation images
+     * @param colIndex    which animatoin col to draw
+     * @param rowIndex    which animation row to draw
+     * @param x           X position on screen
+     * @param y           Y position on screen
      */
-    protected void drawSpriteFrame(GraphicsContext gc, Image sheet, int frameIndex, int frameCount, double x, double y) {
-        gc.setImageSmoothing(false); // keep pixel-perfect look
+    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y){
+        gc.setImageSmoothing(false);
 
-        // Calculate frame dimensions (excluding spacing)
-        double frameWidth = (sheet.getWidth() - (frameCount +1) * spacing) / frameCount;
-        double frameHeight = sheet.getHeight()-2;
+        // Compute frame dimensions with spacing
+        double frameWidth = sprite.getSize().getWidth();
+        double frameHeight = sprite.getSize().getHeight();
 
-        // Calculate source rectangle (crop region)
-        double sx = spacing + frameIndex * (frameWidth + spacing);
-        double sy = spacing;
+        // Compute cropping coordinates
+        double sx = sprite.getSpacing() + colIndex * (frameWidth + sprite.getSpacing());
+        double sy = sprite.getSpacing() + rowIndex * (frameHeight + sprite.getSpacing());
 
-        // Draw cropped and scaled frame
+        // Draw cropped + scaled frame
         gc.drawImage(
-                sheet,
-                sx, sy, frameWidth, frameHeight,   // source crop region
-                x, y, frameWidth * scale, frameHeight * scale // destination on screen
+                sprite.getSpriteSheet(),
+                sx, sy, frameWidth, frameHeight,
+                x, y, frameWidth * sprite.getScale(), frameHeight * sprite.getScale()
         );
     }
 
+
+    public abstract Rectangle2D getBounds();
     public abstract void render(GraphicsContext gc);
     public abstract void update(double deltaTime);
 }
