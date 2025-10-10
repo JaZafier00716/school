@@ -1,10 +1,10 @@
 package vsb.cz.fei.donkeykongfx.gameobjects;
 
-import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import vsb.cz.fei.donkeykongfx.levels.Level;
 
 enum playerState {
     IDLE,
@@ -14,7 +14,7 @@ enum playerState {
     DEATH
 };
 
-public class Player extends GameObject {
+public class Player extends GameObject implements Collisionable {
     private int frameIndex;
     private final AnimationData run;
     private final AnimationData climb_phase1;
@@ -32,19 +32,20 @@ public class Player extends GameObject {
 
 
 
-    public Player(Dimension2D dimension, Point2D position) {
-        super(dimension, position);
+    public Player(Level level, Point2D position) {
+        super(level, position);
         this.frameIndex = 0;
 
-        this.run = new AnimationData("/images/run.png", 4, 5, 1);
-        this.climb_phase1 = new AnimationData("/images/climb_phase1.png", 2, 5, 1);
-        this.climb_phase2 = new AnimationData("/images/climb_phase2.png", 5, 5, 1);
-        this.death = new AnimationData("/images/death.png", 5, 5, 1);
-        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+
+        this.run = new AnimationData("/images/player/run.png", 4, level.getScale(), 1);
+        this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, level.getScale(), 1);
+        this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, level.getScale(), 1);
+        this.death = new AnimationData("/images/player/death.png", 5, level.getScale(), 1);
+        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
     }
 
     @Override
-    public void render(GraphicsContext gc) {
+    public void renderInternal(GraphicsContext gc) {
         AnimationData currentAnim = switch (playerState) {
             case CLIMBING_PHASE1 -> climb_phase1;
             case CLIMBING_PHASE2 -> climb_phase2;
@@ -79,9 +80,6 @@ public class Player extends GameObject {
     public double getGravity() {
         return gravity;
     }
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
-    }
 
     @Override
     public Rectangle2D getBounds() {
@@ -99,6 +97,25 @@ public class Player extends GameObject {
                 currentAnim.getSize().getWidth() * currentAnim.getScale()/2,
                 currentAnim.getSize().getHeight() * currentAnim.getScale()
         );
+    }
+
+    @Override
+    public void hitBy(Collisionable another) {
+        System.out.println("hit by");
+        onGround = false;
+        if(another instanceof Platform platform) {
+            Rectangle2D playerBounds = getBounds();
+            Rectangle2D platformBounds = platform.getBounds();
+
+            double playerBottom = playerBounds.getMinY() + playerBounds.getHeight();
+            double platformTop = platformBounds.getMinY();
+
+            if (playerBottom >= platformTop && playerBottom <= platformTop + 10) {
+                // Snap player to platform
+                this.setPositionY(platformTop - playerBounds.getHeight());
+                onGround = true;
+            }
+        }
     }
 
 
@@ -119,6 +136,14 @@ public class Player extends GameObject {
             }
             frameTimer -= frameDuration;
         }
+
+        if(!onGround) {
+            this.setVelocityY(this.getVelocityY() + this.getGravity());
+            this.setPositionY(this.getPosition().getY() + this.getVelocityY());
+        } else {
+            setVelocityY(0);
+        }
+
     }
 }
 

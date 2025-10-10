@@ -6,23 +6,15 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import vsb.cz.fei.donkeykongfx.levels.Level;
 
-public abstract class GameObject {
-    private Dimension2D dimension;
+public abstract class GameObject implements RenderUpdate {
+    protected Level level;
     private Point2D position;
 
-    public GameObject(Dimension2D dimension, Point2D position) {
-        this.dimension = dimension;
+    public GameObject(Level level, Point2D position) {
         this.position = position;
-    }
-
-    public GameObject() {
-        this.dimension = new Dimension2D(0, 0);
-        this.position = new Point2D(0, 0);
-    }
-
-    protected Dimension2D getDimension() {
-        return dimension;
+        this.level = level;
     }
 
     public Point2D getPosition() {
@@ -65,6 +57,13 @@ public abstract class GameObject {
 
 
     public abstract Rectangle2D getBounds();
-    public abstract void render(GraphicsContext gc);
+    public final void render(GraphicsContext gc) {
+        gc.save();
+        renderInternal(gc);
+        gc.restore();
+    }
+
+    protected abstract void renderInternal(GraphicsContext gc);
+
     public abstract void update(double deltaTime);
 }

@@ -28,9 +28,9 @@ public class App extends Application {
         try {
             //Construct a main window with a canvas.
             Group root = new Group();
-            canvas = new Canvas(800, 400);
+            canvas = new Canvas(800, 600);
             root.getChildren().add(canvas);
-            Scene scene = new Scene(root, 800, 400);
+            Scene scene = new Scene(root, 800, 600);
 //            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.resizableProperty().set(false);

@@ -4,10 +4,6 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import java.util.Objects;
 
-/**
- * @param frameCount number of frames in this animation
- */
-
 public class AnimationData {
     private final Image spriteSheet;
     private final int colCount;

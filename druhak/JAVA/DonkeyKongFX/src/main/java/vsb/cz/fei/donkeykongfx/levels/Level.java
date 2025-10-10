@@ -4,77 +4,69 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.Player;
+import vsb.cz.fei.donkeykongfx.gameobjects.RenderUpdate;
 
 public class Level {
     private final Dimension2D dimension;
-    private final Player player;
-    private final Platform[] platforms = new Platform[5];
+    private final RenderUpdate[] entities = new RenderUpdate[29];
+    private final double scale;
 
     public Level(double width, double height) {
-        this.dimension = new Dimension2D(width, height);
-        player = new Player(new Dimension2D(32, 32), new Point2D(0, 0));
-        for (int i = 0; i < platforms.length; i++) {
-        platforms[i] = new Platform(new  Dimension2D(8*5.0, 8*5.0), new Point2D(i*8*5.0, 200));
-        }
+        this(new Dimension2D(width, height));
     }
 
     public Level(Dimension2D dimension) {
+        this.scale = dimension.getWidth() / (28*8);
         this.dimension = dimension;
-        player = new Player(new Dimension2D(32, 32), new Point2D(0, 0));
-        for (int i = 0; i < platforms.length; i++) {
-            platforms[i] = new Platform(new  Dimension2D(8*5.0, 8*5.0), new Point2D(i*8*5.0, 200));
+        entities[0] = new Player(this, new Point2D(0, 0));
+        for (int i = 1; i < 15; i++) {
+            entities[i] = new Platform(this, new Point2D(i-1, 0), new Point2D(0, 0));
         }
-    }
-
-    private boolean isPlayerOnGround() {
-        Rectangle2D playerBounds = player.getBounds();
-        boolean onGround = false;
-
-        for (Platform platform : platforms) {
-            Rectangle2D platformBounds = platform.getBounds();
-
-            // Simple "feet touch top" check:
-            if (playerBounds.intersects(platformBounds)) {
-                // Ensure collision is from above, not from the side
-                double playerBottom = playerBounds.getMinY() + playerBounds.getHeight();
-                double platformTop = platformBounds.getMinY();
-
-                if (playerBottom >= platformTop && playerBottom <= platformTop + 10) {
-                    // Snap player to platform
-                    player.setPositionY(platformTop - playerBounds.getHeight());
-                    onGround = true;
-                    break;
-                }
+        for(int i = 15, offset = 1; i < 29; i++) {
+            entities[i] = new Platform(this, new Point2D(i-1, 0), new Point2D(0, offset));
+            if(i % 2 == 0) {
+                offset++;
             }
         }
-
-        return onGround;
     }
 
+    public double getWidth() {
+        return dimension.getWidth();
+    }
+
+    public double getHeight() {
+        return dimension.getHeight();
+    }
+
+    public double getScale() {
+        return scale;
+    }
 
     public void draw(GraphicsContext gc) {
-        gc.save(); // save current state
-        for (Platform platform : platforms) {
-            platform.render(gc);
+        for (RenderUpdate entity : entities) {
+            entity.render(gc);
         }
-        player.render(gc);
-        gc.restore(); // restore state to original value
     }
 
     public void update(double deltaTime) {
-        player.update(deltaTime);
-
-        // Apply gravity if not on ground
-        if (!isPlayerOnGround()) {
-            player.setVelocityY(player.getVelocityY() + player.getGravity());
-            player.setPositionY(player.getPosition().getY() + player.getVelocityY());
-        } else {
-            // Snap player to platform and stop falling
-            player.setVelocityY(0);
+        for (RenderUpdate entity : entities) {
+            entity.update(deltaTime);
+        }
+        for (RenderUpdate e1 : entities) {
+            if(e1 instanceof Collisionable c1) {
+                for(RenderUpdate e2 : entities) {
+                    if(e1 != e2) {
+                        if(e2 instanceof Collisionable c2) {
+                            if(c1.collides(c2.getBounds())) {
+                                c1.hitBy(c2);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-
-
 }
