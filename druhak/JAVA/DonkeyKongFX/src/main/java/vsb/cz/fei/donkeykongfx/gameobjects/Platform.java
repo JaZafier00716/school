@@ -28,13 +28,13 @@ public class Platform extends GameObject implements Collisionable {
                 level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY())
         );
 
-        gc.setStroke(Color.BLUE);
-        gc.strokeRect(
-                getPosition().getX()*platform.getSize().getWidth()*platform.getScale() + offset.getX(),
-                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY()),
-                platform.getSize().getWidth()* platform.getScale(),
-                platform.getSize().getHeight()* platform.getScale()
-        );
+//        gc.setStroke(Color.BLUE);
+//        gc.strokeRect(
+//                getPosition().getX()*platform.getSize().getWidth()*platform.getScale() + offset.getX(),
+//                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY()),
+//                platform.getSize().getWidth()* platform.getScale(),
+//                platform.getSize().getHeight()* platform.getScale()
+//        );
     }
 
     @Override
