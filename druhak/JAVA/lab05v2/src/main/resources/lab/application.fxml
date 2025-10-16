@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lab.GameController">
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
+         <children>
+            <Slider fx:id="speed" max="200.0" min="50.0" showTickLabels="true" showTickMarks="true" HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" onAction="#respawnButtonPressed" text="Button" />
+         </children>
+      </HBox>
+   </bottom>
+   <center>
+      <Canvas fx:id="canvas" height="400.0" width="800.0" BorderPane.alignment="CENTER" />
+   </center>
+   <left>
+      <Slider fx:id="angle" blockIncrement="60.0" max="360.0" orientation="VERTICAL" prefHeight="744.0" prefWidth="41.0" showTickLabels="true" showTickMarks="true" BorderPane.alignment="CENTER" />
+   </left>
+</BorderPane>
