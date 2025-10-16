@@ -1,13 +1,12 @@
 package vsb.cz.fei.donkeykongfx;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import vsb.cz.fei.donkeykongfx.DrawingThread;
 
 /**
  * Class <b>App</b> - extends class Application and it is an entry point of the program
@@ -21,25 +20,22 @@ public class App extends Application {
     }
 
     private Canvas canvas;
-    private AnimationTimer timer;
+    private GameController gc;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             //Construct a main window with a canvas.
-            Group root = new Group();
-            canvas = new Canvas(800, 800);
-            root.getChildren().add(canvas);
-            Scene scene = new Scene(root, 800, 800);
-//            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+            FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/application.fxml"));
+            Parent root = gameLoader.load();
+            gc = gameLoader.getController();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/application.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.resizableProperty().set(false);
             primaryStage.setTitle("Donkey Kong FX");
             primaryStage.show();
             //Exit program when main window is closed
             primaryStage.setOnCloseRequest(this::exitProgram);
-            timer = new DrawingThread(canvas);
-            timer.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,7 +43,7 @@ public class App extends Application {
 
     @Override
     public void stop() throws Exception {
-        timer.stop();
+        gc.stop();
         super.stop();
     }
 

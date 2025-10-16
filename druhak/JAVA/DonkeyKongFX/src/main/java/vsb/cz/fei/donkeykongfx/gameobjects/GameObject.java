@@ -1,16 +1,17 @@
 package vsb.cz.fei.donkeykongfx.gameobjects;
 
-import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
-public abstract class GameObject implements RenderUpdate {
+public abstract class GameObject implements Renderable, Collisionable {
     protected Level level;
+    protected int frameIndex;
     private Point2D position;
+
+    private double frameDuration = 0.1; // seconds per frame
+    private double frameTimer = 0;
 
     public GameObject(Level level, Point2D position) {
         this.position = position;
@@ -64,6 +65,11 @@ public abstract class GameObject implements RenderUpdate {
     }
 
     protected abstract void renderInternal(GraphicsContext gc);
-
-    public abstract void update(double deltaTime);
+        public final void updateTimer(double deltaTime) {
+        frameTimer += deltaTime;
+        if (frameTimer >= frameDuration) {
+            updateState(deltaTime);
+            frameTimer -= frameDuration;
+        }
+    }
 }

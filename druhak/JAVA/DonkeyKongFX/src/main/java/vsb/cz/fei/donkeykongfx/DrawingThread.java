@@ -14,21 +14,13 @@ public class DrawingThread extends AnimationTimer {
     private final GraphicsContext gc;
 
     private Level level;
-
-    private double x = 0;
-    private double y = 50;
-    private double speedX = 150;
-    private double speedY = 0;
     private long lastFrame = 0;
-    private boolean lastFrameXDirectionChanged = false;
-    private boolean lastFrameYDirectionChanged = false;
 
-
-    public DrawingThread(Canvas canvas) {
+    public DrawingThread(Canvas canvas, Level level) {
         this.canvas = canvas;
         this.gc = canvas.getGraphicsContext2D();
         gc.setImageSmoothing(false);
-        this.level = new Level(canvas.getWidth(), canvas.getHeight());
+        this.level = level;
     }
 
     /**
@@ -51,9 +43,8 @@ public class DrawingThread extends AnimationTimer {
     private void drawFps(double delta) {
         int fps = calcFps(delta);
         gc.setFont(new Font("Arial", 10));
-        gc.setFill(Color.BLACK);
-//        gc.fillText(String.format("FPS: %04d", fps), canvas.getWidth()-20, canvas.getHeight() - 10);
-        gc.fillText(String.format("FPS: %3d", fps), canvas.getWidth()-50, 10);
+        gc.setFill(Color.WHITE);
+        gc.fillText(String.format("FPS: %3d", fps < 1000 ? fps : 999), canvas.getWidth()-50, 10);
     }
 
     private double fpsSum = 0;
