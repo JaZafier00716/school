@@ -4,33 +4,43 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.image.Image;
 import java.util.Objects;
 
-public class AnimationData {
-    private final Image spriteSheet;
-    private final int colCount;
-    private final int rowCount;
-    private double scale = 1.0; // pixel-art scaling
-    private double spacing = 0.0; // 0.0px gap between frames in sheet
-
+public record AnimationData(
+        Image spriteSheet,
+        int colCount,
+        int rowCount,
+        double scale,
+        double spacing
+) {
     public AnimationData(String path, int colCount, int rowCount, double scale, double spacing) {
-        this.spriteSheet = new Image(
-                Objects.requireNonNull(getClass().getResourceAsStream(path)),
-                0, 0, false, false
+        this(
+                new Image(
+                        Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
+                        0,
+                        0,
+                        false,
+                        false
+                ),
+                colCount,
+                rowCount,
+                scale,
+                spacing
         );
-        this.colCount = colCount;
-        this.rowCount = rowCount;
-        this.scale = scale;
-        this.spacing = spacing;
     }
 
     public AnimationData(String path, int frameCount, double scale, double spacing) {
-        this.spriteSheet = new Image(
-                Objects.requireNonNull(getClass().getResourceAsStream(path)),
-                0, 0, false, false
+        this(
+                new Image(
+                        Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
+                        0,
+                        0,
+                        false,
+                        false
+                ),
+                frameCount,
+                1,
+                scale,
+                spacing
         );
-        this.colCount = frameCount;
-        this.rowCount = 1;
-        this.scale = scale;
-        this.spacing = spacing;
     }
 
     public Image getSpriteSheet() {
