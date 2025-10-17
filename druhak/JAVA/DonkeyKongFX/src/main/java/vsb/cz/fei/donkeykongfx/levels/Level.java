@@ -2,16 +2,15 @@ package vsb.cz.fei.donkeykongfx.levels;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
-import vsb.cz.fei.donkeykongfx.gameobjects.Platform;
-import vsb.cz.fei.donkeykongfx.gameobjects.Player;
-import vsb.cz.fei.donkeykongfx.gameobjects.RenderUpdate;
+import vsb.cz.fei.donkeykongfx.gameobjects.*;
 
 public class Level {
     private final Dimension2D dimension;
-    private final RenderUpdate[] entities = new RenderUpdate[159];
+    private final Player player;
+    private final Barrel barrel;
+    private final MovableGameObject[] entities = new MovableGameObject[2];
+    private final Renderable[] objects = new Renderable[158];
     private final double scale;
 
     public Level(double width, double height) {
@@ -21,7 +20,10 @@ public class Level {
     public Level(Dimension2D dimension) {
         this.scale = dimension.getWidth() / (28 * 8);
         this.dimension = dimension;
-        entities[0] = new Player(this, new Point2D(0, dimension.getHeight()-32*scale));
+        player = new Player(this, new Point2D(0, dimension.getHeight()-32*scale));
+        barrel = new Barrel(this, new Point2D(0, 32*scale));
+        entities[0] = player;
+        entities[1] = barrel;
 
         int totalRows = 6;
 
@@ -34,13 +36,13 @@ public class Level {
 
             for (int j = 0, offset = 0; j < platformCount; j++) {
                 if (i == 0) {
-                    entities[j + 1] = new Platform(this, new Point2D(j, 0), new Point2D(0, offset));
+                    objects[j] = new Platform(this, new Point2D(j, 0), new Point2D(0, offset));
                     if (j < 13) {
                         // skip offset update
                         continue;
                     }
                 } else {
-                    entities[28 + (i - 1) * 26 + j + 1] = new Platform(this, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset));
+                    objects[28 + (i - 1) * 26 + j] = new Platform(this, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset));
                     if (i == totalRows - 1 && j < 16) {
                         continue;
                     }
@@ -129,21 +131,36 @@ public class Level {
     }
 
     public void draw(GraphicsContext gc) {
-        for (RenderUpdate entity : entities) {
+        for (MovableGameObject entity : entities) {
+            entity.render(gc);
+        }
+        for (Renderable entity : objects) {
             entity.render(gc);
         }
     }
 
     public void update(double deltaTime) {
-        for (RenderUpdate entity : entities) {
+        for (MovableGameObject entity : entities) {
             entity.update(deltaTime);
         }
-        for (RenderUpdate e1 : entities) {
+        for (MovableGameObject e1 : entities) {
             if (e1 instanceof Collisionable c1) {
-                for (RenderUpdate e2 : entities) {
-                    if (e1 != e2) {
-                        if (e2 instanceof Collisionable c2) {
-                            if (c1.collides(c2.getBounds())) {
+                // onGround
+                boolean onGround = false;
+                for (Renderable e2 : objects) {
+                    if (e2 instanceof Collisionable c2) {
+                        if (c1.collides(c2.getBounds())) {
+                            c1.hitBy(c2);
+                            onGround = true;
+                        }
+                    }
+                }
+                e1.setOnGround(onGround);
+                // hits other entity
+                for (MovableGameObject e2 : entities) {
+                    if(e1 != e2) {
+                        if(e2 instanceof Collisionable c2) {
+                            if(c1.collides(c2.getBounds())) {
                                 c1.hitBy(c2);
                             }
                         }
@@ -151,5 +168,7 @@ public class Level {
                 }
             }
         }
+
+
     }
 }

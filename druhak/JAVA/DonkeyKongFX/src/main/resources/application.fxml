@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.GameController">
+   <center>
+      <StackPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #333;" BorderPane.alignment="CENTER">
+         <children>
+            <Canvas fx:id="canvas" height="800.0" style="-fx-background-color: #333;" width="600.0" />
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>

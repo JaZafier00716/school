@@ -3,10 +3,9 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
-public class Platform extends GameObject implements Collisionable {
+public class Platform extends GameObject {
     AnimationData platform;
     Point2D offset;
 
@@ -39,6 +38,10 @@ public class Platform extends GameObject implements Collisionable {
 
     @Override
     public void update(double delta) {
+
+    }
+
+    public void updateState(double delta) {
 
     }
 
