@@ -10,7 +10,7 @@ public abstract class GameObject implements Renderable, Collisionable {
     protected int frameIndex;
     private Point2D position;
 
-    private double frameDuration = 0.1; // seconds per frame
+    private double frameDuration = 0.2; // seconds per frame
     private double frameTimer = 0;
 
     public GameObject(Level level, Point2D position) {
@@ -37,7 +37,7 @@ public abstract class GameObject implements Renderable, Collisionable {
      * @param x           X position on screen
      * @param y           Y position on screen
      */
-    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y){
+    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y, double scale){
         gc.setImageSmoothing(false);
 
         // Compute frame dimensions with spacing
@@ -52,7 +52,7 @@ public abstract class GameObject implements Renderable, Collisionable {
         gc.drawImage(
                 sprite.getSpriteSheet(),
                 sx, sy, frameWidth, frameHeight,
-                x, y, frameWidth * sprite.getScale(), frameHeight * sprite.getScale()
+                x, y, frameWidth * scale, frameHeight * scale
         );
     }
 
@@ -65,7 +65,8 @@ public abstract class GameObject implements Renderable, Collisionable {
     }
 
     protected abstract void renderInternal(GraphicsContext gc);
-        public final void updateTimer(double deltaTime) {
+
+    public final void updateTimer(double deltaTime) {
         frameTimer += deltaTime;
         if (frameTimer >= frameDuration) {
             updateState(deltaTime);

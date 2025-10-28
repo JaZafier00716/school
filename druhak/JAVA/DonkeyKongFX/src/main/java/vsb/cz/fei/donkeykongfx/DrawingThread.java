@@ -4,6 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
@@ -31,7 +32,8 @@ public class DrawingThread extends AnimationTimer {
         double delta = lastFrame == 0 ? 0 : (now - lastFrame) / 1_000_000_000D;
         lastFrame = now;
 
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.setFill(Paint.valueOf("#333333"));
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         level.draw(gc);
 
@@ -60,6 +62,10 @@ public class DrawingThread extends AnimationTimer {
             fpsCount = 0;
         }
         return avergeFps;
+    }
+
+    public Level getLevel() {
+        return level;
     }
 
 }

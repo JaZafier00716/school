@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
+
 enum BarrelState {
     ROLLING,
     CLIMBING
@@ -15,13 +16,12 @@ public class Barrel extends MovableGameObject {
     private final AnimationData roll;
     private final AnimationData climb;
 
-
     public Barrel(Level level, Point2D position) {
         super(level, position);
         barrelState = BarrelState.ROLLING;
 
-        this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, level.getScale(), 1);
-        this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, level.getScale(), 1);
+        this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
+        this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, 1);
     }
 
     @Override
@@ -31,10 +31,10 @@ public class Barrel extends MovableGameObject {
             case CLIMBING -> climb;
         };
         return new Rectangle2D(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * currentAnim.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * currentAnim.getScale()/ 5,
-                currentAnim.getSize().getWidth() * currentAnim.getScale()*3/5,
-                currentAnim.getSize().getHeight() * currentAnim.getScale()*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * level.getScale()/ 5,
+                currentAnim.getSize().getWidth() * level.getScale()*3/5,
+                currentAnim.getSize().getHeight() * level.getScale()*3/5
         );
     }
 
@@ -51,13 +51,14 @@ public class Barrel extends MovableGameObject {
                 frameIndex,
                 0,
                 getPosition().getX(),
-                getPosition().getY()
+                getPosition().getY(),
+                level.getScale()
         );
         gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * currentAnim.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * currentAnim.getScale()/ 5,
-                currentAnim.getSize().getWidth() * currentAnim.getScale()*3/5,
-                currentAnim.getSize().getHeight() * currentAnim.getScale()*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * level.getScale()/ 5,
+                currentAnim.getSize().getWidth() * level.getScale()*3/5,
+                currentAnim.getSize().getHeight() * level.getScale()*3/5
         );
     }
 

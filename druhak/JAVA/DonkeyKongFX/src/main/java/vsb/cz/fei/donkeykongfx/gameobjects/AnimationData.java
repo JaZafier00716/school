@@ -8,10 +8,9 @@ public record AnimationData(
         Image spriteSheet,
         int colCount,
         int rowCount,
-        double scale,
         double spacing
 ) {
-    public AnimationData(String path, int colCount, int rowCount, double scale, double spacing) {
+    public AnimationData(String path, int colCount, int rowCount, double spacing) {
         this(
                 new Image(
                         Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
@@ -22,12 +21,11 @@ public record AnimationData(
                 ),
                 colCount,
                 rowCount,
-                scale,
                 spacing
         );
     }
 
-    public AnimationData(String path, int frameCount, double scale, double spacing) {
+    public AnimationData(String path, int frameCount, double spacing) {
         this(
                 new Image(
                         Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
@@ -38,7 +36,6 @@ public record AnimationData(
                 ),
                 frameCount,
                 1,
-                scale,
                 spacing
         );
     }
@@ -55,9 +52,7 @@ public record AnimationData(
         return rowCount;
     }
 
-    public double getScale() {
-        return scale;
-    }
+
 
     public double getSpacing() {
         return spacing;

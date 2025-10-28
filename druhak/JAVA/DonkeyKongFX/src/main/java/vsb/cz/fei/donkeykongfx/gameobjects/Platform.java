@@ -13,7 +13,7 @@ public class Platform extends GameObject {
         super(level, position);
 
         this.offset = offset;
-        this.platform = new AnimationData("/images/tiles/orange_tiles.png", 8, 6, level.getScale(), 0);
+        this.platform = new AnimationData("/images/tiles/orange_tiles.png", 8, 6, 0);
     }
 
     @Override
@@ -23,8 +23,9 @@ public class Platform extends GameObject {
                 platform,
                 0,
                 5,
-                getPosition().getX()*platform.getSize().getWidth()*platform.getScale() + offset.getX(),
-                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY())
+                getPosition().getX()*platform.getSize().getWidth()*level.getScale() + offset.getX(),
+                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*level.getScale() + offset.getY()),
+                level.getScale()
         );
 
 //        gc.setStroke(Color.BLUE);
@@ -48,10 +49,10 @@ public class Platform extends GameObject {
     @Override
     public Rectangle2D getBounds() {
         return new Rectangle2D(
-                getPosition().getX()*platform.getSize().getWidth()*platform.getScale() + offset.getX(),
-                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY()),
-                platform.getSize().getWidth()* platform.getScale(),
-                platform.getSize().getHeight()* platform.getScale());
+                getPosition().getX()*platform.getSize().getWidth()*level.getScale() + offset.getX(),
+                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*level.getScale() + offset.getY()),
+                platform.getSize().getWidth()* level.getScale(),
+                platform.getSize().getHeight()* level.getScale());
     }
 
     @Override

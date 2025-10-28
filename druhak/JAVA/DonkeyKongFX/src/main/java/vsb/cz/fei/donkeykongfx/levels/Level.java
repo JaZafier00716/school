@@ -6,24 +6,25 @@ import javafx.scene.canvas.GraphicsContext;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 
 public class Level {
-    private final Dimension2D dimension;
+    private Dimension2D dimension;
     private final Player player;
     private final Barrel barrel;
     private final MovableGameObject[] entities = new MovableGameObject[2];
     private final Renderable[] objects = new Renderable[158];
-    private final double scale;
+    private double scale;
 
     public Level(double width, double height) {
         this(new Dimension2D(width, height));
     }
 
-    public Level(Dimension2D dimension) {
-        this.scale = dimension.getWidth() / (28 * 8);
+    public Level( Dimension2D dimension) {
         this.dimension = dimension;
+        this.scale = dimension.getHeight() / (32 * 8);
         player = new Player(this, new Point2D(0, dimension.getHeight()-32*scale));
         barrel = new Barrel(this, new Point2D(0, 32*scale));
         entities[0] = player;
         entities[1] = barrel;
+        System.out.println(player.getBounds());
 
         int totalRows = 6;
 
@@ -129,6 +130,16 @@ public class Level {
     public double getScale() {
         return scale;
     }
+
+    public void updateSize(double width, double height) {
+        updateSize(new Dimension2D(width, height));
+    }
+
+    public void updateSize(Dimension2D dimension) {
+        this.dimension = dimension;
+        this.scale = dimension.getHeight() / (32 * 8);
+    }
+
 
     public void draw(GraphicsContext gc) {
         for (MovableGameObject entity : entities) {
