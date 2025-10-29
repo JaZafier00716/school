@@ -92,7 +92,7 @@ public class Player extends MovableGameObject {
             grounded(platform);
             return;
         }
-        if(another instanceof DonkeyKong barrel) {
+        if(another instanceof Barrel) {
             System.out.print("Barrel\n");
             playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH;
         }

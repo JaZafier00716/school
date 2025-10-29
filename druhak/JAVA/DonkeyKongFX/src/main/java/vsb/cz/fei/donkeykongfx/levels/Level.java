@@ -5,12 +5,15 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Level {
     private Dimension2D dimension;
     private final Player player;
     private final Barrel barrel;
-    private final MovableGameObject[] entities = new MovableGameObject[2];
-    private final Renderable[] objects = new Renderable[158];
+    private final List<MovableGameObject> entities = new ArrayList<>();
+    private final List<Renderable> objects = new ArrayList<>();
     private double scale;
 
     public Level(double width, double height) {
@@ -20,10 +23,10 @@ public class Level {
     public Level( Dimension2D dimension) {
         this.dimension = dimension;
         this.scale = dimension.getHeight() / (32 * 8);
-        player = new Player(this, new Point2D(0, dimension.getHeight()-32*scale));
-        barrel = new Barrel(this, new Point2D(0, 32*scale));
-        entities[0] = player;
-        entities[1] = barrel;
+        player = new Player(this, new Point2D(0, dimension.getHeight() - 32 * scale));
+        barrel = new Barrel(this, new Point2D(0, 32 * scale));
+        entities.add(player);
+        entities.add(barrel);
         System.out.println(player.getBounds());
 
         int totalRows = 6;
@@ -37,13 +40,13 @@ public class Level {
 
             for (int j = 0, offset = 0; j < platformCount; j++) {
                 if (i == 0) {
-                    objects[j] = new Platform(this, new Point2D(j, 0), new Point2D(0, offset));
+                    objects.add(new Platform(this, new Point2D(j, 0), new Point2D(0, offset)));
                     if (j < 13) {
                         // skip offset update
                         continue;
                     }
                 } else {
-                    objects[28 + (i - 1) * 26 + j] = new Platform(this, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset));
+                    objects.add(new Platform(this, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset)));
                     if (i == totalRows - 1 && j < 16) {
                         continue;
                     }
@@ -64,60 +67,6 @@ public class Level {
         }
 
     }
-
-//    public Level(Dimension2D dimension) {
-//        this.scale = dimension.getWidth() / (28*8);
-//        this.dimension = dimension;
-//        entities[0] = new Player(this, new Point2D(0, 0));
-//
-//        // Row 1
-//        for(int i = 1, offset = 1; i < 29; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-1, 0), new Point2D(0, offset));
-//            if(i % 2 == 0 && i > 13) {
-//                offset++;
-//            }
-//        }
-//
-//        // Row 2
-//        for(int i = 29, offset = 0; i < 55; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-29, 4), new Point2D(0, offset));
-//            if(i % 2 == 0) {
-//                offset--;
-//            }
-//        }
-//
-//        // Row 3
-//        for(int i = 55, offset = 0; i < 81; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-53, 7), new Point2D(0, offset));
-//            if(i % 2 == 0) {
-//                offset++;
-//            }
-//        }
-//
-//        // Row 4
-//        for(int i = 81, offset = 0; i < 107; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-81, 11), new Point2D(0, offset));
-//            if(i % 2 == 0) {
-//                offset--;
-//            }
-//        }
-//
-//        // Row 5
-//        for(int i = 107, offset = 0; i < 133; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-105, 14), new Point2D(0, offset));
-//            if(i % 2 == 0) {
-//                offset++;
-//            }
-//        }
-//
-//        // Row 6
-//        for(int i = 133, offset = 0; i < 159; i++) {
-//            entities[i] = new Platform(this, new Point2D(i-133, 18), new Point2D(0, offset));
-//            if(i % 2 == 0 && i > 149) {
-//                offset--;
-//            }
-//        }
-//    }
 
     public double getWidth() {
         return dimension.getWidth();

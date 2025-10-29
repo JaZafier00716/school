@@ -6,19 +6,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import vsb.cz.fei.donkeykongfx.gameobjects.DonkeyKong;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
-import java.util.Objects;
 
 public class GameController {
     @FXML
