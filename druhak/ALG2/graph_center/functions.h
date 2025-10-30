@@ -39,7 +39,7 @@ private:
       return numbersVec;
     }
 
-    int num1, num2;
+    size_t num1, num2;
     // change if to while to read the whole file
     while (file >> num1 >> num2) {
       edge_count++;
@@ -55,22 +55,6 @@ private:
 
     file.close();
     return numbersVec;
-  }
-
-public:
-  explicit Graph(const std::string &filename) {
-    graph_nodes = readIntegersFromFile(filename);
-    node_count = graph_nodes.size();
-  }
-
-  void print_adjacent_nodes() const {
-    for (size_t i = 0; i < graph_nodes.size(); ++i) {
-      std::cout << i << ": ";
-      for (const auto &node: graph_nodes[i].neighbours) {
-        std::cout << node << " ";
-      }
-      std::cout << std::endl;
-    }
   }
 
   [[nodiscard]] vector<size_t> bfs(const size_t start_node) const {
@@ -96,6 +80,23 @@ public:
 
     return distances;
   }
+
+public:
+  explicit Graph(const std::string &filename) {
+    graph_nodes = readIntegersFromFile(filename);
+    node_count = graph_nodes.size();
+  }
+
+  void print_adjacent_nodes() const {
+    for (size_t i = 0; i < graph_nodes.size(); ++i) {
+      std::cout << i << ": ";
+      for (const auto &node: graph_nodes[i].neighbours) {
+        std::cout << node << " ";
+      }
+      std::cout << std::endl;
+    }
+  }
+
 
   [[nodiscard]] vector<size_t> graph_center() {
     // Set initial eccentricities to a large value
