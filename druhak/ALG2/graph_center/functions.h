@@ -16,25 +16,32 @@ using std::cerr,
     std::queue,
     std::vector;
 
+struct Node {
+  vector<int> neighbours;
+  bool active{};
+  long long min_ecc{};
+};
+
 class Graph {
 private:
-  vector<vector<int> > adjacent_nodes;
-  long long node_count;
-  long long edge_count;
+  vector<Node> graph_node;
+  unsigned long long node_count;
+  unsigned long long edge_count;
   long long min_eccentricity;
   bool connected;
 
 public:
   explicit Graph(const std::string &filename) {
-    min_eccentricity = INT_MAX;
+    min_eccentricity = LLONG_MAX;
+    edge_count = 0;
     connected = true;
-    adjacent_nodes = readIntegersFromFile(filename);
-    node_count = adjacent_nodes.size();
+    graph_node = readIntegersFromFile(filename);
+    node_count = graph_node.size();
   }
 
-  vector<vector<int> > readIntegersFromFile(const std::string &filename) {
+  vector<Node> readIntegersFromFile(const std::string &filename) {
     std::ifstream file(filename);
-    std::vector<vector<int> > numbersVec;
+    std::vector<Node> numbersVec;
     edge_count = 0;
     if (!file.is_open()) {
       std::cerr << "Unable to open file: " << filename << std::endl;
@@ -47,11 +54,17 @@ public:
       edge_count++;
 
       size_t maxIndex = std::max(num1, num2);
-      if (numbersVec.size() <= maxIndex)
+      if (numbersVec.size() <= maxIndex) {
         numbersVec.resize(maxIndex + 1);
+      }
 
-      numbersVec[num1].push_back(num2);
-      numbersVec[num2].push_back(num1);
+      numbersVec[num1].active = true;
+      numbersVec[num1].min_ecc = 0;
+      numbersVec[num1].neighbours.push_back(num2);
+
+      numbersVec[num2].active = true;
+      numbersVec[num2].min_ecc = 0;
+      numbersVec[num2].neighbours.push_back(num1);
     }
 
     file.close();
@@ -59,75 +72,72 @@ public:
   }
 
   void print_adjacent_nodes() const {
-    for (size_t i = 0; i < adjacent_nodes.size(); ++i) {
+    for (size_t i = 0; i < graph_node.size(); ++i) {
       std::cout << i << ": ";
-      for (const auto &node: adjacent_nodes[i]) {
+      for (const auto &node: graph_node[i].neighbours) {
         std::cout << node << " ";
       }
       std::cout << std::endl;
     }
   }
 
-  [[nodiscard]] vector<int> bfs(const int start_node) const {
-    vector<int> dist(node_count, -1);
-    queue<int> q;
+  [[nodiscard]] vector<long long> bfs(const int start_node) const {
+    vector<long long> dist(node_count, -1);
+    queue<long long> q;
     dist[start_node] = 0;
     q.push(start_node);
 
     while (!q.empty()) {
-      const int current = q.front();
+      const auto current = q.front();
       q.pop();
 
-      for (auto neighbour: adjacent_nodes[current]) {
-        if (dist[neighbour] == -1) {
+      for (const auto &neighbour: graph_node[current].neighbours) {
+        if (dist[neighbour] == -1 && graph_node[neighbour].active) {
           dist[neighbour] = dist[current] + 1;
           q.push(neighbour);
         }
       }
     }
+
     return dist;
   }
 
-  [[nodiscard]] vector<int> graph_center() {
+  [[nodiscard]] vector<long long> graph_center() {
     // Set initial eccentricities to a large value
-    vector<int> ecc(node_count, INT_MAX);
+    vector<long long> ecc(node_count, LLONG_MAX);
 
-    // Find the distances to all nodes from an arbitrary starting node (e.g., node 0)
-    vector<int> dist = bfs(0);
-
-    // Find the farthest node from the starting node
-    int farthest_node = std::ranges::max_element(dist)-dist.begin();
-
-    // Perform BFS from the farthest node found
-    vector<int> dist_from_farthest1 = bfs(farthest_node);
-
-    // Update eccentricities based on distances from the farthest node
-    for (int i = 0; i < node_count; i++) {
-      ecc[i] = std::min(ecc[i], dist_from_farthest1[i]);
-    }
-
-    // Find the new farthest node
-    farthest_node = std::ranges::max_element(dist_from_farthest1)-dist_from_farthest1.begin();
-    // Perform BFS from the new farthest node found
-    vector<int> dist_from_farthest2 = bfs(farthest_node);
-    for (int i = 0; i < node_count; i++) {
-      if (dist_from_farthest1[i] != -1 && dist_from_farthest2[i] != -1) {
-        ecc[i] = std::max(dist_from_farthest1[i], dist_from_farthest2[i]);
-      } else {
-        // Graph is not connected
-        ecc[i] = INT_MAX;
-        connected = false;
+    for (int vertice = 0; vertice < node_count; vertice++) {
+      if (!graph_node[vertice].active) {
+        continue; // Inactive nodes have no eccentricity
       }
+
+      // Find the distances to all nodes from a starting node
+      auto dist = bfs(vertice);
+
+      // Find the eccentricity of the starting node
+      auto ecc_v = *std::ranges::max_element(dist);
+
+      // Check whether graph is connected
+      if (ecc_v <= 0) {
+        connected = false;
+        continue;
+      }
+
+      ecc[vertice] = ecc_v;
+      // Update the minimum eccentricity found so far
+      min_eccentricity = std::min(min_eccentricity, ecc_v);
     }
 
     // Find the minimum eccentricity
+    vector<long long> centers;
     min_eccentricity = *std::ranges::min_element(ecc);
-    vector<int> centers;
+
     for (int i = 0; i < node_count; i++) {
-      if (ecc[i] == min_eccentricity && ecc[i] != INT_MAX) {
+      if (ecc[i] == min_eccentricity) {
         centers.push_back(i);
       }
     }
+
     return centers;
   }
 
@@ -137,13 +147,13 @@ public:
     cout << "Number of edges: " << edge_count << endl;
     cout << "Is connected: " << (connected ? "True" : "False") << endl;
     if (centers.size() == 1) {
-        cout << "Graph center: " << centers[0] << endl;
-        cout << "Graph center eccentricity: " << min_eccentricity << endl;
+      cout << "Graph center: " << centers[0] << endl;
+      cout << "Graph center eccentricity: " << min_eccentricity << endl;
     } else {
       cout << "Graph center eccentricity: " << min_eccentricity << endl;
       cout << "Graph center: total " << centers.size() << " vertices, see below" << endl;
-      for (const auto c : centers) {
-          cout << c << endl;
+      for (const auto c: centers) {
+        cout << c << endl;
       }
     }
   }
