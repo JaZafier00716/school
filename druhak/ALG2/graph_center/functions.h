@@ -130,7 +130,7 @@ public:
 
   void print_results() {
     const auto centers = graph_center();
-    cout << "Number of verticies: " << node_count << endl;
+    cout << "Number of vertices: " << node_count << endl;
     cout << "Number of edges: " << edge_count << endl;
     cout << "Is connected: " << (connected ? "True" : "False") << endl;
     if (centers.size() == 1) {
