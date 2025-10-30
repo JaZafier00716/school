@@ -18,31 +18,22 @@ using std::cerr,
 
 struct Node {
   vector<int> neighbours;
-  bool active{};
-  long long min_ecc{};
+  long long min_ecc = 0;
 };
 
 class Graph {
 private:
-  vector<Node> graph_node;
-  unsigned long long node_count;
-  unsigned long long edge_count;
-  long long min_eccentricity;
-  bool connected;
-
-public:
-  explicit Graph(const std::string &filename) {
-    min_eccentricity = LLONG_MAX;
-    edge_count = 0;
-    connected = true;
-    graph_node = readIntegersFromFile(filename);
-    node_count = graph_node.size();
-  }
+  vector<Node> graph_nodes;
+  unsigned long long node_count = 0;
+  unsigned long long edge_count = 0;
+  long long min_eccentricity = LLONG_MAX;
+  bool connected = true;
 
   vector<Node> readIntegersFromFile(const std::string &filename) {
     std::ifstream file(filename);
     std::vector<Node> numbersVec;
     edge_count = 0;
+
     if (!file.is_open()) {
       std::cerr << "Unable to open file: " << filename << std::endl;
       return numbersVec;
@@ -58,12 +49,7 @@ public:
         numbersVec.resize(maxIndex + 1);
       }
 
-      numbersVec[num1].active = true;
-      numbersVec[num1].min_ecc = 0;
       numbersVec[num1].neighbours.push_back(num2);
-
-      numbersVec[num2].active = true;
-      numbersVec[num2].min_ecc = 0;
       numbersVec[num2].neighbours.push_back(num1);
     }
 
@@ -71,19 +57,25 @@ public:
     return numbersVec;
   }
 
+public:
+  explicit Graph(const std::string &filename) {
+    graph_nodes = readIntegersFromFile(filename);
+    node_count = graph_nodes.size();
+  }
+
   void print_adjacent_nodes() const {
-    for (size_t i = 0; i < graph_node.size(); ++i) {
+    for (size_t i = 0; i < graph_nodes.size(); ++i) {
       std::cout << i << ": ";
-      for (const auto &node: graph_node[i].neighbours) {
+      for (const auto &node: graph_nodes[i].neighbours) {
         std::cout << node << " ";
       }
       std::cout << std::endl;
     }
   }
 
-  [[nodiscard]] vector<long long> bfs(const int start_node) const {
+  [[nodiscard]] vector<long long> bfs(const size_t start_node) const {
     vector<long long> dist(node_count, -1);
-    queue<long long> q;
+    queue<size_t> q;
     dist[start_node] = 0;
     q.push(start_node);
 
@@ -91,8 +83,8 @@ public:
       const auto current = q.front();
       q.pop();
 
-      for (const auto &neighbour: graph_node[current].neighbours) {
-        if (dist[neighbour] == -1 && graph_node[neighbour].active) {
+      for (const auto &neighbour: graph_nodes[current].neighbours) {
+        if (dist[neighbour] == -1) {
           dist[neighbour] = dist[current] + 1;
           q.push(neighbour);
         }
@@ -102,25 +94,22 @@ public:
     return dist;
   }
 
-  [[nodiscard]] vector<long long> graph_center() {
+  [[nodiscard]] vector<size_t> graph_center() {
     // Set initial eccentricities to a large value
     vector<long long> ecc(node_count, LLONG_MAX);
 
-    for (int vertice = 0; vertice < node_count; vertice++) {
-      if (!graph_node[vertice].active) {
-        continue; // Inactive nodes have no eccentricity
-      }
-
+    for (size_t vertice = 0; vertice < node_count; vertice++) {
       // Find the distances to all nodes from a starting node
       auto dist = bfs(vertice);
 
-      // Find the eccentricity of the starting node
-      auto ecc_v = *std::ranges::max_element(dist);
-
-      // Check whether graph is connected
-      if (ecc_v <= 0) {
-        connected = false;
-        continue;
+      long long ecc_v = 0;
+      for (size_t i = 0; i < node_count; i++) {
+        if (dist[i] == -1) {
+          connected = false; // Graph is not connected
+          continue;
+        }
+        graph_nodes[i].min_ecc = std::max(graph_nodes[i].min_ecc, dist[i]);
+        ecc_v = std::max(ecc_v, dist[i]);
       }
 
       ecc[vertice] = ecc_v;
@@ -129,10 +118,8 @@ public:
     }
 
     // Find the minimum eccentricity
-    vector<long long> centers;
-    min_eccentricity = *std::ranges::min_element(ecc);
-
-    for (int i = 0; i < node_count; i++) {
+    vector<size_t> centers;
+    for (size_t i = 0; i < node_count; i++) {
       if (ecc[i] == min_eccentricity) {
         centers.push_back(i);
       }
