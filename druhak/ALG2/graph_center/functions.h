@@ -17,16 +17,16 @@ using std::cerr,
     std::vector;
 
 struct Node {
-  vector<int> neighbours;
-  long long min_ecc = 0;
+  vector<size_t> neighbours;
+  size_t min_ecc = 0;
 };
 
 class Graph {
 private:
   vector<Node> graph_nodes;
-  unsigned long long node_count = 0;
-  unsigned long long edge_count = 0;
-  long long min_eccentricity = LLONG_MAX;
+  size_t node_count = 0;
+  size_t edge_count = 0;
+  size_t min_eccentricity = SIZE_MAX;
   bool connected = true;
 
   vector<Node> readIntegersFromFile(const std::string &filename) {
@@ -73,38 +73,41 @@ public:
     }
   }
 
-  [[nodiscard]] vector<long long> bfs(const size_t start_node) const {
-    vector<long long> dist(node_count, -1);
+  [[nodiscard]] vector<size_t> bfs(const size_t start_node) const {
+    vector<size_t> distances(node_count, SIZE_MAX);
     queue<size_t> q;
-    dist[start_node] = 0;
+    distances[start_node] = 0;
     q.push(start_node);
+
+    // size_t max_dist = 0;
 
     while (!q.empty()) {
       const auto current = q.front();
       q.pop();
 
       for (const auto &neighbour: graph_nodes[current].neighbours) {
-        if (dist[neighbour] == -1) {
-          dist[neighbour] = dist[current] + 1;
+        if (distances[neighbour] == SIZE_MAX) {
+          distances[neighbour] = distances[current] + 1;
+          // max_dist = std::max(distances[neighbour], max_dist);
           q.push(neighbour);
         }
       }
     }
 
-    return dist;
+    return distances;
   }
 
   [[nodiscard]] vector<size_t> graph_center() {
     // Set initial eccentricities to a large value
-    vector<long long> ecc(node_count, LLONG_MAX);
+    vector<size_t> ecc(node_count, LLONG_MAX);
 
     for (size_t vertice = 0; vertice < node_count; vertice++) {
       // Find the distances to all nodes from a starting node
       auto dist = bfs(vertice);
 
-      long long ecc_v = 0;
+      size_t ecc_v = 0;
       for (size_t i = 0; i < node_count; i++) {
-        if (dist[i] == -1) {
+        if (dist[i] == SIZE_MAX) {
           connected = false; // Graph is not connected
           continue;
         }
