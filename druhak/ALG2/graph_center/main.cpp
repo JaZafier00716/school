@@ -1,19 +1,49 @@
-#include "functions.h"
+// #include "paralell.h"
+#include <chrono>
+using namespace std::chrono;
+#include "two-bfs.h"
+
+int main(const int argc, const char *argv[]) {
+  if (argc != 3) {
+    cerr << "Usage: " << argv[0] << " <path_to_input_file> <path_to_results_file>" << endl;
+    return -1;
+  }
+
+  // auto graph = Graph(argv[1]);
+  // graph.print_adjacent_nodes();
+
+  // graph.print_results();
 
 
+  auto start_graph = high_resolution_clock::now();
+  auto graph = Graph("./tests/Graph1.txt");
+  graph.print_results();
+  auto end_graph = high_resolution_clock::now();
 
-int main(const int argc, const char * argv[]) {
-    if (argc != 3) {
-        cerr << "Usage: " << argv[0] << " <path_to_input_file> <path_to_results_file>" << endl;
-        return -1;
-    }
-
-    auto graph = Graph(argv[1]);
-    // graph.print_adjacent_nodes();
-
-    graph.print_results();
+  auto duration_graph = duration_cast<milliseconds>(end_graph - start_graph);
+  cout << "-----------------------" << endl;
+  cout << "Graph1 took: " << duration_graph.count() << " ms" << endl;
+  cout << "-----------------------" << endl << endl;
 
 
+  start_graph = high_resolution_clock::now();
+  graph = Graph("./tests/Graph2.txt");
+  graph.print_results();
+  end_graph = high_resolution_clock::now();
+
+  duration_graph = duration_cast<milliseconds>(end_graph - start_graph);
+  cout << "-----------------------" << endl;
+  cout << "Graph2 took: " << duration_graph.count() << " ms" << endl;
+  cout << "-----------------------" << endl << endl;
 
 
+  start_graph = high_resolution_clock::now();
+  graph = Graph("./tests/Graph3.txt");
+  graph.print_results();
+  end_graph = high_resolution_clock::now();
+
+  duration_graph = duration_cast<milliseconds>(end_graph - start_graph);
+  cout << "-----------------------" << endl;
+  cout << "Graph3 took: " << duration_graph.count() << " ms" << endl;
+  cout << "-----------------------" << endl << endl;
 }

@@ -19,6 +19,7 @@ using std::cerr,
 struct Node {
   vector<size_t> neighbours;
   size_t min_ecc = 0;
+  bool active = true;
 };
 
 class Graph {
@@ -28,6 +29,8 @@ private:
   size_t edge_count = 0;
   size_t min_eccentricity = SIZE_MAX;
   bool connected = true;
+  vector<size_t> distances;
+  vector<size_t> visited_nodes;
 
   vector<Node> readIntegersFromFile(const std::string &filename) {
     std::ifstream file(filename);
@@ -57,34 +60,52 @@ private:
     return numbersVec;
   }
 
-  [[nodiscard]] vector<size_t> bfs(const size_t start_node) const {
-    vector<size_t> distances(node_count, SIZE_MAX);
+  [[nodiscard]] size_t bfs(const size_t start_node) {
+    // reset visited nodes
+    for (const size_t idx : visited_nodes) {
+      distances[idx] = SIZE_MAX;
+    }
+    visited_nodes.clear();
+
     queue<size_t> q;
     distances[start_node] = 0;
     q.push(start_node);
+    visited_nodes.push_back(start_node);
 
-    // size_t max_dist = 0;
+    size_t ecc = 0;
 
     while (!q.empty()) {
       const auto current = q.front();
       q.pop();
+      const auto current_distance = distances[current];
+
+      if (current_distance > min_eccentricity) {
+        return SIZE_MAX;
+      }
 
       for (const auto &neighbour: graph_nodes[current].neighbours) {
         if (distances[neighbour] == SIZE_MAX) {
-          distances[neighbour] = distances[current] + 1;
-          // max_dist = std::max(distances[neighbour], max_dist);
+          distances[neighbour] = current_distance + 1;
+          visited_nodes.push_back(neighbour);
           q.push(neighbour);
+          ecc = std::max(distances[neighbour], ecc);
         }
       }
     }
 
-    return distances;
+    // If not all nodes visited, mark disconnected
+    if (connected && visited_nodes.size() < node_count)
+      connected = false;
+
+    return ecc;
   }
 
 public:
   explicit Graph(const std::string &filename) {
     graph_nodes = readIntegersFromFile(filename);
     node_count = graph_nodes.size();
+    distances.assign(node_count, SIZE_MAX);
+    visited_nodes.reserve(node_count);
   }
 
   void print_adjacent_nodes() const {
@@ -100,25 +121,27 @@ public:
 
   [[nodiscard]] vector<size_t> graph_center() {
     // Set initial eccentricities to a large value
-    vector<size_t> ecc(node_count, LLONG_MAX);
+    vector<size_t> ecc(node_count, SIZE_MAX);
 
     for (size_t vertice = 0; vertice < node_count; vertice++) {
-      // Find the distances to all nodes from a starting node
-      auto dist = bfs(vertice);
-
-      size_t ecc_v = 0;
-      for (size_t i = 0; i < node_count; i++) {
-        if (dist[i] == SIZE_MAX) {
-          connected = false; // Graph is not connected
-          continue;
-        }
-        graph_nodes[i].min_ecc = std::max(graph_nodes[i].min_ecc, dist[i]);
-        ecc_v = std::max(ecc_v, dist[i]);
+      if (!graph_nodes[vertice].active) {
+        continue;
       }
+
+      // Find the distances to all nodes from a starting node
+      auto ecc_v = bfs(vertice);
+
 
       ecc[vertice] = ecc_v;
       // Update the minimum eccentricity found so far
       min_eccentricity = std::min(min_eccentricity, ecc_v);
+
+      for (const auto visited : visited_nodes) {
+        graph_nodes[visited].min_ecc = std::max(graph_nodes[visited].min_ecc, distances[visited]);
+        if (graph_nodes[visited].active && graph_nodes[visited].min_ecc > min_eccentricity) {
+          graph_nodes[visited].active = false;
+        }
+      }
     }
 
     // Find the minimum eccentricity

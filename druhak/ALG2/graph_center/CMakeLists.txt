@@ -1,35 +1,29 @@
-cmake_minimum_required(VERSION 4.0)
+cmake_minimum_required(VERSION 3.20)
 project(graph_center)
 
-set(CMAKE_CXX_STANDARD 26)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Create executable
-add_executable(graph_center main.cpp functions.h)
+add_executable(graph_center main.cpp functions.h
+        paralell.h
+        two-bfs.h)
 
-# Enable warnings and treat them as errors
+# Enable OpenMP manually (MinGW-friendly)
+target_compile_options(graph_center PRIVATE -fopenmp)
+target_link_options(graph_center PRIVATE -fopenmp)
+
+# Warnings
 if(MSVC)
-    # Visual Studio
     target_compile_options(graph_center PRIVATE /W4 /WX /permissive-)
 else()
-    # GCC or Clang
     target_compile_options(graph_center PRIVATE
-            -Wall          # All common warnings
-            -Wextra        # Extra warnings
-            -Wpedantic     # Standards compliance
-            -Wshadow       # Warn on variable shadowing
-            -Wnon-virtual-dtor
-            -Wold-style-cast
-            -Wcast-align
-            -Wunused
-            -Woverloaded-virtual
-            -Wconversion
-            -Wsign-conversion
-            -Wnull-dereference
-            -Wdouble-promotion
-            -Wformat=2
-            -Werror        # Treat warnings as errors
+            -Wall -Wextra -Wpedantic -Wshadow
+            -Wnon-virtual-dtor -Wold-style-cast -Wcast-align
+            -Wunused -Woverloaded-virtual -Wconversion
+            -Wsign-conversion -Wnull-dereference
+            -Wdouble-promotion -Wformat=2 -Werror
     )
 endif()
 
-# Enable optimization (for release builds)
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native -flto")
+# Optimization flags (for release)
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native -flto -fopenmp")
