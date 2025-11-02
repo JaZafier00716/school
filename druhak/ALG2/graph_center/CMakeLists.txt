@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(graph_center main.cpp functions.h
         paralell.h
-        two-bfs.h)
+)
 
 # Enable OpenMP manually (MinGW-friendly)
 target_compile_options(graph_center PRIVATE -fopenmp)
