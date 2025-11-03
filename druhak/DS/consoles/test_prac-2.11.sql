@@ -54,7 +54,7 @@ join z_article ar on ar.aid = aa.aid
 join z_year_field_journal yfj on yfj.jid = ar.jid and yfj.year = ar.year
 join z_article_institution ai on ai.aid = ar.aid
 join z_institution i on i.iid = ai.iid
-where yfj.ranking = 'DECIL' and i.town = 'Hradec Králové'
+where yfj.ranking = 'DECIL' and i.town = 'Hradec Krï¿½lovï¿½'
 group by au.rid, au.name
 )
 
@@ -143,11 +143,9 @@ order by j.name
 	Vysledek 19 zaznamu
 */
 with avg_author as (
-	select ar.jid, ar.aid, count(distinct aa.rid) as au_count
-	from z_article ar
-	join z_article_author aa on aa.aid = ar.aid
-	where ar.year between 2020 and 2021
-	group by ar.jid, ar.year, ar.aid
+	select aid, count(distinct rid) as au_count
+	from z_article_author aa
+	group by aid
 )
 
 select j.name,  
@@ -157,9 +155,8 @@ from z_journal j
 join z_year_field_journal yfj on yfj.jid = j.jid
 join z_field_ford ff on ff.fid = yfj.fid
 join z_article ar on yfj.jid = ar.jid and yfj.year = ar.year
+join z_article_institution ai on ai.aid = ar.aid
 join avg_author on avg_author.aid = ar.aid
-join z_article_author aa on avg_author.aid = aa.aid
-join z_article_institution ai on ai.aid = avg_author.aid
 where ff.name like '%Materials engineering%' and yfj.year between 2020 and 2021
 group by j.name
 having count(distinct ai.iid) > 15
