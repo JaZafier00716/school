@@ -31,10 +31,10 @@ public class Player extends MovableGameObject {
         this.frameIndex = 0;
 
 
-        this.run = new AnimationData("/images/player/run.png", 4, level.getScale(), 1);
-        this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, level.getScale(), 1);
-        this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, level.getScale(), 1);
-        this.death = new AnimationData("/images/player/death.png", 5, level.getScale(), 1);
+        this.run = new AnimationData("/images/player/run.png", 4, 1);
+        this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, 1);
+        this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, 1);
+        this.death = new AnimationData("/images/player/death.png", 5, 1);
         this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
     }
 
@@ -53,15 +53,16 @@ public class Player extends MovableGameObject {
                 frameIndex,
                 0,
                 getPosition().getX(),
-                getPosition().getY()
+                getPosition().getY(),
+                level.getScale()
         );
 
-        gc.setStroke(Color.BLACK);
+        gc.setStroke(Color.RED);
         gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * currentAnim.getScale() / 4 ,
+                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 4 ,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * currentAnim.getScale()/2,
-                currentAnim.getSize().getHeight() * currentAnim.getScale()
+                currentAnim.getSize().getWidth() * level.getScale()/2,
+                currentAnim.getSize().getHeight() * level.getScale()
         );
     }
 
@@ -75,24 +76,23 @@ public class Player extends MovableGameObject {
             default -> run;
         };
 
-
         return new Rectangle2D(
-                getPosition().getX() + currentAnim.getSize().getWidth()* currentAnim.getScale() / 4,
+                getPosition().getX() + currentAnim.getSize().getWidth()* level.getScale() / 4,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * currentAnim.getScale()/2,
-                currentAnim.getSize().getHeight() * currentAnim.getScale()
+                currentAnim.getSize().getWidth() * level.getScale()/2,
+                currentAnim.getSize().getHeight() * level.getScale()
         );
     }
 
     @Override
     public void hitBy(Collisionable another) {
-        System.out.print("Player hit by ");
+//        System.out.print("Player hit by ");
         if(another instanceof Platform platform) {
-            System.out.print("Platform\n");
+//            System.out.print("Platform\n");
             grounded(platform);
             return;
         }
-        if(another instanceof Barrel barrel) {
+        if(another instanceof Barrel) {
             System.out.print("Barrel\n");
             playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH;
         }

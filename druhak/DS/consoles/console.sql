@@ -375,7 +375,7 @@ from rental
          left join city on address.city_id = city.city_id
          left join country on city.country_id = country.country_id
 
--- 2.27 (15557)
+-- 2.27 (15557) !IMPORTANT
 select distinct film.title, customer.last_name
 from film
          join inventory on film.film_id = inventory.film_id
@@ -627,3 +627,266 @@ where length < 50
   and customer.last_name = 'BELL'
 group by film.title
 having count(customer.customer_id) = 1
+
+-- 4.1 and 4.2
+select film_id, title
+from film
+where exists(select *
+             from film_actor
+             where film.film_id = film_actor.film_id
+               and actor_id = 1)
+
+select *
+from film
+         join film_actor fa on film.film_id = fa.film_id
+where fa.actor_id = 1
+
+-- 4.3
+select film_id, title
+from film
+where exists(select *
+             from film_actor fa
+             where fa.film_id = film.film_id
+               and fa.actor_id = 1)
+  and exists(select *
+             from film_actor fa
+             where fa.film_id = film.film_id
+               and fa.actor_id = 10)
+
+select distinct title, film.film_id, fa1.actor_id, fa2.actor_id
+from film
+         join film_actor fa1 on film.film_id = fa1.film_id
+         join film_actor fa2 on fa2.film_id = film.film_id
+where fa1.actor_id = 1
+  and fa2.actor_id = 10
+
+-- 4.4
+select film_id, title
+from film
+where exists(select *
+             from film_actor fa
+             where (fa.film_id = film.film_id)
+               and (fa.actor_id = 1
+                 or fa.actor_id = 10))
+
+select distinct film.film_id, film.title
+from film
+         join film_actor fa on film.film_id = fa.film_id
+where fa.actor_id = 1
+   or fa.actor_id = 10
+
+-- 4.5
+select *
+from film
+where not exists(select *
+                 from film_actor fa
+                 where fa.film_id = film.film_id
+                   and fa.actor_id = 1)
+
+-- 4.6
+select film_id, title
+from film
+where (
+    exists(select *
+           from film_actor fa
+           where fa.film_id = film.film_id
+             and fa.actor_id = 1) and
+    not exists(select *
+               from film_actor fa
+               where fa.film_id = film.film_id
+                 and fa.actor_id = 10))
+   or (
+    exists(select *
+           from film_actor fa
+           where fa.film_id = film.film_id
+             and fa.actor_id = 10) and
+    not exists(select *
+               from film_actor fa
+               where fa.film_id = film.film_id
+                 and fa.actor_id = 1)
+    )
+
+-- 4.7
+select film_id, title
+from film
+where exists (select *
+              from film_actor fa
+                       join actor on fa.actor_id = actor.actor_id
+              where fa.film_id = film.film_id
+                and actor.first_name = 'PENELOPE'
+                and actor.last_name = 'GUINESS')
+  and exists (select *
+              from film_actor fa
+                       join actor on fa.actor_id = actor.actor_id
+              where fa.film_id = film.film_id
+                and actor.first_name = 'CHRISTIAN'
+                and actor.last_name = 'GABLE')
+
+-- 4.8
+select film_id, title
+from film
+where not exists (select *
+                  from film_actor fa
+                           join actor on fa.actor_id = actor.actor_id
+                  where fa.film_id = film.film_id
+                    and actor.first_name = 'PENELOPE'
+                    and actor.last_name = 'GUINESS')
+
+-- 4.9
+select distinct c.customer_id, c.first_name, c.last_name
+from customer c
+where exists (select 1
+              from film
+                       join inventory on film.film_id = inventory.film_id
+                       join rental on inventory.inventory_id = rental.inventory_id
+              where c.customer_id = rental.customer_id
+                and title = 'ENEMY ODDS')
+  and exists (select 1
+              from film
+                       join inventory on film.film_id = inventory.film_id
+                       join rental on inventory.inventory_id = rental.inventory_id
+              where c.customer_id = rental.customer_id
+                and title = 'POLLOCK DELIVERANCE')
+  and exists (select 1
+              from film
+                       join inventory on film.film_id = inventory.film_id
+                       join rental on inventory.inventory_id = rental.inventory_id
+              where c.customer_id = rental.customer_id
+                and title = 'FALCON VOLUME')
+
+-- 4.10
+select c.first_name, c.last_name
+from customer c
+where exists(select 1
+             from rental
+                      join inventory on rental.inventory_id = inventory.inventory_id
+                      join film on inventory.film_id = film.film_id
+             where c.customer_id = rental.customer_id
+               and film.title = 'GRIT CLOCKWORK'
+               and month(rental.rental_date) = 5)
+  and exists(select 1
+             from rental
+                      join inventory on rental.inventory_id = inventory.inventory_id
+                      join film on inventory.film_id = film.film_id
+             where c.customer_id = rental.customer_id
+               and film.title = 'GRIT CLOCKWORK'
+               and month(rental.rental_date) = 6)
+
+-- 4.11
+select c.first_name, c.last_name
+from customer c
+where exists(select *
+             from actor
+             where c.last_name = actor.last_name)
+
+-- 4.12
+select *
+from film f1
+where exists(select *
+             from film f2
+             where f1.film_id != f2.film_id
+               and f1.length = f2.length)
+
+-- 4.13
+-- with t1 as (
+select title
+from film f1
+where exists(select *
+             from film f2
+                      join film_actor fa on f2.film_id = fa.film_id
+                      join actor on fa.actor_id = actor.actor_id
+                 and actor.first_name = 'BURT'
+                 and actor.last_name = 'POSEY'
+                 and f1.length < f2.length)
+--             ),t2 as (
+select title
+from film
+where length < ANY (select film.length
+                    from film
+                             join film_actor fa on film.film_id = fa.film_id
+                             join actor on fa.actor_id = actor.actor_id
+                    where actor.first_name = 'BURT'
+                      and actor.last_name = 'POSEY')
+--             )
+--     (select *
+--      from t1)
+-- except
+-- (select *
+--  from t2)
+-- union all
+-- (select *
+--  from t2)
+-- except
+-- (select *
+--  from t1)
+
+-- 4.14
+select actor.first_name, actor.last_name
+from actor
+where exists(select *
+             from film
+                      join film_actor fa on film.film_id = fa.film_id
+             where fa.actor_id = actor.actor_id
+               and film.length < 50)
+
+select actor.first_name, actor.last_name
+from actor
+where 50 > any (select length
+                from film
+                         join film_actor on film.film_id = film_actor.film_id
+                where film_actor.actor_id = actor.actor_id)
+
+-- 4.15
+select title
+from film
+         join inventory on film.film_id = inventory.film_id
+         join rental on inventory.inventory_id = rental.inventory_id
+group by title
+having count(rental_id) >= 2
+
+-- 4.16
+select title
+from film
+         join inventory on film.film_id = inventory.film_id
+         join rental on inventory.inventory_id = rental.inventory_id
+group by title
+having count(distinct customer_id) >= 2
+
+-- 4.17
+select distinct customer_id
+from rental r1
+         join inventory i1 on r1.inventory_id = i1.inventory_id
+where exists(select *
+             from rental r2
+                      join inventory i2 on r2.inventory_id = i2.inventory_id
+             where r1.customer_id != r2.customer_id and i1.film_id != i2.film_id
+                 and (r1.rental_date <= r2.return_date and r1.rental_date >= r2.rental_date)
+                or (r2.rental_date <= r1.return_date and r2.rental_date >= r1.rental_date))
+
+-- 4.18
+select distinct customer.first_name, customer.last_name
+from customer
+         join rental r1 on customer.customer_id = r1.customer_id
+         join inventory i1 on r1.inventory_id = i1.inventory_id
+         join film f1 on i1.film_id = f1.film_id
+where exists(select *
+             from rental r2
+                      join inventory i2 on r2.inventory_id = i2.inventory_id
+                      join film f2 on i2.film_id = f2.film_id
+             where r1.customer_id = r2.customer_id
+               and f2.title = 'GRIT CLOCKWORK'
+               and f1.film_id = f2.film_id
+               and r1.rental_id != r2.rental_id
+               and YEAR(r1.rental_date) = year(r2.rental_date)
+               and month(r1.rental_date) = 5
+               and month(r2.rental_date) = 6)
+
+-- 4.19
+select f1.title
+from film f1
+where f1.length < all (select f2.length
+                       from film f2
+                                join film_actor fa on f2.film_id = fa.film_id
+                                join actor on fa.actor_id = actor.actor_id
+                       where actor.first_name = 'BURT'
+                         and actor.last_name = 'POSEY')
