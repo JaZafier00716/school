@@ -1,7 +1,8 @@
-// #include "paralell.h"
 #include <chrono>
+#include "classes.h"
+#include <cuda_runtime.h>
+#include <cuda_device_runtime_api.h>
 using namespace std::chrono;
-#include "parallel.h"
 
 int main(const int argc, const char *argv[]) {
   if (argc != 3) {
@@ -18,6 +19,8 @@ int main(const int argc, const char *argv[]) {
   auto start_graph = high_resolution_clock::now();
   auto graph = Graph("./tests/Graph1.txt");
   graph.print_results();
+  vector<size_t> eccentricities.reserve(graph.get_node_count());
+  bfs_cuda(graph, eccentricities);
   auto end_graph = high_resolution_clock::now();
 
   auto duration_graph = duration_cast<milliseconds>(end_graph - start_graph);
@@ -25,7 +28,7 @@ int main(const int argc, const char *argv[]) {
   cout << "Graph1 took: " << duration_graph.count() << " ms" << endl;
   cout << "-----------------------" << endl << endl;
 
-
+/*
   start_graph = high_resolution_clock::now();
   graph = Graph("./tests/Graph2.txt");
   graph.print_results();
@@ -46,4 +49,5 @@ int main(const int argc, const char *argv[]) {
   cout << "-----------------------" << endl;
   cout << "Graph3 took: " << duration_graph.count() << " ms" << endl;
   cout << "-----------------------" << endl << endl;
+*/
 }
