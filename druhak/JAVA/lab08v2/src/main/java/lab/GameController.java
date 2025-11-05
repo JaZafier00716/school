@@ -1,0 +1,79 @@
+package lab;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+
+public class GameController {
+
+	@FXML
+	private Slider angle;
+
+    @FXML
+    private Canvas canvas;
+
+    @FXML
+    private Slider speed;
+
+    @FXML
+    private Label monstersKilled;
+
+    private int montserKilledCounter=0;
+
+    private DrawingThread timer;
+    private Level level;
+
+    @FXML
+    void respawnButtonPressed(ActionEvent event) {
+        Monster montser = new Monster(level);
+        montser.addDeadListener(() -> System.out.println("Monster is dead"));
+        montser.addDeadListener(this::increasMonstersKilledCouner);
+        level.add(montser);
+
+    }
+
+    private void increasMonstersKilledCouner(){
+        montserKilledCounter++;
+        monstersKilled.setText(String.format("%03d", montserKilledCounter));
+    }
+
+    @FXML
+    void initialize() {
+        assert angle != null : "fx:id=\"angle\" was not injected: check your FXML file 'gameWindow.fxml'.";
+        assert canvas != null : "fx:id=\"canvas\" was not injected: check your FXML file 'gameWindow.fxml'.";
+        assert speed != null : "fx:id=\"speed\" was not injected: check your FXML file 'gameWindow.fxml'.";
+
+        level = new Level(canvas.getWidth(), canvas.getHeight());
+//		timer = new DrawingThread(canvas, level);
+//		timer.start();
+
+		angle.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+				level.getPlayer().setAngle(newValue.doubleValue());
+			}
+		});
+		speed.valueProperty().addListener(new ChangeListener<Number>() {
+			@Override
+			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                level.getPlayer().setSpeed(newValue.doubleValue());
+			}
+		});
+    }
+
+    public void startGame(String name, int numberOfMonsters) {
+        //        playerName.setText(name);
+        //        level = new Level(canvas.getWidth(), canvas.getHeight(), numberOfMonsters);
+        timer = new DrawingThread(canvas, level);
+        timer.start();
+    }
+
+	public void stop() {
+		timer.stop();
+	}
+}

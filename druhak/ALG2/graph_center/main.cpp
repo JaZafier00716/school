@@ -1,7 +1,7 @@
 // #include "paralell.h"
 #include <chrono>
 using namespace std::chrono;
-#include "two-bfs.h"
+#include "functions.h"
 
 int main(const int argc, const char *argv[]) {
   if (argc != 3) {

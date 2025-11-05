@@ -7,6 +7,7 @@
 #include <fstream>
 #include <string>
 #include <queue>
+#include <cstdint>
 // </editor-fold>
 
 using std::cerr,
@@ -136,6 +137,7 @@ public:
       // Update the minimum eccentricity found so far
       min_eccentricity = std::min(min_eccentricity, ecc_v);
 
+      // Update min_ecc for all visited nodes
       for (const auto visited : visited_nodes) {
         graph_nodes[visited].min_ecc = std::max(graph_nodes[visited].min_ecc, distances[visited]);
         if (graph_nodes[visited].active && graph_nodes[visited].min_ecc > min_eccentricity) {
@@ -144,7 +146,7 @@ public:
       }
     }
 
-    // Find the minimum eccentricity
+    // // Find the minimum eccentricity
     vector<size_t> centers;
     for (size_t i = 0; i < node_count; i++) {
       if (ecc[i] == min_eccentricity) {
