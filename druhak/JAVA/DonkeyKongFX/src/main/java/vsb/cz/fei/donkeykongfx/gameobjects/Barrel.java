@@ -16,8 +16,8 @@ public class Barrel extends MovableGameObject {
     private final AnimationData roll;
     private final AnimationData climb;
 
-    public Barrel(Level level, Point2D position) {
-        super(level, position);
+    public Barrel(Level level, int height) {
+        super(level, height);
         barrelState = BarrelState.ROLLING;
 
         this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
@@ -31,10 +31,10 @@ public class Barrel extends MovableGameObject {
             case CLIMBING -> climb;
         };
         return new Rectangle2D(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * level.getScale()/ 5,
-                currentAnim.getSize().getWidth() * level.getScale()*3/5,
-                currentAnim.getSize().getHeight() * level.getScale()*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * rd.getScale()/ 5,
+                currentAnim.getSize().getWidth() * rd.getScale()*3/5,
+                currentAnim.getSize().getHeight() * rd.getScale()*3/5
         );
     }
 
@@ -52,13 +52,13 @@ public class Barrel extends MovableGameObject {
                 0,
                 getPosition().getX(),
                 getPosition().getY(),
-                level.getScale()
+                rd.getScale()
         );
         gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * level.getScale()/ 5,
-                currentAnim.getSize().getWidth() * level.getScale()*3/5,
-                currentAnim.getSize().getHeight() * level.getScale()*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * rd.getScale()/ 5,
+                currentAnim.getSize().getWidth() * rd.getScale()*3/5,
+                currentAnim.getSize().getHeight() * rd.getScale()*3/5
         );
     }
 
@@ -102,7 +102,7 @@ public class Barrel extends MovableGameObject {
         }
         if(another instanceof Player p) {
             System.out.print("player\n");
-            setPosition(new Point2D(0, 32*level.getScale()));
+            setPosition(new Point2D(0, 32*rd.getScale()));
         }
     }
 }

@@ -3,7 +3,7 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 enum KongState {
     IDLE,
@@ -16,8 +16,8 @@ public class DonkeyKong extends MovableGameObject {
     private final AnimationData throwing;
     private double custom_scale;
 
-    public DonkeyKong(Level level, Point2D position, double scale) {
-        super(level, position);
+    public DonkeyKong(ResizableDimension rd, int height, double scale, Point2D position) {
+        super(rd, height, position);
         kongState = KongState.IDLE;
         custom_scale = scale;
         
@@ -25,8 +25,8 @@ public class DonkeyKong extends MovableGameObject {
         this.throwing = new AnimationData("/images/enemies/donkeykong/idle.png", 4, 1);
     }
 
-    public DonkeyKong(Level level, Point2D position) {
-        super(level, position);
+    public DonkeyKong(ResizableDimension rd, int height) {
+        super(rd, height);
         kongState = KongState.IDLE;
         custom_scale = -1;
 
@@ -41,10 +41,10 @@ public class DonkeyKong extends MovableGameObject {
             case THROWING -> throwing;
         };
         return new Rectangle2D(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * (custom_scale == -1 ? level.getScale() : custom_scale) / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * (custom_scale == -1 ? level.getScale() : custom_scale)/ 5,
-                currentAnim.getSize().getWidth() * (custom_scale == -1 ? level.getScale() : custom_scale)*3/5,
-                currentAnim.getSize().getHeight() * (custom_scale == -1 ? level.getScale() : custom_scale)*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * (custom_scale == -1 ? rd.getScale() : custom_scale) / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * (custom_scale == -1 ? rd.getScale() : custom_scale)/ 5,
+                currentAnim.getSize().getWidth() * (custom_scale == -1 ? rd.getScale() : custom_scale)*3/5,
+                currentAnim.getSize().getHeight() * (custom_scale == -1 ? rd.getScale() : custom_scale)*3/5
         );
     }
 
@@ -62,13 +62,13 @@ public class DonkeyKong extends MovableGameObject {
                 0,
                 getPosition().getX(),
                 getPosition().getY(),
-                (custom_scale == -1 ? level.getScale() : custom_scale)
+                (custom_scale == -1 ? rd.getScale() : custom_scale)
         );
         gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * (custom_scale == -1 ? level.getScale() : custom_scale) / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * (custom_scale == -1 ? level.getScale() : custom_scale)/ 5,
-                currentAnim.getSize().getWidth() * (custom_scale == -1 ? level.getScale() : custom_scale)*3/5,
-                currentAnim.getSize().getHeight() * (custom_scale == -1 ? level.getScale() : custom_scale)*3/5
+                getPosition().getX()+ currentAnim.getSize().getWidth() * (custom_scale == -1 ? rd.getScale() : custom_scale) / 5,
+                getPosition().getY()+ currentAnim.getSize().getHeight() * (custom_scale == -1 ? rd.getScale() : custom_scale)/ 5,
+                currentAnim.getSize().getWidth() * (custom_scale == -1 ? rd.getScale() : custom_scale)*3/5,
+                currentAnim.getSize().getHeight() * (custom_scale == -1 ? rd.getScale() : custom_scale)*3/5
         );
     }
 
@@ -112,7 +112,7 @@ public class DonkeyKong extends MovableGameObject {
         }
         if(another instanceof Player p) {
             System.out.print("player\n");
-            setPosition(new Point2D(0, 32*(custom_scale == -1 ? level.getScale() : custom_scale)));
+            setPosition(new Point2D(0, 32*(custom_scale == -1 ? rd.getScale() : custom_scale)));
         }
     }
 }

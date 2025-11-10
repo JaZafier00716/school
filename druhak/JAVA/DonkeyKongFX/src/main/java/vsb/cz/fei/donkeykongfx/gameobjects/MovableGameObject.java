@@ -2,7 +2,7 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 enum Direction {
     RIGHT(1),
@@ -27,9 +27,15 @@ public abstract class MovableGameObject extends GameObject {
     private boolean onGround = false;
     protected boolean lastInBounds = true;
 
-    MovableGameObject(Level level, Point2D position) {
-        super(level, position);
-        speedX = level.getScale() * 60;
+    MovableGameObject(ResizableDimension rd, int defaultHeight, Point2D position) {
+        super(rd, defaultHeight, position);
+        speedX = rd.getScale() * 60;
+        direction = Direction.RIGHT;
+    }
+
+    MovableGameObject(ResizableDimension rd, int defaultHeight) {
+        super(rd, defaultHeight);
+        speedX = rd.getScale() * 60;
         direction = Direction.RIGHT;
     }
 
@@ -54,7 +60,7 @@ public abstract class MovableGameObject extends GameObject {
     }
 
     public boolean inBounds(Rectangle2D bounds) {
-        if (getPosition().getX() < 0 || getPosition().getX() + bounds.getWidth() > level.getWidth()) {
+        if (getPosition().getX() < 0 || getPosition().getX() + bounds.getWidth() > rd.getWidth()) {
             return false;
         }
         return true;

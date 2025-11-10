@@ -1,10 +1,9 @@
 package vsb.cz.fei.donkeykongfx.gameobjects;
 
-import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 enum playerState {
     IDLE,
@@ -21,21 +20,21 @@ public class Player extends MovableGameObject {
     private final AnimationData death;
     // Animation timing
     private playerState playerState;
+//    private playerState lastState;
+//    private int lastframeIndex;
 
-    // Movement timing
 
 
-
-    public Player(Level level, Point2D position) {
-        super(level, position);
+    public Player(ResizableDimension rd, int height) {
+        super(rd, height);
         this.frameIndex = 0;
-
 
         this.run = new AnimationData("/images/player/run.png", 4, 1);
         this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, 1);
         this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, 1);
         this.death = new AnimationData("/images/player/death.png", 5, 1);
-        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+//        this.lastState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+        this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
     }
 
     @Override
@@ -47,6 +46,7 @@ public class Player extends MovableGameObject {
             default -> run;
         };
 
+
         drawSpriteFrame(
                 gc,
                 currentAnim,
@@ -54,15 +54,15 @@ public class Player extends MovableGameObject {
                 0,
                 getPosition().getX(),
                 getPosition().getY(),
-                level.getScale()
+                rd.getScale()
         );
 
         gc.setStroke(Color.RED);
         gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * level.getScale() / 4 ,
+                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 4 ,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * level.getScale()/2,
-                currentAnim.getSize().getHeight() * level.getScale()
+                currentAnim.getSize().getWidth() * rd.getScale()/2,
+                currentAnim.getSize().getHeight() * rd.getScale()
         );
     }
 
@@ -77,10 +77,10 @@ public class Player extends MovableGameObject {
         };
 
         return new Rectangle2D(
-                getPosition().getX() + currentAnim.getSize().getWidth()* level.getScale() / 4,
+                getPosition().getX() + currentAnim.getSize().getWidth()* rd.getScale() / 4,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * level.getScale()/2,
-                currentAnim.getSize().getHeight() * level.getScale()
+                currentAnim.getSize().getWidth() * rd.getScale()/2,
+                currentAnim.getSize().getHeight() * rd.getScale()
         );
     }
 

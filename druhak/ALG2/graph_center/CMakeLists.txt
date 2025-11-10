@@ -4,13 +4,15 @@ project(graph_center)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(graph_center main.cpp functions.h
-        parallel.h
+add_executable(graph_center
+        main.cpp
+        classes.h
+        class.cpp
 )
 
 # Enable OpenMP manually (MinGW-friendly)
-target_compile_options(graph_center PRIVATE -fopenmp)
-target_link_options(graph_center PRIVATE -fopenmp)
+#target_compile_options(graph_center PRIVATE -fopenmp)
+#target_link_options(graph_center PRIVATE -fopenmp)
 
 # Warnings
 if(MSVC)
@@ -22,8 +24,9 @@ else()
             -Wunused -Woverloaded-virtual -Wconversion
             -Wsign-conversion -Wnull-dereference
             -Wdouble-promotion -Wformat=2 -Werror
+            -Wno-unused-result -Wdangling-pointer=1 -Werror=uninitialized -Werror=return-type -Werror=vla
     )
 endif()
 
 # Optimization flags (for release)
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native -flto -fopenmp")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fsanitize=address -O3 -march=native -flto")

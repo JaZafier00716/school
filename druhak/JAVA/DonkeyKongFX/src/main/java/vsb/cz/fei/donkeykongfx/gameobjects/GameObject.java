@@ -3,19 +3,34 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class GameObject implements Renderable, Collisionable {
-    protected Level level;
+    protected ResizableDimension rd;
     protected int frameIndex;
     private Point2D position;
+    private int height;
 
     private double frameDuration = 0.2; // seconds per frame
     private double frameTimer = 0;
 
-    public GameObject(Level level, Point2D position) {
+    public GameObject(ResizableDimension level, int defaultHeight, Point2D position) {
         this.position = position;
-        this.level = level;
+        this.rd = level;
+        this.height = defaultHeight;
+    }
+
+    public GameObject(ResizableDimension level, int defaultHeight) {
+        this(level, defaultHeight, new Point2D(0,level.getHeight()-defaultHeight*level.getScale()));
+    }
+
+
+    public void setHeight(int height){
+        this.height = height;
+    }
+
+    public int getHeight(){
+        return this.height;
     }
 
     public Point2D getPosition() {
