@@ -10,14 +10,40 @@ Handles disconnected graphs (sets `Is connected` to `False`) and prints timing i
 - Simple plain-text edge list input.
 
 ## Requirements
-- C\+\+17 or later  
+- C\+\+23 or later  
 - CMake (for command-line or CLion)  
 - Tested on Windows (CLion) and Linux (terminal)
 
 ## Build (command-line)
+**Windows (PowerShell):**
+
+```powershell
+mkdir build-release
+cd build-release
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
+Debug build:
 ```bash
+bash
 mkdir build
 cd build
+cmake ..
+cmake --build .
+```
+**Linux (Bash / ZSH):**  
+Release build:
+```bash
+mkdir build-release
+cd !$
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
+Debug build:
+```bash
+bash
+mkdir build
+cd !$
 cmake ..
 cmake --build .
 ```

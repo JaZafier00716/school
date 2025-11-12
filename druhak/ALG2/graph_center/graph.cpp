@@ -1,4 +1,4 @@
-#include "classes.h"
+#include "graph.h"
 
 /**
    * @brief Reads integers from a file to construct the graph.

@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(graph_center
         main.cpp
-        classes.h
-        class.cpp
+        graph.h
+        graph.cpp
 )
 
 # Enable OpenMP manually (MinGW-friendly)

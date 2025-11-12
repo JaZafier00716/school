@@ -1,7 +1,7 @@
 // #include "paralell.h"
 #include <chrono>
 using namespace std::chrono;
-#include "classes.h"
+#include "graph.h"
 
 /**
  * @brief Main function to execute the graph center finding algorithm on three input files.
