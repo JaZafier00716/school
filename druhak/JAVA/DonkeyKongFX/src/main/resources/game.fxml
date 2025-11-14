@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane fx:id="canvaContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #000;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.controllers.GameController">
+   <children>
+      <Canvas fx:id="canvas" height="800.0" style="-fx-background-color: #121212;" width="896.0" />
+   </children>
+</StackPane>

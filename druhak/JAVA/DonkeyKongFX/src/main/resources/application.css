@@ -1,19 +1,18 @@
+/* css */
+
+/* Basic UI elements (buttons, title) */
 #button {
     -fx-padding: 8 15 15 15;
     -fx-background-insets: 0, 5 0 0 0, 6 0 0 0, 7 0 0 0;
     -fx-background-radius: 0;
     -fx-background-color:
-            /*linear-gradient(to bottom, #A70000 0%, #A70000 100%),*/
             #E16600,
             #A70000;
-            /*radial-gradient(center 50% 50%, radius 100%, #E1A78A, #E16600);*/
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0, 0, -1);
 }
 
-
 #button:hover {
-    -fx-background-color:
-             #A70000;
+    -fx-background-color: #A70000;
 }
 
 #button:pressed {
@@ -26,7 +25,7 @@
     -fx-font-weight: bold;
     -fx-font-smoothing-type: none;
     -fx-fill: #E1E1FF;
-    -fx-effect: dropshadow(gaussian, #8B0000, 0, 0, 0, 2);
+    -fx-effect: dropshadow(gaussian, #AB0507, 0, 0, 0, 2);
     -fx-translate-y: 5;
     -fx-font-size: 24;
 }
@@ -36,6 +35,152 @@
     -fx-font-weight: bold;
     -fx-font-smoothing-type: none;
     -fx-font-size: 96;
-    -fx-fill: #E16600;
-    -fx-effect: dropshadow(gaussian, #8B0000, 0, 0, 0, 2);
+    -fx-fill: #AB0507;
+    -fx-effect: dropshadow(gaussian, #E16600, 0, 0, 0, -5);
 }
+
+/* -------------------------
+   Score table - base
+   ------------------------- */
+#scoreTable {
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size: 8;
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 10, 0, 0, -1);
+}
+
+/* Optional background helpers */
+#scoreTable.bg-inherit {
+    -fx-background-color: -fx-control-inner-background;
+}
+#scoreTable.bg-dark {
+    -fx-background-color: #121212;
+}
+
+/* Force transparency for nested layers (consolidated) */
+#scoreTable,
+#scoreTable .table-view,
+#scoreTable .virtual-flow,
+#scoreTable .scroll-pane,
+#scoreTable .scroll-pane .viewport,
+#scoreTable .column-header-background,
+#scoreTable .table-header-row,
+#scoreTable .table-row-cell,
+#scoreTable .table-cell,
+#scoreTable .filler {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-control-inner-background: transparent;
+    -fx-background-insets: 0;
+}
+
+/* Hide filler borders that create phantom separators */
+#scoreTable .filler,
+#scoreTable .virtual-flow .filler {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Base header / cell layout and text targeting (explicitly include internal text node) */
+#scoreTable .column-header,
+#scoreTable .column-header .label,
+#scoreTable .table-cell,
+#scoreTable .table-cell .text {
+    -fx-background-color: transparent;
+    -fx-padding: 6 12;
+    -fx-font-size: 12;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Ensure header row and header background don't draw competing borders */
+#scoreTable .table-header-row,
+#scoreTable .column-header-background {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Header divider baseline (variant will set bottom color) */
+#scoreTable .column-header-background {
+    -fx-border-width: 0 0 2 0; /* bottom divider baseline */
+    -fx-border-color: transparent transparent transparent transparent;
+}
+
+/* Header text behavior: prefer graphic Label for wrapping in code.
+   CSS here disables ellipsis clipping if label supports it and sets clip as fallback. */
+#scoreTable .column-header .label {
+    -fx-wrap-text: true;
+    -fx-text-overrun: clip;
+    -fx-alignment: center;
+    -fx-padding: 4;
+}/* css - add to `src/main/resources/application.css` */
+
+#scoreTable .table-row-cell,
+#scoreTable .table-cell {
+    -fx-alignment: center-left; /* vertical center, left horizontal */
+    -fx-min-height: 28;
+}
+
+/* If cells use a Label as graphic, ensure the Label is centered vertically too */
+#scoreTable .table-cell .label {
+    -fx-alignment: center-left;
+    -fx-wrap-text: true;       /* allow wrapping without breaking alignment */
+    -fx-max-height: Infinity;
+}
+
+/* Internal text node fallback */
+#scoreTable .table-cell .text {
+    -fx-translate-y: 0;        /* ensure no vertical offset */
+    -fx-alignment: center-left;
+}
+
+/* Placeholder styling */
+#scoreTable .placeholder {
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size: 20;
+    -fx-text-fill: #AB0507;
+}
+
+/* -------------------------
+   RED VARIANT (text red, borders orange)
+   Use: scoreTable.getStyleClass().add("red-style")
+   ------------------------- */
+#scoreTable.red-style {
+    -fx-border-color: #E16600;
+    -fx-border-width: 2;
+    -fx-background-color: transparent;
+}
+
+/* header divider color for red variant */
+#scoreTable.red-style .column-header-background {
+    -fx-border-color: transparent transparent #E16600 transparent;
+}
+
+/* header text and vertical separators (right border on headers) */
+#scoreTable.red-style .column-header,
+#scoreTable.red-style .column-header .label {
+    -fx-text-fill: #AB0507;
+    -fx-fill: #AB0507;
+    -fx-font-size: 12;
+    -fx-effect: dropshadow(gaussian, #E16600, 0, 0, 0, -1);
+}
+
+#scoreTable.red-style .column-header {
+    -fx-border-color: transparent #E16600 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* body cells: red text + orange vertical separators */
+#scoreTable.red-style .table-cell,
+#scoreTable.red-style .table-cell .text {
+    -fx-text-fill: #AB0507;
+    -fx-fill: #AB0507;
+    -fx-font-size: 8;
+    -fx-border-color: transparent #E16600 transparent transparent;
+    -fx-border-width: 0 1 0 0;
+}
+
