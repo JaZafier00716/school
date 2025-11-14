@@ -13,6 +13,7 @@ enum playerState {
     DEATH
 };
 
+
 public class Player extends MovableGameObject {
     private final AnimationData run;
     private final AnimationData climb_phase1;
@@ -20,20 +21,17 @@ public class Player extends MovableGameObject {
     private final AnimationData death;
     // Animation timing
     private playerState playerState;
-//    private playerState lastState;
-//    private int lastframeIndex;
 
 
 
     public Player(ResizableDimension rd, int height) {
-        super(rd, height);
+        super(rd, height, MovableType.PLAYER);
         this.frameIndex = 0;
 
         this.run = new AnimationData("/images/player/run.png", 4, 1);
         this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, 1);
         this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, 1);
         this.death = new AnimationData("/images/player/death.png", 5, 1);
-//        this.lastState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
         this.playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
     }
 
@@ -99,8 +97,6 @@ public class Player extends MovableGameObject {
 
     }
 
-
-
     public void updateState(double deltaTime) {
         switch (playerState) {
             case CLIMBING_PHASE1 -> frameIndex = (frameIndex + 1) % climb_phase1.getColCount();
@@ -113,13 +109,62 @@ public class Player extends MovableGameObject {
     @Override
     public void update(double deltaTime) {
         updateTimer(deltaTime);
-        if (!getOnGround()) {
+        if(playerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH) {
+            MovableType type = getType();
+            if (type != null) {
+                type.apply(this, deltaTime);
+            } else {
+                System.out.println("Player has no movement profile!");
+                if (!getOnGround()) {
+                    this.setVelocityY(this.getVelocityY() + this.getGravity());
+                    this.setPosition(this.getPosition().add(0, this.getVelocityY()));
+                } else {
+                    setVelocityY(0);
+                }
+            }
+
+        } else {
+            // fall and respawn once out of bounds
             this.setVelocityY(this.getVelocityY() + this.getGravity());
             this.setPosition(this.getPosition().add(0, this.getVelocityY()));
-        } else {
-            setVelocityY(0);
+            if(!inBounds(new Rectangle2D(getPosition().getX(), getPosition().getY(), 0, 0))) {
+                // out of bounds, reset position
+                this.setPosition(new javafx.geometry.Point2D(0, rd.getHeight() - getHeight() * rd.getScale()));
+                this.setVelocityY(0);
+                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
+            }
         }
     }
-}
 
-// + frameIndex * (run.getFrameSize().getWidth()+2)
+    /**
+     * Sets movement direction of the player.
+     * @param dirX - 1 = right, -1 = left, 0 = no horizontal movement
+     * @param dirY - 1 = down, -1 = up, 0 = no vertical movement
+     */
+    public void setMovementDirection(int dirX, int dirY) {
+        if (dirX != 0) {
+            this.setVelocityX(dirX);
+            if (getOnGround()) {
+                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+                frameIndex = 0;
+            }
+        } else if (dirY != 0) {
+            this.setVelocityX(0);
+            if (dirY > 0) {
+                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE1;
+            } else {
+                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE2;
+            }
+            frameIndex = 0;
+        } else {
+            this.setVelocityX(0);
+            if (getOnGround()) {
+                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
+                frameIndex = 0;
+            }
+        }
+
+    }
+
+
+}

@@ -17,7 +17,7 @@ public class Barrel extends MovableGameObject {
     private final AnimationData climb;
 
     public Barrel(Level level, int height) {
-        super(level, height);
+        super(level, height, MovableType.BARREL);
         barrelState = BarrelState.ROLLING;
 
         this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
@@ -65,7 +65,7 @@ public class Barrel extends MovableGameObject {
     public void updateState(double deltaTime) {
         switch (barrelState) {
             case ROLLING -> {
-                frameIndex = ((roll.getColCount() + frameIndex + getDirection())) % roll.getColCount();
+                frameIndex = ((roll.getColCount() + frameIndex + getDirectionX())) % roll.getColCount();
             }
             case CLIMBING -> frameIndex = (frameIndex + 1) % climb.getColCount();
         }
@@ -89,19 +89,19 @@ public class Barrel extends MovableGameObject {
             } else {
                 lastInBounds = true;
             }
-            this.setPosition(this.getPosition().add(getSpeedX() * deltaTime, 0));
+            this.setPosition(this.getPosition().add(getVelocityX() * deltaTime, 0));
     }
 
     @Override
     public void hitBy(Collisionable another) {
-        System.out.print("Barell hit by ");
+//        System.out.print("Barell hit by ");
         if(another instanceof Platform platform) {
-            System.out.print("platform\n");
+//            System.out.print("platform\n");
             grounded(platform);
             return;
         }
         if(another instanceof Player p) {
-            System.out.print("player\n");
+//            System.out.print("player\n");
             setPosition(new Point2D(0, 32*rd.getScale()));
         }
     }

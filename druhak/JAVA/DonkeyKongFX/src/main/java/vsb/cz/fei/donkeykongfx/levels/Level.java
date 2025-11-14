@@ -107,4 +107,8 @@ public class Level extends ResizableDimension {
 
 
     }
+
+    public Player getPlayer() {
+        return player;
+    }
 }
