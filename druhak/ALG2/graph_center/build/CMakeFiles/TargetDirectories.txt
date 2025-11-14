@@ -1,0 +1,3 @@
+/home/jan/Documents/School/druhak/ALG2/graph_center/build/CMakeFiles/graph_center.dir
+/home/jan/Documents/School/druhak/ALG2/graph_center/build/CMakeFiles/edit_cache.dir
+/home/jan/Documents/School/druhak/ALG2/graph_center/build/CMakeFiles/rebuild_cache.dir
