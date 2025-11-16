@@ -4,11 +4,16 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 public abstract class ResizableController {
     private App app;
@@ -16,6 +21,22 @@ public abstract class ResizableController {
     private double fpsSum = 0;
     private double fpsCount = 0;
     private int avergeFps = 0;
+
+    void printAlert(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setHeaderText("Loading problem");
+        alert.getDialogPane().setContentText(e.getMessage());
+        // expandable stacktrace detail
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        TextArea textArea = new TextArea(sw.toString());
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        alert.getDialogPane().setExpandableContent(textArea);
+        alert.showAndWait();
+    }
 
     @FXML
     protected StackPane canvaContainer;

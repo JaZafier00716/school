@@ -3,12 +3,20 @@ package vsb.cz.fei.donkeykongfx.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindings;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsException;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
-public class GameController extends ResizableController {
+import java.io.IOException;
+import java.util.HashMap;
+
+public class GameController extends SettingsAffected {
     private Level level;
     private long lastFrame = 0;
 
@@ -30,40 +38,42 @@ public class GameController extends ResizableController {
         assert canvaContainer != null : "fx:id=\\\"gameContainer\\\" was not injected: check your FXML file 'game.fxml'.";
 
         installSizeListener();
-        keyboardListener();
+        loadKeyBindings();
+        keyboardListener(keyBindings);
+
     }
 
-    void keyboardListener() {
+    void keyboardListener(KeyBindings keyBindings) {
         canvas.setFocusTraversable(true);
 
         canvas.setOnKeyPressed(event -> {
             if (level == null || level.getPlayer() == null) {
-                if (event.getCode() == javafx.scene.input.KeyCode.SPACE && level != null && level.getPlayer() != null) {
+                if (event.getCode() == KeyCode.SPACE && level != null && level.getPlayer() != null) {
                     level.getPlayer().jump();
                 }
                 return;
             }
 
-            switch (event.getCode()) {
-                case LEFT -> {
+            switch (keyBindings.getActionForKey(event.getCode())) {
+                case "move_left" -> {
                     leftPressed = true;
                     rightPressed = false;
                     updateMovementFromKeys();
                 }
-                case RIGHT -> {
+                case "move_right" -> {
                     rightPressed = true;
                     leftPressed = false;
                     updateMovementFromKeys();
                 }
-                case UP -> {
+                case "climb_up" -> {
                     upPressed = true;
                     updateMovementFromKeys();
                 }
-                case DOWN -> {
+                case "climb_down" -> {
                     downPressed = true;
                     updateMovementFromKeys();
                 }
-                case SPACE -> level.getPlayer().jump();
+                case "jump" -> level.getPlayer().jump();
                 default -> { /* ignore other keys */ }
             }
         });

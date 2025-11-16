@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
+import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
 
 import java.io.IOException;
 import java.net.URL;
@@ -78,5 +79,16 @@ public class App extends Application {
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
         mc.startMenu();
+    }
+
+    public void switchToSettings() throws IOException {
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/options.fxml"));
+        Parent root = settingsLoader.load();
+        SettingsController sc = settingsLoader.getController();
+        sc.setApp(this);
+        Scene scene = new Scene(root);
+        URL cssUrl = getClass().getResource("/application.css");
+        scene.getStylesheets().add(cssUrl.toString());
+        primaryStage.setScene(scene);
     }
 }

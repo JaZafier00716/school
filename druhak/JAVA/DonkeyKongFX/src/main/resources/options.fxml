@@ -1,14 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane stylesheets="@application.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.controllers.SettingsController">
+   <center>
+      <StackPane>
+         <children>
+            <TabPane fx:id="SettingsTabs" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Untitled Tab 1">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="KeyBindingsTable" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn fx:id="columnAction" prefWidth="75.0" text="Actions" />
+                                  <TableColumn fx:id="columnKey" prefWidth="75.0" text="Key Bindings" />
+                                    <TableColumn fx:id="columnButton" prefWidth="75.0" text="Change Key Buttons" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Untitled Tab 2">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+            <BorderPane fx:id="ChangeKeyWindow" disable="true" opacity="0.0" visible="false">
+               <center>
+                  <GridPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #333333;" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="ChangeKeyActionLabel" text="Label" />
+                        <TextField fx:id="ChangeKeyKeyLabel" GridPane.columnIndex="1" />
+                        <BorderPane prefHeight="86.0" prefWidth="75.0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                           <center>
+                              <Button fx:id="ChangeKeySaveButton" mnemonicParsing="false" text="Save Key Bind" />
+                           </center>
+                        </BorderPane>
+                     </children>
+                  </GridPane>
+               </center>
+            </BorderPane>
+         </children>
+      </StackPane>
+   </center>
+   <top>
+      <Button mnemonicParsing="false" onAction="#OnBackToMenu" text="Back to Menu" BorderPane.alignment="CENTER_LEFT">
+         <BorderPane.margin>
+            <Insets left="10.0" top="10.0" />
+         </BorderPane.margin>
+      </Button>
+   </top>
+</BorderPane>
