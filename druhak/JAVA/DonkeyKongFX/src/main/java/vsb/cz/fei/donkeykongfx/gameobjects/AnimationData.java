@@ -8,7 +8,8 @@ public record AnimationData(
         Image spriteSheet,
         int colCount,
         int rowCount,
-        double spacing
+        double spacing,
+        boolean drawMirrorred
 ) {
     public AnimationData(String path, int colCount, int rowCount, double spacing) {
         this(
@@ -21,7 +22,8 @@ public record AnimationData(
                 ),
                 colCount,
                 rowCount,
-                spacing
+                spacing,
+                false
         );
     }
 
@@ -36,7 +38,8 @@ public record AnimationData(
                 ),
                 frameCount,
                 1,
-                spacing
+                spacing,
+                false
         );
     }
 

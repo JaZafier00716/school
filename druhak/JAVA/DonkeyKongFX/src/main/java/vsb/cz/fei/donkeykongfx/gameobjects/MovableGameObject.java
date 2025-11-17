@@ -2,35 +2,30 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import vsb.cz.fei.donkeykongfx.levels.Level;
-
-enum Direction {
-    RIGHT(1),
-    LEFT(-1);
-    private int value;
-    Direction(int value) {
-        this.value = value;
-    }
-    public Direction toggle() {
-        return this == RIGHT ? LEFT : RIGHT;
-    }
-    public int getValue() {
-        return value;
-    }
-}
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class MovableGameObject extends GameObject {
-    private Direction direction;
-    private double speedX;
+    private final MovableType type;
+    private double velocityX;
     private double velocityY = 0;
-    private final double gravity = 0.4; // tweak to your liking
     private boolean onGround = false;
     protected boolean lastInBounds = true;
+    private boolean directionRight = true;
 
-    MovableGameObject(Level level, Point2D position) {
-        super(level, position);
-        speedX = level.getScale() * 60;
-        direction = Direction.RIGHT;
+    MovableGameObject(ResizableDimension rd, int defaultHeight, Point2D position, MovableType type) {
+        super(rd, defaultHeight, position);
+        velocityX = type.initSpeed();
+        this.type = type;
+    }
+
+    MovableGameObject(ResizableDimension rd, int defaultHeight, MovableType type) {
+        super(rd, defaultHeight);
+        velocityX = type.initSpeed();
+        this.type = type;
+    }
+
+    protected MovableType getType() {
+        return type;
     }
 
     public double getVelocityY() {
@@ -39,22 +34,27 @@ public abstract class MovableGameObject extends GameObject {
     public void setVelocityY(double velocityY) {
         this.velocityY = velocityY;
     }
-    public double getGravity() {
-        return gravity;
+    public double getVelocityX() {
+        return velocityX;
+    }
+    public void setVelocityX(double velocityX) {
+        if(velocityX != 0) {
+            directionRight = velocityX > 0;
+        }
+        this.velocityX = velocityX;
     }
 
+
     public void setNextDirection() {
-        this.direction = direction.toggle();
+        directionRight = !directionRight;
+        velocityX = -velocityX;
     }
-    public int getDirection() {
-        return direction.getValue();
-    }
-    public double getSpeedX() {
-        return speedX * getDirection();
+    public int getDirectionX() {
+        return directionRight ? 1 : -1;
     }
 
     public boolean inBounds(Rectangle2D bounds) {
-        if (getPosition().getX() < 0 || getPosition().getX() + bounds.getWidth() > level.getWidth()) {
+        if (getPosition().getX() < 0 || getPosition().getX() + bounds.getWidth() > rd.getWidth()) {
             return false;
         }
         return true;
@@ -68,18 +68,38 @@ public abstract class MovableGameObject extends GameObject {
         this.onGround = onGround;
     }
 
+    public void jump() {
+        System.out.println("Jump requested");
+        if(type != null && type.canJump() && onGround) {
+            setVelocityY(type.jumpImpulse());
+            onGround = false;
+        }
+    }
+
     void grounded(Platform platform) {
-        onGround = true;
         Rectangle2D movableBounds = getBounds();
         Rectangle2D platformBounds = platform.getBounds();
 
-        double movableBottom = movableBounds.getMinY() + movableBounds.getHeight();
         double platformTop = platformBounds.getMinY();
+        double platformBottom = platformBounds.getMaxY();
+        double platformMiddleY = (platformTop + platformBottom) / 2;
 
-        if(movableBottom >= platformTop && movableBottom <= platformTop + 10){
-            double newY = platformTop - (movableBounds.getHeight() + movableBounds.getMinY() - getPosition().getY());
-            setPosition(new Point2D(getPosition().getX(), newY));
+        if(movableBounds.getMaxY() >= platformMiddleY) {
+            // we are hitting the platform from below, do not ground
+            System.out.println(getVelocityY());
+            System.out.println(getOnGround());
+            return;
         }
+
+
+        // offset of bounds' minY relative to object's position Y
+        double boundsOffsetY = movableBounds.getMinY() - getPosition().getY();
+        double newY = platformTop - movableBounds.getHeight() - boundsOffsetY;
+
+        setPosition(new Point2D(getPosition().getX(), newY));
+        setVelocityY(0);
+
+        setOnGround(true);
     }
 
     public void hitBy(Collisionable another) {

@@ -1,22 +1,27 @@
 // #include "paralell.h"
 #include <chrono>
 using namespace std::chrono;
-#include "functions.h"
+#include "graph.h"
 
+/**
+ * @brief Main function to execute the graph center finding algorithm on three input files.
+ * @brief Measures and prints the execution time for each graph.
+ *
+ * @param argc The number of command-line arguments.
+ * @param argv The array of command-line argument strings.
+ * @return Exit status code.
+ */
 int main(const int argc, const char *argv[]) {
-  if (argc != 3) {
-    cerr << "Usage: " << argv[0] << " <path_to_input_file> <path_to_results_file>" << endl;
+  if (argc != 4) {
+    cerr << "Usage: " << argv[0] << " <path_to_input_file1> <path_to_input_file2> <path_to_input_file3>" << endl;
     return -1;
   }
 
-  // auto graph = Graph(argv[1]);
-  // graph.print_adjacent_nodes();
-
-  // graph.print_results();
-
-
   auto start_graph = high_resolution_clock::now();
-  auto graph = Graph("./tests/Graph1.txt");
+  auto graph = Graph(argv[1]);
+  if (graph.get_node_count() == 0) {
+    return -2;
+  }
   graph.print_results();
   auto end_graph = high_resolution_clock::now();
 
@@ -27,7 +32,10 @@ int main(const int argc, const char *argv[]) {
 
 
   start_graph = high_resolution_clock::now();
-  graph = Graph("./tests/Graph2.txt");
+  graph = Graph(argv[2]);
+  if (graph.get_node_count() == 0) {
+    return -2;
+  }
   graph.print_results();
   end_graph = high_resolution_clock::now();
 
@@ -38,7 +46,10 @@ int main(const int argc, const char *argv[]) {
 
 
   start_graph = high_resolution_clock::now();
-  graph = Graph("./tests/Graph3.txt");
+  graph = Graph(argv[3]);
+  if (graph.get_node_count() == 0) {
+    return -2;
+  }
   graph.print_results();
   end_graph = high_resolution_clock::now();
 

@@ -97,7 +97,7 @@ public:
 
   vector<size_t> graph_center() {
     vector<size_t> ecc(node_count, SIZE_MAX);
-    min_eccentricity = std::numeric_limits<size_t>::max();
+    min_eccentricity = SIZE_MAX;
 
 
 #ifdef _OPENMP

@@ -9,8 +9,8 @@ public class Platform extends GameObject {
     AnimationData platform;
     Point2D offset;
 
-    public Platform(Level level, Point2D position, Point2D offset) {
-        super(level, position);
+    public Platform(Level level, int height, Point2D position, Point2D offset) {
+        super(level, height, position);
 
         this.offset = offset;
         this.platform = new AnimationData("/images/tiles/orange_tiles.png", 8, 6, 0);
@@ -23,9 +23,10 @@ public class Platform extends GameObject {
                 platform,
                 0,
                 5,
-                getPosition().getX()*platform.getSize().getWidth()*level.getScale() + offset.getX(),
-                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*level.getScale() + offset.getY()),
-                level.getScale()
+                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
+                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
+                rd.getScale(),
+                false
         );
 
 //        gc.setStroke(Color.BLUE);
@@ -49,10 +50,10 @@ public class Platform extends GameObject {
     @Override
     public Rectangle2D getBounds() {
         return new Rectangle2D(
-                getPosition().getX()*platform.getSize().getWidth()*level.getScale() + offset.getX(),
-                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*level.getScale() + offset.getY()),
-                platform.getSize().getWidth()* level.getScale(),
-                platform.getSize().getHeight()* level.getScale());
+                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
+                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
+                platform.getSize().getWidth()* rd.getScale(),
+                platform.getSize().getHeight()* rd.getScale());
     }
 
     @Override

@@ -3,28 +3,26 @@ package vsb.cz.fei.donkeykongfx.levels;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Level {
-    private Dimension2D dimension;
+public class Level extends ResizableDimension {
     private final Player player;
     private final Barrel barrel;
     private final List<MovableGameObject> entities = new ArrayList<>();
     private final List<Renderable> objects = new ArrayList<>();
-    private double scale;
 
     public Level(double width, double height) {
         this(new Dimension2D(width, height));
     }
 
     public Level( Dimension2D dimension) {
-        this.dimension = dimension;
-        this.scale = dimension.getHeight() / (32 * 8);
-        player = new Player(this, new Point2D(0, dimension.getHeight() - 32 * scale));
-        barrel = new Barrel(this, new Point2D(0, 32 * scale));
+        super(dimension);
+        player = new Player(this, 32);
+        barrel = new Barrel(this, 32);
         entities.add(player);
         entities.add(barrel);
         System.out.println(player.getBounds());
@@ -40,13 +38,13 @@ public class Level {
 
             for (int j = 0, offset = 0; j < platformCount; j++) {
                 if (i == 0) {
-                    objects.add(new Platform(this, new Point2D(j, 0), new Point2D(0, offset)));
+                    objects.add(new Platform(this, 8, new Point2D(j, 0), new Point2D(0, offset)));
                     if (j < 13) {
                         // skip offset update
                         continue;
                     }
                 } else {
-                    objects.add(new Platform(this, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset)));
+                    objects.add(new Platform(this, 8, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset)));
                     if (i == totalRows - 1 && j < 16) {
                         continue;
                     }
@@ -67,28 +65,6 @@ public class Level {
         }
 
     }
-
-    public double getWidth() {
-        return dimension.getWidth();
-    }
-
-    public double getHeight() {
-        return dimension.getHeight();
-    }
-
-    public double getScale() {
-        return scale;
-    }
-
-    public void updateSize(double width, double height) {
-        updateSize(new Dimension2D(width, height));
-    }
-
-    public void updateSize(Dimension2D dimension) {
-        this.dimension = dimension;
-        this.scale = dimension.getHeight() / (32 * 8);
-    }
-
 
     public void draw(GraphicsContext gc) {
         for (MovableGameObject entity : entities) {
@@ -112,10 +88,13 @@ public class Level {
                         if (c1.collides(c2.getBounds())) {
                             c1.hitBy(c2);
                             onGround = true;
+                            break;
                         }
                     }
                 }
-                e1.setOnGround(onGround);
+                if(!onGround) {
+                    e1.setOnGround(onGround);
+                }
                 // hits other entity
                 for (MovableGameObject e2 : entities) {
                     if(e1 != e2) {
@@ -130,5 +109,9 @@ public class Level {
         }
 
 
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
