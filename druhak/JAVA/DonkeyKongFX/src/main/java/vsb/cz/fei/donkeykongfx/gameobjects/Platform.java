@@ -25,7 +25,8 @@ public class Platform extends GameObject {
                 5,
                 getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
                 rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
-                rd.getScale()
+                rd.getScale(),
+                false
         );
 
 //        gc.setStroke(Color.BLUE);

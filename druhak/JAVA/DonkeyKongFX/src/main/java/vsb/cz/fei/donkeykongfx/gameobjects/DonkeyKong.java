@@ -67,7 +67,8 @@ public class DonkeyKong extends GameObject {
                 0,
                 getPosition().getX(),
                 getPosition().getY(),
-                (custom_scale == -1 ? rd.getScale() : custom_scale)
+                (custom_scale == -1 ? rd.getScale() : custom_scale),
+                false
         );
         gc.strokeRect(
                 getPosition().getX()+ currentAnim.getSize().getWidth() * (custom_scale == -1 ? rd.getScale() : custom_scale) / 5,

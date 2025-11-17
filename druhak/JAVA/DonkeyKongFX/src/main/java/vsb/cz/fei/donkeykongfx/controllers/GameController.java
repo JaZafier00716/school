@@ -58,33 +58,34 @@ public class GameController extends SettingsAffected {
                 case "move_left" -> {
                     leftPressed = true;
                     rightPressed = false;
-                    updateMovementFromKeys();
                 }
                 case "move_right" -> {
                     rightPressed = true;
                     leftPressed = false;
-                    updateMovementFromKeys();
                 }
                 case "climb_up" -> {
                     upPressed = true;
-                    updateMovementFromKeys();
+                    downPressed = false;
                 }
                 case "climb_down" -> {
                     downPressed = true;
-                    updateMovementFromKeys();
+                    upPressed = false;
                 }
                 case "jump" -> level.getPlayer().jump();
                 default -> { /* ignore other keys */ }
             }
+
+            if (level == null || level.getPlayer() == null) return;
+            updateMovementFromKeys();
         });
 
         canvas.setOnKeyReleased(event -> {
             // update key state even if player is not present to avoid stuck state when player is created later
-            switch (event.getCode()) {
-                case LEFT -> leftPressed = false;
-                case RIGHT -> rightPressed = false;
-                case UP -> upPressed = false;
-                case DOWN -> downPressed = false;
+            switch (keyBindings.getActionForKey(event.getCode())) {
+                case "move_left" -> leftPressed = false;
+                case "move_right" -> rightPressed = false;
+                case "climb_up" -> upPressed = false;
+                case "climb_down" -> downPressed = false;
                 default -> { /* ignore other keys */ }
             }
 

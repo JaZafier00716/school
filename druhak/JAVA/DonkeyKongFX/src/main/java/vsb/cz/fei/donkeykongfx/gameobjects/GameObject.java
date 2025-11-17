@@ -51,8 +51,10 @@ public abstract class GameObject implements Renderable, Collisionable {
      * @param rowIndex    which animation row to draw
      * @param x           X position on screen
      * @param y           Y position on screen
+     * @param scale       scaling factor for the sprite
+     * @param mirror      whether to mirror the sprite horizontally
      */
-    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y, double scale){
+    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y, double scale, boolean mirror) {
         gc.setImageSmoothing(false);
 
         // Compute frame dimensions with spacing
@@ -63,7 +65,20 @@ public abstract class GameObject implements Renderable, Collisionable {
         double sx = sprite.getSpacing() + colIndex * (frameWidth + sprite.getSpacing());
         double sy = sprite.getSpacing() + rowIndex * (frameHeight + sprite.getSpacing());
 
+
         // Draw cropped + scaled frame
+        if(mirror) {
+            gc.save();
+            gc.translate(x + frameWidth * scale, 0);
+            gc.scale(-1, 1);
+            x = 0;
+        }
+
+         gc.drawImage(
+                sprite.getSpriteSheet(),
+                sx, sy, frameWidth, frameHeight,
+                x, y, frameWidth * scale, frameHeight * scale
+        );
         gc.drawImage(
                 sprite.getSpriteSheet(),
                 sx, sy, frameWidth, frameHeight,

@@ -88,10 +88,13 @@ public class Level extends ResizableDimension {
                         if (c1.collides(c2.getBounds())) {
                             c1.hitBy(c2);
                             onGround = true;
+                            break;
                         }
                     }
                 }
-                e1.setOnGround(onGround);
+                if(!onGround) {
+                    e1.setOnGround(onGround);
+                }
                 // hits other entity
                 for (MovableGameObject e2 : entities) {
                     if(e1 != e2) {

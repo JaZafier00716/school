@@ -5,58 +5,35 @@ import javafx.geometry.Rectangle2D;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class MovableGameObject extends GameObject {
-    private MovableType type;
-    private double velocityX;
-    private double velocityY = 0;
-    private final double gravity = 0.4;
+    private final MovableType type;
     private boolean onGround = false;
     protected boolean lastInBounds = true;
+    private boolean directionRight = true;
 
     MovableGameObject(ResizableDimension rd, int defaultHeight, Point2D position, MovableType type) {
         super(rd, defaultHeight, position);
-        velocityX = 0;
         this.type = type;
     }
 
     MovableGameObject(ResizableDimension rd, int defaultHeight, MovableType type) {
         super(rd, defaultHeight);
-        velocityX = 0;
         this.type = type;
+    }
+
+    public int getDirectionX() {
+        return directionRight ? 1 : -1;
+    }
+
+    public void invertDirection() {
+        directionRight = !directionRight;
     }
 
     protected MovableType getType() {
         return type;
     }
 
-    public double getVelocityY() {
-        return velocityY;
-    }
-    public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
-    }
-    public double getVelocityX() {
-        return velocityX;
-    }
-    public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
-    }
-
-    public double getGravity() {
-        return gravity;
-    }
-
-    public void setNextDirection() {
-        velocityX = -velocityX;
-    }
-    public int getDirectionX() {
-        return velocityX > 0 ? 1 : -1;
-    }
-
     public boolean inBounds(Rectangle2D bounds) {
-        if (getPosition().getX() < 0 || getPosition().getX() + bounds.getWidth() > rd.getWidth()) {
-            return false;
-        }
-        return true;
+        return !(getPosition().getX() < 0) && !(getPosition().getX() + bounds.getWidth() > rd.getWidth());
     }
 
     boolean getOnGround() {
@@ -68,8 +45,9 @@ public abstract class MovableGameObject extends GameObject {
     }
 
     public void jump() {
-        if(type != null && type.canJump() && onGround) {
-            setVelocityY(type.getJumpImpulse());
+        System.out.println("Jump requested");
+        if(type != null && type.isCanJump() && onGround) {
+            type.setCurrentSpeed(new Point2D(type.getCurrentSpeed().getX(), type.getJumpImpulse()));
             onGround = false;
         }
     }
@@ -79,13 +57,23 @@ public abstract class MovableGameObject extends GameObject {
         Rectangle2D platformBounds = platform.getBounds();
 
         double platformTop = platformBounds.getMinY();
+        double platformBottom = platformBounds.getMaxY();
+        double platformMiddleY = (platformTop + platformBottom) / 2;
+
+        if(movableBounds.getMaxY() >= platformMiddleY) {
+            // we are hitting the platform from below, do not ground
+            System.out.println(type.getCurrentSpeed().getY());
+            System.out.println(getOnGround());
+            return;
+        }
+
 
         // offset of bounds' minY relative to object's position Y
         double boundsOffsetY = movableBounds.getMinY() - getPosition().getY();
         double newY = platformTop - movableBounds.getHeight() - boundsOffsetY;
 
         setPosition(new Point2D(getPosition().getX(), newY));
-        setVelocityY(0);
+        type.setCurrentSpeed(new Point2D(type.getCurrentSpeed().getX(), 0));
         setOnGround(true);
     }
 

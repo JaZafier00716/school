@@ -3,52 +3,104 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 
-public enum MovableType implements MovementProfile {
-    PLAYER(80, 1.0, 500, -100, true, true),
-    WALKER(60, 1.0, 400, 0, true, false),
-    BARREL(40, 1.0, 500, 0, true, false),
-    PROJECTILE(200, 0.0, 1000, 0, false, false);
+public class MovableType {
+    double initSpeed;
+    double baseSpeed;
+    double gravityScale;
+    double maxFallSpeed;
+    double jumpImpulse;
+    boolean affectedByGravity;
+    boolean canJump;
+    Point2D currentSpeed;
 
-    private final double baseSpeed;       // base horizontal speed (units/sec, unsigned)
-    private final double gravityScale;    // multiplier for obj.getGravity()
-    private final double maxFallSpeed;    // clamp for downward speed (positive)
-    private final double jumpImpulse;     // negative vy to jump (if canJump)
-    private final boolean affectedByGravity;
-    private final boolean canJump;
-    private boolean jumping;
-
-    MovableType(double baseSpeed, double gravityScale, double maxFallSpeed, double jumpImpulse,
-                boolean affectedByGravity, boolean canJump) {
+    public MovableType(double initSpeed, double baseSpeed, double gravityScale, double maxFallSpeed, double jumpImpulse,
+                       boolean affectedByGravity, boolean canJump) {
+        this.initSpeed = initSpeed;
         this.baseSpeed = baseSpeed;
         this.gravityScale = gravityScale;
         this.maxFallSpeed = maxFallSpeed;
         this.jumpImpulse = jumpImpulse;
         this.affectedByGravity = affectedByGravity;
         this.canJump = canJump;
+        this.currentSpeed = new Point2D(initSpeed, 0);
     }
 
-    public boolean canJump() {
-        return canJump;
+    public double getInitSpeed() {
+        return initSpeed;
+    }
+
+    public double getBaseSpeed() {
+        return baseSpeed;
+    }
+
+    public double getGravityScale() {
+        return gravityScale;
+    }
+
+    public double getMaxFallSpeed() {
+        return maxFallSpeed;
     }
 
     public double getJumpImpulse() {
         return jumpImpulse;
     }
 
-    @Override
-    public void apply(MovableGameObject obj, double dt) {
-        double directionX = Math.signum(obj.getVelocityX());
-        if(directionX == 0) {
-            obj.setVelocityX(0);
-        } else {
-            obj.setVelocityX(Math.copySign(baseSpeed, directionX)); // maintain direction
-        }
+    public boolean isAffectedByGravity() {
+        return affectedByGravity;
+    }
 
+    public boolean isCanJump() {
+        return canJump;
+    }
+
+    public Point2D getCurrentSpeed() {
+        return currentSpeed;
+    }
+
+    public void setInitSpeed(double initSpeed) {
+        this.initSpeed = initSpeed;
+    }
+
+    public void setBaseSpeed(double baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
+
+    public void setGravityScale(double gravityScale) {
+        this.gravityScale = gravityScale;
+    }
+
+    public void setMaxFallSpeed(double maxFallSpeed) {
+        this.maxFallSpeed = maxFallSpeed;
+    }
+
+    public void setJumpImpulse(double jumpImpulse) {
+        this.jumpImpulse = jumpImpulse;
+    }
+
+    public void setAffectedByGravity(boolean affectedByGravity) {
+        this.affectedByGravity = affectedByGravity;
+    }
+
+    public void setCanJump(boolean canJump) {
+        this.canJump = canJump;
+    }
+
+    public void setCurrentSpeed(Point2D currentSpeed) {
+        this.currentSpeed = currentSpeed;
+    }
+
+    public void apply(MovableGameObject obj, double dt) {
+        double directionX = Math.signum(currentSpeed.getX());
+        if (directionX == 0) {
+            currentSpeed = new Point2D(currentSpeed.getX(), 0);
+        } else {
+            currentSpeed = new Point2D(Math.copySign(baseSpeed, directionX), currentSpeed.getY());
+        }
         // vertical behaviour
-        double vy = obj.getVelocityY();
+        double vy = currentSpeed.getY();
 
         if (affectedByGravity && !obj.getOnGround()) {
-            vy += obj.getGravity() * gravityScale; // gravity is per-tick in your code; multiply by dt if needed by your loop
+            vy += gravityScale;
         } else if (obj.getOnGround()) {
             vy = 0;
         }
@@ -58,10 +110,13 @@ public enum MovableType implements MovementProfile {
             vy = maxFallSpeed;
         }
 
-        obj.setVelocityY(vy);
+        currentSpeed = new Point2D(currentSpeed.getX(), vy);
 
         // integrate position
-        Point2D newPos = MovementProfile.integratePosition(obj, dt);
+        Point2D newPos = new Point2D(
+                obj.getPosition().getX() + currentSpeed.getX() * dt,
+                obj.getPosition().getY() * currentSpeed.getY() * dt);
+
         obj.setPosition(newPos);
     }
 
