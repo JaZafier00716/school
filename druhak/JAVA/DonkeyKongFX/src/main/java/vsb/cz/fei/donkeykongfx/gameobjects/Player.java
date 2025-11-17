@@ -27,22 +27,24 @@ public class Player extends MovableGameObject {
     private int lastFrameIndex;
 
 
+
     public Player(ResizableDimension rd, int height) {
         super(
                 rd,
                 height,
                 new Point2D(
                         0,
-                        rd.getHeight() - (height + 4) * rd.getScale()
+                        rd.getHeight() - (height+4)*rd.getScale()
                 ),
                 new MovableType(
-                        0 * rd.getScale(),
-                        60 * rd.getScale(),
-                        0.4 * rd.getScale(),
-                        60 * rd.getScale(),
-                        -(height + 4) * rd.getScale(),
+                        0*rd.getScale(),
+                        60*rd.getScale(),
+                        0.4*rd.getScale(),
+                        60*rd.getScale(),
+                        -(height+4)*rd.getScale(),
                         true,
-                        true
+                        true,
+                            new Point2D(0, 0)
                 ));
         this.frameIndex = 0;
         this.lastFrameIndex = 0;
@@ -57,13 +59,24 @@ public class Player extends MovableGameObject {
 
     @Override
     public void renderInternal(GraphicsContext gc) {
-        AnimationData currentAnim = getAnimationData(switch (lastPlayerState) {
-            case CLIMBING_PHASE1 -> climb_phase1;
-            case CLIMBING_PHASE2 -> climb_phase2;
-            case DEATH -> death;
-            case RUNNING -> run;
-            case IDLE -> run;
-        });
+        AnimationData currentAnim;
+        if(this.playerState == playerState.IDLE) {
+            currentAnim = switch (lastPlayerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case RUNNING -> run;
+                case IDLE -> run;
+            };
+        } else {
+            currentAnim = switch (playerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case IDLE -> run;
+                case RUNNING -> run;
+            };
+        }
 
 
         drawSpriteFrame(
@@ -78,43 +91,39 @@ public class Player extends MovableGameObject {
         );
         gc.setStroke(Color.RED);
         gc.strokeRect(
-                getPosition().getX() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
+                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 4 ,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * rd.getScale() / 2,
+                currentAnim.getSize().getWidth() * rd.getScale()/2,
                 currentAnim.getSize().getHeight() * rd.getScale()
         );
-    }
-
-    private AnimationData getAnimationData(AnimationData lastPlayerState) {
-        AnimationData currentAnim;
-        if (this.playerState == playerState.IDLE) {
-            currentAnim = lastPlayerState;
-        } else {
-            currentAnim = switch (playerState) {
-                case CLIMBING_PHASE1 -> climb_phase1;
-                case CLIMBING_PHASE2 -> climb_phase2;
-                case DEATH -> death;
-                case RUNNING -> run;
-                default -> run;
-            };
-        }
-        return currentAnim;
     }
 
 
     @Override
     public Rectangle2D getBounds() {
-        AnimationData currentAnim = getAnimationData(switch (lastPlayerState) {
-            case CLIMBING_PHASE1 -> climb_phase1;
-            case CLIMBING_PHASE2 -> climb_phase2;
-            case DEATH -> death;
-            case RUNNING, IDLE -> run;
-        });
+        AnimationData currentAnim;
+        if(this.playerState == playerState.IDLE) {
+            currentAnim = switch (lastPlayerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case RUNNING -> run;
+                case IDLE -> run;
+            };
+        } else {
+            currentAnim = switch (playerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case IDLE -> run;
+                case RUNNING -> run;
+            };
+        }
 
         return new Rectangle2D(
-                getPosition().getX() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
+                getPosition().getX() + currentAnim.getSize().getWidth()* rd.getScale() / 4,
                 getPosition().getY(),
-                currentAnim.getSize().getWidth() * rd.getScale() / 2,
+                currentAnim.getSize().getWidth() * rd.getScale()/2,
                 currentAnim.getSize().getHeight() * rd.getScale()
         );
     }
@@ -122,15 +131,15 @@ public class Player extends MovableGameObject {
     @Override
     public void hitBy(Collisionable another) {
 //        System.out.print("Player hit by ");
-        if (another instanceof Platform platform) {
+        if(another instanceof Platform platform) {
 //            System.out.print("Platform\n");
             grounded(platform);
-            if (getOnGround()) {
+            if(getOnGround()) {
                 System.out.println("Player Grounded");
             }
             return;
         }
-        if (another instanceof Barrel) {
+        if(another instanceof Barrel) {
             System.out.print("Barrel\n");
             playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH;
         }
@@ -139,10 +148,8 @@ public class Player extends MovableGameObject {
 
     public void updateState(double deltaTime) {
         switch (playerState) {
-            case CLIMBING_PHASE1 ->
-                    frameIndex = (climb_phase1.getColCount() + frameIndex + 1) % climb_phase1.getColCount();
-            case CLIMBING_PHASE2 ->
-                    frameIndex = (climb_phase2.getColCount() + frameIndex + 1) % climb_phase2.getColCount();
+            case CLIMBING_PHASE1 -> frameIndex = (climb_phase1.getColCount() + frameIndex + 1) % climb_phase1.getColCount();
+            case CLIMBING_PHASE2 -> frameIndex = (climb_phase2.getColCount() + frameIndex + 1) % climb_phase2.getColCount();
             case RUNNING -> frameIndex = (run.getColCount() + frameIndex + 1) % run.getColCount();
             case DEATH -> frameIndex = (death.getColCount() + frameIndex + 1) % death.getColCount();
         }
@@ -151,22 +158,27 @@ public class Player extends MovableGameObject {
     @Override
     public void update(double deltaTime) {
         updateTimer(deltaTime);
-        if (playerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH) {
-            if (!getOnGround()) {
-                getType().setCurrentSpeed(new Point2D(getType().getCurrentSpeed().getX(), getType().getCurrentSpeed().getY() + getType().getGravityScale()));
-                this.setPosition(this.getPosition().add(0, getType().getCurrentSpeed().getY()));
+        if(playerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH) {
+            MovableType type = getType();
+            if (type != null) {
+                type.apply(this, deltaTime);
             } else {
-                getType().setCurrentSpeed(new Point2D(getType().getCurrentSpeed().getX(), 0));
+                System.out.println("Player has no movement profile!");
+                if (!getOnGround()) {
+                    this.setVelocityY(this.getVelocityY() + type.gravityScale());
+                    this.setPosition(this.getPosition().add(0, this.getVelocityY()));
+                } else {
+                    setVelocityY(0);
+                }
             }
-
         } else {
             // fall and respawn once out of bounds
-            getType().setCurrentSpeed(new Point2D(getType().getCurrentSpeed().getX(), getType().getCurrentSpeed().getY() + getType().getGravityScale()));
-            this.setPosition(this.getPosition().add(0, getType().getCurrentSpeed().getY()));
-            if (!inBounds(new Rectangle2D(getPosition().getX(), getPosition().getY(), 0, 0))) {
+            this.setVelocityY(this.getVelocityY() + getType().gravityScale());
+            this.setPosition(this.getPosition().add(0, this.getVelocityY()));
+            if(!inBounds(new Rectangle2D(getPosition().getX(), getPosition().getY(), 0, 0))) {
                 // out of bounds, reset position
                 this.setPosition(new Point2D(0, rd.getHeight() - getHeight() * rd.getScale()));
-                getType().setCurrentSpeed(new Point2D(getType().getCurrentSpeed().getX(), 0));
+                this.setVelocityY(0);
                 playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
             }
         }
@@ -174,19 +186,18 @@ public class Player extends MovableGameObject {
 
     /**
      * Sets movement direction of the player.
-     *
      * @param dirX - 1 = right, -1 = left, 0 = no horizontal movement
      * @param dirY - 1 = down, -1 = up, 0 = no vertical movement
      */
     public void setMovementDirection(int dirX, int dirY) {
         if (dirX != 0) {
-            getType().setCurrentSpeed(new Point2D(dirX, getType().getCurrentSpeed().getY()));
+            this.setVelocityX(dirX);
             if (getOnGround()) {
                 playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
                 frameIndex = 0;
             }
         } else if (dirY != 0) {
-            getType().setCurrentSpeed(new Point2D(0, getType().getCurrentSpeed().getY()));
+            this.setVelocityX(0);
             if (dirY > 0) {
                 playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE1;
             } else {
@@ -194,7 +205,7 @@ public class Player extends MovableGameObject {
             }
             frameIndex = 0;
         } else {
-            getType().setCurrentSpeed(new Point2D(0, getType().getCurrentSpeed().getY()));
+            this.setVelocityX(0);
             if (getOnGround()) {
                 lastPlayerState = playerState;
                 lastFrameIndex = frameIndex;

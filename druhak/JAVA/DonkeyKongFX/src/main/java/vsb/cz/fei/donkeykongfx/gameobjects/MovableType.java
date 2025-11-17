@@ -3,18 +3,18 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 
-public class MovableType {
-    double initSpeed;
-    double baseSpeed;
-    double gravityScale;
-    double maxFallSpeed;
-    double jumpImpulse;
-    boolean affectedByGravity;
-    boolean canJump;
-    Point2D currentSpeed;
-
+public record MovableType(
+        double initSpeed,
+        double baseSpeed,
+        double gravityScale,
+        double maxFallSpeed,
+        double jumpImpulse,
+        boolean affectedByGravity,
+        boolean canJump,
+        Point2D currentSpeed
+) {
     public MovableType(double initSpeed, double baseSpeed, double gravityScale, double maxFallSpeed, double jumpImpulse,
-                       boolean affectedByGravity, boolean canJump) {
+                       boolean affectedByGravity, boolean canJump, Point2D currentSpeed) {
         this.initSpeed = initSpeed;
         this.baseSpeed = baseSpeed;
         this.gravityScale = gravityScale;
@@ -22,82 +22,54 @@ public class MovableType {
         this.jumpImpulse = jumpImpulse;
         this.affectedByGravity = affectedByGravity;
         this.canJump = canJump;
-        this.currentSpeed = new Point2D(initSpeed, 0);
-    }
-
-    public double getInitSpeed() {
-        return initSpeed;
-    }
-
-    public double getBaseSpeed() {
-        return baseSpeed;
-    }
-
-    public double getGravityScale() {
-        return gravityScale;
-    }
-
-    public double getMaxFallSpeed() {
-        return maxFallSpeed;
-    }
-
-    public double getJumpImpulse() {
-        return jumpImpulse;
-    }
-
-    public boolean isAffectedByGravity() {
-        return affectedByGravity;
-    }
-
-    public boolean isCanJump() {
-        return canJump;
-    }
-
-    public Point2D getCurrentSpeed() {
-        return currentSpeed;
-    }
-
-    public void setInitSpeed(double initSpeed) {
-        this.initSpeed = initSpeed;
-    }
-
-    public void setBaseSpeed(double baseSpeed) {
-        this.baseSpeed = baseSpeed;
-    }
-
-    public void setGravityScale(double gravityScale) {
-        this.gravityScale = gravityScale;
-    }
-
-    public void setMaxFallSpeed(double maxFallSpeed) {
-        this.maxFallSpeed = maxFallSpeed;
-    }
-
-    public void setJumpImpulse(double jumpImpulse) {
-        this.jumpImpulse = jumpImpulse;
-    }
-
-    public void setAffectedByGravity(boolean affectedByGravity) {
-        this.affectedByGravity = affectedByGravity;
-    }
-
-    public void setCanJump(boolean canJump) {
-        this.canJump = canJump;
-    }
-
-    public void setCurrentSpeed(Point2D currentSpeed) {
         this.currentSpeed = currentSpeed;
     }
 
+    @Override
+    public double initSpeed() {
+        return initSpeed;
+    }
+
+    @Override
+    public double baseSpeed() {
+        return baseSpeed;
+    }
+
+    @Override
+    public double gravityScale() {
+        return gravityScale;
+    }
+
+    @Override
+    public double maxFallSpeed() {
+        return maxFallSpeed;
+    }
+
+    @Override
+    public double jumpImpulse() {
+        return jumpImpulse;
+    }
+
+    @Override
+    public boolean affectedByGravity() {
+        return affectedByGravity;
+    }
+
+    @Override
+    public boolean canJump() {
+        return canJump;
+    }
+
     public void apply(MovableGameObject obj, double dt) {
-        double directionX = Math.signum(currentSpeed.getX());
-        if (directionX == 0) {
-            currentSpeed = new Point2D(currentSpeed.getX(), 0);
+        double directionX = Math.signum(obj.getVelocityX());
+        if(directionX == 0) {
+            obj.setVelocityX(0);
         } else {
-            currentSpeed = new Point2D(Math.copySign(baseSpeed, directionX), currentSpeed.getY());
+            obj.setVelocityX(Math.copySign(baseSpeed, directionX)); // maintain direction
         }
+
         // vertical behaviour
-        double vy = currentSpeed.getY();
+        double vy = obj.getVelocityY();
 
         if (affectedByGravity && !obj.getOnGround()) {
             vy += gravityScale;
@@ -110,12 +82,12 @@ public class MovableType {
             vy = maxFallSpeed;
         }
 
-        currentSpeed = new Point2D(currentSpeed.getX(), vy);
+        obj.setVelocityY(vy);
 
         // integrate position
         Point2D newPos = new Point2D(
-                obj.getPosition().getX() + currentSpeed.getX() * dt,
-                obj.getPosition().getY() * currentSpeed.getY() * dt);
+                obj.getPosition().getX() + obj.getVelocityX()*dt,
+                obj.getPosition().getY() *obj.getVelocityY()*dt);
 
         obj.setPosition(newPos);
     }
