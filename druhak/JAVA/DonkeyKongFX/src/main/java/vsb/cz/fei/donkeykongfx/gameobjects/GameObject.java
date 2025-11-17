@@ -3,6 +3,7 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class GameObject implements Renderable, Collisionable {
@@ -11,7 +12,7 @@ public abstract class GameObject implements Renderable, Collisionable {
     private Point2D position;
     private int height;
 
-    private double frameDuration = 0.2; // seconds per frame
+    private double frameDuration = 0.1; // seconds per frame
     private double frameTimer = 0;
 
     public GameObject(ResizableDimension level, int defaultHeight, Point2D position) {
@@ -84,6 +85,14 @@ public abstract class GameObject implements Renderable, Collisionable {
                 sx, sy, frameWidth, frameHeight,
                 x, y, frameWidth * scale, frameHeight * scale
         );
+//        Rectangle2D bounds = getBounds();
+//        gc.setStroke(Color.RED);
+//        gc.strokeRect(
+//                bounds.getMinX(),
+//                bounds.getMinY(),
+//                bounds.getWidth(),
+//                bounds.getHeight()
+//        );
     }
 
 

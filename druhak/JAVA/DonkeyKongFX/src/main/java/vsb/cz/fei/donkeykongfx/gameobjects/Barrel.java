@@ -3,6 +3,7 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
@@ -23,19 +24,21 @@ public class Barrel extends MovableGameObject {
                 height,
                 new Point2D(
                         0,
-                        32*rd.getScale()
+                        32 * rd.getScale()
                 ),
                 new MovableType(
-                        60*rd.getScale(),
-                        60*rd.getScale(),
-                        0.4*rd.getScale(),
-                        10*rd.getScale(),
+                        30 * rd.getScale(),
+                        60 * rd.getScale(),
+                        1000 * rd.getScale(),
+                        4000 * rd.getScale(),
                         0,
                         true,
                         false,
-                            new Point2D(60*rd.getScale(), 0)
-                        ));
+                        new Point2D(60 * rd.getScale(), 0)
+                ));
         barrelState = BarrelState.ROLLING;
+
+        setDirectionX(1);
 
         this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
         this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, 1);
@@ -47,11 +50,16 @@ public class Barrel extends MovableGameObject {
             case ROLLING -> roll;
             case CLIMBING -> climb;
         };
+        double scale = rd.getScale();
+        double fullW = currentAnim.getSize().getWidth() * scale;
+        double fullH = currentAnim.getSize().getHeight() * scale;
+        double insetW = fullW * 0.2; // use consistent inset proportions
+        double insetH = fullH * 0.2;
         return new Rectangle2D(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * rd.getScale()/ 5,
-                currentAnim.getSize().getWidth() * rd.getScale()*3/5,
-                currentAnim.getSize().getHeight() * rd.getScale()*3/5
+                getPosition().getX() + insetW,
+                getPosition().getY() + insetH,
+                fullW - insetW * 2,
+                fullH - insetH * 2
         );
     }
 
@@ -72,19 +80,15 @@ public class Barrel extends MovableGameObject {
                 rd.getScale(),
                 false
         );
-        gc.strokeRect(
-                getPosition().getX()+ currentAnim.getSize().getWidth() * rd.getScale() / 5,
-                getPosition().getY()+ currentAnim.getSize().getHeight() * rd.getScale()/ 5,
-                currentAnim.getSize().getWidth() * rd.getScale()*3/5,
-                currentAnim.getSize().getHeight() * rd.getScale()*3/5
-        );
+        Rectangle2D bounds = getBounds();
+        gc.setStroke(Color.RED);
+        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
+
     }
 
     public void updateState(double deltaTime) {
         switch (barrelState) {
-            case ROLLING -> {
-                frameIndex = (roll.getColCount() + frameIndex + getDirectionX()) % roll.getColCount();
-            }
+            case ROLLING -> frameIndex = (roll.getColCount() + frameIndex + getDirectionX()) % roll.getColCount();
             case CLIMBING -> frameIndex = (frameIndex + 1) % climb.getColCount();
         }
     }
@@ -92,35 +96,68 @@ public class Barrel extends MovableGameObject {
     @Override
     public void update(double deltaTime) {
         updateTimer(deltaTime);
-        if (!getOnGround()) {
-            this.setVelocityY(this.getVelocityY() + getType().gravityScale());
-            this.setPosition(this.getPosition().add(0, this.getVelocityY()));
+        MovableType type = getType();
+        if (type != null) {
+            type.apply(this, deltaTime);
         } else {
-            setVelocityY(0);
+            System.err.println("Warning: MovableType is null for Barrel");
         }
-            if(!inBounds(getBounds())) {
-                System.out.println("OB");
-                if(lastInBounds) {
-                    setNextDirection();
-                    lastInBounds = false;
-                }
-            } else {
-                lastInBounds = true;
+
+        // check bounds and change direction if needed
+        if (!inBounds(getBounds())) {
+            if (lastInBounds) {
+                setDirectionX(-getDirectionX());
+                lastInBounds = false;
             }
-            this.setPosition(this.getPosition().add(getVelocityX() * deltaTime, 0));
+        } else {
+            lastInBounds = true;
+        }
     }
 
     @Override
     public void hitBy(Collisionable another) {
 //        System.out.print("Barell hit by ");
-        if(another instanceof Platform platform) {
+        if (another instanceof Platform platform) {
 //            System.out.print("platform\n");
             grounded(platform);
             return;
         }
-        if(another instanceof Player p) {
+        if (another instanceof Player p) {
 //            System.out.print("player\n");
-            setPosition(new Point2D(0, 32*rd.getScale()));
+            setPosition(getInitPosition());
         }
     }
+
+//    @Override
+//    protected boolean canLandOn(Platform platform, Rectangle2D prevBounds, Rectangle2D currBounds) {
+//        Rectangle2D platformBounds = platform.getBounds();
+//        double platformTop = platformBounds.getMinY();
+//
+//        double prevBottom = prevBounds.getMaxY();
+//        double currBottom = currBounds.getMaxY();
+//
+//        double left = Math.max(currBounds.getMinX(), platformBounds.getMinX());
+//        double right = Math.min(currBounds.getMaxX(), platformBounds.getMaxX());
+//        double overlapX = right - left;
+//
+//        double verticalTolerance = rd.getScale() * 4;   // larger than player
+//        double horizontalTolerance = rd.getScale() * 0.25;
+//
+//        boolean movingDownwards = getVelocityY() > 0;
+//
+//        // allow landing if:
+//        // 1\) normal cross from above, or
+//        // 2\) we were above, now slightly below, and overlapping horizontally while moving down
+//        boolean crossedFromAbove =
+//                prevBottom <= platformTop + verticalTolerance &&
+//                        currBottom >= platformTop - verticalTolerance &&
+//                        movingDownwards;
+//
+//        boolean softLanding =
+//                movingDownwards &&
+//                        prevBottom <= platformTop + verticalTolerance &&
+//                        currBottom >= platformTop - verticalTolerance * 2;
+//
+//        return overlapX > horizontalTolerance && (crossedFromAbove || softLanding);
+//    }
 }
