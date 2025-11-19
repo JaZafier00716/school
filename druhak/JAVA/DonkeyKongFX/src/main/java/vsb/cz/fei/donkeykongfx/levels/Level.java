@@ -25,12 +25,11 @@ public class Level extends ResizableDimension {
         barrel = new Barrel(this, 32);
         entities.add(player);
         entities.add(barrel);
-        System.out.println(player.getBounds());
+        addPlatforms(6, 0);
+        addStaticBarrels(2,2, 0);
+    }
 
-        int totalRows = 6;
-
-        int rowPosition = 0;
-
+    public void addPlatforms(int totalRows, int rowPosition) {
         for (int i = 0; i < totalRows; i++) {
             int platformCount = i == 0 ? 28 : 26;
             boolean slopeUp = i % 2 == 0;
@@ -63,7 +62,16 @@ public class Level extends ResizableDimension {
             rowPosition += i % 2 == 0 ? 4 : 3; // if even, then +4 else +3
 
         }
+    }
 
+    public void addStaticBarrels(int columnCount, int totalRows, int rowPosition) {
+        int defaultHeight = 32;
+        for(int i = 0; i < totalRows; i++) {
+            for(int j = 0; j < columnCount; j++) {
+                objects.add(new StaticBarrel(this, defaultHeight, new Point2D(j * 32, rowPosition * 32)));
+            }
+            rowPosition += defaultHeight;
+        }
     }
 
     public void draw(GraphicsContext gc) {

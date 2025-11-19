@@ -5,23 +5,22 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
-import vsb.cz.fei.donkeykongfx.levels.Level;
 
-
-enum BarrelState {
-    ROLLING,
-    CLIMBING
+enum FlamyBoiState {
+    FALLING,
+    MOVING
 }
 
-public class Barrel extends MovableGameObject {
-    private final BarrelState barrelState;
-    private final AnimationData roll;
-    private final AnimationData climb;
+public class FlamyBoi extends MovableGameObject {
+    FlamyBoiState flamyBoiState;
+    AnimationData fall;
+    AnimationData move;
 
-    public Barrel(ResizableDimension rd, int height) {
+
+    public FlamyBoi(ResizableDimension rd, int defaultHeight) {
         super(
                 rd,
-                height,
+                defaultHeight,
                 new Point2D(
                         0,
                         32 * rd.getScale()
@@ -36,19 +35,16 @@ public class Barrel extends MovableGameObject {
                         false,
                         new Point2D(60 * rd.getScale(), 0)
                 ));
-        barrelState = BarrelState.ROLLING;
-
-        setDirectionX(1);
-
-        this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
-        this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, 1);
+        this.fall = new AnimationData("/images/enemies/flamyboi/fall.png", 2, 1);
+        this.move = new AnimationData("/images/enemies/flamyboi/move.png", 2, 1);
+        flamyBoiState = FlamyBoiState.FALLING;
     }
 
     @Override
     public Rectangle2D getBounds() {
-        AnimationData currentAnim = switch (barrelState) {
-            case ROLLING -> roll;
-            case CLIMBING -> climb;
+        AnimationData currentAnim = switch (flamyBoiState) {
+            case FALLING -> fall;
+            case MOVING -> move;
         };
         double scale = rd.getScale();
         double fullW = currentAnim.getSize().getWidth() * scale;
@@ -58,16 +54,16 @@ public class Barrel extends MovableGameObject {
         return new Rectangle2D(
                 getPosition().getX() + insetW,
                 getPosition().getY() + insetH,
-                fullW - insetW * 2,
-                fullH - insetH * 2
+                fullW - 2 * insetW,
+                fullH - 2 * insetH
         );
     }
 
     @Override
     protected void renderInternal(GraphicsContext gc) {
-        AnimationData currentAnim = switch (barrelState) {
-            case ROLLING -> roll;
-            case CLIMBING -> climb;
+        AnimationData currentAnim = switch (flamyBoiState) {
+            case FALLING -> fall;
+            case MOVING -> move;
         };
 
         drawSpriteFrame(
@@ -83,49 +79,41 @@ public class Barrel extends MovableGameObject {
         Rectangle2D bounds = getBounds();
         gc.setStroke(Color.RED);
         gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
-
     }
 
+    @Override
     public void updateState(double deltaTime) {
-        switch (barrelState) {
-            case ROLLING -> frameIndex = (roll.getColCount() + frameIndex + getDirectionX()) % roll.getColCount();
-            case CLIMBING -> frameIndex = (frameIndex + 1) % climb.getColCount();
+        switch (flamyBoiState) {
+            case FALLING -> {
+             frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
+            }
+            case MOVING -> {
+                frameIndex = (move.colCount() + frameIndex + 1) % move.colCount();
+            }
         }
     }
 
     @Override
     public void update(double deltaTime) {
         updateTimer(deltaTime);
-        MovableType type = getType();
-        if (type != null) {
-            type.apply(this, deltaTime);
-        } else {
-            System.err.println("Warning: MovableType is null for Barrel");
-        }
 
-        // check bounds and change direction if needed
-        if (!inBounds(getBounds())) {
-            if (lastInBounds) {
-                setDirectionX(-getDirectionX());
-                lastInBounds = false;
-            }
-        } else {
-            lastInBounds = true;
-        }
+
     }
 
-    @Override
     public void hitBy(Collisionable another) {
-//        System.out.print("Barell hit by ");
-        if (another instanceof Platform platform) {
-//            System.out.print("platform\n");
-            grounded(platform);
-            return;
-        }
-        if (another instanceof Player p) {
-//            System.out.print("player\n");
-            setPosition(getInitPosition());
+        // Handle collisions if necessary
+        if(another instanceof Platform platform) {
+            if(flamyBoiState == FlamyBoiState.FALLING) {
+                if(getPosition().getY() < rd.getHeight()-(2*getHeight()*rd.getScale())) {
+                    setOnGround(false);
+                } else {
+                    setOnGround(true);
+                    flamyBoiState = FlamyBoiState.MOVING;
+                }
+            }
+            if(flamyBoiState == FlamyBoiState.MOVING) {
+                grounded(platform);
+            }
         }
     }
-
 }
