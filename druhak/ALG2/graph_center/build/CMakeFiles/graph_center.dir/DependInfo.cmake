@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/jan/Documents/School/druhak/ALG2/graph_center/graph.cpp" "CMakeFiles/graph_center.dir/graph.cpp.o" "gcc" "CMakeFiles/graph_center.dir/graph.cpp.o.d"
   "/home/jan/Documents/School/druhak/ALG2/graph_center/main.cpp" "CMakeFiles/graph_center.dir/main.cpp.o" "gcc" "CMakeFiles/graph_center.dir/main.cpp.o.d"
   "" "graph_center" "gcc" "CMakeFiles/graph_center.dir/link.d"
   )

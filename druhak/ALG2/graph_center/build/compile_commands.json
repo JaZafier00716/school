@@ -1,8 +1,14 @@
 [
 {
   "directory": "/home/jan/Documents/School/druhak/ALG2/graph_center/build",
-  "command": "/usr/bin/g++   -g -std=gnu++23 -fopenmp -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -Werror -o CMakeFiles/graph_center.dir/main.cpp.o -c /home/jan/Documents/School/druhak/ALG2/graph_center/main.cpp",
+  "command": "/usr/bin/g++   -g -std=gnu++23 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -Werror -Wno-unused-result -Wdangling-pointer=1 -Werror=uninitialized -Werror=return-type -Werror=vla -o CMakeFiles/graph_center.dir/main.cpp.o -c /home/jan/Documents/School/druhak/ALG2/graph_center/main.cpp",
   "file": "/home/jan/Documents/School/druhak/ALG2/graph_center/main.cpp",
   "output": "CMakeFiles/graph_center.dir/main.cpp.o"
+},
+{
+  "directory": "/home/jan/Documents/School/druhak/ALG2/graph_center/build",
+  "command": "/usr/bin/g++   -g -std=gnu++23 -Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wconversion -Wsign-conversion -Wnull-dereference -Wdouble-promotion -Wformat=2 -Werror -Wno-unused-result -Wdangling-pointer=1 -Werror=uninitialized -Werror=return-type -Werror=vla -o CMakeFiles/graph_center.dir/graph.cpp.o -c /home/jan/Documents/School/druhak/ALG2/graph_center/graph.cpp",
+  "file": "/home/jan/Documents/School/druhak/ALG2/graph_center/graph.cpp",
+  "output": "CMakeFiles/graph_center.dir/graph.cpp.o"
 }
 ]

@@ -129,6 +129,30 @@ graph_center/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph_center.dir/build.make CMakeFiles/graph_center.dir/build
 .PHONY : graph_center/fast
 
+graph.o: graph.cpp.o
+.PHONY : graph.o
+
+# target to build an object file
+graph.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph_center.dir/build.make CMakeFiles/graph_center.dir/graph.cpp.o
+.PHONY : graph.cpp.o
+
+graph.i: graph.cpp.i
+.PHONY : graph.i
+
+# target to preprocess a source file
+graph.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph_center.dir/build.make CMakeFiles/graph_center.dir/graph.cpp.i
+.PHONY : graph.cpp.i
+
+graph.s: graph.cpp.s
+.PHONY : graph.s
+
+# target to generate assembly for a file
+graph.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/graph_center.dir/build.make CMakeFiles/graph_center.dir/graph.cpp.s
+.PHONY : graph.cpp.s
+
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -162,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... graph_center"
+	@echo "... graph.o"
+	@echo "... graph.i"
+	@echo "... graph.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -1,1 +1,1 @@
-/usr/bin/g++ -g -fopenmp -Wl,--dependency-file=CMakeFiles/graph_center.dir/link.d CMakeFiles/graph_center.dir/main.cpp.o -o graph_center
+/usr/bin/g++ -g -Wl,--dependency-file=CMakeFiles/graph_center.dir/link.d CMakeFiles/graph_center.dir/main.cpp.o CMakeFiles/graph_center.dir/graph.cpp.o -o graph_center

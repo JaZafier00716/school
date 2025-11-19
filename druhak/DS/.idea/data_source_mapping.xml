@@ -2,14 +2,9 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/console.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-<<<<<<< HEAD
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv3.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv4.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv5.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/test_prac.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-=======
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/console_1.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$PROJECT_DIR$/consoles/console.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
->>>>>>> 4464ee394031bcd2dd2cd83aa802bc9261927b92
   </component>
 </project>
