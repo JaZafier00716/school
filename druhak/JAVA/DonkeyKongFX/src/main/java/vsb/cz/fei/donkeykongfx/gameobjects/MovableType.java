@@ -61,34 +61,30 @@ public record MovableType(
     }
 
     public void apply(MovableGameObject obj, double dt) {
-        double directionX = Math.signum(obj.getVelocityX());
-        if(directionX == 0) {
+        obj.setPrevPosition(obj.getPosition());
+
+        // horizontal behaviour
+        double dir = obj.getDirectionX(); // 1 - right, 0 - standStill, -1 - left
+        if(dir == 0) {
             obj.setVelocityX(0);
         } else {
-            obj.setVelocityX(Math.copySign(baseSpeed, directionX)); // maintain direction
+            obj.setVelocityX(Math.copySign(baseSpeed, dir));
         }
 
-        // vertical behaviour
+        // Vertical behaviour
         double vy = obj.getVelocityY();
-
-        if (affectedByGravity && !obj.getOnGround()) {
-            vy += gravityScale;
-        } else if (obj.getOnGround()) {
+        if (affectedByGravity && !obj.isOnGround()) {
+            vy += gravityScale * dt;
+        } else if (obj.isOnGround()) {
             vy = 0;
         }
-
         // clamp downward speed
         if (vy > maxFallSpeed) {
             vy = maxFallSpeed;
         }
 
         obj.setVelocityY(vy);
-
-        // integrate position
-        Point2D newPos = new Point2D(
-                obj.getPosition().getX() + obj.getVelocityX()*dt,
-                obj.getPosition().getY() *obj.getVelocityY()*dt);
-
+        Point2D newPos = obj.getPosition().add(obj.getVelocityX()*dt, obj.getVelocityY()*dt);
         obj.setPosition(newPos);
     }
 

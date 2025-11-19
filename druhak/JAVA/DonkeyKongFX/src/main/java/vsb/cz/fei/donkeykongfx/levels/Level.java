@@ -67,10 +67,10 @@ public class Level extends ResizableDimension {
     }
 
     public void draw(GraphicsContext gc) {
-        for (MovableGameObject entity : entities) {
+        for (Renderable entity : objects) {
             entity.render(gc);
         }
-        for (Renderable entity : objects) {
+        for (MovableGameObject entity : entities) {
             entity.render(gc);
         }
     }
@@ -114,4 +114,5 @@ public class Level extends ResizableDimension {
     public Player getPlayer() {
         return player;
     }
+
 }
