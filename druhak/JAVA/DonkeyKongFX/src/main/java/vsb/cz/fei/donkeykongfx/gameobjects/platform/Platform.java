@@ -1,16 +1,21 @@
-package vsb.cz.fei.donkeykongfx.gameobjects;
+package vsb.cz.fei.donkeykongfx.gameobjects.platform;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
+import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
+import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
+import vsb.cz.fei.donkeykongfx.gameobjects.GameObject;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
 public class Platform extends GameObject {
     AnimationData platform;
     Point2D offset;
 
-    public Platform(Level level, int height, Point2D position, Point2D offset) {
-        super(level, height, position);
+    public Platform(ResizableDimension rd, int height, Point2D position, Point2D offset) {
+        super(rd, height, position);
 
         this.offset = offset;
         this.platform = new AnimationData("/images/tiles/orange_tiles.png", 8, 6, 0);
@@ -29,13 +34,13 @@ public class Platform extends GameObject {
                 false
         );
 
-//        gc.setStroke(Color.BLUE);
-//        gc.strokeRect(
-//                getPosition().getX()*platform.getSize().getWidth()*platform.getScale() + offset.getX(),
-//                level.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*platform.getScale() + offset.getY()),
-//                platform.getSize().getWidth()* platform.getScale(),
-//                platform.getSize().getHeight()* platform.getScale()
-//        );
+        gc.setStroke(Color.BLUE);
+        gc.strokeRect(
+                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
+                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
+                platform.getSize().getWidth()* rd.getScale(),
+                platform.getSize().getHeight()* rd.getScale()
+        );
     }
 
     @Override

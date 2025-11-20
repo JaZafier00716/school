@@ -5,15 +5,23 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
+import vsb.cz.fei.donkeykongfx.gameobjects.barrel.Barrel;
+import vsb.cz.fei.donkeykongfx.gameobjects.barrel.StaticBarrel;
+import vsb.cz.fei.donkeykongfx.gameobjects.donkeykong.DonkeyKong;
+import vsb.cz.fei.donkeykongfx.gameobjects.flamyboi.FlamyBoi;
+import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
+import vsb.cz.fei.donkeykongfx.gameobjects.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Level extends ResizableDimension {
     private final Player player;
-    private final Barrel barrel;
+    private final DonkeyKong donkeyKong;
     private final List<MovableGameObject> entities = new ArrayList<>();
     private final List<Renderable> objects = new ArrayList<>();
+    private final List<MovableGameObject> toBeAddedEntities = new ArrayList<>();
+    private final List<MovableGameObject> toBeRemovedEntities = new ArrayList<>();
 
     public Level(double width, double height) {
         this(new Dimension2D(width, height));
@@ -22,11 +30,11 @@ public class Level extends ResizableDimension {
     public Level( Dimension2D dimension) {
         super(dimension);
         player = new Player(this, 32);
-        barrel = new Barrel(this, 32);
+        donkeyKong = new DonkeyKong(this, 16, new Point2D(23, 72));
         entities.add(player);
-        entities.add(barrel);
+        entities.add(donkeyKong);
         addPlatforms(6, 0);
-        addStaticBarrels(2,2, 0);
+        addStaticBarrels(2,2, 4.5);
     }
 
     public void addPlatforms(int totalRows, int rowPosition) {
@@ -64,13 +72,12 @@ public class Level extends ResizableDimension {
         }
     }
 
-    public void addStaticBarrels(int columnCount, int totalRows, int rowPosition) {
-        int defaultHeight = 32;
+    public void addStaticBarrels(int columnCount, int totalRows, double rowPosition) {
+        int defaultHeight = 16;
         for(int i = 0; i < totalRows; i++) {
             for(int j = 0; j < columnCount; j++) {
-                objects.add(new StaticBarrel(this, defaultHeight, new Point2D(j * 32, rowPosition * 32)));
+                objects.add(new StaticBarrel(this, defaultHeight, new Point2D(j, i + rowPosition)));
             }
-            rowPosition += defaultHeight;
         }
     }
 
@@ -85,6 +92,22 @@ public class Level extends ResizableDimension {
 
     public void update(double deltaTime) {
         for (MovableGameObject entity : entities) {
+            if(entity.isToBeRemoved()) {
+                toBeRemovedEntities.add(entity);
+                continue;
+            }
+            if(entity instanceof DonkeyKong dk) {
+                if(dk.getSpawnFlamyBoi()) {
+                    FlamyBoi flamyBoi = new FlamyBoi(this, 16, new Point2D(40, 90));
+                    toBeAddedEntities.add(flamyBoi);
+                    dk.setSpawnFlamyBoi(false);
+                }
+                if(dk.getSpawnBarrel()) {
+                    Barrel newBarrel = new Barrel(this, 32, new Point2D(40, 90));
+                    toBeAddedEntities.add(newBarrel);
+                    dk.setSpawnBarrel(false);
+                }
+            }
             entity.update(deltaTime);
         }
         for (MovableGameObject e1 : entities) {
@@ -116,7 +139,10 @@ public class Level extends ResizableDimension {
             }
         }
 
-
+        entities.removeAll(toBeRemovedEntities);
+        toBeRemovedEntities.clear();
+        entities.addAll(toBeAddedEntities);
+        toBeAddedEntities.clear();
     }
 
     public Player getPlayer() {

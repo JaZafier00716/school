@@ -1,11 +1,13 @@
-package vsb.cz.fei.donkeykongfx.gameobjects;
+package vsb.cz.fei.donkeykongfx.gameobjects.barrel;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
-import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.gameobjects.*;
+import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
+import vsb.cz.fei.donkeykongfx.gameobjects.player.Player;
 
 
 enum BarrelState {
@@ -14,9 +16,13 @@ enum BarrelState {
 }
 
 public class Barrel extends MovableGameObject {
-    private final BarrelState barrelState;
+    private BarrelState barrelState;
     private final AnimationData roll;
     private final AnimationData climb;
+    private boolean canUpdatePosition = false;
+    private double positionTimer = 0.0;
+    private final double positionUpdateInterval = 1; // seconds
+
 
     public Barrel(ResizableDimension rd, int height) {
         super(
@@ -24,24 +30,45 @@ public class Barrel extends MovableGameObject {
                 height,
                 new Point2D(
                         0,
-                        32 * rd.getScale()
+                        32
                 ),
                 new MovableType(
-                        30 * rd.getScale(),
-                        60 * rd.getScale(),
-                        1000 * rd.getScale(),
-                        4000 * rd.getScale(),
+                        0,
+                        30,
+                        0.4,
+                        100,
                         0,
                         true,
                         false,
-                        new Point2D(60 * rd.getScale(), 0)
+                        new Point2D(0, 0)
                 ));
+        this.frameIndex = 0;
         barrelState = BarrelState.ROLLING;
-
-        setDirectionX(1);
 
         this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
         this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, 1);
+    }
+
+    public Barrel(ResizableDimension rd, int height, Point2D position) {
+        super(
+                rd,
+                height,
+                position,
+                new MovableType(
+                        0,
+                        30,
+                        0.4,
+                        100,
+                        0,
+                        true,
+                        false,
+                        new Point2D(0, 0)
+                ));
+        this.frameIndex = 0;
+        this.barrelState = BarrelState.CLIMBING;
+
+        this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
+        this.climb = new AnimationData("/images/enemies/barrel/climb.png", 2, 1);
     }
 
     @Override
@@ -53,11 +80,14 @@ public class Barrel extends MovableGameObject {
         double scale = rd.getScale();
         double fullW = currentAnim.getSize().getWidth() * scale;
         double fullH = currentAnim.getSize().getHeight() * scale;
-        double insetW = fullW * 0.2; // use consistent inset proportions
+        double insetW = switch (barrelState) {
+            case ROLLING -> fullW * 0.2;
+            case CLIMBING -> 0.0;
+        };
         double insetH = fullH * 0.2;
         return new Rectangle2D(
-                getPosition().getX() + insetW,
-                getPosition().getY() + insetH,
+                getPosition().getX()*rd.getScale() + insetW,
+                getPosition().getY()*rd.getScale() + insetH,
                 fullW - insetW * 2,
                 fullH - insetH * 2
         );
@@ -75,15 +105,14 @@ public class Barrel extends MovableGameObject {
                 currentAnim,
                 frameIndex,
                 0,
-                getPosition().getX(),
-                getPosition().getY(),
+                getPosition().getX() * rd.getScale(),
+                getPosition().getY() * rd.getScale(),
                 rd.getScale(),
                 false
         );
         Rectangle2D bounds = getBounds();
         gc.setStroke(Color.RED);
         gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
-
     }
 
     public void updateState(double deltaTime) {
@@ -98,13 +127,25 @@ public class Barrel extends MovableGameObject {
         updateTimer(deltaTime);
         MovableType type = getType();
         if (type != null) {
-            type.apply(this, deltaTime);
+            if (canUpdatePosition) {
+                type.apply(this, deltaTime);
+            } else {
+                positionTimer += deltaTime;
+                if (positionTimer >= positionUpdateInterval) {
+                    canUpdatePosition = true;
+                    barrelState = BarrelState.ROLLING;
+                    setPosition(new Point2D(67, 90));
+                    setDirectionX(1);
+                }
+                return;
+            }
         } else {
             System.err.println("Warning: MovableType is null for Barrel");
         }
 
         // check bounds and change direction if needed
-        if (!inBounds(getBounds())) {
+        if (!inBounds()) {
+            System.out.println("Out of bounds");
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
                 lastInBounds = false;
@@ -116,14 +157,12 @@ public class Barrel extends MovableGameObject {
 
     @Override
     public void hitBy(Collisionable another) {
-//        System.out.print("Barell hit by ");
         if (another instanceof Platform platform) {
-//            System.out.print("platform\n");
             grounded(platform);
             return;
         }
         if (another instanceof Player p) {
-//            System.out.print("player\n");
+            setToBeRemoved(true);
             setPosition(getInitPosition());
         }
     }

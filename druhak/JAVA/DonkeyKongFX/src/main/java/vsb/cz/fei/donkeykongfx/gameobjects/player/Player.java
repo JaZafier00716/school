@@ -1,17 +1,16 @@
-package vsb.cz.fei.donkeykongfx.gameobjects;
+package vsb.cz.fei.donkeykongfx.gameobjects.player;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
+import vsb.cz.fei.donkeykongfx.gameobjects.*;
+import vsb.cz.fei.donkeykongfx.gameobjects.barrel.Barrel;
+import vsb.cz.fei.donkeykongfx.gameobjects.flamyboi.FlamyBoi;
+import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
-enum playerState {
-    IDLE,
-    RUNNING,
-    CLIMBING_PHASE1,
-    CLIMBING_PHASE2,
-    DEATH
-}
+import static java.lang.Math.sqrt;
 
 
 public class Player extends MovableGameObject {
@@ -20,9 +19,9 @@ public class Player extends MovableGameObject {
     private final AnimationData climb_phase2;
     private final AnimationData death;
     // Animation timing
-    private playerState playerState;
+    private PlayerState playerState;
 
-    private playerState lastPlayerState;
+    private PlayerState lastPlayerState;
     private int lastFrameIndex;
 
 
@@ -32,14 +31,14 @@ public class Player extends MovableGameObject {
                 height,
                 new Point2D(
                         0,
-                        rd.getHeight() - (height * rd.getScale())
+                        226
                 ),
                 new MovableType(
-                        0 * rd.getScale(),
-                        60 * rd.getScale(),
-                        250 * rd.getScale(),
-                        4000 * rd.getScale(),
-                        Math.sqrt(500 * (height - 4)) * rd.getScale(), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
+                        0,
+                        60,
+                        0.4,
+                        30,
+                        sqrt(2*0.4*height*4), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
                         true,
                         true,
                         new Point2D(0, 0)
@@ -82,11 +81,15 @@ public class Player extends MovableGameObject {
                 currentAnim,
                 frameIndex,
                 0,
-                getPosition().getX(),
-                getPosition().getY(),
+                getPosition().getX() * rd.getScale(),
+                getPosition().getY() * rd.getScale(),
                 rd.getScale(),
                 !isFacingRight()
         );
+
+        Rectangle2D bounds = getBounds();
+        gc.setStroke(Color.GREEN);
+        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
     }
 
 
@@ -112,8 +115,8 @@ public class Player extends MovableGameObject {
         }
 
         return new Rectangle2D(
-                getPosition().getX() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
-                getPosition().getY(),
+                getPosition().getX()*rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
+                getPosition().getY()*rd.getScale(),
                 currentAnim.getSize().getWidth() * rd.getScale() / 2,
                 currentAnim.getSize().getHeight() * rd.getScale()
         );
@@ -123,16 +126,16 @@ public class Player extends MovableGameObject {
     public void hitBy(Collisionable another) {
         if (another instanceof Platform platform) {
                 handleCeilingHit(platform);
-            if (playerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH) {
+            if (playerState != PlayerState.DEATH) {
                 grounded(platform);
             } else {
                 setOnGround(false);
             }
             return;
         }
-        if (another instanceof Barrel) {
+        if (another instanceof Barrel || another instanceof FlamyBoi) {
             System.out.print("Barrel\n");
-            playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH;
+            playerState = PlayerState.DEATH;
             frameIndex = 0;
             setOnGround(true);
             jump();
@@ -154,7 +157,7 @@ public class Player extends MovableGameObject {
             case RUNNING -> frameIndex = (run.getColCount() + frameIndex + 1) % run.getColCount();
             case DEATH -> frameIndex = (death.getColCount() + frameIndex + 1) % death.getColCount();
         }
-        if (playerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE) {
+        if (playerState != PlayerState.IDLE) {
             lastPlayerState = playerState;
             lastFrameIndex = frameIndex;
         }
@@ -177,7 +180,7 @@ public class Player extends MovableGameObject {
             jump();
         }
 
-        if (!inBounds(getBounds())) {
+        if (!inBounds()) {
             if (lastInBoundsTimer < 1.0) { // wait for 1 second before respawning
                 lastInBoundsTimer += deltaTime;
             } else {
@@ -189,7 +192,7 @@ public class Player extends MovableGameObject {
                 setFacingRight(true);
                 this.lastFrameIndex = death.getColCount()-1;
                 this.lastPlayerState = playerState.DEATH;
-                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
+                playerState = PlayerState.IDLE;
                 System.out.println("Player out of bounds, respawning...");
                 lastInBoundsTimer = 0;
             }
@@ -205,36 +208,37 @@ public class Player extends MovableGameObject {
      * @param dirY - 1 = down, -1 = up, 0 = no vertical movement
      */
     public void setMovementDirection(int dirX, int dirY) {
-        if(playerState == vsb.cz.fei.donkeykongfx.gameobjects.playerState.DEATH) {
+        if(playerState == PlayerState.DEATH) {
             // cannot change direction when dead
             return;
         }
         if (dirX != 0) {
             this.setDirectionX(dirX);
-            if (lastPlayerState != vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING) {
+            if (lastPlayerState != PlayerState.RUNNING) {
                 frameIndex = 0;
             }
-            playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.RUNNING;
+            playerState = PlayerState.RUNNING;
 
         } else if (dirY != 0) {
             this.setDirectionX(0);
             if (dirY > 0) {
-                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE1;
+                playerState = PlayerState.CLIMBING_PHASE1;
             } else {
-                playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.CLIMBING_PHASE2;
+                playerState = PlayerState.CLIMBING_PHASE2;
             }
         } else {
             this.setDirectionX(0);
             lastPlayerState = playerState;
             lastFrameIndex = frameIndex;
-            playerState = vsb.cz.fei.donkeykongfx.gameobjects.playerState.IDLE;
+            playerState = PlayerState.IDLE;
             frameIndex = 0;
         }
     }
 
     @Override
-    public boolean inBounds(Rectangle2D bounds) {
+    public boolean inBounds() {
         // above screen
+        Rectangle2D bounds = getBounds();
         return !(bounds.getMaxX() <= 0)  // left of screen
                 && !(bounds.getMinX() >= rd.getWidth()) // right of screen
                 && !(bounds.getMinY() >= rd.getHeight()) // below screen

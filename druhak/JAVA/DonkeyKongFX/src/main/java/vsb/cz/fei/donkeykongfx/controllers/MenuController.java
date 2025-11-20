@@ -9,15 +9,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
-import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
-import vsb.cz.fei.donkeykongfx.gameobjects.DonkeyKong;
+import vsb.cz.fei.donkeykongfx.gameobjects.donkeykong.DonkeyKong;
 import vsb.cz.fei.donkeykongfx.score.Score;
-import vsb.cz.fei.donkeykongfx.score.ScoreException;
-import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Comparator;
 
 public class MenuController extends ResizableController {
@@ -138,7 +133,7 @@ public class MenuController extends ResizableController {
 
         if(rd == null) {
             rd = new ResizableDimension(w, h);
-            menuDonkeyKong = new DonkeyKong(rd, 32, 8, new Point2D(0,(rd.getHeight()-32*8)/2));
+            menuDonkeyKong = new DonkeyKong(rd, 32, rd.getScale()*4, new Point2D(0,25));
         }
 
         lastFrame = 0;
@@ -164,10 +159,10 @@ public class MenuController extends ResizableController {
     protected void onSizeChanged(double width, double height) {
         if(getTimer() == null) {
             rd = new ResizableDimension(width, height);
-            menuDonkeyKong = new DonkeyKong(rd, 32, 8, new Point2D(0,(rd.getHeight()-32*8)/2));
+            menuDonkeyKong = new DonkeyKong(rd, 32, rd.getScale()*4, new Point2D(0,25));
         } else {
             rd.updateSize(width, height);
-            menuDonkeyKong = new DonkeyKong(rd, 32, 8, new Point2D(0,(rd.getHeight()-32*8)/2));
+//            menuDonkeyKong = new DonkeyKong(rd, 32, 10, new Point2D(0,25));
         }
     }
 

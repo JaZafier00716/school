@@ -12,7 +12,7 @@ public abstract class GameObject implements Renderable, Collisionable {
     private Point2D position;
     private int height;
 
-    private double frameDuration = 0.1; // seconds per frame
+    private double frameDuration = 0.2; // seconds per frame
     private double frameTimer = 0;
 
     public GameObject(ResizableDimension level, int defaultHeight, Point2D position) {
@@ -22,9 +22,12 @@ public abstract class GameObject implements Renderable, Collisionable {
     }
 
     public GameObject(ResizableDimension level, int defaultHeight) {
-        this(level, defaultHeight, new Point2D(0,level.getHeight()-defaultHeight*level.getScale()));
+        this(level, defaultHeight, new Point2D(0,0));
     }
 
+    public void setFrameDuration(double frameDuration) {
+        this.frameDuration = frameDuration;
+    }
 
     public void setHeight(int height){
         this.height = height;
@@ -76,11 +79,6 @@ public abstract class GameObject implements Renderable, Collisionable {
         }
 
          gc.drawImage(
-                sprite.getSpriteSheet(),
-                sx, sy, frameWidth, frameHeight,
-                x, y, frameWidth * scale, frameHeight * scale
-        );
-        gc.drawImage(
                 sprite.getSpriteSheet(),
                 sx, sy, frameWidth, frameHeight,
                 x, y, frameWidth * scale, frameHeight * scale

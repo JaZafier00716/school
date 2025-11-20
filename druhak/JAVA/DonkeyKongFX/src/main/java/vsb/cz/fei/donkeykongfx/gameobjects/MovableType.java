@@ -81,6 +81,8 @@ public record MovableType(
         // clamp downward speed
         if (vy > maxFallSpeed) {
             vy = maxFallSpeed;
+        } else if (vy < -maxFallSpeed) {
+            vy = -maxFallSpeed;
         }
 
         obj.setVelocityY(vy);
