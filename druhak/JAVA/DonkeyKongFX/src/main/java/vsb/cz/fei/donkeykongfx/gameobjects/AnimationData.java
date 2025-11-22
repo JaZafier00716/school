@@ -8,10 +8,10 @@ public record AnimationData(
         Image spriteSheet,
         int colCount,
         int rowCount,
-        double spacing,
+        int spacing,
         boolean drawMirrorred
 ) {
-    public AnimationData(String path, int colCount, int rowCount, double spacing) {
+    public AnimationData(String path, int colCount, int rowCount, int spacing) {
         this(
                 new Image(
                         Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
@@ -27,7 +27,7 @@ public record AnimationData(
         );
     }
 
-    public AnimationData(String path, int frameCount, double spacing) {
+    public AnimationData(String path, int frameCount, int spacing) {
         this(
                 new Image(
                         Objects.requireNonNull(AnimationData.class.getResourceAsStream(path)),
@@ -57,7 +57,7 @@ public record AnimationData(
 
 
 
-    public double getSpacing() {
+    public int getSpacing() {
         return spacing;
     }
 

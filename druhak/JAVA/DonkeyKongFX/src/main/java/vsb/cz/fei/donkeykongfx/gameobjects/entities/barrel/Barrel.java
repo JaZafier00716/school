@@ -1,13 +1,13 @@
-package vsb.cz.fei.donkeykongfx.gameobjects.barrel;
+package vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
+import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
-import vsb.cz.fei.donkeykongfx.gameobjects.player.Player;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
 
 enum BarrelState {
@@ -81,10 +81,10 @@ public class Barrel extends MovableGameObject {
         double fullW = currentAnim.getSize().getWidth() * scale;
         double fullH = currentAnim.getSize().getHeight() * scale;
         double insetW = switch (barrelState) {
-            case ROLLING -> fullW * 0.2;
+            case ROLLING -> fullW * 0.25;
             case CLIMBING -> 0.0;
         };
-        double insetH = fullH * 0.2;
+        double insetH = fullH * 0.25;
         return new Rectangle2D(
                 getPosition().getX()*rd.getScale() + insetW,
                 getPosition().getY()*rd.getScale() + insetH,
@@ -110,9 +110,6 @@ public class Barrel extends MovableGameObject {
                 rd.getScale(),
                 false
         );
-        Rectangle2D bounds = getBounds();
-        gc.setStroke(Color.RED);
-        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
     }
 
     public void updateState(double deltaTime) {
@@ -134,7 +131,7 @@ public class Barrel extends MovableGameObject {
                 if (positionTimer >= positionUpdateInterval) {
                     canUpdatePosition = true;
                     barrelState = BarrelState.ROLLING;
-                    setPosition(new Point2D(67, 90));
+                    setPosition(new Point2D(64, 68));
                     setDirectionX(1);
                 }
                 return;
@@ -144,7 +141,7 @@ public class Barrel extends MovableGameObject {
         }
 
         // check bounds and change direction if needed
-        if (!inBounds()) {
+        if (inBounds()) {
             System.out.println("Out of bounds");
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
@@ -157,6 +154,9 @@ public class Barrel extends MovableGameObject {
 
     @Override
     public void hitBy(Collisionable another) {
+        if(another instanceof Ladder) {
+
+        }
         if (another instanceof Platform platform) {
             grounded(platform);
             return;

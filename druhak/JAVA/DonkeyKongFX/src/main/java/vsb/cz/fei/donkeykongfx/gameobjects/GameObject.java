@@ -21,9 +21,9 @@ public abstract class GameObject implements Renderable, Collisionable {
         this.height = defaultHeight;
     }
 
-    public GameObject(ResizableDimension level, int defaultHeight) {
-        this(level, defaultHeight, new Point2D(0,0));
-    }
+//    public GameObject(ResizableDimension level, int defaultHeight) {
+//        this(level, defaultHeight, new Point2D(0,0));
+//    }
 
     public void setFrameDuration(double frameDuration) {
         this.frameDuration = frameDuration;
@@ -51,7 +51,7 @@ public abstract class GameObject implements Renderable, Collisionable {
      *
      * @param gc          the GraphicsContext
      * @param sprite      the sprite sheet with animation images
-     * @param colIndex    which animatoin col to draw
+     * @param colIndex    which animation col to draw
      * @param rowIndex    which animation row to draw
      * @param x           X position on screen
      * @param y           Y position on screen
@@ -59,38 +59,55 @@ public abstract class GameObject implements Renderable, Collisionable {
      * @param mirror      whether to mirror the sprite horizontally
      */
     protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, double x, double y, double scale, boolean mirror) {
+        drawSpriteFrame(gc, sprite, colIndex, rowIndex, 0, x, y, scale, mirror);
+    }
+
+    protected void drawSpriteFrame(GraphicsContext gc, AnimationData sprite, int colIndex, int rowIndex, int rowOffset, double x, double y, double scale, boolean mirror) {
         gc.setImageSmoothing(false);
 
         // Compute frame dimensions with spacing
-        double frameWidth = sprite.getSize().getWidth();
-        double frameHeight = sprite.getSize().getHeight();
+        double frameWidthD = sprite.getSize().getWidth();
+        double frameHeightD = sprite.getSize().getHeight();
 
-        // Compute cropping coordinates
-        double sx = sprite.getSpacing() + colIndex * (frameWidth + sprite.getSpacing());
-        double sy = sprite.getSpacing() + rowIndex * (frameHeight + sprite.getSpacing());
+        // Compute source cropping coordinates
+        double sxD = sprite.getSpacing() + colIndex * (frameWidthD + sprite.getSpacing());
+        double syD = sprite.getSpacing() + rowOffset + rowIndex * (frameHeightD + sprite.getSpacing());
 
+        int sx = (int)Math.floor(sxD);
+        int sy = (int)Math.floor(syD);
+        int sWidth = (int)Math.ceil(frameWidthD);
+        int sHeight = (int)Math.ceil(frameHeightD);
+
+        double scaledWidth = sWidth * scale;
+        double scaledHeight = sHeight * scale;
 
         // Draw cropped + scaled frame
         if(mirror) {
             gc.save();
-            gc.translate(x + frameWidth * scale, 0);
+            gc.translate(x + scaledWidth, 0);
             gc.scale(-1, 1);
-            x = 0;
+            gc.drawImage(
+                    sprite.getSpriteSheet(),
+                    sx, sy, sWidth, sHeight,
+                    0, y, scaledWidth, scaledHeight
+            );
+            gc.restore();
+        } else {
+            gc.drawImage(
+                    sprite.getSpriteSheet(),
+                    sx, sy, sWidth, sHeight,
+                    x, y, scaledWidth, scaledHeight
+            );
         }
 
-         gc.drawImage(
-                sprite.getSpriteSheet(),
-                sx, sy, frameWidth, frameHeight,
-                x, y, frameWidth * scale, frameHeight * scale
+        Rectangle2D bounds = getBounds();
+        gc.setStroke(Color.GREEN);
+        gc.strokeRect(
+                bounds.getMinX(),
+                bounds.getMinY(),
+                bounds.getWidth(),
+                bounds.getHeight()
         );
-//        Rectangle2D bounds = getBounds();
-//        gc.setStroke(Color.RED);
-//        gc.strokeRect(
-//                bounds.getMinX(),
-//                bounds.getMinY(),
-//                bounds.getWidth(),
-//                bounds.getHeight()
-//        );
     }
 
 

@@ -1,16 +1,15 @@
-package vsb.cz.fei.donkeykongfx.gameobjects.flamyboi;
+package vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableGameObject;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableType;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
-import vsb.cz.fei.donkeykongfx.gameobjects.player.Player;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
 enum FlamyBoiState {
     FALLING,
@@ -87,9 +86,6 @@ public class FlamyBoi extends MovableGameObject {
                 rd.getScale(),
                 false
         );
-        Rectangle2D bounds = getBounds();
-        gc.setStroke(Color.RED);
-        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
     }
 
     @Override
@@ -122,7 +118,7 @@ public class FlamyBoi extends MovableGameObject {
         }
 
         // check bounds and change direction if needed
-        if (!inBounds()) {
+        if (inBounds()) {
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
                 lastInBounds = false;

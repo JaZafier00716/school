@@ -12,7 +12,7 @@ public abstract class MovableGameObject extends GameObject {
     private boolean onGround = false;
     protected boolean lastInBounds = true;
     private boolean facingRight = true;
-    private Point2D initPosition;
+    private final Point2D initPosition;
     private Point2D prevPosition;
     private int directionX = 0;
     private boolean pendingJump = false;
@@ -25,12 +25,12 @@ public abstract class MovableGameObject extends GameObject {
         this.initPosition = position;
     }
 
-    public MovableGameObject(ResizableDimension rd, int defaultHeight, MovableType type) {
-        super(rd, defaultHeight);
-        velocityX = type.initSpeed();
-        this.type = type;
-        this.initPosition = getPosition();
-    }
+//    public MovableGameObject(ResizableDimension rd, int defaultHeight, MovableType type) {
+//        super(rd, defaultHeight);
+//        velocityX = type.initSpeed();
+//        this.type = type;
+//        this.initPosition = getPosition();
+//    }
 
     public MovableType getType() {
         return type;
@@ -76,13 +76,13 @@ public abstract class MovableGameObject extends GameObject {
         this.onGround = onGround;
     }
 
-    public boolean isLastInBounds() {
-        return lastInBounds;
-    }
-
-    public void setLastInBounds(boolean lastInBounds) {
-        this.lastInBounds = lastInBounds;
-    }
+//    public boolean isLastInBounds() {
+//        return lastInBounds;
+//    }
+//
+//    public void setLastInBounds(boolean lastInBounds) {
+//        this.lastInBounds = lastInBounds;
+//    }
 
     public boolean isFacingRight() {
         return facingRight;
@@ -96,9 +96,9 @@ public abstract class MovableGameObject extends GameObject {
         return initPosition;
     }
 
-    public void setInitPosition(Point2D initPosition) {
-        this.initPosition = initPosition;
-    }
+//    public void setInitPosition(Point2D initPosition) {
+//        this.initPosition = initPosition;
+//    }
 
     public Point2D getPrevPosition() {
         return prevPosition != null ? prevPosition : getPosition();
@@ -117,15 +117,15 @@ public abstract class MovableGameObject extends GameObject {
     }
 
     public boolean inBounds() {
-        return !(getBounds().getMinX() < 0) && !(getBounds().getMaxX() > rd.getWidth());
+        return getBounds().getMinX() < 0 || getBounds().getMaxX() > rd.getWidth();
     }
 
     protected double landingTolerance() {
-        return rd.getScale() * 4;   // small but not too small
+        return rd.getScale() * 1;   // small but not too small
     }
 
     protected double ceilingTolerance() {
-        return rd.getScale() * 12;   // allow more penetration from below
+        return rd.getScale() * 0;   // allow more penetration from below
     }
 
     public Rectangle2D getPreviousBounds() {
@@ -165,12 +165,10 @@ public abstract class MovableGameObject extends GameObject {
         // Allow penetration (player can be slightly inside the platform bottom)
         double penetration = ceilingTolerance(); // tolerance for ceiling hit
 
-        if (movingUp) {
-            System.out.printf(
-                    "Ceiling check: prevTop=%.3f currTop=%.3f platBottom=%.3f vY=%.3f overlapX=%.3f pen=%.3f%n",
-                    prevTop, currTop, platBottom, getVelocityY(), overlapX, penetration
-            );
-        }
+        System.out.printf(
+                "Ceiling check: prevTop=%.3f currTop=%.3f platBottom=%.3f vY=%.3f overlapX=%.3f pen=%.3f%n",
+                prevTop, currTop, platBottom, getVelocityY(), overlapX, penetration
+        );
 
 
         // crossed the platform bottom between previous and current frame
@@ -229,7 +227,7 @@ public abstract class MovableGameObject extends GameObject {
         double overlapX = right - left;
 
         double verticalTolerance = landingTolerance(); // small tolerance for vertical alignment
-        double horizontalTolerance = rd.getScale() * 0.5;
+        double horizontalTolerance = rd.getScale() * 0.1;
 
         boolean movingDownwards = getVelocityY() > 0;
         boolean crossedFromAbove =

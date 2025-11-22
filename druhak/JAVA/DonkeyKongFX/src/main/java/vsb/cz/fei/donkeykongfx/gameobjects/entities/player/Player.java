@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.gameobjects.player;
+package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -6,8 +6,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
-import vsb.cz.fei.donkeykongfx.gameobjects.barrel.Barrel;
-import vsb.cz.fei.donkeykongfx.gameobjects.flamyboi.FlamyBoi;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi.FlamyBoi;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
 import static java.lang.Math.sqrt;
@@ -38,40 +38,39 @@ public class Player extends MovableGameObject {
                         60,
                         0.4,
                         30,
-                        sqrt(2*0.4*height*4), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
+                        sqrt(2*0.4*height), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
                         true,
                         true,
                         new Point2D(0, 0)
                 ));
         this.frameIndex = 0;
         this.lastFrameIndex = 0;
-        this.lastPlayerState = playerState.RUNNING;
+        this.lastPlayerState = PlayerState.RUNNING;
 
         this.run = new AnimationData("/images/player/run.png", 4, 1);
         this.climb_phase1 = new AnimationData("/images/player/climb_phase1.png", 2, 1);
         this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, 1);
         this.death = new AnimationData("/images/player/death.png", 5, 1);
-        this.playerState = playerState.IDLE;
+        this.playerState = PlayerState.IDLE;
     }
 
     @Override
     public void renderInternal(GraphicsContext gc) {
         AnimationData currentAnim;
-        if (this.playerState == playerState.IDLE) {
+        if (this.playerState == PlayerState.IDLE) {
             currentAnim = switch (lastPlayerState) {
                 case CLIMBING_PHASE1 -> climb_phase1;
                 case CLIMBING_PHASE2 -> climb_phase2;
                 case DEATH -> death;
-                case RUNNING -> run;
-                case IDLE -> run;
+                case RUNNING, IDLE -> run;
             };
         } else {
             currentAnim = switch (playerState) {
                 case CLIMBING_PHASE1 -> climb_phase1;
                 case CLIMBING_PHASE2 -> climb_phase2;
                 case DEATH -> death;
-                case IDLE -> run;
                 case RUNNING -> run;
+                default -> throw new IllegalStateException("Unexpected value: " + playerState);
             };
         }
 
@@ -86,39 +85,34 @@ public class Player extends MovableGameObject {
                 rd.getScale(),
                 !isFacingRight()
         );
-
-        Rectangle2D bounds = getBounds();
-        gc.setStroke(Color.GREEN);
-        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
     }
 
 
     @Override
     public Rectangle2D getBounds() {
         AnimationData currentAnim;
-        if (this.playerState == playerState.IDLE) {
+        if (this.playerState == PlayerState.IDLE) {
             currentAnim = switch (lastPlayerState) {
                 case CLIMBING_PHASE1 -> climb_phase1;
                 case CLIMBING_PHASE2 -> climb_phase2;
                 case DEATH -> death;
-                case RUNNING -> run;
-                case IDLE -> run;
+                case RUNNING, IDLE -> run;
             };
         } else {
             currentAnim = switch (playerState) {
                 case CLIMBING_PHASE1 -> climb_phase1;
                 case CLIMBING_PHASE2 -> climb_phase2;
                 case DEATH -> death;
-                case IDLE -> run;
                 case RUNNING -> run;
+                default -> throw new IllegalStateException("Unexpected value: " + playerState);
             };
         }
 
         return new Rectangle2D(
                 getPosition().getX()*rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
-                getPosition().getY()*rd.getScale(),
+                getPosition().getY()*rd.getScale() + currentAnim.getSize().getHeight() * rd.getScale() / 2,
                 currentAnim.getSize().getWidth() * rd.getScale() / 2,
-                currentAnim.getSize().getHeight() * rd.getScale()
+                currentAnim.getSize().getHeight() * rd.getScale() - currentAnim.getSize().getHeight() * rd.getScale() / 2
         );
     }
 
@@ -180,7 +174,7 @@ public class Player extends MovableGameObject {
             jump();
         }
 
-        if (!inBounds()) {
+        if (inBounds()) {
             if (lastInBoundsTimer < 1.0) { // wait for 1 second before respawning
                 lastInBoundsTimer += deltaTime;
             } else {
@@ -190,8 +184,9 @@ public class Player extends MovableGameObject {
                 this.setVelocityY(0);
                 setDirectionX(0);
                 setFacingRight(true);
-                this.lastFrameIndex = death.getColCount()-1;
-                this.lastPlayerState = playerState.DEATH;
+                frameIndex = death.getColCount()-1;
+                this.lastFrameIndex = death.getColCount() - 1;
+                this.lastPlayerState = PlayerState.DEATH;
                 playerState = PlayerState.IDLE;
                 System.out.println("Player out of bounds, respawning...");
                 lastInBoundsTimer = 0;
@@ -239,10 +234,10 @@ public class Player extends MovableGameObject {
     public boolean inBounds() {
         // above screen
         Rectangle2D bounds = getBounds();
-        return !(bounds.getMaxX() <= 0)  // left of screen
-                && !(bounds.getMinX() >= rd.getWidth()) // right of screen
-                && !(bounds.getMinY() >= rd.getHeight()) // below screen
-                && !(bounds.getMaxY() <= 0);
+        return bounds.getMaxX() <= 0  // left of screen
+                || bounds.getMinX() >= rd.getWidth() // right of screen
+                || bounds.getMinY() >= rd.getHeight() // below screen
+                || bounds.getMaxY() <= 0;
     }
 
 }

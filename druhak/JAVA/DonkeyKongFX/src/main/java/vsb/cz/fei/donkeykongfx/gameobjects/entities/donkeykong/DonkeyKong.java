@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.gameobjects.donkeykong;
+package vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -96,11 +96,6 @@ public class DonkeyKong extends MovableGameObject {
                 (custom_scale == -1 ? rd.getScale() : custom_scale),
                 false
         );
-
-        Rectangle2D bounds = getBounds();
-        gc.setStroke(Color.GREEN);
-        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
-
     }
 
     public void updateState(double deltaTime) {

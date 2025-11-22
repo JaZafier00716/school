@@ -10,7 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
-import vsb.cz.fei.donkeykongfx.gameobjects.donkeykong.DonkeyKong;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.DonkeyKong;
 import vsb.cz.fei.donkeykongfx.score.Score;
 
 import java.util.Comparator;

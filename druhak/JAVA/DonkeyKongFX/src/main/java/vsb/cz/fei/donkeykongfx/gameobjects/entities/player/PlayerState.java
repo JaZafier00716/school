@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.gameobjects.player;
+package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 
 enum PlayerState {
     IDLE,

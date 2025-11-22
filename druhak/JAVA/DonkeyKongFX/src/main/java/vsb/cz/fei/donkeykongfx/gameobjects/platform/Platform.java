@@ -18,7 +18,7 @@ public class Platform extends GameObject {
         super(rd, height, position);
 
         this.offset = offset;
-        this.platform = new AnimationData("/images/tiles/orange_tiles.png", 8, 6, 0);
+        this.platform = new AnimationData("/images/tiles/pink_tiles.png", 8, 6, 0);
     }
 
     @Override
@@ -28,19 +28,26 @@ public class Platform extends GameObject {
                 platform,
                 0,
                 5,
-                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
-                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
+                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX()*rd.getScale(),
+                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()*rd.getScale()),
                 rd.getScale(),
                 false
         );
+    }
 
-        gc.setStroke(Color.BLUE);
-        gc.strokeRect(
-                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
-                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
+    @Override
+    public Rectangle2D getBounds() {
+        return new Rectangle2D(
+                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX()*rd.getScale(),
+                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()*rd.getScale()),
                 platform.getSize().getWidth()* rd.getScale(),
                 platform.getSize().getHeight()* rd.getScale()
         );
+    }
+
+    @Override
+    public void hitBy(Collisionable another) {
+
     }
 
     @Override
@@ -49,20 +56,6 @@ public class Platform extends GameObject {
     }
 
     public void updateState(double delta) {
-
-    }
-
-    @Override
-    public Rectangle2D getBounds() {
-        return new Rectangle2D(
-                getPosition().getX()*platform.getSize().getWidth()*rd.getScale() + offset.getX(),
-                rd.getHeight() - ((1+getPosition().getY())*platform.getSize().getHeight()*rd.getScale() + offset.getY()),
-                platform.getSize().getWidth()* rd.getScale(),
-                platform.getSize().getHeight()* rd.getScale());
-    }
-
-    @Override
-    public void hitBy(Collisionable another) {
 
     }
 }
