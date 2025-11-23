@@ -2,8 +2,10 @@
 package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
+import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public record MovableType(
+        ResizableDimension rd,
         double initSpeed,
         double baseSpeed,
         double gravityScale,
@@ -13,18 +15,6 @@ public record MovableType(
         boolean canJump,
         Point2D currentSpeed
 ) {
-    public MovableType(double initSpeed, double baseSpeed, double gravityScale, double maxFallSpeed, double jumpImpulse,
-                       boolean affectedByGravity, boolean canJump, Point2D currentSpeed) {
-        this.initSpeed = initSpeed;
-        this.baseSpeed = baseSpeed;
-        this.gravityScale = gravityScale;
-        this.maxFallSpeed = maxFallSpeed;
-        this.jumpImpulse = jumpImpulse;
-        this.affectedByGravity = affectedByGravity;
-        this.canJump = canJump;
-        this.currentSpeed = currentSpeed;
-    }
-
     @Override
     public double initSpeed() {
         return initSpeed;
@@ -64,19 +54,36 @@ public record MovableType(
         obj.setPrevPosition(obj.getPosition());
 
         // horizontal behaviour
-        double dir = obj.getDirectionX(); // 1 - right, 0 - standStill, -1 - left
-        if(dir == 0) {
+        int dirX = obj.getDirectionX(); // 1 - right, 0 - standStill, -1 - left
+        if (dirX == 0) {
             obj.setVelocityX(0);
         } else {
-            obj.setVelocityX(Math.copySign(baseSpeed, dir));
+            obj.setVelocityX(Math.copySign(baseSpeed, dirX));
         }
 
         // Vertical behaviour
+        double vy = getVy(obj, dt);
+
+        obj.setVelocityY(vy);
+        Point2D newPos = obj.getPosition().add(obj.getVelocityX() * dt*rd.getScale(), obj.getVelocityY() * dt * rd.getScale());
+        obj.setPosition(newPos);
+    }
+
+    private double getVy(MovableGameObject obj, double dt) {
         double vy = obj.getVelocityY();
-        if (affectedByGravity && !obj.isOnGround()) {
-            vy += gravityScale * dt;
-        } else if (obj.isOnGround()) {
-            vy = 0;
+        int dirY = obj.getDirectionY(); // 1 - down, 0 - no vertical movement, -1 - up
+        if (obj.isOnLadder()) {
+            if (dirY == 0) {
+                vy = 0;
+            } else {
+                vy = Math.copySign(baseSpeed, dirY);
+            }
+        } else {
+            if (affectedByGravity && !obj.isOnGround()) {
+                vy += gravityScale * dt*rd.getScale();
+            } else if (obj.isOnGround()) {
+                vy = 0;
+            }
         }
         // clamp downward speed
         if (vy > maxFallSpeed) {
@@ -84,10 +91,7 @@ public record MovableType(
         } else if (vy < -maxFallSpeed) {
             vy = -maxFallSpeed;
         }
-
-        obj.setVelocityY(vy);
-        Point2D newPos = obj.getPosition().add(obj.getVelocityX()*dt, obj.getVelocityY()*dt);
-        obj.setPosition(newPos);
+        return vy;
     }
 
 }

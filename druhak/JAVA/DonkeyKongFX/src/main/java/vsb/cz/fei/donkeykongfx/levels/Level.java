@@ -33,12 +33,13 @@ public class Level extends ResizableDimension {
     public Level(Dimension2D dimension) {
         super(dimension);
         player = new Player(this, 32);
-        donkeyKong = new DonkeyKong(this, 16, new Point2D(20, 50));
+        donkeyKong = new DonkeyKong(this, 16, new Point2D(20, 41));
         entities.add(player);
         entities.add(donkeyKong);
         addPlatforms(6, 0);
-        addStaticBarrels(2, 2, 3);
+        addStaticBarrels(2, 2, 2);
         addLadders();
+        objects.add(new Door(this, 16, new Point2D(0, 14), new Point2D(0, 8)));
         comparator = new Comparator<Renderable>() {
             @Override
             public int compare(Renderable o1, Renderable o2) {
@@ -50,6 +51,13 @@ public class Level extends ResizableDimension {
                     return 1;
                 }
                 if (o2 instanceof StaticBarrel) {
+                    return -1;
+                }
+
+                if(o1 instanceof Door){
+                    return 1;
+                }
+                if(o2 instanceof Door){
                     return -1;
                 }
 
@@ -76,20 +84,20 @@ public class Level extends ResizableDimension {
 
     public void addLadders() {
         objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(10, 1), new Point2D(0, 0), 1, 2));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 2, new Point2D(23, 1), new Point2D(0, 5)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 2, new Point2D(4, 6), new Point2D(0, -2)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(12, 6), new Point2D(0, -6)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(8, 9), new Point2D(0, 0), 1, 2));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(14, 9), new Point2D(0, 3)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 2, new Point2D(23, 9), new Point2D(0, 7)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 2, new Point2D(4, 14), new Point2D(0, 0)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(9, 14), new Point2D(0, -2)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(21, 14), new Point2D(0, -8), 1, 2));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 5, new Point2D(11, 17), new Point2D(0, 1), 2, 1));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(23, 17), new Point2D(0, 7)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 7, new Point2D(8, 22), new Point2D(0, 2)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 7, new Point2D(10, 22), new Point2D(0, 2)));
-        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(16, 22), new Point2D(0, 2)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(23, 1), new Point2D(0, 5)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(4, 6), new Point2D(0, 1)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(12, 6), new Point2D(0, -3)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 5, new Point2D(8, 9), new Point2D(0, 5), 1, 2));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(14, 9), new Point2D(0, 8)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(23, 9), new Point2D(0, 13)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(4, 14), new Point2D(0, 9)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(9, 14), new Point2D(0, 7)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 5, new Point2D(21, 14), new Point2D(0, 1), 1, 2));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 4, new Point2D(11, 18), new Point2D(0, 7), 2, 1));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(23, 18), new Point2D(0, 13)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 7, new Point2D(8, 23), new Point2D(0, 3)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 7, new Point2D(10, 23), new Point2D(0, 3)));
+        objects.add(new vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder(this, 8 * 3, new Point2D(16, 23), new Point2D(0, 3)));
     }
 
     public void addPlatforms(int totalRows, int rowPosition) {
@@ -97,20 +105,29 @@ public class Level extends ResizableDimension {
             int platformCount = i == 0 ? 28 : 26;
             boolean slopeUp = i % 2 == 0;
             boolean hole = i % 2 == 0;
-            int offset = i % 2 == 0 ? -3 : 2; // initial offset for the row
-            if (i <= 1) {
-                offset = 0;
-            }
+            int offset = i == 0 ? 0 : 3; // initial offset for the row
 
             for (int j = 0; j < platformCount; j++) {
                 if (i == 0) {
                     objects.add(new Platform(this, 8, new Point2D(j, 0), new Point2D(0, offset)));
+
                     if (j < 13) {
                         // skip offset update
                         continue;
                     }
                 } else {
-                    objects.add(new Platform(this, 8, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset)));
+                    if (
+                            i == 1 && (j == 10 || j == 23) ||
+                            i == 2 && (j == 2 || j == 10) ||
+                            i == 3 && (j == 8 || j == 14 || j == 23) ||
+                            i == 4 && (j == 2 || j == 7 || j == 19) ||
+                            i == 5 && (j == 11 || j == 23) ||
+                            i == 6 && (j == 8 || j == 10 || j == 16)
+                    ) {
+                        objects.add(new Platform(this, 8, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset), true));
+                    } else {
+                        objects.add(new Platform(this, 8, new Point2D(j + (hole ? 2 : 0), rowPosition), new Point2D(0, offset)));
+                    }
                     if (i == totalRows - 1 && j < 16) {
                         continue;
                     }
@@ -127,20 +144,26 @@ public class Level extends ResizableDimension {
             }
 
             rowPosition += i % 2 == 0 ? 5 : 3; // if even, then +4 else +3
-
+            if(i == 2) {
+                rowPosition += 1; // extra +1 for the third row, because of accumulated offsets
+            }
         }
         for (int j = 0; j < 6; j++) { // top platform
-            objects.add(new Platform(this, 8, new Point2D(11 + j, 25), new Point2D(0, 2)));
+            if(j == 5) {
+                objects.add(new Platform(this, 8, new Point2D(11+j, 26), new Point2D(0, 3), true));
+            } else {
+                objects.add(new Platform(this, 8, new Point2D(11 + j, 26), new Point2D(0, 3)));
+            }
         }
-        objects.add(new Platform(this, 8, new Point2D(8, 29), new Point2D(0, 0)));
-        objects.add(new Platform(this, 8, new Point2D(10, 29), new Point2D(0, 0)));
+        objects.add(new Platform(this, 8, new Point2D(8, 30), new Point2D(0, 3), true));
+        objects.add(new Platform(this, 8, new Point2D(10, 30), new Point2D(0, 3), true));
     }
 
     public void addStaticBarrels(int columnCount, int totalRows, double rowPosition) {
         int defaultHeight = 16;
         for (int i = 0; i < totalRows; i++) {
             for (int j = 0; j < columnCount; j++) {
-                objects.add(new StaticBarrel(this, defaultHeight, new Point2D(j, i + rowPosition), new Point2D(-3, 2)));
+                objects.add(new StaticBarrel(this, defaultHeight, new Point2D(j, i + rowPosition), new Point2D(-3, 9)));
             }
         }
     }
@@ -162,12 +185,12 @@ public class Level extends ResizableDimension {
             }
             if (entity instanceof DonkeyKong dk) {
                 if (dk.getSpawnFlamyBoi()) {
-                    FlamyBoi flamyBoi = new FlamyBoi(this, 16, new Point2D(36, 68));
+                    FlamyBoi flamyBoi = new FlamyBoi(this, 16, new Point2D(36, 59));
                     toBeAddedEntities.add(flamyBoi);
                     dk.setSpawnFlamyBoi(false);
                 }
                 if (dk.getSpawnBarrel()) {
-                    Barrel newBarrel = new Barrel(this, 32, new Point2D(36, 68));
+                    Barrel newBarrel = new Barrel(this, 32, new Point2D(36, 59));
                     toBeAddedEntities.add(newBarrel);
                     dk.setSpawnBarrel(false);
                 }
@@ -178,20 +201,34 @@ public class Level extends ResizableDimension {
             if (e1 instanceof Collisionable c1) {
                 // onGround
                 boolean onGround = false;
+                boolean onLadder = false;
                 for (Renderable e2 : objects) {
                     if (e2 instanceof Collisionable c2) {
                         if (!c1.collides(c2.getBounds())) {
                             continue;
                         }
                         c1.hitBy(c2);
-                        if(c2 instanceof Platform) {
+                        if (e1.isOnGround()) {
                             onGround = true;
-//                            break;
+                        }
+                        if (e1.isOnLadder()) {
+                            onLadder = true;
                         }
                     }
                 }
-                if (!onGround) {
-                    e1.setOnGround(onGround);
+                boolean finalOnLadder = (onLadder && e1.getDirectionY() != 0) || e1.isLadderHold() && !onGround;
+
+                if(e1.isPendingJump()) { // cancel ladder state if jumping
+                    finalOnLadder = false;
+                }
+
+                e1.setOnGround(onGround);
+                e1.setOnLadder(finalOnLadder);
+
+                if(!finalOnLadder) {
+                    if(!e1.isLadderHold()) {
+                        e1.setDirectionY(0);
+                    }
                 }
                 // hits other entity
                 for (MovableGameObject e2 : entities) {

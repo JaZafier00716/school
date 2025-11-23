@@ -3,11 +3,11 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi.FlamyBoi;
+import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
 import static java.lang.Math.sqrt;
@@ -34,11 +34,12 @@ public class Player extends MovableGameObject {
                         226
                 ),
                 new MovableType(
+                        rd,
                         0,
-                        60,
-                        0.4,
-                        30,
-                        sqrt(2*0.4*height), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
+                        20,
+                        20,
+                        100,
+                        sqrt(2 * 20 * height), // sqrt(2*gravity*(player_height-0.5*platform_height))*scale
                         true,
                         true,
                         new Point2D(0, 0)
@@ -109,8 +110,8 @@ public class Player extends MovableGameObject {
         }
 
         return new Rectangle2D(
-                getPosition().getX()*rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
-                getPosition().getY()*rd.getScale() + currentAnim.getSize().getHeight() * rd.getScale() / 2,
+                getPosition().getX() * rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
+                getPosition().getY() * rd.getScale() + currentAnim.getSize().getHeight() * rd.getScale() / 2,
                 currentAnim.getSize().getWidth() * rd.getScale() / 2,
                 currentAnim.getSize().getHeight() * rd.getScale() - currentAnim.getSize().getHeight() * rd.getScale() / 2
         );
@@ -118,8 +119,21 @@ public class Player extends MovableGameObject {
 
     @Override
     public void hitBy(Collisionable another) {
+        if (another instanceof Ladder) {
+            setOnLadder(true);
+            setLadderHold(false);
+        }
         if (another instanceof Platform platform) {
+            if (isOnLadder() && platform.isLadderEntrance()) {
+                playerState = PlayerState.CLIMBING_PHASE2;
+                grounded(platform);
+                setOnLadder(false);
+                setLadderHold(false);
+                return;
+            }
+            if (!isOnLadder()) {
                 handleCeilingHit(platform);
+            }
             if (playerState != PlayerState.DEATH) {
                 grounded(platform);
             } else {
@@ -131,6 +145,10 @@ public class Player extends MovableGameObject {
             System.out.print("Barrel\n");
             playerState = PlayerState.DEATH;
             frameIndex = 0;
+            setOnLadder(false);
+            setLadderHold(false);
+            setVelocityX(0);
+            setDirectionY(0);
             setOnGround(true);
             jump();
             setOnGround(false);
@@ -143,11 +161,10 @@ public class Player extends MovableGameObject {
             // TODO: Climbing phase1: collision with ladder and maybe ladder_platform
             // TODO: Climbing phase2: collision with only ladder_platform -- add ladder_platform param to platform?
             // TODO: Climbing down animation - reverse climbing up animation
-            case CLIMBING_PHASE1 -> {
-                frameIndex = (climb_phase1.getColCount() + frameIndex + 1) % climb_phase1.getColCount();
-            }
+            case CLIMBING_PHASE1 ->
+                    frameIndex = (climb_phase1.getColCount() + frameIndex - getDirectionY()) % climb_phase1.getColCount();
             case CLIMBING_PHASE2 ->
-                    frameIndex = (climb_phase2.getColCount() + frameIndex + 1) % climb_phase2.getColCount();
+                    frameIndex = (climb_phase2.getColCount() + frameIndex - getDirectionY()) % climb_phase2.getColCount();
             case RUNNING -> frameIndex = (run.getColCount() + frameIndex + 1) % run.getColCount();
             case DEATH -> frameIndex = (death.getColCount() + frameIndex + 1) % death.getColCount();
         }
@@ -174,7 +191,20 @@ public class Player extends MovableGameObject {
             jump();
         }
 
-        if (inBounds()) {
+        if (playerState != PlayerState.DEATH) {
+            if (isOnLadder()) {
+                if (getDirectionY() != 0) {
+                    playerState = PlayerState.CLIMBING_PHASE1;
+                } else {
+                    if (lastPlayerState != PlayerState.CLIMBING_PHASE1 && lastPlayerState != PlayerState.CLIMBING_PHASE2) {
+                        lastPlayerState = PlayerState.CLIMBING_PHASE1;
+                    }
+                    playerState = PlayerState.IDLE;
+                }
+            }
+        }
+
+        if (notInBounds()) {
             if (lastInBoundsTimer < 1.0) { // wait for 1 second before respawning
                 lastInBoundsTimer += deltaTime;
             } else {
@@ -183,8 +213,9 @@ public class Player extends MovableGameObject {
                 this.setVelocityX(0);
                 this.setVelocityY(0);
                 setDirectionX(0);
+                setDirectionY(1);
                 setFacingRight(true);
-                frameIndex = death.getColCount()-1;
+                frameIndex = death.getColCount() - 1;
                 this.lastFrameIndex = death.getColCount() - 1;
                 this.lastPlayerState = PlayerState.DEATH;
                 playerState = PlayerState.IDLE;
@@ -203,35 +234,71 @@ public class Player extends MovableGameObject {
      * @param dirY - 1 = down, -1 = up, 0 = no vertical movement
      */
     public void setMovementDirection(int dirX, int dirY) {
-        if(playerState == PlayerState.DEATH) {
+        if (playerState == PlayerState.DEATH) {
             // cannot change direction when dead
             return;
         }
-        if (dirX != 0) {
-            this.setDirectionX(dirX);
-            if (lastPlayerState != PlayerState.RUNNING) {
-                frameIndex = 0;
-            }
-            playerState = PlayerState.RUNNING;
 
-        } else if (dirY != 0) {
+        Platform currentPlatform = this.getStandingOnPlatform();
+        if (!isOnLadder() && dirY > 0 && currentPlatform != null && currentPlatform.isLadderEntrance()) {
+            // start climbing down the ladder
+            System.out.println("Starting to climb down the ladder");
+            setOnLadder(true);
+            setLadderHold(false);
             this.setDirectionX(0);
-            if (dirY > 0) {
-                playerState = PlayerState.CLIMBING_PHASE1;
-            } else {
-                playerState = PlayerState.CLIMBING_PHASE2;
-            }
-        } else {
-            this.setDirectionX(0);
-            lastPlayerState = playerState;
-            lastFrameIndex = frameIndex;
-            playerState = PlayerState.IDLE;
-            frameIndex = 0;
+            this.setDirectionY(1);
+            playerState = PlayerState.CLIMBING_PHASE1;
+            return;
         }
+
+        if (dirY != 0) {
+            System.out.println("Setting player to CLIMBING " + (dirY < 0 ? " UP" : " DOWN"));
+            System.out.println("Player is on ladder: " + isOnLadder());
+            if(isOnLadder()) {
+                if (isLadderHold()) {
+                    setLadderHold(false);
+                }
+                this.setDirectionY(dirY);
+                this.setDirectionX(0);
+                this.setVelocityX(0);
+                System.out.println("Climbing ladder with dirY: " + dirY);
+                    playerState = PlayerState.CLIMBING_PHASE1;
+                return;
+            } else { // if player is not on ladder, ignore vertical movement
+                setOnLadder(false);
+            }
+        }
+
+        if (dirX != 0) {
+            System.out.println("Setting player to RUNNING");
+            setOnLadder(false);
+            setLadderHold(false);
+            setDirectionX(dirX);
+            setDirectionY(1);
+            playerState = PlayerState.RUNNING;
+            return;
+        }
+
+        if (isOnLadder()) {
+            System.out.println("Setting player to IDLE on ladder");
+            setLadderHold(true);
+            setDirectionY(0);
+            setVelocityY(0);
+            setDirectionX(0);
+            setVelocityX(0);
+            lastPlayerState = playerState;
+            playerState = PlayerState.IDLE;
+            return;
+        }
+
+        System.out.println("Setting player to IDLE");
+        this.setDirectionX(dirX);
+        this.setDirectionY(dirY);
+        playerState = PlayerState.IDLE;
     }
 
     @Override
-    public boolean inBounds() {
+    public boolean notInBounds() {
         // above screen
         Rectangle2D bounds = getBounds();
         return bounds.getMaxX() <= 0  // left of screen

@@ -19,6 +19,7 @@ public class DonkeyKong extends MovableGameObject {
     // Main menu constructor
     public DonkeyKong(ResizableDimension rd, int height, double scale, Point2D position) {
         super(rd, height, position, new MovableType(
+                rd,
                 0,
                 0,
                 0,
@@ -40,6 +41,7 @@ public class DonkeyKong extends MovableGameObject {
     // Game level constructor
     public DonkeyKong(ResizableDimension rd, int height, Point2D position) {
         super(rd, height, position, new MovableType(
+                rd,
                 0,
                 0,
                 0,

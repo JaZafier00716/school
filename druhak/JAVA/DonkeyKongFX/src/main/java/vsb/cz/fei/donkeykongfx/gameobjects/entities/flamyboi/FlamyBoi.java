@@ -8,13 +8,9 @@ import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableGameObject;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableType;
+import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
-
-enum FlamyBoiState {
-    FALLING,
-    MOVING
-}
 
 public class FlamyBoi extends MovableGameObject {
     FlamyBoiState flamyBoiState;
@@ -31,20 +27,21 @@ public class FlamyBoi extends MovableGameObject {
                 defaultHeight,
                 position,
                 new MovableType(
+                        rd,
                         0,
-                        30,
-                        0.4,
-                        30,
+                        10,
+                        20,
+                        100,
                         0,
                         true,
                         false,
                         new Point2D(0, 0)
                 ));
         this.frameIndex = 0;
+        flamyBoiState = FlamyBoiState.FALLING;
 
         this.fall = new AnimationData("/images/enemies/flamyboi/fall.png", 2, 1);
         this.move = new AnimationData("/images/enemies/flamyboi/move.png", 2, 1);
-        flamyBoiState = FlamyBoiState.FALLING;
     }
 
     @Override
@@ -56,17 +53,23 @@ public class FlamyBoi extends MovableGameObject {
         double scale = rd.getScale();
         double fullW = currentAnim.getSize().getWidth() * scale;
         double fullH = currentAnim.getSize().getHeight() * scale;
-        double insetW = fullW*0.1; // use consistent inset proportions
-        double insetH = switch (flamyBoiState) {
-            case FALLING -> fullH*0.2;
-            case MOVING -> 0.2*fullH;
+        double insetW = fullW * 0.1; // use consistent inset proportions
+        Rectangle2D bounds = switch (flamyBoiState) {
+            case FALLING -> new Rectangle2D(
+                    getPosition().getX() * rd.getScale() + insetW,
+                    getPosition().getY() * rd.getScale() + fullH * 0.2,
+                    fullW - 2 * insetW,
+                    fullH - fullH * 0.4
+            );
+            case MOVING -> new Rectangle2D(
+                    getPosition().getX() * rd.getScale() + insetW,
+                    getPosition().getY() * rd.getScale() + fullH * 0.4,
+                    fullW - 2 * insetW,
+                    fullH - fullH * 0.4
+            );
+
         };
-        return new Rectangle2D(
-                getPosition().getX()*rd.getScale() + insetW,
-                getPosition().getY()*rd.getScale() + 2*insetH,
-                fullW - 2 * insetW,
-                fullH - 2 * insetH
-        );
+        return bounds;
     }
 
     @Override
@@ -81,8 +84,8 @@ public class FlamyBoi extends MovableGameObject {
                 currentAnim,
                 frameIndex,
                 0,
-                getPosition().getX()*rd.getScale(),
-                getPosition().getY()*rd.getScale(),
+                getPosition().getX() * rd.getScale(),
+                getPosition().getY() * rd.getScale(),
                 rd.getScale(),
                 false
         );
@@ -92,7 +95,7 @@ public class FlamyBoi extends MovableGameObject {
     public void updateState(double deltaTime) {
         switch (flamyBoiState) {
             case FALLING -> {
-             frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
+                frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
             }
             case MOVING -> {
                 frameIndex = (move.colCount() + frameIndex + 1) % move.colCount();
@@ -105,11 +108,11 @@ public class FlamyBoi extends MovableGameObject {
         updateTimer(deltaTime);
         MovableType type = getType();
         if (type != null) {
-            if(canUpdatePosition) {
+            if (canUpdatePosition) {
                 type.apply(this, deltaTime);
             } else {
                 positionTimer += deltaTime;
-                if(positionTimer >= positionUpdateInterval) {
+                if (positionTimer >= positionUpdateInterval) { // barrel released from donkey kong's hands
                     canUpdatePosition = true;
                 }
             }
@@ -118,7 +121,7 @@ public class FlamyBoi extends MovableGameObject {
         }
 
         // check bounds and change direction if needed
-        if (inBounds()) {
+        if (notInBounds()) {
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
                 lastInBounds = false;
@@ -126,26 +129,27 @@ public class FlamyBoi extends MovableGameObject {
         } else {
             lastInBounds = true;
         }
-
     }
 
     public void hitBy(Collisionable another) {
         // Handle collisions if necessary
-        if(another instanceof Platform platform) {
-            if(flamyBoiState == FlamyBoiState.FALLING) {
-                if(getPosition().getY()*rd.getScale() < rd.getHeight()-(2.5*getHeight()*rd.getScale())) {
-                    setOnGround(false);
-                } else {
-                    setOnGround(true);
-                    flamyBoiState = FlamyBoiState.MOVING;
+        if (another instanceof Platform platform) {
+            if (flamyBoiState == FlamyBoiState.FALLING) {
+                if (getPosition().getY() * rd.getScale() > rd.getHeight() - (2 * getHeight() * rd.getScale())) {
+                    setVelocityY(0);
                     setDirectionX(-1);
+                    setDirectionY(0);
+                    flamyBoiState = FlamyBoiState.MOVING;
+                } else {
+                    setOnGround(false);
+                    setDirectionY(1);
                 }
             }
-            if(flamyBoiState == FlamyBoiState.MOVING) {
+            if (flamyBoiState == FlamyBoiState.MOVING) {
                 grounded(platform);
             }
         }
-        if(another instanceof Player) {
+        if (another instanceof Player) {
             setToBeRemoved(true);
         }
     }

@@ -11,12 +11,17 @@ import vsb.cz.fei.donkeykongfx.gameobjects.GameObject;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 
 public class Platform extends GameObject {
-    AnimationData platform;
-    Point2D offset;
+    private final AnimationData platform;
+    private final Point2D offset;
+    private boolean ladderEntrance;
 
     public Platform(ResizableDimension rd, int height, Point2D position, Point2D offset) {
-        super(rd, height, position);
+        this(rd, height, position, offset, false);
+    }
 
+    public Platform(ResizableDimension rd, int height, Point2D position, Point2D offset, boolean ladderEntrance) {
+        super(rd, height, position);
+        this.ladderEntrance = ladderEntrance;
         this.offset = offset;
         this.platform = new AnimationData("/images/tiles/pink_tiles.png", 8, 6, 0);
     }
@@ -33,6 +38,11 @@ public class Platform extends GameObject {
                 rd.getScale(),
                 false
         );
+        if(ladderEntrance) {
+            gc.setFill(Color.color(1, 0, 0, 0.5));
+            Rectangle2D bounds = getBounds();
+            gc.fillRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
+        }
     }
 
     @Override
@@ -57,5 +67,13 @@ public class Platform extends GameObject {
 
     public void updateState(double delta) {
 
+    }
+
+    public boolean isLadderEntrance() {
+        return ladderEntrance;
+    }
+
+    public void setLadderEntrance(boolean ladderEntrance) {
+        this.ladderEntrance = ladderEntrance;
     }
 }

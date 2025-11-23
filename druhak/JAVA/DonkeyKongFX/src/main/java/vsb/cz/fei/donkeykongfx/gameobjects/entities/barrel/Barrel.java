@@ -23,42 +23,17 @@ public class Barrel extends MovableGameObject {
     private double positionTimer = 0.0;
     private final double positionUpdateInterval = 1; // seconds
 
-
-    public Barrel(ResizableDimension rd, int height) {
-        super(
-                rd,
-                height,
-                new Point2D(
-                        0,
-                        32
-                ),
-                new MovableType(
-                        0,
-                        30,
-                        0.4,
-                        100,
-                        0,
-                        true,
-                        false,
-                        new Point2D(0, 0)
-                ));
-        this.frameIndex = 0;
-        barrelState = BarrelState.ROLLING;
-
-        this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
-        this.climb = new AnimationData("/images/enemies/barrel/climb.png", 3, 1);
-    }
-
     public Barrel(ResizableDimension rd, int height, Point2D position) {
         super(
                 rd,
                 height,
                 position,
                 new MovableType(
+                        rd,
                         0,
-                        30,
-                        0.4,
-                        100,
+                        20,
+                        50,
+                        200,
                         0,
                         true,
                         false,
@@ -66,6 +41,7 @@ public class Barrel extends MovableGameObject {
                 ));
         this.frameIndex = 0;
         this.barrelState = BarrelState.CLIMBING;
+        this.setDirectionY(1);
 
         this.roll = new AnimationData("/images/enemies/barrel/roll.png", 4, 1);
         this.climb = new AnimationData("/images/enemies/barrel/climb.png", 2, 1);
@@ -84,7 +60,7 @@ public class Barrel extends MovableGameObject {
             case ROLLING -> fullW * 0.25;
             case CLIMBING -> 0.0;
         };
-        double insetH = fullH * 0.25;
+        double insetH = fullH * 0.2;
         return new Rectangle2D(
                 getPosition().getX()*rd.getScale() + insetW,
                 getPosition().getY()*rd.getScale() + insetH,
@@ -131,8 +107,9 @@ public class Barrel extends MovableGameObject {
                 if (positionTimer >= positionUpdateInterval) {
                     canUpdatePosition = true;
                     barrelState = BarrelState.ROLLING;
-                    setPosition(new Point2D(64, 68));
+                    setPosition(new Point2D(64, 59));
                     setDirectionX(1);
+                    setDirectionY(1);
                 }
                 return;
             }
@@ -141,8 +118,7 @@ public class Barrel extends MovableGameObject {
         }
 
         // check bounds and change direction if needed
-        if (inBounds()) {
-            System.out.println("Out of bounds");
+        if (notInBounds()) {
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
                 lastInBounds = false;
@@ -163,7 +139,6 @@ public class Barrel extends MovableGameObject {
         }
         if (another instanceof Player p) {
             setToBeRemoved(true);
-            setPosition(getInitPosition());
         }
     }
 

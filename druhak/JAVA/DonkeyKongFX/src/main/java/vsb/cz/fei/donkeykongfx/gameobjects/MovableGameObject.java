@@ -9,12 +9,19 @@ public abstract class MovableGameObject extends GameObject {
     private final MovableType type;
     private double velocityX;
     private double velocityY = 0;
-    private boolean onGround = false;
-    protected boolean lastInBounds = true;
+    private int directionX = 0;
+    private int directionY = 0;
     private boolean facingRight = true;
+
+    private boolean onGround = false;
+    private boolean onLadder = false;
+    private boolean ladderHold = false;
+    private Platform standingOnPlatform = null;
+
+    protected boolean lastInBounds = true;
     private final Point2D initPosition;
     private Point2D prevPosition;
-    private int directionX = 0;
+
     private boolean pendingJump = false;
     private boolean toBeRemoved = false;
 
@@ -25,20 +32,10 @@ public abstract class MovableGameObject extends GameObject {
         this.initPosition = position;
     }
 
-//    public MovableGameObject(ResizableDimension rd, int defaultHeight, MovableType type) {
-//        super(rd, defaultHeight);
-//        velocityX = type.initSpeed();
-//        this.type = type;
-//        this.initPosition = getPosition();
-//    }
-
     public MovableType getType() {
         return type;
     }
 
-    public double getVelocityX() {
-        return velocityX;
-    }
 
     public int getDirectionX() {
         return directionX;
@@ -56,12 +53,24 @@ public abstract class MovableGameObject extends GameObject {
         }
     }
 
+    public int getDirectionY() {
+        return directionY;
+    }
+
+    public void setDirectionY(int directionY) {
+        this.directionY = Integer.compare(directionY, 0);
+    }
+
+    public double getVelocityX() {
+        return velocityX;
+    }
+
     public void setVelocityX(double velocityX) {
         this.velocityX = velocityX;
     }
 
     public double getVelocityY() {
-        return velocityY * rd.getScale();
+        return velocityY;
     }
 
     public void setVelocityY(double velocityY) {
@@ -76,14 +85,6 @@ public abstract class MovableGameObject extends GameObject {
         this.onGround = onGround;
     }
 
-//    public boolean isLastInBounds() {
-//        return lastInBounds;
-//    }
-//
-//    public void setLastInBounds(boolean lastInBounds) {
-//        this.lastInBounds = lastInBounds;
-//    }
-
     public boolean isFacingRight() {
         return facingRight;
     }
@@ -95,10 +96,6 @@ public abstract class MovableGameObject extends GameObject {
     public Point2D getInitPosition() {
         return initPosition;
     }
-
-//    public void setInitPosition(Point2D initPosition) {
-//        this.initPosition = initPosition;
-//    }
 
     public Point2D getPrevPosition() {
         return prevPosition != null ? prevPosition : getPosition();
@@ -116,16 +113,12 @@ public abstract class MovableGameObject extends GameObject {
         this.pendingJump = pendingJump;
     }
 
-    public boolean inBounds() {
+    public boolean notInBounds() {
         return getBounds().getMinX() < 0 || getBounds().getMaxX() > rd.getWidth();
     }
 
     protected double landingTolerance() {
         return rd.getScale() * 1;   // small but not too small
-    }
-
-    protected double ceilingTolerance() {
-        return rd.getScale() * 0;   // allow more penetration from below
     }
 
     public Rectangle2D getPreviousBounds() {
@@ -151,48 +144,39 @@ public abstract class MovableGameObject extends GameObject {
         double currTop = curr.getMinY();
         double platBottom = plat.getMaxY();
 
-        boolean movingUp = getVelocityY() < 0;
+        boolean movingUp = getVelocityY()*rd.getScale() < 0;
         // horizontal overlap
         double overlapX =
                 Math.min(curr.getMaxX(), plat.getMaxX()) -
                         Math.max(curr.getMinX(), plat.getMinX());
 
         if (!movingUp || overlapX <= 0) {
-            System.out.println("Not moving up or no horizontal overlap");
+//            System.out.println("Not moving up or no horizontal overlap");
             return;
         }
 
-        // Allow penetration (player can be slightly inside the platform bottom)
-        double penetration = ceilingTolerance(); // tolerance for ceiling hit
-
-        System.out.printf(
-                "Ceiling check: prevTop=%.3f currTop=%.3f platBottom=%.3f vY=%.3f overlapX=%.3f pen=%.3f%n",
-                prevTop, currTop, platBottom, getVelocityY(), overlapX, penetration
-        );
-
-
         // crossed the platform bottom between previous and current frame
         boolean crossedFromBelow =
-                prevTop >= (platBottom-penetration)
-                        && currTop <= (platBottom+penetration);
+                prevTop >= (platBottom)
+                        && currTop <= (platBottom);
 
         if (!crossedFromBelow) {
             System.out.println("Did not cross from below");
             return;
         }
 
-        double newY = (platBottom -penetration) / rd.getScale();
+        double newY = (platBottom) / rd.getScale();
         if(getPosition().getY() > newY) {
             return; // do not adjust if already below
         }
-        System.out.println("Position before ceiling hit: " + getPosition().getY());
+//        System.out.println("Position before ceiling hit: " + getPosition().getY());
         setPosition(new Point2D(getPosition().getX(), newY));
-        System.out.println("Position after ceiling hit: " + getPosition().getY());
+//        System.out.println("Position after ceiling hit: " + getPosition().getY());
+
         setVelocityY(0);
         setOnGround(false);
-
+        setLadderHold(false);
     }
-
 
     public void jump() {
         System.out.println("Jump requested");
@@ -204,9 +188,12 @@ public abstract class MovableGameObject extends GameObject {
             return;
         }
         System.out.println("Jump executed");
-        double impulse = Math.abs(type.jumpImpulse());
-        setVelocityY(-impulse);
+        double impulse = -Math.abs(type.jumpImpulse());
+        setVelocityY(impulse);
+        setPendingJump(false);
         setOnGround(false);
+        setLadderHold(false);
+        setOnLadder(false);
     }
 
     public void grounded(Platform platform) {
@@ -228,23 +215,32 @@ public abstract class MovableGameObject extends GameObject {
 
         double verticalTolerance = landingTolerance(); // small tolerance for vertical alignment
         double horizontalTolerance = rd.getScale() * 0.1;
+        double maxStep = rd.getScale() * 4; // maximum step height
 
-        boolean movingDownwards = getVelocityY() > 0;
+        boolean movingDownwards = getVelocityY()*rd.getScale() > 0;
+
         boolean crossedFromAbove =
                 prevBottom <= platformTop + verticalTolerance // previous bottom is above or at platform top
                         && currBottom >= platformTop - verticalTolerance
                         && movingDownwards; // current bottom is below or at platform top
 
+        boolean step =
+                prevBottom <= (platformTop + maxStep)
+                        && currBottom >= (platformTop - verticalTolerance)
+                        && Math.abs(currBottom - prevBottom) <= (maxStep + verticalTolerance);
 
-        if (overlapX > horizontalTolerance && crossedFromAbove) {
+        if (overlapX > horizontalTolerance && (crossedFromAbove || step)) {
             double newY = (platformTop - (movableBounds.getMaxY() - getPosition().getY() * rd.getScale())) / rd.getScale();
             setPosition(new Point2D(getPosition().getX(), newY));
             setVelocityY(0);
             setOnGround(true);
+            this.standingOnPlatform = platform;
+            setLadderHold(false);
+
         } else {
             // not coming from above, do not ground
             setOnGround(false);
-
+            this.standingOnPlatform = null;
         }
     }
 
@@ -260,5 +256,32 @@ public abstract class MovableGameObject extends GameObject {
 
     public void setToBeRemoved(boolean toBeRemoved) {
         this.toBeRemoved = toBeRemoved;
+    }
+
+    public boolean isOnLadder() {
+        return onLadder;
+    }
+
+    public void setOnLadder(boolean onLadder) {
+        this.onLadder = onLadder;
+    }
+
+    public boolean isLadderHold() {
+        return ladderHold;
+    }
+
+    public void setLadderHold(boolean ladderHold) {
+        this.ladderHold = ladderHold;
+        if(ladderHold) {
+            this.onGround = false;
+        }
+    }
+
+    public Platform getStandingOnPlatform() {
+        return standingOnPlatform;
+    }
+
+    public void setStandingOnPlatform(Platform standingOnPlatform) {
+        this.standingOnPlatform = standingOnPlatform;
     }
 }
