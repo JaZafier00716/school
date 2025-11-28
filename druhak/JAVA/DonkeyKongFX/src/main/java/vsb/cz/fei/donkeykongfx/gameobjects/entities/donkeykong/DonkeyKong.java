@@ -139,4 +139,11 @@ public class DonkeyKong extends MovableGameObject {
     public void update(double deltaTime) {
         updateTimer(deltaTime);
     }
+
+    public String getStateName() {
+        return kongState.name();
+    }
+    public void setStateByName(String state) {
+        this.kongState = KongState.valueOf(state);
+    }
 }

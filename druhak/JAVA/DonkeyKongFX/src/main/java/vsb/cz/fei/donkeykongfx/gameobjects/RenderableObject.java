@@ -52,7 +52,7 @@ public abstract class RenderableObject implements Renderable{
         return position;
     }
 
-    protected void setPosition(Point2D position) {
+    public void setPosition(Point2D position) {
         this.position = position;
     }
 

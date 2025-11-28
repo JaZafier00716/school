@@ -3,8 +3,10 @@ package vsb.cz.fei.donkeykongfx.levels;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.EntityState;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
 import vsb.cz.fei.donkeykongfx.gameobjects.staticbarrel.StaticBarrel;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.DonkeyKong;
@@ -18,13 +20,14 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Level extends ResizableDimension {
-    private final Player player;
+    private Player player;
     private final DonkeyKong donkeyKong;
     private final List<MovableGameObject> entities = new ArrayList<>();
     private final List<Renderable> objects = new ArrayList<>();
     private final List<MovableGameObject> toBeAddedEntities = new ArrayList<>();
     private final List<MovableGameObject> toBeRemovedEntities = new ArrayList<>();
     private Comparator<Renderable> comparator;
+    boolean pause = false;
 
     public Level(double width, double height) {
         this(new Dimension2D(width, height));
@@ -178,6 +181,9 @@ public class Level extends ResizableDimension {
     }
 
     public void update(double deltaTime) {
+        if(pause) {
+            return;
+        }
         for (MovableGameObject entity : entities) {
             if (entity.isToBeRemoved()) {
                 toBeRemovedEntities.add(entity);
@@ -254,4 +260,59 @@ public class Level extends ResizableDimension {
         return player;
     }
 
+    public void setPause(boolean pause) {
+        this.pause = pause;
+    }
+
+    public GameState toGameState() {
+        GameState state = new GameState();
+        state.levelHeight = this.getHeight();
+        state.levelWidth = this.getWidth();
+        for (MovableGameObject entity : entities) {
+            EntityState es = new EntityState();
+            if(entity instanceof Barrel b) {
+                es.type = "Barrel";
+            } else if(entity instanceof DonkeyKong) {
+                es.type = "DonkeyKong";
+            } else if(entity instanceof FlamyBoi) {
+                es.type = "FlamyBoi";
+            } else if (entity instanceof Player) {
+                es.type = "Player";
+            } else {
+                continue;
+            }
+            es.positionX = entity.getPosition().getX();
+            es.positionY = entity.getPosition().getY();
+            es.directionX = entity.getDirectionX();
+            es.directionY = entity.getDirectionY();
+            es.state = entity.getStateName();
+            state.entities.add(es);
+        }
+        return state;
+    }
+
+    public void fromGameState(GameState state) {
+        this.updateSize(new Dimension2D(state.levelWidth, state.levelHeight));
+        entities.clear();
+        for (EntityState es : state.entities) {
+            MovableGameObject entity = null;
+            if(es.type.equals("Barrel")) {
+                entity = new Barrel(this, 32, new Point2D(es.positionX, es.positionY));
+            } else if(es.type.equals("DonkeyKong")) {
+                entity = new DonkeyKong(this, 16, new Point2D(es.positionX, es.positionY));
+            } else if(es.type.equals("FlamyBoi")) {
+                entity = new FlamyBoi(this, 16, new Point2D(es.positionX, es.positionY));
+            } else if (es.type.equals("Player")) {
+                entity = new Player(this, 32);
+                entity.setPosition(new Point2D(es.positionX, es.positionY));
+                this.player = (Player) entity;
+            }
+            if(entity != null) {
+                entity.setDirectionX(es.directionX);
+                entity.setDirectionY(es.directionY);
+                entity.setStateByName(es.state);
+                entities.add(entity);
+            }
+        }
+    }
 }

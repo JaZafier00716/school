@@ -36,6 +36,7 @@ public abstract class MovableGameObject extends GameObject {
         return type;
     }
 
+    public abstract String getStateName();
 
     public int getDirectionX() {
         return directionX;
@@ -284,4 +285,6 @@ public abstract class MovableGameObject extends GameObject {
     public void setStandingOnPlatform(Platform standingOnPlatform) {
         this.standingOnPlatform = standingOnPlatform;
     }
+
+    public abstract void setStateByName(String state);
 }

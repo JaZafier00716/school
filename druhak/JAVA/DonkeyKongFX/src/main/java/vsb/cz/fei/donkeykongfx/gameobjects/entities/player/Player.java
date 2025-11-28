@@ -119,6 +119,9 @@ public class Player extends MovableGameObject {
 
     @Override
     public void hitBy(Collisionable another) {
+        if(playerState == PlayerState.DEATH){
+            return; // no further collisions when dead
+        }
         if (another instanceof Ladder) {
             setOnLadder(true);
             setLadderHold(false);
@@ -191,18 +194,18 @@ public class Player extends MovableGameObject {
             jump();
         }
 
-        if (playerState != PlayerState.DEATH) {
-            if (isOnLadder()) {
-                if (getDirectionY() != 0) {
-                    playerState = PlayerState.CLIMBING_PHASE1;
-                } else {
-                    if (lastPlayerState != PlayerState.CLIMBING_PHASE1 && lastPlayerState != PlayerState.CLIMBING_PHASE2) {
-                        lastPlayerState = PlayerState.CLIMBING_PHASE1;
-                    }
-                    playerState = PlayerState.IDLE;
-                }
-            }
-        }
+//        if (playerState != PlayerState.DEATH) {
+//            if (isOnLadder()) {
+//                if (getDirectionY() != 0) {
+//                    playerState = PlayerState.CLIMBING_PHASE1;
+//                } else {
+//                    if (lastPlayerState != PlayerState.CLIMBING_PHASE1 && lastPlayerState != PlayerState.CLIMBING_PHASE2) {
+//                        lastPlayerState = PlayerState.CLIMBING_PHASE1;
+//                    }
+//                    playerState = PlayerState.IDLE;
+//                }
+//            }
+//        }
 
         if (notInBounds()) {
             if (lastInBoundsTimer < 1.0) { // wait for 1 second before respawning
@@ -279,7 +282,7 @@ public class Player extends MovableGameObject {
             return;
         }
 
-        if (isOnLadder()) {
+        if (isOnLadder() && playerState == PlayerState.CLIMBING_PHASE1) {
             System.out.println("Setting player to IDLE on ladder");
             setLadderHold(true);
             setDirectionY(0);
@@ -307,4 +310,11 @@ public class Player extends MovableGameObject {
                 || bounds.getMaxY() <= 0;
     }
 
+    public String getStateName() {
+        return playerState.name();
+    }
+
+    public void setStateByName(String state) {
+        this.playerState = PlayerState.valueOf(state);
+    }
 }

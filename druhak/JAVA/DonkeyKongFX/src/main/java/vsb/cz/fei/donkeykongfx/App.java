@@ -61,12 +61,24 @@ public class App extends Application {
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
-//        gc.setApp(this);
+        gc.setApp(this);
         Scene scene = new Scene(root);
         URL cssUrl = getClass().getResource("/application.css");
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
         gc.startGame();
+    }
+
+    public void continueGame() throws IOException {
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
+        Parent root = gameLoader.load();
+        gc = gameLoader.getController();
+        gc.setApp(this);
+        Scene scene = new Scene(root);
+        URL cssUrl = getClass().getResource("/application.css");
+        scene.getStylesheets().add(cssUrl.toString());
+        primaryStage.setScene(scene);
+        gc.continueGame();
     }
 
     public void switchToMenu() throws IOException {

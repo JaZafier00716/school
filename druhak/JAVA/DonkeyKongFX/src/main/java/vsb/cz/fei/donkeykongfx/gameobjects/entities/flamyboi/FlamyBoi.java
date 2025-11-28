@@ -8,6 +8,7 @@ import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableGameObject;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableType;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.KongState;
 import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
@@ -152,5 +153,13 @@ public class FlamyBoi extends MovableGameObject {
         if (another instanceof Player) {
             setToBeRemoved(true);
         }
+    }
+
+    public String getStateName() {
+        return flamyBoiState.name();
+    }
+
+    public void setStateByName(String state) {
+        this.flamyBoiState = FlamyBoiState.valueOf(state);
     }
 }

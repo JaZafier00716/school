@@ -9,12 +9,6 @@ import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
-
-enum BarrelState {
-    ROLLING,
-    CLIMBING
-}
-
 public class Barrel extends MovableGameObject {
     private BarrelState barrelState;
     private final AnimationData roll;
@@ -142,4 +136,12 @@ public class Barrel extends MovableGameObject {
         }
     }
 
+    @Override
+    public String getStateName() {
+        return barrelState.name();
+    }
+
+    public void setStateByName(String state) {
+        this.barrelState = BarrelState.valueOf(state);
+    }
 }

@@ -35,6 +35,18 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <Button id="button" fx:id="continueButton" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="301.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnContinue" prefWidth="250.0" stylesheets="@application.css">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <graphic>
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Continue" textAlignment="CENTER" translateY="5.0">
+                                       <font>
+                                          <Font name="Consolas Bold" size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </graphic>
+                              </Button>
                               <Button id="button" fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnStart" prefWidth="250.0" stylesheets="@application.css">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
@@ -88,12 +100,12 @@
          </center>
          <top>
             <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="1000.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
-               <center>
-                  <Text id="titleText" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Donkey Kong" textAlignment="CENTER" wrappingWidth="1000.0" />
-               </center>
                <BorderPane.margin>
                   <Insets top="50.0" />
                </BorderPane.margin>
+               <top>
+                  <Text id="titleText" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Donkey Kong" textAlignment="CENTER" wrappingWidth="1000.0" BorderPane.alignment="CENTER" />
+               </top>
             </BorderPane>
          </top>
       </BorderPane>
