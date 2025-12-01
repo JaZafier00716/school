@@ -23,7 +23,6 @@ public abstract class MovableGameObject extends GameObject {
     private Point2D prevPosition;
 
     private boolean pendingJump = false;
-    private boolean toBeRemoved = false;
 
     public MovableGameObject(ResizableDimension rd, int defaultHeight, Point2D position, MovableType type) {
         super(rd, defaultHeight, position);
@@ -251,13 +250,7 @@ public abstract class MovableGameObject extends GameObject {
         }
     }
 
-    public boolean isToBeRemoved() {
-        return toBeRemoved;
-    }
 
-    public void setToBeRemoved(boolean toBeRemoved) {
-        this.toBeRemoved = toBeRemoved;
-    }
 
     public boolean isOnLadder() {
         return onLadder;

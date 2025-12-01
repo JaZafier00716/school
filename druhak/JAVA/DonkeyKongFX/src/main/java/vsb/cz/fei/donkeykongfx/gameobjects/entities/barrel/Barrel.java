@@ -113,6 +113,11 @@ public class Barrel extends MovableGameObject {
 
         // check bounds and change direction if needed
         if (notInBounds()) {
+            if(getPosition().getY() > 225) {
+                // Barrel has reached end of the bottom platform, remove it
+                setToBeRemoved(true);
+                return;
+            }
             if (lastInBounds) {
                 setDirectionX(-getDirectionX());
                 lastInBounds = false;

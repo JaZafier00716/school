@@ -22,8 +22,9 @@ public class Player extends MovableGameObject {
     private PlayerState playerState;
 
     private PlayerState lastPlayerState;
+    private int score = 0;
     private int lastFrameIndex;
-
+    Health health;
 
     public Player(ResizableDimension rd, int height) {
         super(
@@ -53,6 +54,7 @@ public class Player extends MovableGameObject {
         this.climb_phase2 = new AnimationData("/images/player/climb_phase2.png", 5, 1);
         this.death = new AnimationData("/images/player/death.png", 5, 1);
         this.playerState = PlayerState.IDLE;
+        this.health = new Health(rd, 10, new Point2D(150, 10), 5);
     }
 
     @Override
@@ -75,7 +77,6 @@ public class Player extends MovableGameObject {
             };
         }
 
-
         drawSpriteFrame(
                 gc,
                 currentAnim,
@@ -86,6 +87,8 @@ public class Player extends MovableGameObject {
                 rd.getScale(),
                 !isFacingRight()
         );
+
+        health.render(gc);
     }
 
 
@@ -122,6 +125,15 @@ public class Player extends MovableGameObject {
         if(playerState == PlayerState.DEATH){
             return; // no further collisions when dead
         }
+        if(another instanceof Token t) {
+            System.out.println("Token collected!");
+            score += 100;
+            t.setToBeRemoved(true);
+            return;
+        }
+        if(another instanceof Princess) {
+            return; // no effect when hitting princess
+        }
         if (another instanceof Ladder) {
             setOnLadder(true);
             setLadderHold(false);
@@ -155,15 +167,13 @@ public class Player extends MovableGameObject {
             setOnGround(true);
             jump();
             setOnGround(false);
+            health.loseLife();
         }
 
     }
 
     public void updateState(double deltaTime) {
         switch (playerState) {
-            // TODO: Climbing phase1: collision with ladder and maybe ladder_platform
-            // TODO: Climbing phase2: collision with only ladder_platform -- add ladder_platform param to platform?
-            // TODO: Climbing down animation - reverse climbing up animation
             case CLIMBING_PHASE1 ->
                     frameIndex = (climb_phase1.getColCount() + frameIndex - getDirectionY()) % climb_phase1.getColCount();
             case CLIMBING_PHASE2 ->
@@ -316,5 +326,16 @@ public class Player extends MovableGameObject {
 
     public void setStateByName(String state) {
         this.playerState = PlayerState.valueOf(state);
+    }
+
+    public int getScore() {
+        return score;
+    }
+    public Health getHealth() {
+        return health;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

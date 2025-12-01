@@ -27,12 +27,13 @@ public class App extends Application {
 
     private GameController gc;
     private Stage primaryStage;
+    public static Font pressStartFont;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             this.primaryStage = primaryStage;
-            Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 24);
+            pressStartFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 18);
 
             primaryStage.resizableProperty();
             primaryStage.setTitle("Donkey Kong FX");

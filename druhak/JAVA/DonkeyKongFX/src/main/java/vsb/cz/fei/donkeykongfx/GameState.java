@@ -12,6 +12,8 @@ public class GameState implements Serializable {
 
     public double levelWidth;
     public double levelHeight;
+    public int score;
+    public int lives;
 
     public List<EntityState> entities = new ArrayList<>();
 }

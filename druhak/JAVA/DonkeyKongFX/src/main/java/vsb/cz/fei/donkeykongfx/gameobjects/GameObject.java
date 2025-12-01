@@ -8,6 +8,7 @@ import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class GameObject extends RenderableObject implements Collisionable {
     protected int frameIndex;
+    private boolean toBeRemoved = false;
 
 
     public GameObject(ResizableDimension level, int defaultHeight, Point2D position) {
@@ -18,6 +19,14 @@ public abstract class GameObject extends RenderableObject implements Collisionab
 
     public abstract Rectangle2D getBounds();
 
+
+    public void setToBeRemoved(boolean toBeRemoved) {
+        this.toBeRemoved = toBeRemoved;
+    }
+
+    public boolean isToBeRemoved() {
+        return toBeRemoved;
+    }
 
     @Override
     public void renderBounds(GraphicsContext gc)  {
