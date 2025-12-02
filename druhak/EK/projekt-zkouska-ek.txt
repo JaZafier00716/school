@@ -1,0 +1,10 @@
+popsat zakladni myslenku, canvas, finance, realizovatelnost, prenize
+graficky manual
+kampane
+cesta zakaznika
+swot
+realizace - ne kodovani, koncept webu, pouzit logo, grafiku, naplnit obsahem
+
+K zkousce - kolik produktu pro zisk (v celych cislech), vypocet ceny jednoho produktu, tahak povolen
+	  - 2 bodovane ukoly + bonus, prednasky na teamsech?
+	  - 

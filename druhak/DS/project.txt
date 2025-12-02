@@ -1,0 +1,150 @@
+
+Table roles {
+  role_id integer [primary key]
+  name varchar [unique, not null]
+  can_manage_users boolean
+  can_manage_projects boolean
+  can_publish boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table users {
+  user_id integer [primary key]
+  role_id integer [not null]
+  name varchar [not null]
+  email varchar [unique, not null]
+  password_hash varchar
+  is_active boolean [default: true]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Enum project_status {
+  draft
+  sent
+  approved
+  archived
+}
+
+Table projects {
+  project_id integer [primary key]
+  name varchar [not null]
+  event_date date
+  guest_count integer
+  status project_status
+  created_by integer [not null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Enum project_roles {
+  manager 
+  editor
+}
+
+Table project_collaborators {
+  project_id integer [primary key]
+  user_id integer [primary key]
+  role_in_project project_roles
+  added_by integer [not null]
+  added_at timestamp
+}
+
+Table items {
+  item_id integer [primary key]
+  name varchar [not null]
+  description text
+  category varchar
+  price decimal
+  dph decimal
+  allergens varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table templates {
+  template_id integer [primary key]
+  name varchar
+  font varchar
+  background_image varchar
+  style_json json
+  created_at timestamp
+}
+
+Table menus {
+  menu_id integer [primary key]
+  template_id integer [not null]
+  project_id integer [not null]
+  name varchar [not null]
+  version integer
+  with_prices boolean
+  created_by integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table sections {
+  section_id integer [primary key]
+  menu_id integer [not null]
+  name varchar  [not null]
+  display_order int
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table menu_items {
+  menu_item_id integer [primary key]
+  menu_id integer [not null]
+  section_id integer
+  item_id integer
+  servings_per_person decimal
+  price_at_version decimal
+  display_order integer
+  notes text
+  created_at timestamp
+  updated_at timestamp
+}
+
+// Table pdf_jobs {
+//   pdf_job_id integer [primary key]
+//   menu_id integer [not null]
+//   template_id integer [not null]
+//   project_id integer [not null]
+//   requested_by integer [not null]
+//   file_path varchar 
+//   preview_url varchar
+//   status varchar
+//   created_at timestamp
+//   completed_at timestamp
+// }
+
+// === 1:N === //
+
+// --- users ---
+ref: users.role_id > roles.role_id
+ref: users.user_id - projects.created_by
+// --- menus ---
+ref: menus.project_id > projects.project_id
+ref: menus.template_id > templates.template_id
+ref: menus.created_by - users.user_id
+// --- sections ---
+ref: sections.menu_id > menus.menu_id
+// --- menu_items ---
+ref: menu_items.section_id > sections.section_id
+ref: menu_items.item_id > items.item_id
+// ref: menu_items.menu_id > menus.menu_id
+// --- pdf_jobs ---
+// ref: pdf_jobs.template_id > templates.template_id
+// ref: pdf_jobs.requested_by > users.user_id
+// ref: pdf_jobs.menu_id > menus.menu_id
+// ref: pdf_jobs.project_id > projects.project_id
+
+// === M:N === //
+
+// --- project_collaborators ---
+ref: project_collaborators.user_id > users.user_id
+ref: project_collaborators.project_id > projects.project_id
+ref: project_collaborators.added_by - users.user_id
+
+

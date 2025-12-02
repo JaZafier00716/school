@@ -1,0 +1,179 @@
+Níže máš kompletní SWOT analýzu + Cestu zákazníka (Customer Journey) přesně pro tvůj projekt SmartMenu – systém pro restaurace a cateringy automatizující tvorbu menu a nákupních seznamů.
+
+Je to psané stručně, profesionálně a připravené k vložení do prezentace.
+
+✅ SWOT ANALÝZA – SmartMenu
+S (Strengths) – Silné stránky
+
+Automatizace menu a nákupních seznamů → výrazná úspora času pro restaurace.
+
+Propojení s akčními cenami → úspora nákladů u každého nákupu.
+
+Jednoduché uživatelské rozhraní → rychlé zaučení personálu.
+
+Nízké provozní náklady → možnost konkurenceschopné ceny.
+
+Možnost přidávání vlastních receptů → personalizace na míru restaurace.
+
+Výborná škálovatelnost (cloud, databáze).
+
+Unikátní kombinace funkcí → na trhu není přímá alternativa.
+
+W (Weaknesses) – Slabé stránky
+
+Nutnost získat přístup k aktuálním datům o cenách (API nebo crawler).
+
+Potřeba vysvětlit zákazníkům výhody oproti „ručnímu stylu“.
+
+Závislost na kvalitě dat o receptech (pokud jsou komunitní).
+
+Začínající brand → nízké povědomí na trhu.
+
+Potřeba technické údržby, aby systém zůstal vždy aktuální.
+
+O (Opportunities) – Příležitosti
+
+Spolupráce s dodavateli potravin / gastro velkoobchody (Bidfood, Makro).
+
+Možnost B2B partnerství s gastro portály (Restu, HOREKA).
+
+Expanze na zahraniční trhy (SK, PL, DE – podobné gastro prostředí).
+
+Doplnění dalších funkcí: skladové hospodářství, evidence surovin, foodcost.
+
+Nárůst cen potravin → tlak podniků šetřit = vyšší poptávka po SmartMenu.
+
+Integrace s POS systémy (Dotykačka, Storyous, Agile POS).
+
+T (Threats) – Hrozby
+
+Konkurenti mohou začít kopírovat funkce, pokud uspěješ.
+
+Možné změny v API/zdrojích dat o slevách – nutnost přizpůsobit se.
+
+Rezistence restaurací ke změně návyků („děláme to tak roky“).
+
+Ekonomický pokles – restaurace omezí investice do software.
+
+Závislost na stabilitě datových služeb (cloud, databáze, scraping).
+
+🚶 CESTA ZÁKAZNÍKA (Customer Journey) – SmartMenu
+
+Cesta zákazníka je popsána pro restauraci nebo cateringovou firmu.
+
+1️⃣ FÁZE: Uvědomění (Awareness)
+
+Co se děje:
+Restaurace zjistí, že existuje SmartMenu.
+
+Dotekové body:
+
+Reklama na LinkedIn / Google
+
+Banner na gastro portálu
+
+Doporučení od známé restaurace
+
+Krátké promo video ukazující automatické menu
+
+Emoce:
+➡️ Zvědavost, zájem, mírná skepse
+
+2️⃣ FÁZE: Zájem (Consideration)
+
+Co se děje:
+Restaurace porovnává možnosti – jak jim to může ušetřit čas a peníze?
+
+Dotekové body:
+
+Landing page s ukázkou
+
+Screenshoty aplikace
+
+Krátká kalkulačka úspor (např. „Ušetříte 12 h týdně + 8 % nákladů na suroviny“)
+
+Recenze / případová studie
+
+Demo video
+
+Emoce:
+➡️ Očekávání, porovnávání, otázky
+
+3️⃣ FÁZE: Vyzkoušení (Trial)
+
+Co se děje:
+Zákazník si SmartMenu vyzkouší.
+
+Dotekové body:
+
+7denní trial / 3 vygenerovaná menu zdarma
+
+Online tutoriál
+
+Podpora přes chat
+
+Vysvětlení funkcí (návod, onboarding)
+
+Emoce:
+➡️ “Tohle by nám mohlo ušetřit práci.”
+
+4️⃣ FÁZE: Rozhodnutí (Purchase)
+
+Co se děje:
+Restaurace přechází na placenou verzi nebo nakoupí recepty.
+
+Dotekové body:
+
+Nabídka cenových balíčků
+
+Srovnání výhod
+
+Potvrzení objednávky
+
+E-mail s instrukcemi a podporou
+
+Emoce:
+➡️ Úleva, důvěra, očekávání rychlé návratnosti
+
+5️⃣ FÁZE: Používání (Retention)
+
+Co se děje:
+Restaurace pravidelně používá SmartMenu.
+
+Dotekové body:
+
+Automatické generování menu
+
+Pravidelné importy cen potravin
+
+Statistiky úspor
+
+E-mailové tipy a triky
+
+Nové funkce
+
+Emoce:
+➡️ Spokojenost, pocit kontroly, úspora času
+
+6️⃣ FÁZE: Doporučení (Advocacy)
+
+Co se děje:
+Zákazník doporučí SmartMenu ostatním.
+
+Dotekové body:
+
+Referral systém
+
+Možnost sdílet zkušenost jako případovou studii
+
+Výhody za doporučení (např. sleva na další měsíc)
+
+Emoce:
+➡️ Hrdost, pocit „objevil jsem dobrý nástroj“
+
+🔥 Chceš, abych ti to ještě převedl do vizuální tabulky nebo slidů do prezentace?
+
+Např.
+
+SWOT jako 2×2 matice,
+
