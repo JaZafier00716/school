@@ -10,6 +10,7 @@ import javafx.stage.WindowEvent;
 import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
 import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
+import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
 
 import java.io.IOException;
 import java.net.URL;
@@ -37,6 +38,8 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        ScoreRepository.init();
+        ScoreRepository.startDBWebServer();
         try {
             this.primaryStage = primaryStage;
             pressStartFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 18);

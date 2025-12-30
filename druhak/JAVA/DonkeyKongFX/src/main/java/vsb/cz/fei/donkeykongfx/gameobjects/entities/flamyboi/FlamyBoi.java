@@ -150,8 +150,10 @@ public class FlamyBoi extends MovableGameObject {
                 grounded(platform);
             }
         }
-        if (another instanceof Player) {
-            setToBeRemoved(true);
+        if (another instanceof Player p) {
+            if(!p.isDead()) {
+                setToBeRemoved(true);
+            }
         }
     }
 
