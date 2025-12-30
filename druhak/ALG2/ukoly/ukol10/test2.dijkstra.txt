@@ -1,0 +1,23 @@
+To prove the correctness of Dijkstra's algorithm, we proceed by mathematical induction on the number of visited nodes.[21]
+
+Invariant hypothesis: For each visited node v, dist[v] is the shortest distance from source to v, and for each unvisited node u, dist[u] is the shortest distance from source to u when traveling via visited nodes only, or infinity if no such path exists. (Note: we do not assume dist[u] is the actual shortest distance for unvisited nodes, while dist[v] is the actual shortest distance)
+
+Base case:
+
+The base case is when there is just one visited node, source. Its distance is defined to be zero, which is the shortest distance, since negative weights are not allowed. Hence, the hypothesis holds.
+
+Inductive step:
+
+Assume the hypothesis holds for k {\displaystyle k} visited nodes. We wish to show it holds for k + 1 {\displaystyle k+1} nodes. Let u be the next visited node according to the algorithm, i.e. the node with minimum dist[u]. We claim that dist[u] is the shortest distance from source to u.
+
+To prove this claim, we proceed by contradiction. If there were a shorter path, then this shorter path either contains another unvisited node or not.
+
+    In the former case, let w be the first unvisited node on this shorter path. By the induction hypothesis, the shortest paths from source to u and w through visited nodes only have costs dist[u] and dist[w] respectively. This means the cost of going from source to u via w has the cost of at least dist[w] + the minimal cost of going from w to u. As the edge costs are positive, the minimal cost of going from w to u is a positive number. However, dist[u] is at most dist[w] because otherwise w would have been picked by the priority queue instead of u. This is a contradiction, since it has already been established that dist[w] + a positive number < dist[u].
+
+    In the latter case, let w be the last but one node on the shortest path. That means dist[w] + Graph.Edges[w,u] < dist[u]. That is a contradiction because by the time w is visited, it should have set dist[u] to at most dist[w] + Graph.Edges[w,u].
+
+For all other visited nodes v, the dist[v] is already known to be the shortest distance from source already, because of the inductive hypothesis, and these values are unchanged.
+
+After processing u, it will still be true that for each unvisited node w, dist[w] will be the shortest distance from source to w using visited nodes only. If there were a shorter path that did not use u, we would have found it previously, and if there were a shorter path using u we would have updated it when processing u.
+
+After all nodes are visited, the shortest path from source to any node v consists only of visited nodes. Therefore, dist[v] is the shortest distance. 

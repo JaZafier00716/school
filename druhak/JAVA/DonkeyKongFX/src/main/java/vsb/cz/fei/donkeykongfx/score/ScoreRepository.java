@@ -20,6 +20,16 @@ public class ScoreRepository {
         }
     }
 
+    public static void save(Score score) throws ScoreException {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("high-score.csv", true))) { // append mode
+            bw.write(String.format("%s;%d",  score.getNickName(), score.getScore()));
+            bw.newLine();
+        }
+        catch (IOException e) {
+            throw new ScoreException("Something went wrong: Saving file did in fact not save the file.", e);
+        }
+    }
+
     public static List<Score> load() throws ScoreException {
         List<Score> scores = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader("high-score.csv"))) {

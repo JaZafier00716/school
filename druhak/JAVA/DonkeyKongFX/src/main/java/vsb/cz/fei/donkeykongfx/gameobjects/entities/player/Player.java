@@ -10,10 +10,14 @@ import vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi.FlamyBoi;
 import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.sqrt;
 
 
 public class Player extends MovableGameObject {
+    private String playerName;
     private final AnimationData run;
     private final AnimationData climb_phase1;
     private final AnimationData climb_phase2;
@@ -25,8 +29,23 @@ public class Player extends MovableGameObject {
     private int score = 0;
     private int lastFrameIndex;
     Health health;
+    private final List<PlayerListener> listeners = new ArrayList<>();
 
-    public Player(ResizableDimension rd, int height) {
+    public void addListener(PlayerListener listener) {
+        if (listener != null) listeners.add(listener);
+    }
+
+    public void removeListener(PlayerListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void fireEvent(PlayerEvent event) {
+//        System.out.println("Game Over player: " + event.type());
+//        System.out.println("Firing event to " + listeners.size() + " listeners.");
+        for (PlayerListener l : listeners) l.onPlayerEvent(event);
+    }
+
+    public Player(ResizableDimension rd, int height, String playerName) {
         super(
                 rd,
                 height,
@@ -45,6 +64,7 @@ public class Player extends MovableGameObject {
                         true,
                         new Point2D(0, 0)
                 ));
+        this.playerName = playerName;
         this.frameIndex = 0;
         this.lastFrameIndex = 0;
         this.lastPlayerState = PlayerState.RUNNING;
@@ -55,6 +75,17 @@ public class Player extends MovableGameObject {
         this.death = new AnimationData("/images/player/death.png", 5, 1);
         this.playerState = PlayerState.IDLE;
         this.health = new Health(rd, 10, new Point2D(150, 10), 5);
+        this.health.addListener(new HealthListener() {
+            @Override
+            public void onLivesChanged(int newLives) {
+
+            }
+
+            @Override
+            public void onDead() {
+                fireEvent(new PlayerEvent(PlayerEventType.DIED));
+            }
+        });
     }
 
     @Override
@@ -88,6 +119,13 @@ public class Player extends MovableGameObject {
                 !isFacingRight()
         );
 
+//        Rectangle2D bounds = getJumpOverBounds();
+//        // Debug: draw jump over bounds
+//        gc.setStroke(javafx.scene.paint.Color.BLUE);
+//        gc.strokeRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(),
+//                bounds.getHeight());
+
+
         health.render(gc);
     }
 
@@ -120,6 +158,33 @@ public class Player extends MovableGameObject {
         );
     }
 
+    public Rectangle2D getJumpOverBounds() {
+        AnimationData currentAnim;
+        if (this.playerState == PlayerState.IDLE) {
+            currentAnim = switch (lastPlayerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case RUNNING, IDLE -> run;
+            };
+        } else {
+            currentAnim = switch (playerState) {
+                case CLIMBING_PHASE1 -> climb_phase1;
+                case CLIMBING_PHASE2 -> climb_phase2;
+                case DEATH -> death;
+                case RUNNING -> run;
+                default -> throw new IllegalStateException("Unexpected value: " + playerState);
+            };
+        }
+
+        return new Rectangle2D(
+                getPosition().getX() * rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
+                getPosition().getY() * rd.getScale() + currentAnim.getSize().getHeight() * rd.getScale(),
+                currentAnim.getSize().getWidth() * rd.getScale() / 2,
+                rd.getHeight()*rd.getScale()
+        );
+    }
+
     @Override
     public void hitBy(Collisionable another) {
         if(playerState == PlayerState.DEATH){
@@ -132,6 +197,8 @@ public class Player extends MovableGameObject {
             return;
         }
         if(another instanceof Princess) {
+            System.out.println("Princess reached!");
+            fireEvent(new PlayerEvent(PlayerEventType.WON));
             return; // no effect when hitting princess
         }
         if (another instanceof Ladder) {
@@ -337,5 +404,21 @@ public class Player extends MovableGameObject {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void addScore(int delta) {
+        this.score += delta;
+    }
+
+    public boolean isDead() {
+        return playerState == PlayerState.DEATH;
+    }
+
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 }

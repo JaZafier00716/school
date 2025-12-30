@@ -9,7 +9,7 @@ import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
 import java.util.HashMap;
 
-public class SettingsAffected extends ResizableController{
+public abstract class SettingsAffected extends ResizableController{
     protected KeyBindings keyBindings;
 
     protected void loadKeyBindings() {
@@ -37,8 +37,5 @@ public class SettingsAffected extends ResizableController{
         }
     }
 
-    @Override
-    protected void onSizeChanged(double width, double height) {
-
-    }
+    protected abstract void onSizeChanged(double width, double height, String playerName);
 }
