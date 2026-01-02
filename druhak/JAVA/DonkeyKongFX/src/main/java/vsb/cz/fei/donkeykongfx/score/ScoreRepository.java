@@ -47,6 +47,9 @@ public class ScoreRepository {
     }
 
     public static void save(Score score) throws ScoreException {
+        if(score.getNickName().isEmpty() || score.getNickName().isBlank()) {
+            return;
+        }
         try(PreparedStatement statement = getConnection().prepareStatement(
                 "INSERT INTO Scores (name, points) VALUES (?, ?)")) {
             statement.setString(1, score.getNickName());
@@ -72,6 +75,9 @@ public class ScoreRepository {
             ResultSet rs = statement.executeQuery();
             while(rs.next()) {
                 Score score = new Score(rs.getString("name"), rs.getInt("points"));
+                if(score.getNickName().isEmpty() || score.getNickName().isBlank()) {
+                    continue;
+                }
                 scores.add(score);
             }
         } catch (SQLException e) {

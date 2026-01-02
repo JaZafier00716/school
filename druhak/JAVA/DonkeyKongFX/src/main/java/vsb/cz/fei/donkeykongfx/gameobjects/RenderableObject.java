@@ -125,6 +125,6 @@ public abstract class RenderableObject implements Renderable{
             );
         }
 
-        renderBounds(gc);
+//        renderBounds(gc);
     }
 }

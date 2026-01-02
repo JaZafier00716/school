@@ -81,6 +81,10 @@ public class MenuController extends ResizableController {
 
     @FXML
     void onBtnStart(ActionEvent event) {
+        if(playerNameField.getText().isBlank()) {
+            playerNameField.setStyle("-fx-prompt-text-fill: red;");
+            return;
+        }
         try {
             if (getTimer() != null) {
                 stop();
@@ -167,6 +171,9 @@ public class MenuController extends ResizableController {
 
         // Limit player name length
         playerNameField.setTextFormatter(new TextFormatter<String>(change -> {
+            if(!change.getControlNewText().isBlank()) {
+                playerNameField.setStyle("-fx-prompt-text-fill: black;");
+            }
             if (change.getControlNewText().length() <= MaxPlayerNameLength) {
                 return change;
             } else {
