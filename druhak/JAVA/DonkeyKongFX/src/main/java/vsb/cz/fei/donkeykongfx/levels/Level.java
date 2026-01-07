@@ -12,6 +12,7 @@ import vsb.cz.fei.donkeykongfx.gameobjects.*;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.EntityState;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Health;
+import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.PlayerEventType;
 import vsb.cz.fei.donkeykongfx.gameobjects.staticbarrel.StaticBarrel;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.DonkeyKong;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi.FlamyBoi;
@@ -22,6 +23,7 @@ import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class Level extends ResizableDimension {
     private Player player;
@@ -35,13 +37,32 @@ public class Level extends ResizableDimension {
     private Comparator<GameObject> entityComparator;
     boolean pause = false;
 
-    public Level(double width, double height) {
-        this(new Dimension2D(width, height));
+    public enum GameOverReason {
+        PLAYER_DEAD,
+        PLAYER_WON
+    };
+
+    private Consumer<GameOverReason> gameOverListener;
+
+    public void setOnGameOver(Consumer<GameOverReason> gameOverListener) {
+        this.gameOverListener = gameOverListener;
     }
 
-    public Level(Dimension2D dimension) {
+    private void triggerGameOver(GameOverReason reason) {
+        if (gameOverListener != null) {
+            gameOverListener.accept(reason);
+        }
+    }
+
+    public Level(double width, double height, String playerName) {
+        this(new Dimension2D(width, height), playerName);
+    }
+
+    public Level(Dimension2D dimension, String playerName) {
         super(dimension);
-        player = new Player(this, 32);
+        player = new Player(this, 32, playerName);
+        attachPlayerListener();
+
         donkeyKong = new DonkeyKong(this, 16, new Point2D(20, 41));
         princess = new Princess(this, 32, new Point2D(102, 13));
         entities.add(player);
@@ -307,6 +328,14 @@ public class Level extends ResizableDimension {
                             if (c1.collides(c2.getBounds())) {
                                 c1.hitBy(c2);
                             }
+                            if(c1 instanceof Player p1) {
+                                if(c2 instanceof Barrel b1) {
+                                    if(!p1.isDead() && !b1.isPlayer_jumped_over() && b1.collides(p1.getJumpOverBounds())) {
+                                        b1.setPlayer_jumped_over(true);
+                                        p1.addScore(100);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -331,6 +360,7 @@ public class Level extends ResizableDimension {
 
     public GameState toGameState() {
         GameState state = new GameState();
+        state.playerName = this.player.getPlayerName();
         state.levelHeight = this.getHeight();
         state.levelWidth = this.getWidth();
         state.score = player.getScore();
@@ -377,9 +407,10 @@ public class Level extends ResizableDimension {
             } else if (es.type.equals("FlamyBoi")) {
                 entity = new FlamyBoi(this, 16, new Point2D(es.positionX, es.positionY));
             } else if (es.type.equals("Player")) {
-                this.player = new Player(this, 32);
+                this.player = new Player(this, 32, state.playerName);
                 this.player.getHealth().setLifes(state.lives);
                 this.player.setScore(state.score);
+                attachPlayerListener();
                 player.setPosition(new Point2D(es.positionX, es.positionY));
                 entity = this.player;
             } else if (es.type.equals("Token")) {
@@ -394,6 +425,16 @@ public class Level extends ResizableDimension {
                 entities.add(entity);
             }
         }
+    }
+
+    private void attachPlayerListener() {
+        player.addListener(event -> {
+            if (event.type() == PlayerEventType.DIED) {
+                triggerGameOver(GameOverReason.PLAYER_DEAD);
+            } else if (event.type() == PlayerEventType.WON) {
+                triggerGameOver(GameOverReason.PLAYER_WON);
+            }
+        });
     }
 
     void renderScore(GraphicsContext gc) {

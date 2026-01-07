@@ -314,4 +314,12 @@
     -fx-translate-z: 1; /* ensure on top in some cases */
 }
 
+#GameOverContainer {
+-fx-background-color: rgba(34,34,34,0.95); /* near-black translucent */}
+    -fx-border-color: #E16600;
+    -fx-border-width: 2;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-padding: 12;
+    }
 

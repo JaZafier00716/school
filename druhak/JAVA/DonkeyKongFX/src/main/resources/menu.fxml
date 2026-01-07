@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -35,6 +36,11 @@
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
+                              <TextField fx:id="playerNameField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Player name">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
                               <Button id="button" fx:id="continueButton" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="301.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnContinue" prefWidth="250.0" stylesheets="@application.css">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />

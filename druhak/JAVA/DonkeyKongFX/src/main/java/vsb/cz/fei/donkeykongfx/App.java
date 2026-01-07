@@ -10,9 +10,15 @@ import javafx.stage.WindowEvent;
 import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
 import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
+import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
 
 import java.io.IOException;
 import java.net.URL;
+
+/**
+ * TODO: Connect to the database and save scores there
+ */
+
 
 /**
  * Class <b>App</b> - extends class Application and it is an entry point of the program
@@ -28,9 +34,12 @@ public class App extends Application {
     private GameController gc;
     private Stage primaryStage;
     public static Font pressStartFont;
+    private String currentPlayer = "Player";
 
     @Override
     public void start(Stage primaryStage) {
+        ScoreRepository.init();
+        ScoreRepository.startDBWebServer();
         try {
             this.primaryStage = primaryStage;
             pressStartFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 18);
@@ -58,7 +67,9 @@ public class App extends Application {
         System.exit(0);
     }
 
-    public void switchToGame() throws IOException {
+    public void switchToGame(String playerName) throws IOException {
+        System.out.println("Switching to game for player: " + playerName);
+        this.currentPlayer = playerName;
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
@@ -67,10 +78,11 @@ public class App extends Application {
         URL cssUrl = getClass().getResource("/application.css");
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
-        gc.startGame();
+        gc.startGame(playerName);
     }
 
-    public void continueGame() throws IOException {
+    public void continueGame(String playerName) throws IOException {
+        this.currentPlayer = playerName;
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
@@ -79,7 +91,7 @@ public class App extends Application {
         URL cssUrl = getClass().getResource("/application.css");
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
-        gc.continueGame();
+        gc.continueGame(playerName);
     }
 
     public void switchToMenu() throws IOException {
@@ -103,5 +115,9 @@ public class App extends Application {
         URL cssUrl = getClass().getResource("/application.css");
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
+    }
+
+    public String getCurrentPlayer() {
+        return currentPlayer;
     }
 }

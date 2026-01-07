@@ -6,13 +6,36 @@ import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.RenderableObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Health extends RenderableObject {
     private int lifes;
     AnimationData heathBar;
+    private final List<HealthListener> listeners = new ArrayList<>();
+
     public Health(ResizableDimension rd, int defaultHeight, Point2D position, int lifes) {
         super(rd, defaultHeight, position);
         this.heathBar = new AnimationData("/images/hearth1.png", 1, 1);
         this.lifes = lifes;
+    }
+
+    public void addListener(HealthListener listener) {
+        if (listener != null) listeners.add(listener);
+    }
+
+    public void removeListener(HealthListener listener) {
+        listeners.remove(listener);
+    }
+
+    private void notifyLivesChanged() {
+        for (HealthListener l : listeners) l.onLivesChanged(lifes);
+    }
+
+    private void notifyDeadIfNeeded() {
+        if (lifes <= 0) {
+            for (HealthListener l : listeners) l.onDead();
+        }
     }
 
     @Override
@@ -34,6 +57,8 @@ public class Health extends RenderableObject {
     public void loseLife() {
         if (lifes > 0) {
             lifes--;
+            notifyLivesChanged();
+            notifyDeadIfNeeded();
         }
     }
 
@@ -47,5 +72,7 @@ public class Health extends RenderableObject {
 
     public void setLifes(int lifes) {
         this.lifes = lifes;
+        notifyLivesChanged();
+        notifyDeadIfNeeded();
     }
 }

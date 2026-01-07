@@ -1,8 +1,6 @@
 package vsb.cz.fei.donkeykongfx.controllers;
 
-import java.net.URL;
 import java.util.Comparator;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javafx.event.ActionEvent;
@@ -13,10 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import vsb.cz.fei.donkeykongfx.score.Score;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindingRow;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindings;
 
 public class SettingsController extends SettingsAffected {
     private Comparator<KeyBindingRow> comparator;
@@ -178,7 +173,7 @@ public class SettingsController extends SettingsAffected {
     }
 
     @Override
-    protected void onSizeChanged(double width, double height) {
+    protected void onSizeChanged(double width, double height, String currentPlayer) {
 
     }
 }

@@ -16,6 +16,7 @@ public class Barrel extends MovableGameObject {
     private boolean canUpdatePosition = false;
     private double positionTimer = 0.0;
     private final double positionUpdateInterval = 1; // seconds
+    private boolean player_jumped_over = false;
 
     public Barrel(ResizableDimension rd, int height, Point2D position) {
         super(
@@ -137,7 +138,9 @@ public class Barrel extends MovableGameObject {
             return;
         }
         if (another instanceof Player p) {
-            setToBeRemoved(true);
+            if(!p.isDead()) {
+                setToBeRemoved(true);
+            }
         }
     }
 
@@ -148,5 +151,13 @@ public class Barrel extends MovableGameObject {
 
     public void setStateByName(String state) {
         this.barrelState = BarrelState.valueOf(state);
+    }
+
+    public boolean isPlayer_jumped_over() {
+        return player_jumped_over;
+    }
+
+    public void setPlayer_jumped_over(boolean player_jumped_over) {
+        this.player_jumped_over = player_jumped_over;
     }
 }

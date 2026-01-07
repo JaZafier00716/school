@@ -10,6 +10,7 @@ import java.util.List;
 public class GameState implements Serializable {
     private static long sertialVersionUID = 1L;
 
+    public String playerName;
     public double levelWidth;
     public double levelHeight;
     public int score;

@@ -53,7 +53,7 @@ public class DonkeyKong extends MovableGameObject {
         ));
         kongState = KongState.DROPPING;
         custom_scale = -1;
-        setFrameDuration(1.0); // effectively static
+        setFrameDuration(1.4); // effectively static
         this.frameIndex = 0;
         this.idle = new AnimationData("/images/enemies/donkeykong/idle.png", 4, 1);
         this.throwing = new AnimationData("/images/enemies/donkeykong/throw.png", 3, 1);

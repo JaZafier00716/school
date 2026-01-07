@@ -38,11 +38,11 @@ public class Platform extends GameObject {
                 rd.getScale(),
                 false
         );
-        if(ladderEntrance) {
-            gc.setFill(Color.color(1, 0, 0, 0.5));
-            Rectangle2D bounds = getBounds();
-            gc.fillRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
-        }
+//        if(ladderEntrance) {
+//            gc.setFill(Color.color(1, 0, 0, 0.5));
+//            Rectangle2D bounds = getBounds();
+//            gc.fillRect(bounds.getMinX(), bounds.getMinY(), bounds.getWidth(), bounds.getHeight());
+//        }
     }
 
     @Override

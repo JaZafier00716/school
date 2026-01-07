@@ -4,21 +4,22 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.levels.Level;
+import vsb.cz.fei.donkeykongfx.score.Score;
+import vsb.cz.fei.donkeykongfx.score.ScoreException;
+import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindings;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindingsException;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
 import java.io.*;
-import java.util.HashMap;
+import java.util.Objects;
 
 public class GameController extends SettingsAffected {
     private Level level;
@@ -32,9 +33,17 @@ public class GameController extends SettingsAffected {
 
     @FXML
     private BorderPane pauseMenu;
+    @FXML
+    private BorderPane gameOverContainer;
+
+    @FXML
+    private Text endText;
 
     @FXML
     private Button menuButton;
+
+    @FXML
+    private Button menuButton1;
 
     @FXML
     private Button optionsButton;
@@ -43,7 +52,13 @@ public class GameController extends SettingsAffected {
     private Button quitButton;
 
     @FXML
+    private Button quitButton1;
+
+    @FXML
     private Button resumeButton;
+
+    @FXML
+    private Button restartButton;
 
     @FXML
     void onMenuButton(ActionEvent event) {
@@ -81,6 +96,19 @@ public class GameController extends SettingsAffected {
         togglePauseMenu();
     }
 
+    @FXML
+    void onRestartButton(ActionEvent event) {
+        try {
+            if (getTimer() != null) {
+                stop();
+            }
+            level = new Level(canvas.getWidth(), canvas.getHeight(), level.getPlayer().getPlayerName());
+            startGame(level.getPlayer().getPlayerName());
+        } catch (Exception e) {
+            printAlert(e);
+        }
+    }
+
     void togglePauseMenu() {
         pauseMenu.setVisible(!pauseMenu.isVisible());
         pauseMenu.setDisable(!pauseMenu.isDisable());
@@ -94,6 +122,34 @@ public class GameController extends SettingsAffected {
         }
     }
 
+    private void showGameOver(Level.GameOverReason reason) throws ScoreException {
+        gameOverContainer.setVisible(true);
+        gameOverContainer.setDisable(false);
+        gameOverContainer.setOpacity(1.0);
+        gameOverContainer.toFront();
+
+        String text;
+        if (Objects.requireNonNull(reason) == Level.GameOverReason.PLAYER_WON) {
+            text = "You Won!";
+            Score score = new Score(level.getPlayer().getPlayerName(), level.getPlayer().getScore());
+            ScoreRepository.save(score);
+            System.out.println("Saved score: " + score.getNickName() + " - " + score.getScore());
+
+        } else {
+            text = "Game Over!";
+        }
+        // Delete save file on game over
+        deleteSave();
+        endText.setText(text);
+    }
+
+    private void hideGameOver() {
+        gameOverContainer.setVisible(false);
+        gameOverContainer.setDisable(true);
+        gameOverContainer.setOpacity(0.0);
+        gameOverContainer.toBack();
+    }
+
     // key state flags to support simultaneous keys
     private boolean leftPressed = false;
     private boolean rightPressed = false;
@@ -102,13 +158,19 @@ public class GameController extends SettingsAffected {
 
     @FXML
     void initialize() {
-        assert pauseMenu != null : "fx:id=\"PauseMenu\" was not injected: check your FXML file 'game.fxml'.";
+        assert endText != null : "fx:id=\"EndText\" was not injected: check your FXML file 'game.fxml'.";
         assert canvaContainer != null : "fx:id=\"canvaContainer\" was not injected: check your FXML file 'game.fxml'.";
         assert canvas != null : "fx:id=\"canvas\" was not injected: check your FXML file 'game.fxml'.";
+        assert gameOverContainer != null : "fx:id=\"gameOverContainer\" was not injected: check your FXML file 'game.fxml'.";
         assert menuButton != null : "fx:id=\"menuButton\" was not injected: check your FXML file 'game.fxml'.";
+        assert menuButton1 != null : "fx:id=\"menuButton1\" was not injected: check your FXML file 'game.fxml'.";
         assert optionsButton != null : "fx:id=\"optionsButton\" was not injected: check your FXML file 'game.fxml'.";
+        assert pauseMenu != null : "fx:id=\"pauseMenu\" was not injected: check your FXML file 'game.fxml'.";
         assert quitButton != null : "fx:id=\"quitButton\" was not injected: check your FXML file 'game.fxml'.";
+        assert quitButton1 != null : "fx:id=\"quitButton1\" was not injected: check your FXML file 'game.fxml'.";
+        assert restartButton != null : "fx:id=\"restartButton1\" was not injected: check your FXML file 'game.fxml'.";
         assert resumeButton != null : "fx:id=\"resumeButton\" was not injected: check your FXML file 'game.fxml'.";
+
 
 
         installSizeListener();
@@ -188,7 +250,8 @@ public class GameController extends SettingsAffected {
         level.getPlayer().setMovementDirection(dx, dy);
     }
 
-    public void startGame() {
+    public void startGame(String playerName) {
+        hideGameOver();
         // ensure canvas has focus so key events are received
         canvas.requestFocus();
 
@@ -209,14 +272,28 @@ public class GameController extends SettingsAffected {
                     Platform.runLater(() -> {
                         double ww = canvas.getWidth() > 0 ? canvas.getWidth() : Math.max(800, canvaContainer.getWidth());
                         double hh = canvas.getHeight() > 0 ? canvas.getHeight() : Math.max(600, canvaContainer.getHeight());
-                        level = new Level(ww, hh);
+                        level = new Level(ww, hh, playerName);
                     });
                 }
             }
 
             if (level == null && w > 0 && h > 0) {
-                level = new Level(w, h);
+                level = new Level(w, h, playerName);
             }
+        }
+
+        if(level != null) {
+            level.setOnGameOver(reason -> Platform.runLater(() -> {
+                if(getTimer() != null) {
+                    stop();
+                }
+//                System.out.println("Game Over gc: " + reason);
+                try {
+                    showGameOver(reason);
+                } catch (ScoreException e) {
+                    throw new RuntimeException(e);
+                }
+            }));
         }
 
         start(new DrawingThread(
@@ -238,15 +315,15 @@ public class GameController extends SettingsAffected {
         );
     }
 
-    public void continueGame() {
+    public void continueGame(String playerName) {
         loadGame();
-        startGame();
+        startGame(playerName);
     }
 
     @Override
-    protected void onSizeChanged(double width, double height) {
+    protected void onSizeChanged(double width, double height, String playerName) {
         if (getTimer() == null) {
-            level = new Level(width, height);
+            level = new Level(width, height, playerName);
         } else {
             level.updateSize(width, height);
         }
@@ -265,11 +342,20 @@ public class GameController extends SettingsAffected {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../../../state.bin"))) {
             GameState state = (GameState) ois.readObject();
             if(level == null) {
-                level = new Level(state.levelWidth, state.levelHeight);
+                level = new Level(state.levelWidth, state.levelHeight, state.playerName);
             }
             level.fromGameState(state);
         } catch (IOException | ClassNotFoundException e) {
             printAlert(e);
+        }
+    }
+
+    public void deleteSave() {
+        File file = new File("../../../state.bin");
+        if (file.delete()) {
+            System.out.println("Save file deleted successfully.");
+        } else {
+            System.out.println("Failed to delete the save file.");
         }
     }
 }
