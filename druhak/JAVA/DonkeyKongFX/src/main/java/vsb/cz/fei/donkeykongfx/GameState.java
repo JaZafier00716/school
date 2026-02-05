@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameState implements Serializable {
-    private static long sertialVersionUID = 1L;
+    private static final long sertialVersionUID = 1L;
 
     public String playerName;
     public double levelWidth;

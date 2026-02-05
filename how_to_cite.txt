@@ -1,0 +1,28 @@
+dspace.vsb.cz -> citace po ruce
+- doporucuje se mit po ruce - otevrene v druhem okne
+
+u citaci do 5 autoru vypisujeme vsechny oddelene strednikem az na podledniho, ktery je oddeleny "a"
+u vice autoru jsou vsichni oddeleni strednikem a na konci dame latinske "et al"
+
+u anglickeho clanku rocnik a cislo v anglictine a cislo strany v jazyce naseho textu (cestine)
+
+pro dostupnost pouzit wayback machine website pro odkazovani na historickou verzi stranky
+
+u programovani nutno uvest, ze jsem ji pouzil ai, sdilet chat
+- jedna se o citaci typu: prispevek, obrazek na webu
+
+pouzivat citacni manager
+- e.g. citace pro
+	- pridat jako extension do prohlizece - cog wheel na citace PRO -> doplnky
+	- stahnout vytvorene citace ve formatu pro LaTeX
+
+
+kontrola plagiatorstvi pres odevzdej.cz - prace tam nejakou dobu zustane!!! nekontrolovat tyden pred odevzdanim, da nam to pak 100% plagiat!!!
+- kontrolovat idealne po kapitolach
+
+
+zahranicni zdroje:
+- ebsco discovery service
+
+konzultace:
+- zuzana ulmannova

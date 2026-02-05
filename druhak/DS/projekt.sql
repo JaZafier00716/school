@@ -1,14 +1,14 @@
 -- DROP TABLES IN THE RIGHT ORDER TO AVOID FK ERRORS
-IF OBJECT_ID('menu_items') IS NOT NULL DROP TABLE menu_items;
-IF OBJECT_ID('sections') IS NOT NULL DROP TABLE sections;
-IF OBJECT_ID('menus') IS NOT NULL DROP TABLE menus;
-IF OBJECT_ID('project_collaborators') IS NOT NULL DROP TABLE project_collaborators;
-IF OBJECT_ID('projects') IS NOT NULL DROP TABLE projects;
-IF OBJECT_ID('items') IS NOT NULL DROP TABLE items;
-IF OBJECT_ID('templates') IS NOT NULL DROP TABLE templates;
-IF OBJECT_ID('users') IS NOT NULL DROP TABLE users;
-IF OBJECT_ID('roles') IS NOT NULL DROP TABLE roles;
-GO
+-- DROP TABLE menu_items;
+-- DROP TABLE sections;
+-- DROP TABLE menus;
+-- DROP TABLE project_collaborators;
+-- DROP TABLE projects;
+-- DROP TABLE items;
+-- DROP TABLE templates;
+-- DROP TABLE users;
+-- DROP TABLE roles;
+-- GO
 
 
 IF NOT EXISTS(SELECT *

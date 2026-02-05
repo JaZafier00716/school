@@ -331,7 +331,7 @@ public class GameController extends SettingsAffected {
 
     public void saveGame() {
         GameState state = level.toGameState();
-        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("../../../state.bin"))) {
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./state.bin"))) {
             oos.writeObject(state);
         } catch (IOException e) {
             printAlert(e);
@@ -339,19 +339,23 @@ public class GameController extends SettingsAffected {
     }
 
     public void loadGame() {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../../../state.bin"))) {
+        if(!new File("./state.bin").exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./state.bin"))) {
             GameState state = (GameState) ois.readObject();
             if(level == null) {
                 level = new Level(state.levelWidth, state.levelHeight, state.playerName);
             }
             level.fromGameState(state);
+            return;
         } catch (IOException | ClassNotFoundException e) {
             printAlert(e);
         }
     }
 
     public void deleteSave() {
-        File file = new File("../../../state.bin");
+        File file = new File("./state.bin");
         if (file.delete()) {
             System.out.println("Save file deleted successfully.");
         } else {

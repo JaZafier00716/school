@@ -1,0 +1,33 @@
+hledat oponujici nazory na nasi hypotezu a to obzvlaste u pro nas novych temat
+
+pouzivat ruzne jazyky pro vyhledavani
+
+vyhledavace vyhledavaji historicky index, ktery u jednotlivych web stranek aktualizuji crawleri v nejakych intervalech na zaklade navstevnosti
+
+discovery systemy - pro vyhledavani odbornych databazi a repozitaru
+- e.g. dspace, google scholar
+- vetsinou placene
+
+vyhledavace:
+- startpage - google index
+- ddg - bing index
+- brave - vlastni index
+- SearXNG - vlastni index - nastavitelna bezpecnost
+
+eds.vsb.cz - EBSCO discovery service
+
+pouzivat klicova slova a operatory (AND, OR, NOT (znak '-'))
+- e.g. psi AND rozpoznat AND smutek AND clovek
+- generalizace:
+    - zvirata AND rozpoznat AND emoce AND clovek
+- pouzivat zavorky
+- omezit na max 50 vysledku
+- uvozovky apod.
+- kazdy vyhledavac ma vlastni advanced seach operatory
+- wildcards: *, ?, #, %, etc.
+    - kock* OR pes OR zvir*
+- atributy: filetype: ..., site: ..., intitle: ..., inurl: ...
+
+
+nazev anotace a klicova slova u zaverecnych praci prelozit do anglictiny
+

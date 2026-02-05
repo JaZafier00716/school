@@ -1,6 +1,8 @@
 package vsb.cz.fei.donkeykongfx.score;
 
 
+import org.h2.tools.Server;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,10 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import org.h2.jdbc.JdbcConnection;
-import org.h2.tools.Server;
 
 public class ScoreRepository {
     private static Server server = null;
