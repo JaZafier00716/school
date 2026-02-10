@@ -18,7 +18,7 @@ eds.vsb.cz - EBSCO discovery service
 
 pouzivat klicova slova a operatory (AND, OR, NOT (znak '-'))
 - e.g. psi AND rozpoznat AND smutek AND clovek
-- generalizace:
+- generalizace: - v pripade 0 vysledku v opacnem pripade specializace
     - zvirata AND rozpoznat AND emoce AND clovek
 - pouzivat zavorky
 - omezit na max 50 vysledku
@@ -31,3 +31,15 @@ pouzivat klicova slova a operatory (AND, OR, NOT (znak '-'))
 
 nazev anotace a klicova slova u zaverecnych praci prelozit do anglictiny
 
+AI for research - scite
+- pouzit universitni email
+- nepouzivat asistenta, pouzit Search
+
+AI modely:
+- elicit, perplexity, research rabit, semantic scholar
+
+Google notebookLM - pro pripravu na zkousky, generovani video a audio shrnuti, karticek apod.
+
+wrightfull premium - korektura anglickych textu
+
+shadow libraries - na wikipedii odkazy

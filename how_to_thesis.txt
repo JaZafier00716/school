@@ -1,0 +1,16 @@
+model psani - 30 minut denne, 2x tydne nekolik hodin, 1 vyhrazeny den, ve kterem se tomu budu intenzivne venovat
+
+Nastroje pro strukturu a organizaci myslenek:
+- MindMeister / XMind - nastroje pro tvorbu myslenkovych map. Vyzualizace a strukturovani tematu, rozdeleni na dilci podproblemy a hledani souvislosti
+	- pro tvorbu osnovy
+- Trello / Notion - aplikace pro organizaci projektu. Tvorba karticek apor.
+	- vizualizace postupu
+
+Grammarly / Language Tool - rozsireni do browseru nebo samostatna aplikace pro kontrolu gramatiky
+- DeepL
+
+Writefull - pro studenty zdarma, pokrocila korektura odbornych textu v anglickem jazyce
+	- odkaz na strankach knihovny s dalsimi dobrymi odkazy na generovani titlu, apod.
+	- pro overleaf
+
+odevzdej.cz / plag.cz - kontrola plagiatu, plag.cz - vetsinove placeny
