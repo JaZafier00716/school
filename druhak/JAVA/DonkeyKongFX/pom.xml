@@ -14,6 +14,7 @@
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
+
     <dependencies>
         <!-- JavaFX -->
         <dependency>
@@ -68,10 +69,6 @@
             <id>vsb-education-release</id>
             <url>https://artifactory.cs.vsb.cz/repository/education-releases/</url>
         </repository>
-        <repository>
-            <id>vsb-education-snapshot</id>
-            <url>https://artifactory.cs.vsb.cz/repository/education-snapshot/</url>
-        </repository>
     </repositories>
 
     <build>
@@ -88,6 +85,79 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+
+                <configuration>
+                    <!--Set behavior of plugin, which archives should be created see
+          https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html-->
+                    <descriptorRefs>
+                        <!--Create FAT jar-->
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <!--Automatically create and add file MANIFEST.MF into jar and set specified properties-->
+                        <manifest>
+                            <mainClass>vsb.cz.fei.donkeykongfx.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+
+                <executions>
+                    <!-- Setup that goal single should be automatically executed during phase package-->
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <!-- Setup that goal copy-dependencies should be automatically executed during phase package-->
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <!--Specify where should be dependencies (libraries) copied-->
+                            <outputDirectory>${project.build.directory}/libs</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <!--Automatically create and add file MANIFEST.MF into jar and set specified additional properties-->
+                        <manifestEntries>
+                            <Name>vsb/cz/fei/donkeykongfx/App</Name>
+                            <Implementation-Build-Date>${maven.build.timestamp}</Implementation-Build-Date>
+                            <Implementation-Title>${project.groupId}.${project.artifactId}</Implementation-Title>
+                            <Implementation-Vendor>VŠB FEI Departmet of Computer Science</Implementation-Vendor>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                        </manifestEntries>
+                        <!--Automatically create and add file MANIFEST.MF into jar and set specified properties-->
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>vsb.cz.fei.donkeykongfx.App</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
