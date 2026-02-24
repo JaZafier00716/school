@@ -1,0 +1,2 @@
+mkdir -p my_home
+sshfs zam0074@linedu.vsb.cz:/home/fei/zam0074/public_html/ /tmp/my_home/

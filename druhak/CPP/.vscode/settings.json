@@ -1,0 +1,4 @@
+{
+  "cmake.sourceDirectory": "/home/jan/Documents/School/druhak/CPP/cv2",
+  "sonarlint.pathToCompileCommands": "${workspaceFolder}/build/compile_commands.json"
+}
