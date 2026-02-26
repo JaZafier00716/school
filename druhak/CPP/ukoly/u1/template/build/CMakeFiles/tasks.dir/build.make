@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jan/Documents/School/druhak/CPP/ukoly/u1/template
+CMAKE_SOURCE_DIR = /home/jan/Documents/school/druhak/CPP/ukoly/u1/template
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build
+CMAKE_BINARY_DIR = /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/tasks.dir/depend.make
@@ -73,32 +73,32 @@ CMakeFiles/tasks.dir/codegen:
 .PHONY : CMakeFiles/tasks.dir/codegen
 
 CMakeFiles/tasks.dir/main.cpp.o: CMakeFiles/tasks.dir/flags.make
-CMakeFiles/tasks.dir/main.cpp.o: /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/main.cpp
+CMakeFiles/tasks.dir/main.cpp.o: /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/main.cpp
 CMakeFiles/tasks.dir/main.cpp.o: CMakeFiles/tasks.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tasks.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tasks.dir/main.cpp.o -MF CMakeFiles/tasks.dir/main.cpp.o.d -o CMakeFiles/tasks.dir/main.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tasks.dir/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tasks.dir/main.cpp.o -MF CMakeFiles/tasks.dir/main.cpp.o.d -o CMakeFiles/tasks.dir/main.cpp.o -c /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/main.cpp
 
 CMakeFiles/tasks.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tasks.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/main.cpp > CMakeFiles/tasks.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/main.cpp > CMakeFiles/tasks.dir/main.cpp.i
 
 CMakeFiles/tasks.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tasks.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/main.cpp -o CMakeFiles/tasks.dir/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/main.cpp -o CMakeFiles/tasks.dir/main.cpp.s
 
 CMakeFiles/tasks.dir/tasks.cpp.o: CMakeFiles/tasks.dir/flags.make
-CMakeFiles/tasks.dir/tasks.cpp.o: /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/tasks.cpp
+CMakeFiles/tasks.dir/tasks.cpp.o: /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/tasks.cpp
 CMakeFiles/tasks.dir/tasks.cpp.o: CMakeFiles/tasks.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tasks.dir/tasks.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tasks.dir/tasks.cpp.o -MF CMakeFiles/tasks.dir/tasks.cpp.o.d -o CMakeFiles/tasks.dir/tasks.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/tasks.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tasks.dir/tasks.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tasks.dir/tasks.cpp.o -MF CMakeFiles/tasks.dir/tasks.cpp.o.d -o CMakeFiles/tasks.dir/tasks.cpp.o -c /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/tasks.cpp
 
 CMakeFiles/tasks.dir/tasks.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tasks.dir/tasks.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/tasks.cpp > CMakeFiles/tasks.dir/tasks.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/tasks.cpp > CMakeFiles/tasks.dir/tasks.cpp.i
 
 CMakeFiles/tasks.dir/tasks.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tasks.dir/tasks.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/tasks.cpp -o CMakeFiles/tasks.dir/tasks.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/tasks.cpp -o CMakeFiles/tasks.dir/tasks.cpp.s
 
 # Object files for target tasks
 tasks_OBJECTS = \
@@ -113,7 +113,7 @@ tasks: CMakeFiles/tasks.dir/tasks.cpp.o
 tasks: CMakeFiles/tasks.dir/build.make
 tasks: CMakeFiles/tasks.dir/compiler_depend.ts
 tasks: CMakeFiles/tasks.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable tasks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable tasks"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tasks.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -125,6 +125,6 @@ CMakeFiles/tasks.dir/clean:
 .PHONY : CMakeFiles/tasks.dir/clean
 
 CMakeFiles/tasks.dir/depend:
-	cd /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jan/Documents/School/druhak/CPP/ukoly/u1/template /home/jan/Documents/School/druhak/CPP/ukoly/u1/template /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles/tasks.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/jan/Documents/school/druhak/CPP/ukoly/u1/template /home/jan/Documents/school/druhak/CPP/ukoly/u1/template /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles/tasks.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/tasks.dir/depend
 

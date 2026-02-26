@@ -54,20 +54,22 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/jan/Documents/School/druhak/CPP/ukoly/u1/template
+CMAKE_SOURCE_DIR = /home/jan/Documents/school/druhak/CPP/ukoly/u1/template
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build
+CMAKE_BINARY_DIR = /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
 all: CMakeFiles/tasks.dir/all
+all: CMakeFiles/tests.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
 codegen: CMakeFiles/tasks.dir/codegen
+codegen: CMakeFiles/tests.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -76,6 +78,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/tasks.dir/clean
+clean: CMakeFiles/tests.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -85,14 +88,14 @@ clean: CMakeFiles/tasks.dir/clean
 CMakeFiles/tasks.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tasks.dir/build.make CMakeFiles/tasks.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tasks.dir/build.make CMakeFiles/tasks.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=1,2,3 "Built target tasks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=1,2,3 "Built target tasks"
 .PHONY : CMakeFiles/tasks.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/tasks.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles 3
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tasks.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles 0
 .PHONY : CMakeFiles/tasks.dir/rule
 
 # Convenience name for target.
@@ -102,13 +105,45 @@ tasks: CMakeFiles/tasks.dir/rule
 # codegen rule for target.
 CMakeFiles/tasks.dir/codegen:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tasks.dir/build.make CMakeFiles/tasks.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/School/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target tasks"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=1,2,3 "Finished codegen for target tasks"
 .PHONY : CMakeFiles/tasks.dir/codegen
 
 # clean rule for target.
 CMakeFiles/tasks.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tasks.dir/build.make CMakeFiles/tasks.dir/clean
 .PHONY : CMakeFiles/tasks.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/tests.dir
+
+# All Build rule for target.
+CMakeFiles/tests.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=4,5,6 "Built target tests"
+.PHONY : CMakeFiles/tests.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/tests.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/tests.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles 0
+.PHONY : CMakeFiles/tests.dir/rule
+
+# Convenience name for target.
+tests: CMakeFiles/tests.dir/rule
+.PHONY : tests
+
+# codegen rule for target.
+CMakeFiles/tests.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/jan/Documents/school/druhak/CPP/ukoly/u1/template/build/CMakeFiles --progress-num=4,5,6 "Finished codegen for target tests"
+.PHONY : CMakeFiles/tests.dir/codegen
+
+# clean rule for target.
+CMakeFiles/tests.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/tests.dir/build.make CMakeFiles/tests.dir/clean
+.PHONY : CMakeFiles/tests.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
