@@ -1,0 +1,1 @@
+/usr/bin/clang++  -g -fsanitize=address -g -Xlinker --dependency-file=CMakeFiles/tasks.dir/link.d CMakeFiles/tasks.dir/main.cpp.o CMakeFiles/tasks.dir/tasks.cpp.o -o tasks

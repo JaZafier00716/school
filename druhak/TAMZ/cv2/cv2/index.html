@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"
+      rel="stylesheet"
+    />
+    <script>
+      function displayBirthdayMessage() {
+        var name = document.getElementById("name").value;
+        var birthday = document.getElementById("date-of-birth").value;
+
+        if (name === "" || name === undefined) {
+          window.alert("You did not fill in the name!");
+          return;
+        }
+
+        if (birthday === "" || birthday === undefined) {
+          window.alert("You did not select your date of birth!");
+          return;
+        }
+
+        var parts = birthday.split("-");
+        var birthYear = parseInt(parts[0], 10);
+        var birthMonth = parseInt(parts[1], 10) - 1;
+        var birthDay = parseInt(parts[2], 10);
+
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var nextBirthday = new Date(today.getFullYear(), birthMonth, birthDay);
+
+        if (nextBirthday < today) {
+          nextBirthday = new Date(
+            today.getFullYear() + 1,
+            birthMonth,
+            birthDay,
+          );
+        }
+
+        var msPerDay = 24 * 60 * 60 * 1000;
+        var diffDays = Math.ceil((nextBirthday - today) / msPerDay);
+        var dayNames = [
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ];
+        var weekday = dayNames[nextBirthday.getDay()];
+        var message = "";
+
+        if (diffDays === 0) {
+          message =
+            "Today is your birthday, happy birthday " +
+            name +
+            "! It is " +
+            weekday +
+            ".";
+        } else if (diffDays === 1) {
+          message =
+            "Your birthday is in 1 day, " +
+            name +
+            ". It is on " +
+            weekday +
+            ".";
+        } else {
+          message =
+            "Your birthday is in " +
+            diffDays +
+            " days, " +
+            name +
+            ". It is on " +
+            weekday +
+            ".";
+        }
+
+        const alrt = document.getElementById("greeter");
+        alrt.header = "Birthday";
+        alrt.message = message;
+        alrt.buttons = ["Dismiss"];
+        alrt.present();
+      }
+    </script>
+  </head>
+  <body>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Birthday Checker</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-input
+          id="name"
+          type="text"
+          placeholder="Enter your name"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-datetime
+          title="Select Date of Birth"
+          presentation="date"
+          id="date-of-birth"
+          type="date"
+          locale="cs-CZ"
+          value="1999-01-01"
+        >
+          <span slot="title">Select Date of Birth</span>
+        </ion-datetime>
+      </ion-item>
+      <ion-button expand="block" onclick="displayBirthdayMessage()"
+        >Check birthday</ion-button
+      >
+    </ion-content>
+
+    <!-- Tlačítko a výstraha nejsou propojeny, o zobrazení se stará JS -->
+    <ion-alert id="greeter" header="Birthday"></ion-alert>
+  </body>
+</html>
