@@ -1,0 +1,1 @@
+/usr/bin/clang++  -fsanitize=address -g -g -Xlinker --dependency-file=CMakeFiles/regex.dir/link.d CMakeFiles/regex.dir/regex.cpp.o -o regex

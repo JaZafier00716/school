@@ -1,0 +1,27 @@
+Dostatecne komplexni, aby to odpovidalo 2 rokum studia na univerzite + pouziti AI
+
+uzivatelsky pouzitelne, ale nemusi tam byt zadne special UI
+  - napr. konfiguracni soubor, vstupni argumenty apod.
+
+
+Projekt bude navrzeny a rozdeleny do vice souboru
+  - muze pouzivat ruzna paradigma
+  - ale melo by davat smysl
+
+Zamereni se na vykon
+  - napr. multi threading
+
+Snazit se psat multiplatform
+  - filesystem - std::file? nebo tak neco
+
+Psat moderni C++
+  - Nevyhazovat vyjimky, kdyz stav neni vyjimecny, ale ocekavany -> pouzit std::optional
+
+
+Hra? Kompilator, Transkompilator, kompilace pro Javu, C
+Interpretter, HTTP Server, machine learning knihovna, pozicove programy ve stylu find, grep etc., vlastni alokator pameti
+
+nemusime si alokovat vlastni pamet
+
+
+O neco rozsahlejsi oproti minulym projektum prave kvuli pouziti AI

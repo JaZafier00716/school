@@ -1,0 +1,1 @@
+/usr/bin/clang++  -fsanitize=address -g -g -Xlinker --dependency-file=CMakeFiles/lambdas.dir/link.d CMakeFiles/lambdas.dir/lambdas.cpp.o -o lambdas

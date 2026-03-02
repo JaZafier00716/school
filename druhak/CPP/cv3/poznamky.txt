@@ -1,0 +1,73 @@
+inline funkce - pokud se budou funkce pouzivat casto a jsou kratke, tak pouzivat inline
+  - 2-3 instrukce cca
+  - samotne slovo inline se moc nepouziva
+
+likely/unlikely: definovani, jestli se pravdepodobneji stane if nebo else
+  - Kdyz je jedna pravdepodobnejsi, tak ji kompilator zoptimalizuje co nejvice
+    - u unlikely varianty bude optimalizovat na velikost, protoze nemusi byt tak rychla
+    - chceme mit nacachovaneho co nejvice...
+  - Pokud to kompilator dokaze, tak prehodi podminky tak, aby se zbytecne nekontrolovaly podminky, ktere pravdepodobne nenastanou
+  - Throw a jine vyjimky jsou automaticky unlikely
+  - Ve většině případů je kompilátory ignorují
+
+
+Rozdelovat dlouhe funkce do podfunkci misto excesivnich komentaru popisujici, co dela cast funkce... (nahrazeni novou funkci se spravne zvolenym nazvem)
+
+Pro typesafe code nahrazovat using pro prejmenovani datovych typu, pouzitim struktury, pro zabezpeceni proti pouzivani spatnych datovych typu v parametrech
+
+using AircraftID = uint32_t;
+using AirlineID = uint32_t;
+
+->
+
+struct AirlineID {
+  uint32_t id{};
+};
+
+struct AircraftID {
+  uint32_t id{};
+};
+
+Lambda funkce:
+  - [capture_list](params) -> auto {
+
+  }
+  - do capture listu se ukladaji kopie promennych, ktere do ni posleme
+    - pridanim & pred promennou se ulozi reference
+    - Automaticky je pak posbira a nemusime je pak uvadet pri volani funkce
+    - pouziva se pro extra hodnoty, ktere nechceme prekladat argumentem, protoze o nich treba nevi
+    - 
+  - problem s rychlosti a optimalizaci
+  - lambda neni std::function
+
+Alokace pameti:
+
+
+regex: deterministicke konecne automaty
+  - musi se zkompilovat do konecneho automatu a pak se pracuje akorat s nim
+  - V praxi je rychlejsi spustit php interpreter, nechat si vyhodnotit vyraz a pak pouzit vysledek
+    - je obecne znamo, ze je v cpp pomaly
+  - CTR compiler
+
+Vypocetni modely
+  - turingovy stroje
+    - pokud jde neco resit algoritmicky, lze k tomu sestavit turinguv stroj 
+  - RAMy - ekvivalentne rychly jako turinguv stroj
+  - lambda calculus - ekvivalentni k turingovu stroji
+    - pouze nularni a unarni funkce
+    - pro n-arni funkce budeme zobrazenim funkce zobrazeni jine funkce...
+    - True  = Lambda x Lambda y \cdot x
+    - False = Lambda x Lambda y \cdot y
+    - If    = Lambda condition Lambda true Lambda false \cdot ctf
+    - 0     = false
+    - Successor = True x
+
+enum class jsou type safe v cpp (v ce nejsou)
+
+skoro vsechno ve standardni knihovne pouziva templaty
+
+
+funkcionalni programovani - zajimave pro distributivni computing
+  - idealni protoze lze znovu prepocitat dane vysledky a pouzivat je dal
+
+  

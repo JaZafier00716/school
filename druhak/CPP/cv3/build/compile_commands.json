@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/cv3/build",
+  "command": "/usr/bin/clang++    -fsanitize=address -g -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/lambdas.dir/lambdas.cpp.o -c /home/jan/Documents/School/druhak/CPP/cv3/current/lambdas.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/cv3/current/lambdas.cpp",
+  "output": "CMakeFiles/lambdas.dir/lambdas.cpp.o"
+},
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/cv3/build",
+  "command": "/usr/bin/clang++    -fsanitize=address -g -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/regex.dir/regex.cpp.o -c /home/jan/Documents/School/druhak/CPP/cv3/current/regex.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/cv3/current/regex.cpp",
+  "output": "CMakeFiles/regex.dir/regex.cpp.o"
+}
+]
