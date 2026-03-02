@@ -77,8 +77,6 @@ class FallDownAtom(Atom):
         self.y += self.vel[1]
         if(self.y > size_y - self.rad):
             self.y = size_y - self.rad
-        
-
 
 class ExampleWorld:
 
