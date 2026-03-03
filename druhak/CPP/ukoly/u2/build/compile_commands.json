@@ -1,0 +1,26 @@
+[
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/build",
+  "command": "/usr/bin/clang++    -g -fsanitize=address -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/tasks.dir/main.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u2/template/main.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/template/main.cpp",
+  "output": "CMakeFiles/tasks.dir/main.cpp.o"
+},
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/build",
+  "command": "/usr/bin/clang++    -g -fsanitize=address -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/tasks.dir/tasks.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tasks.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tasks.cpp",
+  "output": "CMakeFiles/tasks.dir/tasks.cpp.o"
+},
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/build",
+  "command": "/usr/bin/clang++    -g -fsanitize=address -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/tests.dir/tests.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tests.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tests.cpp",
+  "output": "CMakeFiles/tests.dir/tests.cpp.o"
+},
+{
+  "directory": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/build",
+  "command": "/usr/bin/clang++    -g -fsanitize=address -g -std=gnu++17 -Wall -Wextra -pedantic -o CMakeFiles/tests.dir/tasks.cpp.o -c /home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tasks.cpp",
+  "file": "/home/jan/Documents/School/druhak/CPP/ukoly/u2/template/tasks.cpp",
+  "output": "CMakeFiles/tests.dir/tasks.cpp.o"
+}
+]

@@ -70,4 +70,4 @@ skoro vsechno ve standardni knihovne pouziva templaty
 funkcionalni programovani - zajimave pro distributivni computing
   - idealni protoze lze znovu prepocitat dane vysledky a pouzivat je dal
 
-  
+  https://github.com/hanickadot/compile-time-regular-expressions
