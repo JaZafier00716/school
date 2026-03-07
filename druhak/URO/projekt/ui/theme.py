@@ -1,11 +1,12 @@
 import customtkinter as ctk
+from enum import Enum
 
 ctk.set_default_color_theme(
     "./theme.json"
-    )
+)
 ctk.set_appearance_mode(
     "Dark"
-    )  # "Light" or "Dark" or "System"
+)  # "Light" or "Dark" or "System"
 
 COLORS = {
     "Light": {
@@ -93,3 +94,34 @@ def button_disabled():
         "border_color": COLORS[ctk.get_appearance_mode()]["border-muted"],
         "text_color": COLORS[ctk.get_appearance_mode()]["text-muted"],
     }
+
+
+class Units(Enum):
+    Metric = "Meters"
+    Imperial = "Feet"
+
+
+def apply_opacity(color: str, opacity: float) -> str:
+    """
+    Apply opacity to a hex color.
+    In Dark mode: darkens the color (multiplies by opacity)
+    In Light mode: lightens the color (interpolates toward white)
+    """
+    hex_color = color.lstrip("#")
+    r = int(hex_color[0:2], 16)
+    g = int(hex_color[2:4], 16)
+    b = int(hex_color[4:6], 16)
+
+    if ctk.get_appearance_mode() == "Dark":
+        # Darken: multiply each component by opacity
+        r = max(0, min(255, int(r * opacity)))
+        g = max(0, min(255, int(g * opacity)))
+        b = max(0, min(255, int(b * opacity)))
+    else:
+        # Lighten: interpolate toward white
+        # opacity of 0.4 means 40% of original color + 60% white
+        r = max(0, min(255, int(r + (255 - r) * (1 - opacity))))
+        g = max(0, min(255, int(g + (255 - g) * (1 - opacity))))
+        b = max(0, min(255, int(b + (255 - b) * (1 - opacity))))
+
+    return f"#{r:02x}{g:02x}{b:02x}"

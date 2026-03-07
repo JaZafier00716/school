@@ -336,6 +336,7 @@ class ThrowCounter(
             self,
             master,
             throw_count,
+            update_throws_callback,
             bg_color=None,
             **kw
             ):
@@ -344,6 +345,9 @@ class ThrowCounter(
             fg_color=bg_color,
             **kw
             )
+
+        self.update_throws_callback = update_throws_callback
+        self.throws = throw_count
 
         self.grid_rowconfigure(
             0,
@@ -376,7 +380,7 @@ class ThrowCounter(
 
         button_row = CTkFrame(
             self,
-            fg_color="transparent"
+            fg_color="transparent",
             )
         button_row.grid(
             row=1,
@@ -389,8 +393,9 @@ class ThrowCounter(
             "−",
             size=64,
             radius=20,
-            fg_color=COLORS[ctk.get_appearance_mode()]["border"],
-            hover_color=COLORS[ctk.get_appearance_mode()]["border-muted"],
+            fg_color=COLORS[ctk.get_appearance_mode()]["border"] if throw_count > 0 else COLORS[ctk.get_appearance_mode()]["border-muted"],
+            text_color=COLORS[ctk.get_appearance_mode()]["highlight"] if throw_count > 0 else COLORS[ctk.get_appearance_mode()]["text-muted"],
+            command=lambda: self.throws_update(-1)
         )
         self.minus_btn.pack(
             side="left",
@@ -403,12 +408,32 @@ class ThrowCounter(
             radius=20,
             fg_color=COLORS[ctk.get_appearance_mode()]["button-primary"],
             text_color=COLORS[ctk.get_appearance_mode()]["highlight"],
-            hover_color=COLORS[ctk.get_appearance_mode()]["button-primary-hover"]
+            command=lambda: self.throws_update(+1)
         )
         self.plus_btn.pack(
             side="left",
             padx=10
             )
+
+    def throws_update(self, delta):
+        new_throws = self.throws + delta
+        if new_throws < 0:
+            return
+        self.throws = new_throws
+        self.minus_btn.configure(
+            command=lambda: self.throws_update(-1)
+        )
+        self.plus_btn.configure(
+            command=lambda: self.throws_update(+1)
+        )
+        # Update the throw count label (first child of the throw_counter component)
+        throw_counter_title = self.winfo_children()[0].winfo_children()[1]
+        throw_counter_title.configure(
+            text=str(self.throws)
+        )
+        # Call the callback to update the main app state
+        if self.update_throws_callback:
+            self.update_throws_callback(self.throws)
 
 
 class ButtonGrid(
@@ -418,6 +443,8 @@ class ButtonGrid(
     def __init__(
             self,
             master,
+            next_on_click,
+            prev_on_click,
             bg_color=None,
             **kw
             ):
@@ -426,6 +453,12 @@ class ButtonGrid(
             fg_color=bg_color,
             **kw
             )
+
+        # Store callbacks
+        self.next_on_click = next_on_click
+        self.prev_on_click = prev_on_click
+        self.is_prev_enabled = True
+        self.is_next_enabled = True
 
         # Configure grid for 2 columns
         self.grid_columnconfigure(
@@ -445,7 +478,8 @@ class ButtonGrid(
             corner_radius=10,
             height=52,
             width=150,
-            **button_neutral()
+            **button_neutral(),
+            command=self._prev_clicked
         )
         self.prev_button.grid(
             row=0,
@@ -462,7 +496,8 @@ class ButtonGrid(
             corner_radius=10,
             height=52,
             width=150,
-            **button_neutral()
+            **button_neutral(),
+            command=self._next_clicked
         )
         self.next_button.grid(
             row=0,
@@ -488,6 +523,35 @@ class ButtonGrid(
             padx=10,
             sticky="ew"
             )
+
+    def _prev_clicked(self):
+        """Handle previous button click - only execute if enabled"""
+        if self.is_prev_enabled and self.prev_on_click:
+            self.prev_on_click()
+
+    def _next_clicked(self):
+        """Handle next button click - only execute if enabled"""
+        if self.is_next_enabled and self.next_on_click:
+            self.next_on_click()
+
+    def update_button_states(self, current_hole, total_holes):
+        """Update button enabled/disabled states based on current hole"""
+        is_first_hole = current_hole == 1
+        is_last_hole = current_hole == total_holes
+
+        # Update prev button
+        self.is_prev_enabled = not is_first_hole
+        if is_first_hole:
+            self.prev_button.configure(**button_disabled())
+        else:
+            self.prev_button.configure(**button_neutral())
+
+        # Update next button
+        self.is_next_enabled = not is_last_hole
+        if is_last_hole:
+            self.next_button.configure(**button_disabled())
+        else:
+            self.next_button.configure(**button_neutral())
 
 
 class LabelSwitch(
@@ -553,25 +617,18 @@ class LabelSwitch(
             pady=14
         )
 
-        switch.grid(
-            row=0,
-            column=1,
-            sticky="e",
-            padx=20,
-            pady=14
-            )
-
 
 class TitleButtons(
     ctk.CTkFrame
     ):
-
     def __init__(
             self,
             master,
             title_text,
             button_left_text,
             button_right_text,
+            units,
+            update_units_callback,
             bg_color=None,
             **kw
             ):
@@ -580,6 +637,9 @@ class TitleButtons(
             fg_color="transparent",
             **kw
             )
+
+        self.units = units
+        self.update_units_callback = update_units_callback
 
         self.container = TitleContainer(
             self,
@@ -611,7 +671,8 @@ class TitleButtons(
             corner_radius=10,
             height=50,
             width=140,
-            **button_neutral()
+            **button_neutral() if units == Units.Metric else button_secondary(),
+            command=lambda: self.units_update(Units.Metric)
         )
         self.left_button.grid(
             row=0,
@@ -628,7 +689,8 @@ class TitleButtons(
             corner_radius=10,
             height=50,
             width=140,
-            **button_secondary()
+            **button_secondary() if units == Units.Metric else button_neutral(),
+            command=lambda: self.units_update(Units.Imperial)
         )
         self.right_button.grid(
             row=0,
@@ -641,6 +703,23 @@ class TitleButtons(
         self.container.add_content(
             self.button_row
             )
+
+    def units_update(self, new_units):
+        if self.units == new_units:
+            return
+
+        self.units = new_units
+
+        if new_units == Units.Metric:
+            self.left_button.configure(**button_neutral())
+            self.right_button.configure(**button_secondary())
+        else:
+            self.left_button.configure(**button_secondary())
+            self.right_button.configure(**button_neutral())
+
+        if self.update_units_callback:
+            self.update_units_callback(new_units)
+
 
     def update_theme_colors(
             self
@@ -661,6 +740,7 @@ class EditNick(
             master,
             nickname,
             player_id,
+            update_nick_callback=None,
             bg_color=None,
             **kw
             ):
@@ -670,18 +750,23 @@ class EditNick(
             **kw
             )
 
-        edit_nick = title_icon_editable(
+        self.nickname = nickname
+        self.player_id = player_id
+        self.is_editable = False
+        self.update_nick_callback = update_nick_callback
+
+        # Container for edit_nick widget (will be replaced when toggling edit mode)
+        self.edit_nick_container = ctk.CTkFrame(
             self,
-            title=nickname,
-            icon_text="🖉",
-            title_size=44,
-            icon_size=32
+            fg_color="transparent"
         )
-        edit_nick.pack(
+        self.edit_nick_container.pack(
             fill="x",
             pady=(14, 0),
             padx=(20, 15)
         )
+
+        self._create_edit_nick_widget()
 
         player_id_label = ctk.CTkLabel(
             self,
@@ -697,6 +782,88 @@ class EditNick(
             padx=20,
             pady=(0, 14),
         )
+
+    def _create_edit_nick_widget(self):
+        """Create or recreate the edit_nick widget based on edit mode"""
+        # Clear container
+        for widget in self.edit_nick_container.winfo_children():
+            widget.destroy()
+
+        if self.is_editable:
+            # Create editable version with save callback
+            edit_nick = title_icon_editable(
+                self.edit_nick_container,
+                title=self.nickname,
+                icon_text="✓",
+                title_size=40,
+                icon_size=32,
+                is_editable=True,
+                edit_text="Enter Nickname",
+                on_save=self._save_nickname
+            )
+        else:
+            # Create display version with edit callback
+            def toggle_edit():
+                self.is_editable = True
+                self._create_edit_nick_widget()
+
+            edit_nick = title_icon_editable(
+                self.edit_nick_container,
+                title=self.nickname,
+                icon_text="🖉",
+                title_size=40,
+                icon_size=32,
+                is_editable=False,
+                is_icon_left=False
+            )
+            # The icon button is the second child (column 1) in the wrapper grid
+            # Find and wire the icon button to toggle edit mode
+            for child in edit_nick.winfo_children():
+                if isinstance(child, ctk.CTkButton):
+                    child.configure(command=toggle_edit)
+
+        edit_nick.pack(fill="x")
+
+    def _save_nickname(self, new_nickname):
+        """Handle nickname save and toggle back to display mode"""
+        # Enforce 10 character maximum
+        new_nickname = new_nickname.strip()
+        was_truncated = len(new_nickname) > 10
+        new_nickname = new_nickname[:10]
+
+        if new_nickname:
+            self.nickname = new_nickname
+            if self.update_nick_callback:
+                self.update_nick_callback(new_nickname)
+
+            # Show alert if nickname was truncated
+            if was_truncated:
+                alert = ctk.CTkToplevel()
+                alert.title("Nickname Too Long")
+                alert.geometry("300x120")
+                alert.resizable(False, False)
+                alert.configure(
+                    fg_color=COLORS[ctk.get_appearance_mode()]["alert-danger"]
+                )
+
+                msg_label = ctk.CTkLabel(
+                    alert,
+                    text=f"Nickname was truncated to 10 characters:\n\"{new_nickname}\"",
+                    wraplength=280
+                )
+                msg_label.pack(padx=20, pady=15)
+
+                ok_btn = ctk.CTkButton(
+                    alert,
+                    text="OK",
+                    command=alert.destroy
+                )
+                ok_btn.pack(pady=10)
+
+        # Toggle back to display mode
+        self.is_editable = False
+        self._create_edit_nick_widget()
+
 
 
 class TitleDesc(
@@ -750,3 +917,106 @@ class TitleDesc(
             padx=20,
             pady=14
         )
+
+class HoleByHole(
+    ctk.CTkFrame
+):
+    def __init__(
+            self,
+            master,
+            holes,
+            bg_color,
+            **kw
+    ):
+        super().__init__(
+            master,
+            fg_color="transparent",
+            **kw
+        )
+
+        self.holes = holes
+        self.bg_color = bg_color
+
+        self.container = TitleContainer(
+            self,
+            "Hole by Hole",
+            bg_color=bg_color,
+            corner_radius=10,
+            gap=0
+        )
+        self.container.pack(
+            fill="both",
+            expand=True
+        )
+
+        self.hole_list = ctk.CTkScrollableFrame(
+            self.container.content_host,
+            fg_color="transparent"
+        )
+        self.hole_list.pack(
+            fill="both",
+            expand=True
+        )
+
+        self._populate_holes()
+
+        save_btn = ctk.CTkButton(
+            self,
+            text="Save Round",
+            border_width=0,
+            corner_radius=10,
+            height=60,
+            font=ctk.CTkFont(
+                size=24,
+                weight="normal"
+            ),
+            **button_primary()
+        )
+        save_btn.pack(
+            pady=10,
+            padx=0,
+            fill="x"
+        )
+
+        delete_btn = ctk.CTkButton(
+            self,
+            text="Delete Round",
+            border_width=0,
+            corner_radius=10,
+            height=60,
+            font=ctk.CTkFont(
+                size=24,
+                weight="normal"
+            ),
+            **button_secondary()
+        )
+        delete_btn.pack(
+            pady=(0, 10),
+            padx=0,
+            fill="x"
+        )
+
+    def _populate_holes(self):
+        """Populate or refresh hole statistics rows"""
+        # Clear existing holes
+        for widget in self.hole_list.winfo_children():
+            widget.destroy()
+
+        hole_items = self.holes.values() if isinstance(self.holes, dict) else self.holes
+        for hole in hole_items:
+            hole_row = hole_statistics(
+                self.hole_list,
+                hole.get("id", 0),
+                hole.get("par", 0),
+                hole.get("throws", 0),
+                COLORS[ctk.get_appearance_mode()]["bg-light"]
+            )
+            hole_row.pack(
+                fill="x",
+                pady=5
+            )
+
+    def update_theme_colors(self):
+        """Update theme colors for all hole statistics"""
+        self.container.configure(fg_color=COLORS[ctk.get_appearance_mode()]["bg"])
+        self._populate_holes()  # Recreate all holes with new theme colors

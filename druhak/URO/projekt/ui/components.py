@@ -11,7 +11,8 @@ def icon_button(
         opacity: float = 0.8,
         fg_color: str = "transparent",
         text_color: str = "",
-        hover_color: str = ""
+        hover_color: str = "",
+        command: callable = None
 ):
     if text_color == "":
         text_color = COLORS[ctk.get_appearance_mode()]["text-muted"] if is_muted else COLORS[ctk.get_appearance_mode()][
@@ -19,50 +20,7 @@ def icon_button(
 
     if hover_color == "" and fg_color != "transparent":
         # Darken the color by applying opacity multiplier
-        hex_color = fg_color.lstrip(
-            "#"
-        )
-        r = int(
-            hex_color[0:2],
-            16
-        )
-        g = int(
-            hex_color[2:4],
-            16
-        )
-        b = int(
-            hex_color[4:6],
-            16
-        )
-        # Apply opacity: multiply each component
-        r = max(
-            0,
-            min(
-                255,
-                int(
-                    r * opacity
-                )
-            )
-        )
-        g = max(
-            0,
-            min(
-                255,
-                int(
-                    g * opacity
-                )
-            )
-        )
-        b = max(
-            0,
-            min(
-                255,
-                int(
-                    b * opacity
-                )
-            )
-        )
-        hover_color = f"#{r:02x}{g:02x}{b:02x}"
+        hover_color = apply_opacity(fg_color, opacity)
     elif hover_color == "":
         hover_color = COLORS[ctk.get_appearance_mode()]["bg-light"]
 
@@ -78,7 +36,8 @@ def icon_button(
         fg_color=fg_color,
         text_color=text_color,
         hover_color=hover_color,
-        corner_radius=radius
+        corner_radius=radius,
+        command=command
     )
 
 
@@ -290,6 +249,10 @@ class TitleContainer(
             0,
             weight=1
         )
+        self.grid_rowconfigure(
+            1,
+            weight=1
+        )
 
         self.title = ctk.CTkLabel(
             self,
@@ -315,11 +278,15 @@ class TitleContainer(
         self.content_host.grid(
             row=1,
             column=0,
-            sticky="ew",
+            sticky="nsew",
             padx=20,
             pady=(self.gap, 20)
         )
         self.content_host.grid_columnconfigure(
+            0,
+            weight=1
+        )
+        self.content_host.grid_rowconfigure(
             0,
             weight=1
         )
@@ -333,7 +300,7 @@ class TitleContainer(
             in_=self.content_host,
             row=0,
             column=0,
-            sticky="ew"
+            sticky="nsew"
         )
         return widget
 
@@ -349,10 +316,18 @@ def title_icon_editable(
         is_icon_left: bool = False,
         is_editable: bool = False,
         edit_text: str = "",
+        on_save: callable = None
 ):
     if is_editable:
-        return ctk.CTkEntry(
+        wrap = ctk.CTkFrame(
             parent,
+            fg_color="transparent"
+        )
+        wrap.grid_columnconfigure(0, weight=1)
+        wrap.grid_columnconfigure(1, weight=0)
+
+        entry = ctk.CTkEntry(
+            wrap,
             font=ctk.CTkFont(
                 size=24,
                 weight="bold"
@@ -360,6 +335,34 @@ def title_icon_editable(
             placeholder_text=edit_text,
             height=50
         )
+        # Limit to 10 characters
+        entry.insert(0, title[:10] if len(title) > 10 else title)
+        entry.grid(
+            row=0,
+            column=0,
+            sticky="ew",
+            padx=(0, spacing)
+        )
+
+        save_btn = icon_button(
+            wrap,
+            "✓",
+            font_size=icon_font_size,
+            size=icon_size,
+            is_muted=False
+        )
+        save_btn.grid(
+            row=0,
+            column=1,
+            sticky="e"
+        )
+
+        if on_save:
+            save_btn.configure(
+                command=lambda: on_save(entry.get())
+            )
+
+        return wrap
 
     wrap = ctk.CTkFrame(
         parent,
@@ -415,3 +418,88 @@ def title_icon_editable(
     )
 
     return wrap
+
+def hole_statistics(
+        parent,
+        hole_number: int,
+        par: int,
+        throws: int,
+        bg_color: str = None
+):
+    wrap = ctk.CTkFrame(
+        parent,
+        fg_color= bg_color if bg_color else "transparent"
+    )
+    wrap.grid_columnconfigure(0, weight=0)
+    wrap.grid_columnconfigure(1, weight=1)
+    wrap.grid_columnconfigure(2, weight=0)
+
+    hole_number_circle = ctk.CTkFrame(
+        wrap,
+        fg_color=apply_opacity(COLORS[ctk.get_appearance_mode()]["button-primary"], 0.4),
+        corner_radius=20,
+        width=40,
+        height=40
+    )
+    hole_number_circle.grid(
+        row=0,
+        column=0,
+        sticky="w",
+        padx=(10, 10),
+        pady=10
+    )
+    hole_number_circle.grid_propagate(False)
+
+    hole_lbl = ctk.CTkLabel(
+        hole_number_circle,
+        text=str(hole_number),
+        font=ctk.CTkFont(
+            size=24,
+            weight="bold"
+        ),
+        text_color=COLORS[ctk.get_appearance_mode()]["button-primary"]
+    )
+    hole_lbl.place(relx=0.5, rely=0.5, anchor="center")
+
+    par_lbl = ctk.CTkLabel(
+        wrap,
+        text=f"Par: {par}",
+        font=ctk.CTkFont(
+            size=16,
+            weight="normal"
+        ),
+    )
+    par_lbl.grid(
+        row=0,
+        column=1,
+        sticky="w",
+        pady=10
+    )
+
+    score = throws - par
+    text_color = COLORS[ctk.get_appearance_mode()]["text-muted"]
+    if score > 0:
+        text_color = COLORS[ctk.get_appearance_mode()]["alert-warning"]
+    if score < 0:
+        text_color = COLORS[ctk.get_appearance_mode()]["alert-info"]
+
+    score_lbl = ctk.CTkLabel(
+        wrap,
+        text=f"Score: {"+" if score > 0 else ""}{score}",
+        font=ctk.CTkFont(
+            size=16,
+            weight="normal"
+        ),
+        text_color=text_color
+    )
+    score_lbl.grid(
+        row=0,
+        column=1,
+        sticky="e",
+        padx=(10, 10),
+    )
+
+    return wrap
+
+
+
