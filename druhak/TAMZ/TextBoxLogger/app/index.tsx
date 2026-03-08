@@ -1,0 +1,95 @@
+import {Button, TextInput, View} from "react-native";
+import {SafeAreaView, SafeAreaProvider} from "react-native-safe-area-context";
+import {useEffect, useState} from "react";
+import { Storage } from "@/lib/storage";
+import DialogWindow from "@/components/DialogWindow";
+
+export default function Index() {
+    const [text, setText] = useState("");
+    const storage_key = "text_arr";
+    const [arr, setArr] = useState<string[]>([]);
+    const [dialog_visible, setDialogVisible] = useState(false);
+
+
+
+    const save_text = async () => {
+        const stored = await Storage.getItem(storage_key);
+        const arr = stored ? JSON.parse(stored) : [];
+        arr.unshift(text);
+
+        await Storage.setItem(storage_key, JSON.stringify(arr));
+        setText("");
+        console.log("Saved text:", text);
+    }
+
+    const fetch_text = async (): Promise<string[]> => {
+        const stored = await Storage.getItem(storage_key);
+        const items = stored ? (JSON.parse(stored) as string[]) : [];
+        setArr(items);
+        return items;
+    };
+
+    const load_text = async () => {
+        await fetch_text();
+        setDialogVisible(true);
+    }
+
+    const remove_item = async (index: number) => {
+        const stored = await Storage.getItem(storage_key);
+        if(stored) {
+            const arr = JSON.parse(stored);
+            arr.splice(index, 1);
+            await Storage.setItem(storage_key, JSON.stringify(arr));
+            await load_text();
+        }
+    }
+
+    const clear_storage = async () => {
+        await Storage.clear();
+        setArr([]);
+        setText("");
+    }
+
+
+    useEffect(() => {
+        const init = async () => {
+            const items = await fetch_text();
+            setText(items[0] ?? "");
+        };
+
+        void init();
+    }, []);
+
+    return (
+        <SafeAreaProvider>
+            <SafeAreaView
+                className={"flex flex-col items-center justify-start p-4 gap-y-5"}
+            >
+                <TextInput
+                    editable
+                    multiline
+                    numberOfLines={10}
+                    maxLength={256}
+                    onChangeText={x => setText(x)}
+                    value={text}
+                    className={"bg-slate-200 p-5 border-[1px] border-black h-1/2 w-full"}
+                    placeholder={"Enter some text"}
+                />
+                <View
+                    className={"flex flex-row items-center justify-evenly w-full"}
+                >
+                    <Button title={"Load"} onPress={() => load_text()}/>
+                    <Button title={"Save"} onPress={() => save_text()}/>
+                    <Button title={"Clear"} onPress={() => clear_storage()} />
+                </View>
+                <DialogWindow
+                    isVisible={dialog_visible}
+                    setIsVisible={setDialogVisible}
+                    text_arr={arr}
+                    remove_item={(index) => remove_item(index)}
+                    setText={setText}
+                />
+            </SafeAreaView>
+        </SafeAreaProvider>
+    );
+}
