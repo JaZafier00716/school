@@ -1,0 +1,17 @@
+{
+    "name": "Ukázka PWA pro předmět Tvorba aplikací pro mobilní zařízení 1",
+    "short_name": "TAMZ 1 Example",
+    "description": "Jednoduchý instalovatelný PWA web",
+    "author": "Pavel Moravec",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#05c3de",
+    "icons": [
+        {
+            "src": "tamz1-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        }
+    ]
+}

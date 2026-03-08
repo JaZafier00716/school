@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="gameContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #121212;" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.controllers.MenuController">
+   <children>
+      <BorderPane fx:id="mainMenu" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="543.0" prefWidth="1000.0" style="-fx-background-color: #121212;">
+         <center>
+            <VBox prefHeight="200.0" prefWidth="1000.0" BorderPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="253.0" prefWidth="1000.0" VBox.vgrow="ALWAYS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <children>
+                        <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="538.0" spacing="15.0">
+                           <children>
+                              <TableView id="scoreTable" fx:id="scoreTable" maxWidth="-Infinity" prefHeight="170.0" prefWidth="250.0" styleClass="red-style" stylesheets="@application.css">
+                                <columns>
+                                  <TableColumn fx:id="columnNickName" prefWidth="144.0" text="Nickname" />
+                                  <TableColumn fx:id="columnScore" prefWidth="102.0" text="Score" />
+                                </columns>
+                                 <columnResizePolicy>
+                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                 </columnResizePolicy>
+                              </TableView>
+                              <TextField fx:id="playerNameField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Player name">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                              <Button id="button" fx:id="continueButton" alignment="CENTER" contentDisplay="CENTER" layoutX="122.0" layoutY="301.0" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnContinue" prefWidth="250.0" stylesheets="@application.css">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <graphic>
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Continue" textAlignment="CENTER" translateY="5.0">
+                                       <font>
+                                          <Font name="Consolas Bold" size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </graphic>
+                              </Button>
+                              <Button id="button" fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnStart" prefWidth="250.0" stylesheets="@application.css">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <graphic>
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Start" textAlignment="CENTER" translateY="5.0">
+                                       <font>
+                                          <Font name="Consolas Bold" size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </graphic>
+                              </Button>
+                              <Button id="button" fx:id="optionsButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnOptions" prefWidth="250.0" stylesheets="@application.css">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <graphic>
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Options" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Consolas Bold" size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </graphic>
+                              </Button>
+                              <Button id="button" fx:id="quitButton" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onBtnQuit" prefWidth="250.0" stylesheets="@application.css" textFill="#e1e1ff">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <graphic>
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Quit" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Consolas Bold" size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </VBox>
+                        <StackPane fx:id="canvaContainer" prefHeight="600.0" prefWidth="590.0">
+                           <children>
+                              <Canvas fx:id="canvas" height="256.0" width="384.0" />
+                           </children>
+                        </StackPane>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+         <top>
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="1000.0" stylesheets="@application.css" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets top="50.0" />
+               </BorderPane.margin>
+               <top>
+                  <Text id="titleText" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Donkey Kong" textAlignment="CENTER" wrappingWidth="1000.0" BorderPane.alignment="CENTER" />
+               </top>
+            </BorderPane>
+         </top>
+      </BorderPane>
+   </children>
+</StackPane>

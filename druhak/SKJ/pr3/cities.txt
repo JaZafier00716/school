@@ -1,0 +1,10 @@
+Prague:1309000
+Brno:380000
+Ostrava:284000
+Plzen:171000
+Liberec:104000
+Olomouc:101000
+Ceske Budejovice:97000
+Hradec Kralove:93000
+Usti nad Labem:92000
+Pardubice:91000
