@@ -1,0 +1,26 @@
+kdyz mame tridu v anonymnim namespacu, tak i kdyz je clenska funkce oznacena jako virtualni,
+tak pri volani dokaze vyuzit staticky dispatch
+
+```
+namespace {
+  class C {
+    public:
+      virtual void fn() {}
+
+  };
+}
+
+
+void call_fn(C& c) {
+  c.fn();
+}
+```
+
+Virtual destructor - kdyz potomci delaji resource management (i.e. otevirani souboru - otevreny soubor uz nikdo jiny neotevre)
+
+AST - Abstract Syntax Tree - strojova reprezentace zdrojoveho kodu
+
+vsechny kontejnery ve standardni knihovne jsou allocator aware
+  - vcetne std::vector
+  - pouzivaji alokator, ktery spravu pameti dela za ne
+  - vsechny kontejnery dostanou instanci alokatoru - lze predat konstruktorem, nebo urcit v templatu
