@@ -3,6 +3,8 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
@@ -17,6 +19,7 @@ import static java.lang.Math.sqrt;
 
 
 public class Player extends MovableGameObject {
+    private static final Logger LOGGER = LogManager.getLogger(Player.class);
     private String playerName;
     private final AnimationData run;
     private final AnimationData climb_phase1;
@@ -40,8 +43,7 @@ public class Player extends MovableGameObject {
     }
 
     private void fireEvent(PlayerEvent event) {
-//        System.out.println("Game Over player: " + event.type());
-//        System.out.println("Firing event to " + listeners.size() + " listeners.");
+        LOGGER.trace("Dispatching player event {} to {} listeners", event.type(), listeners.size());
         for (PlayerListener l : listeners) l.onPlayerEvent(event);
     }
 
@@ -191,13 +193,13 @@ public class Player extends MovableGameObject {
             return; // no further collisions when dead
         }
         if(another instanceof Token t) {
-            System.out.println("Token collected!");
+            LOGGER.info("Token collected by player {}", playerName);
             score += 100;
             t.setToBeRemoved(true);
             return;
         }
         if(another instanceof Princess) {
-            System.out.println("Princess reached!");
+            LOGGER.info("Princess reached by player {}", playerName);
             fireEvent(new PlayerEvent(PlayerEventType.WON));
             return; // no effect when hitting princess
         }
@@ -224,7 +226,7 @@ public class Player extends MovableGameObject {
             return;
         }
         if (another instanceof Barrel || another instanceof FlamyBoi) {
-            System.out.print("Barrel\n");
+            LOGGER.warn("Player {} hit by enemy and enters DEATH state", playerName);
             playerState = PlayerState.DEATH;
             frameIndex = 0;
             setOnLadder(false);
@@ -263,7 +265,7 @@ public class Player extends MovableGameObject {
         if (type != null) {
             type.apply(this, deltaTime);
         } else {
-            System.out.println("Player has no movement profile!");
+            LOGGER.error("Player has no movement profile");
         }
 
         if (isPendingJump() && isOnGround()) {
@@ -299,7 +301,7 @@ public class Player extends MovableGameObject {
                 this.lastFrameIndex = death.getColCount() - 1;
                 this.lastPlayerState = PlayerState.DEATH;
                 playerState = PlayerState.IDLE;
-                System.out.println("Player out of bounds, respawning...");
+                LOGGER.warn("Player {} out of bounds, respawning at initial position", playerName);
                 lastInBoundsTimer = 0;
             }
         } else {
@@ -322,7 +324,7 @@ public class Player extends MovableGameObject {
         Platform currentPlatform = this.getStandingOnPlatform();
         if (!isOnLadder() && dirY > 0 && currentPlatform != null && currentPlatform.isLadderEntrance()) {
             // start climbing down the ladder
-            System.out.println("Starting to climb down the ladder");
+            LOGGER.debug("Player {} starts climbing down ladder", playerName);
             setOnLadder(true);
             setLadderHold(false);
             this.setDirectionX(0);
@@ -332,8 +334,7 @@ public class Player extends MovableGameObject {
         }
 
         if (dirY != 0) {
-            System.out.println("Setting player to CLIMBING " + (dirY < 0 ? " UP" : " DOWN"));
-            System.out.println("Player is on ladder: " + isOnLadder());
+            LOGGER.trace("Vertical movement requested for {} with dirY={} while onLadder={}", playerName, dirY, isOnLadder());
             if(isOnLadder()) {
                 if (isLadderHold()) {
                     setLadderHold(false);
@@ -341,7 +342,7 @@ public class Player extends MovableGameObject {
                 this.setDirectionY(dirY);
                 this.setDirectionX(0);
                 this.setVelocityX(0);
-                System.out.println("Climbing ladder with dirY: " + dirY);
+                LOGGER.trace("Player {} climbing ladder with dirY={}", playerName, dirY);
                     playerState = PlayerState.CLIMBING_PHASE1;
                 return;
             } else { // if player is not on ladder, ignore vertical movement
@@ -350,7 +351,7 @@ public class Player extends MovableGameObject {
         }
 
         if (dirX != 0) {
-            System.out.println("Setting player to RUNNING");
+            LOGGER.trace("Player {} set to RUNNING with dirX={}", playerName, dirX);
             setOnLadder(false);
             setLadderHold(false);
             setDirectionX(dirX);
@@ -360,7 +361,7 @@ public class Player extends MovableGameObject {
         }
 
         if (isOnLadder() && playerState == PlayerState.CLIMBING_PHASE1) {
-            System.out.println("Setting player to IDLE on ladder");
+            LOGGER.trace("Player {} set to IDLE on ladder", playerName);
             setLadderHold(true);
             setDirectionY(0);
             setVelocityY(0);
@@ -371,7 +372,7 @@ public class Player extends MovableGameObject {
             return;
         }
 
-        System.out.println("Setting player to IDLE");
+        LOGGER.trace("Player {} set to IDLE", playerName);
         this.setDirectionX(dirX);
         this.setDirectionY(dirY);
         playerState = PlayerState.IDLE;
@@ -422,3 +423,4 @@ public class Player extends MovableGameObject {
         this.playerName = playerName;
     }
 }
+

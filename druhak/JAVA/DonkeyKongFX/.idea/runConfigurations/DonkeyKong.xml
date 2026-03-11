@@ -1,0 +1,31 @@
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project version="4"&gt;
+    &lt;component name="RunConfigurationProducerService"&gt;
+        &lt;option name="ignoredProducers"&gt;
+            &lt;set&gt;
+                &lt;option value="com.android.tools.idea.compose.preview.runconfiguration.ComposePreviewRunConfigurationProducer" /&gt;
+            &lt;/set&gt;
+        &lt;/option&gt;
+    &lt;/component&gt;
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DonkeyKong" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="vsb.cz.fei.donkeykongfx.App" />
+    <module name="donkeykong-game" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="VM_PARAMETERS" value="--module-path donkeykong-api/target/classes:donkeykong-db/target/classes:donkeykong-game/target/classes:donkeykong-game/target/libs/* --add-modules javafx.controls,javafx.fxml" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <option name="ALTERNATIVE_JRE_PATH" value="/home/jan/.jdks/openjdk-25.0.2" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="vsb.cz.fei.donkeykongfx.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+&lt;/project&gt;
+

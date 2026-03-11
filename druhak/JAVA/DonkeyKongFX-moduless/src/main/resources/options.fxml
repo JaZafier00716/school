@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 
-<BorderPane stylesheets="@application.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.controllers.SettingsController">
+<BorderPane stylesheets="@application.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vsb.cz.fei.donkeykongfx.controllers.SettingsController">
    <center>
       <StackPane>
          <children>

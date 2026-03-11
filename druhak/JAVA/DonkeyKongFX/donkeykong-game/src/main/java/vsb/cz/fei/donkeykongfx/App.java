@@ -1,5 +1,7 @@
 package vsb.cz.fei.donkeykongfx;
 
+import cs.vsb.cz.fei.java2.api.score.ScoreStorageInterface;
+import cs.vsb.cz.fei.java2.db.score.ScoreRepository;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,8 +12,7 @@ import javafx.stage.WindowEvent;
 import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
 import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
-import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
-import vsb.cz.fei.donkeykongfx.score.ScoreStorageInterface;
+
 
 import java.io.IOException;
 import java.net.URL;

@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
 import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
@@ -27,6 +29,8 @@ import java.net.URL;
  */
 public class App extends Application {
 
+    private static final Logger LOGGER = LogManager.getLogger(App.class);
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -38,6 +42,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        LOGGER.info("Application startup initiated");
         ScoreRepository.init();
         ScoreRepository.startDBWebServer();
         try {
@@ -52,23 +57,29 @@ public class App extends Application {
             primaryStage.show();
             //Exit program when main window is closed
             primaryStage.setOnCloseRequest(this::exitProgram);
+            LOGGER.info("Primary stage is visible");
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.fatal("Application failed during startup", e);
         }
     }
 
     @Override
     public void stop() throws Exception {
-        gc.stop();
+        if (gc != null) {
+            gc.stop();
+        } else {
+            LOGGER.warn("Stopping application before GameController was initialized");
+        }
         super.stop();
     }
 
     private void exitProgram(WindowEvent evt) {
+        LOGGER.info("Application shutdown requested by window close event");
         System.exit(0);
     }
 
     public void switchToGame(String playerName) throws IOException {
-        System.out.println("Switching to game for player: " + playerName);
+        LOGGER.info("Switching to game for player {}", playerName);
         this.currentPlayer = playerName;
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
         Parent root = gameLoader.load();
@@ -83,6 +94,7 @@ public class App extends Application {
 
     public void continueGame(String playerName) throws IOException {
         this.currentPlayer = playerName;
+        LOGGER.info("Continuing game for player {}", playerName);
         FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
@@ -95,6 +107,7 @@ public class App extends Application {
     }
 
     public void switchToMenu() throws IOException {
+        LOGGER.debug("Switching to menu scene");
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
         Parent root = menuLoader.load();
         MenuController mc = menuLoader.getController();
@@ -107,6 +120,7 @@ public class App extends Application {
     }
 
     public void switchToSettings() throws IOException {
+        LOGGER.debug("Switching to settings scene");
         FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/options.fxml"));
         Parent root = settingsLoader.load();
         SettingsController sc = settingsLoader.getController();

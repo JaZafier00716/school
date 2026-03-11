@@ -5,6 +5,8 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
@@ -26,6 +28,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class Level extends ResizableDimension {
+    private static final Logger LOGGER = LogManager.getLogger(Level.class);
     private Player player;
     private DonkeyKong donkeyKong;
     private final Princess princess;
@@ -49,6 +52,7 @@ public class Level extends ResizableDimension {
     }
 
     private void triggerGameOver(GameOverReason reason) {
+        LOGGER.info("Game over triggered with reason {}", reason);
         if (gameOverListener != null) {
             gameOverListener.accept(reason);
         }
@@ -278,11 +282,13 @@ public class Level extends ResizableDimension {
                     FlamyBoi flamyBoi = new FlamyBoi(this, 16, new Point2D(36, 59));
                     toBeAddedEntities.add(flamyBoi);
                     dk.setSpawnFlamyBoi(false);
+                    LOGGER.debug("Spawned FlamyBoi at (36,59)");
                 }
                 if (dk.getSpawnBarrel()) {
                     Barrel newBarrel = new Barrel(this, 32, new Point2D(36, 59));
                     toBeAddedEntities.add(newBarrel);
                     dk.setSpawnBarrel(false);
+                    LOGGER.debug("Spawned Barrel at (36,59)");
                 }
             }
             entity.update(deltaTime);

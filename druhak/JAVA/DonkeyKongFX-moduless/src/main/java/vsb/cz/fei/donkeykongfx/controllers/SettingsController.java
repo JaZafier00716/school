@@ -11,9 +11,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindingRow;
 
 public class SettingsController extends SettingsAffected {
+    private static final Logger LOGGER = LogManager.getLogger(SettingsController.class);
     private Comparator<KeyBindingRow> comparator;
     @FXML
     private Label ChangeKeyActionLabel;
@@ -52,8 +55,10 @@ public class SettingsController extends SettingsAffected {
             if(getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
+            LOGGER.debug("Returning from settings to menu");
             getApp().switchToMenu();
         } catch (Exception e) {
+            LOGGER.warn("Handled error while switching back to menu from settings", e);
             printAlert(e);
         }
     }
@@ -69,21 +74,22 @@ public class SettingsController extends SettingsAffected {
                 btn.setCursor(Cursor.HAND);
                 btn.setOnAction(e -> {
                     KeyBindingRow row = getTableView().getItems().get(getIndex());
-                    if (row == null) return;
+                    if (row != null) {
 
-                    // show overlay and prepare to capture a key press
-                    ChangeKeyWindow.setDisable(false);
-                    ChangeKeyWindow.setVisible(true);
-                    ChangeKeyWindow.setOpacity(1.0);
-                    ChangeKeyWindow.toFront();
-                    ChangeKeyWindow.requestFocus();
+                        // show overlay and prepare to capture a key press
+                        ChangeKeyWindow.setDisable(false);
+                        ChangeKeyWindow.setVisible(true);
+                        ChangeKeyWindow.setOpacity(1.0);
+                        ChangeKeyWindow.toFront();
+                        ChangeKeyWindow.requestFocus();
 
-                    ChangeKeyActionLabel.setText(row.getAction());
-                    ChangeKeyKeyLabel.setText(row.getKeyName());
-                    ChangeKeyKeyLabel.setEditable(false);
+                        ChangeKeyActionLabel.setText(row.getAction());
+                        ChangeKeyKeyLabel.setText(row.getKeyName());
+                        ChangeKeyKeyLabel.setEditable(false);
 
-                    // capture next key press
-                    ChangeKeyWindow.setOnKeyPressed(keyEvent -> ChangeKeyPressed(keyEvent, row.getAction()));
+                        // capture next key press
+                        ChangeKeyWindow.setOnKeyPressed(keyEvent -> ChangeKeyPressed(keyEvent, row.getAction()));
+                    }
                 });
             }
 
@@ -118,6 +124,7 @@ public class SettingsController extends SettingsAffected {
             KeyBindingsTable.requestFocus();
             return;
         }
+        LOGGER.debug("Captured new key {} for action {}", newKey, action);
         ChangeKeyKeyLabel.setText(newKey.getName());
         ChangeKeyKeyLabel.setEditable(false);
         ChangeKeyActionLabel.setText(action);
@@ -131,12 +138,14 @@ public class SettingsController extends SettingsAffected {
         try {
             keyBindings.setKeyForAction(action, newKey);
         } catch (Exception e) {
+            LOGGER.warn("Handled key binding conflict for action {} with key {}", action, newKey, e);
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Key Binding Conflict");
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
         }
+        LOGGER.info("Updated key binding: {} -> {}", action, newKey);
         storeKeyBindings();
         closeChangeKeyWindow();
         KeyBindingsTable.requestFocus();
@@ -170,6 +179,7 @@ public class SettingsController extends SettingsAffected {
         loadKeyBindings();
         initKeyGrid();
         initSettingsTabs();
+        LOGGER.debug("Settings view initialized with {} key binding rows", KeyBindingsTable.getItems().size());
     }
 
     @Override
@@ -177,4 +187,3 @@ public class SettingsController extends SettingsAffected {
 
     }
 }
-

@@ -9,6 +9,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.DonkeyKong;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class MenuController extends ResizableController {
+    private static final Logger LOGGER = LogManager.getLogger(MenuController.class);
     private ResizableDimension rd;
     DonkeyKong menuDonkeyKong;
     private long lastFrame = 0;
@@ -68,14 +71,17 @@ public class MenuController extends ResizableController {
             if (getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
+            LOGGER.debug("Opening settings from menu");
             getApp().switchToSettings();
         } catch (Exception e) {
+            LOGGER.warn("Handled error while opening settings from menu", e);
             printAlert(e);
         }
     }
 
     @FXML
     void onBtnQuit(ActionEvent event) {
+        LOGGER.info("Quit requested from menu");
         System.exit(0);
     }
 
@@ -83,6 +89,7 @@ public class MenuController extends ResizableController {
     void onBtnStart(ActionEvent event) {
         if(playerNameField.getText().isBlank()) {
             playerNameField.setStyle("-fx-prompt-text-fill: red;");
+            LOGGER.warn("Start blocked because player name is blank");
             return;
         }
         try {
@@ -92,8 +99,10 @@ public class MenuController extends ResizableController {
             if (getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
+            LOGGER.info("Starting new game for player {}", playerNameField.getText());
             getApp().switchToGame(playerNameField.getText());
         } catch (Exception e) {
+            LOGGER.warn("Handled error while starting a new game", e);
             printAlert(e);
         }
     }
@@ -107,8 +116,10 @@ public class MenuController extends ResizableController {
             if (getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
+            LOGGER.info("Continuing game for player {}", playerNameField.getText());
             getApp().continueGame(playerNameField.getText());
         } catch (Exception e) {
+            LOGGER.warn("Handled error while continuing game", e);
             printAlert(e);
         }
     }
@@ -138,6 +149,7 @@ public class MenuController extends ResizableController {
             continueButton.setMinHeight(0);
             continueButton.setMaxHeight(0);
             continueButton.setMinWidth(0);
+            LOGGER.debug("No saved state found; continue button hidden");
         } else {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../../../state.bin"))) {
                 GameState state = (GameState) ois.readObject();
@@ -148,10 +160,13 @@ public class MenuController extends ResizableController {
                     continueButton.setMinHeight(0);
                     continueButton.setMaxHeight(0);
                     continueButton.setMinWidth(0);
+                    LOGGER.warn("Saved state exists but player name is missing; continue button hidden");
                 } else {
                     playerNameField.setText(state.playerName);
+                    LOGGER.debug("Loaded saved player name {} into menu", state.playerName);
                 }
             } catch (IOException | ClassNotFoundException e) {
+                LOGGER.warn("Handled error while reading saved state from menu", e);
                 printAlert(e);
             }
         }
@@ -191,7 +206,9 @@ public class MenuController extends ResizableController {
                 if(i >= scores.size()) break;
                 scoreTable.getItems().add(scores.get(i));
             }
+            LOGGER.debug("Loaded {} score rows into menu leaderboard", scoreTable.getItems().size());
         } catch (ScoreException e) {
+            LOGGER.warn("Handled error while loading leaderboard", e);
             printAlert(e);
         }
 
@@ -221,6 +238,7 @@ public class MenuController extends ResizableController {
         }
 
         lastFrame = 0;
+        LOGGER.debug("Starting animated menu background");
 
         start(new DrawingThread(
                 canvas,

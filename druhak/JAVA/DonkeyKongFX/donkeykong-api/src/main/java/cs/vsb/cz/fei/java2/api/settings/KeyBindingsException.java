@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.settings;
+package cs.vsb.cz.fei.java2.api.settings;
 
 public class KeyBindingsException extends Exception {
     public KeyBindingsException(String message) {

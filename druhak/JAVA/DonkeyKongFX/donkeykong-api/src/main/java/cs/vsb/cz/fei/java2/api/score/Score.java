@@ -1,7 +1,6 @@
 package cs.vsb.cz.fei.java2.api.score;
 
 
-import vsb.cz.fei.donkeykongfx.score.Utilities;
 
 public class Score {
     private String nickName;

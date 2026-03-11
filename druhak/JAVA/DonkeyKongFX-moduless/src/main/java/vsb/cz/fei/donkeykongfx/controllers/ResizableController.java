@@ -9,6 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 
@@ -16,6 +18,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 public abstract class ResizableController {
+    private static final Logger LOGGER = LogManager.getLogger(ResizableController.class);
+
     private App app;
     private DrawingThread timer;
     private double fpsSum = 0;
@@ -23,6 +27,7 @@ public abstract class ResizableController {
     private int avergeFps = 0;
 
     void printAlert(Exception e) {
+        LOGGER.warn("Handled UI exception shown to the player: {}", e.getMessage(), e);
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText("Loading problem");
         alert.getDialogPane().setContentText(e.getMessage());
@@ -88,7 +93,7 @@ public abstract class ResizableController {
             try {
                 this.timer.stop();
             } catch (Exception ignored) {
-                // ignore, because we are starting a new timer
+                LOGGER.warn("Timer stop failed while replacing with a new timer", ignored);
             }
         }
         this.timer = timer;
@@ -103,7 +108,7 @@ public abstract class ResizableController {
             try {
                 this.timer.stop();
             } catch (Exception ignored) {
-                // ignore, because timer was already stopped
+                LOGGER.warn("Timer stop failed because timer was already stopped", ignored);
             }
         }
     }

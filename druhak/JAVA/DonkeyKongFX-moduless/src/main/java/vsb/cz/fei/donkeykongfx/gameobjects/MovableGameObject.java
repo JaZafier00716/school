@@ -2,10 +2,14 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
 public abstract class MovableGameObject extends GameObject {
+    private static final Logger LOGGER = LogManager.getLogger(MovableGameObject.class);
+
     private final MovableType type;
     private double velocityX;
     private double velocityY = 0;
@@ -151,7 +155,6 @@ public abstract class MovableGameObject extends GameObject {
                         Math.max(curr.getMinX(), plat.getMinX());
 
         if (!movingUp || overlapX <= 0) {
-//            System.out.println("Not moving up or no horizontal overlap");
             return;
         }
 
@@ -161,7 +164,8 @@ public abstract class MovableGameObject extends GameObject {
                         && currTop <= (platBottom);
 
         if (!crossedFromBelow) {
-            System.out.println("Did not cross from below");
+            LOGGER.trace("Ceiling collision ignored: no crossing from below (prevTop={}, currTop={}, platBottom={})",
+                    prevTop, currTop, platBottom);
             return;
         }
 
@@ -169,9 +173,7 @@ public abstract class MovableGameObject extends GameObject {
         if(getPosition().getY() > newY) {
             return; // do not adjust if already below
         }
-//        System.out.println("Position before ceiling hit: " + getPosition().getY());
         setPosition(new Point2D(getPosition().getX(), newY));
-//        System.out.println("Position after ceiling hit: " + getPosition().getY());
 
         setVelocityY(0);
         setOnGround(false);
@@ -179,7 +181,8 @@ public abstract class MovableGameObject extends GameObject {
     }
 
     public void jump() {
-        System.out.println("Jump requested");
+        LOGGER.trace("Jump requested: canJump={}, onGround={}, pendingJump={} for {}",
+                type != null && type.canJump(), isOnGround(), pendingJump, getClass().getSimpleName());
         if (type == null || !type.canJump()) {
             return;
         }
@@ -187,13 +190,13 @@ public abstract class MovableGameObject extends GameObject {
             pendingJump = true;
             return;
         }
-        System.out.println("Jump executed");
         double impulse = -Math.abs(type.jumpImpulse());
         setVelocityY(impulse);
         setPendingJump(false);
         setOnGround(false);
         setLadderHold(false);
         setOnLadder(false);
+        LOGGER.debug("Jump executed with impulse {} for {}", impulse, getClass().getSimpleName());
     }
 
     public void grounded(Platform platform) {

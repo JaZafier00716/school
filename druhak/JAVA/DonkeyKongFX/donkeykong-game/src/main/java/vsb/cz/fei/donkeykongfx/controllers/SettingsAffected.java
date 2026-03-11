@@ -1,9 +1,9 @@
 package vsb.cz.fei.donkeykongfx.controllers;
 
+import cs.vsb.cz.fei.java2.api.settings.KeyBindings;
+import cs.vsb.cz.fei.java2.api.settings.KeyBindingsException;
 import javafx.scene.control.Alert;
 import javafx.scene.input.KeyCode;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindings;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindingsException;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ public abstract class SettingsAffected extends ResizableController{
 
     protected void loadKeyBindings() {
         try {
-            HashMap<String, KeyCode> keyCodes = KeyBindingsRepository.loadKeyBindings();
+            HashMap<String, KeyCode> keyCodes = cs.vsb.cz.fei.java2.api.settings.KeyBindingsStorageInterface.loadKeyBindings();
             keyBindings = new KeyBindings(keyCodes);
         } catch (KeyBindingsException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -27,7 +27,7 @@ public abstract class SettingsAffected extends ResizableController{
 
     protected void storeKeyBindings() {
         try {
-            KeyBindingsRepository.saveKeyBindings(keyBindings.getKeys());
+            cs.vsb.cz.fei.java2.api.settings.KeyBindingsStorageInterface.saveKeyBindings(keyBindings.getKeys());
         } catch (KeyBindingsException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setHeaderText("Saving key bindings problem");

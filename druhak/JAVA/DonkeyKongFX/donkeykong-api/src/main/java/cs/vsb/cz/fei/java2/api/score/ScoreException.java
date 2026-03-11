@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.score;
+package cs.vsb.cz.fei.java2.api.score;
 
 public class ScoreException extends Exception {
     public ScoreException(String message) {

@@ -20,6 +20,8 @@ if [ ! -d "$LIBS_DIR" ]; then
     exit 1
 fi
 
-# Run the application with JavaFX modules on module path
-java --module-path "$LIBS_DIR" --add-modules javafx.controls,javafx.fxml -jar "$JAR_FILE"
+# Allow user-provided JVM options and enable JavaFX native access for Java 21+
+JAVA_OPTS=${JAVA_OPTS:-}
 
+# Run the application with JavaFX modules on module path
+java $JAVA_OPTS --enable-native-access=javafx.graphics --module-path "$LIBS_DIR" --add-modules javafx.controls,javafx.fxml -jar "$JAR_FILE"

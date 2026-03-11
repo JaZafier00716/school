@@ -10,6 +10,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.levels.Level;
@@ -22,6 +24,7 @@ import java.io.*;
 import java.util.Objects;
 
 public class GameController extends SettingsAffected {
+    private static final Logger LOGGER = LogManager.getLogger(GameController.class);
     private Level level;
     private long lastFrame = 0;
 
@@ -133,10 +136,11 @@ public class GameController extends SettingsAffected {
             text = "You Won!";
             Score score = new Score(level.getPlayer().getPlayerName(), level.getPlayer().getScore());
             ScoreRepository.save(score);
-            System.out.println("Saved score: " + score.getNickName() + " - " + score.getScore());
+            LOGGER.info("Saved score: {} - {}", score.getNickName(), score.getScore());
 
         } else {
             text = "Game Over!";
+            LOGGER.info("Game over for player {}", level.getPlayer().getPlayerName());
         }
         // Delete save file on game over
         deleteSave();
@@ -194,7 +198,12 @@ public class GameController extends SettingsAffected {
                 return;
             }
 
-            switch (keyBindings.getActionForKey(event.getCode())) {
+            String action = keyBindings.getActionForKey(event.getCode());
+            if (action == null) {
+                return;
+            }
+
+            switch (action) {
                 case "move_left" -> {
                     leftPressed = true;
                     rightPressed = false;
@@ -221,7 +230,12 @@ public class GameController extends SettingsAffected {
 
         canvas.setOnKeyReleased(event -> {
             // update key state even if player is not present to avoid stuck state when player is created later
-            switch (keyBindings.getActionForKey(event.getCode())) {
+            String action = keyBindings.getActionForKey(event.getCode());
+            if (action == null) {
+                return;
+            }
+
+            switch (action) {
                 case "move_left" -> leftPressed = false;
                 case "move_right" -> rightPressed = false;
                 case "climb_up" -> upPressed = false;
@@ -247,10 +261,13 @@ public class GameController extends SettingsAffected {
         if (upPressed && !downPressed) dy = -1;
         else if (downPressed && !upPressed) dy = 1;
 
+        LOGGER.trace("Applying movement direction dx={}, dy={} (left={}, right={}, up={}, down={})",
+                dx, dy, leftPressed, rightPressed, upPressed, downPressed);
         level.getPlayer().setMovementDirection(dx, dy);
     }
 
     public void startGame(String playerName) {
+        LOGGER.debug("Starting game loop for player {}", playerName);
         hideGameOver();
         // ensure canvas has focus so key events are received
         canvas.requestFocus();
@@ -287,7 +304,6 @@ public class GameController extends SettingsAffected {
                 if(getTimer() != null) {
                     stop();
                 }
-//                System.out.println("Game Over gc: " + reason);
                 try {
                     showGameOver(reason);
                 } catch (ScoreException e) {
@@ -316,6 +332,7 @@ public class GameController extends SettingsAffected {
     }
 
     public void continueGame(String playerName) {
+        LOGGER.debug("Attempting to continue game for player {}", playerName);
         loadGame();
         startGame(playerName);
     }
@@ -333,13 +350,16 @@ public class GameController extends SettingsAffected {
         GameState state = level.toGameState();
         try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./state.bin"))) {
             oos.writeObject(state);
+            LOGGER.debug("Game state saved to state.bin for player {}", state.playerName);
         } catch (IOException e) {
+            LOGGER.warn("Saving game state failed, user can continue without persisted state", e);
             printAlert(e);
         }
     }
 
     public void loadGame() {
         if(!new File("./state.bin").exists()) {
+            LOGGER.debug("No state.bin save file found, starting from fresh state");
             return;
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./state.bin"))) {
@@ -348,8 +368,10 @@ public class GameController extends SettingsAffected {
                 level = new Level(state.levelWidth, state.levelHeight, state.playerName);
             }
             level.fromGameState(state);
+            LOGGER.info("Game state loaded for player {}", state.playerName);
             return;
         } catch (IOException | ClassNotFoundException e) {
+            LOGGER.warn("Loading game state failed, game will continue with default state", e);
             printAlert(e);
         }
     }
@@ -357,9 +379,9 @@ public class GameController extends SettingsAffected {
     public void deleteSave() {
         File file = new File("./state.bin");
         if (file.delete()) {
-            System.out.println("Save file deleted successfully.");
+            LOGGER.debug("Save file deleted successfully");
         } else {
-            System.out.println("Failed to delete the save file.");
+            LOGGER.warn("Failed to delete save file at {}", file.getAbsolutePath());
         }
     }
 }

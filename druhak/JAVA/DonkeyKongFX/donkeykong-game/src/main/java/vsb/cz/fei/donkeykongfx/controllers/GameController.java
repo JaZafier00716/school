@@ -13,11 +13,11 @@ import javafx.scene.text.Text;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.levels.Level;
-import vsb.cz.fei.donkeykongfx.score.Score;
-import vsb.cz.fei.donkeykongfx.score.ScoreException;
-import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
-import vsb.cz.fei.donkeykongfx.score.ScoreStorageInterface;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindings;
+import cs.vsb.cz.fei.java2.api.score.Score;
+import cs.vsb.cz.fei.java2.api.score.ScoreException;
+import cs.vsb.cz.fei.java2.db.score.ScoreRepository;
+import cs.vsb.cz.fei.java2.api.score.ScoreStorageInterface;
+import cs.vsb.cz.fei.java2.api.settings.KeyBindings;
 
 import java.io.*;
 import java.util.Objects;

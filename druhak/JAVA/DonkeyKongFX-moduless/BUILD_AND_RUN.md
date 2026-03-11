@@ -37,12 +37,12 @@ run.bat
 
 **Using the regular JAR with dependencies in libs:**
 ```bash
-java --module-path target/libs --add-modules javafx.controls,javafx.fxml -jar target/DonkeyKongFX-0.0.1-SNAPHOST.jar
+java --enable-native-access=javafx.graphics --module-path target/libs --add-modules javafx.controls,javafx.fxml -jar target/DonkeyKongFX-0.0.1-SNAPHOST.jar
 ```
 
 **Using the FAT JAR (all dependencies included):**
 ```bash
-java --module-path target/DonkeyKongFX-0.0.1-SNAPHOST-jar-with-dependencies.jar --add-modules javafx.controls,javafx.fxml -m javafx.graphics/vsb.cz.fei.donkeykongfx.App
+java --enable-native-access=javafx.graphics --module-path target/DonkeyKongFX-0.0.1-SNAPHOST-jar-with-dependencies.jar --add-modules javafx.controls,javafx.fxml -m javafx.graphics/vsb.cz.fei.donkeykongfx.App
 ```
 
 Or simply:
@@ -89,4 +89,4 @@ If the application doesn't start, make sure:
 1. You have Java 21 or higher installed
 2. You've built the project first with `mvn clean package`
 3. The JAR file and libs directory exist in the target folder
-
+4. You run with `--enable-native-access=javafx.graphics` on Java 21+

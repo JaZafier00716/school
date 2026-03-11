@@ -1,6 +1,8 @@
 package vsb.cz.fei.donkeykongfx.score;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.h2.tools.Server;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoreRepository {
+    private static final Logger LOGGER = LogManager.getLogger(ScoreRepository.class);
     private static Server server = null;
     private static Connection connection;
 
@@ -89,38 +92,39 @@ public class ScoreRepository {
         // Start HTTP server for access H2 DB for look inside
         Path h2ServerProperties = Paths.get(System.getProperty("user.home"), ".h2.server.properties");
         try {
-            Files.writeString(h2ServerProperties, "0=Generic H2 (Embedded)|org.h2.Driver|jdbc\\:h2\\:file\\:./score-db|",
-                    StandardOpenOption.CREATE_NEW);
+            Files.writeString(
+                    h2ServerProperties,
+                    "0=Generic H2 (Embedded)|org.h2.Driver|jdbc\\:h2\\:file\\:./score-db|",
+                    StandardOpenOption.CREATE,
+                    StandardOpenOption.TRUNCATE_EXISTING
+            );
         } catch (IOException e) {
-            System.out.println("File " + h2ServerProperties + " probably exists.");
+            LOGGER.warn("Cannot update {}. H2 web console may still use previous configuration.", h2ServerProperties, e);
         }
         stopDBWebServer();
         try {
             server = Server.createWebServer();
-            System.out.println(server.getURL());
             server.start();
-            System.out.println("DB Web server started!");
+            LOGGER.info("DB Web server started at {}", server.getURL());
         } catch (SQLException e) {
-            System.out.println("Cannot create DB web server.");
-            e.printStackTrace();
+            LOGGER.warn("Cannot create DB web server. Game can continue without DB web console.", e);
         }
     }
 
     public static void stopDBWebServer() {
         // Stop HTTP server for access H2 DB
         if (server != null) {
-            System.out.println("Ending DB web server BYE.");
+            LOGGER.debug("Stopping DB web server");
             server.stop();
         }
     }
 
     private static void waitForKeyPress() {
-        System.out.println("Waitnig for Key press (ENTER)");
+        LOGGER.trace("Waiting for key press (ENTER)");
         try {
             System.in.read();
         } catch (IOException e) {
-            System.out.println("Cannot read input from keyboard.");
-            e.printStackTrace();
+            LOGGER.warn("Cannot read input from keyboard.", e);
         }
     }
 }

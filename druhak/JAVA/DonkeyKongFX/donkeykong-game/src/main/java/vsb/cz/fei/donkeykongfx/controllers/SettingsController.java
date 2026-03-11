@@ -11,7 +11,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
-import vsb.cz.fei.donkeykongfx.settings.KeyBindingRow;
+import cs.vsb.cz.fei.java2.api.settings.KeyBindingRow;
 
 public class SettingsController extends SettingsAffected {
     private Comparator<KeyBindingRow> comparator;

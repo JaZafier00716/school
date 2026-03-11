@@ -3,6 +3,8 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
@@ -14,6 +16,7 @@ import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
 public class FlamyBoi extends MovableGameObject {
+    private static final Logger LOGGER = LogManager.getLogger(FlamyBoi.class);
     FlamyBoiState flamyBoiState;
     AnimationData fall;
     AnimationData move;
@@ -115,10 +118,11 @@ public class FlamyBoi extends MovableGameObject {
                 positionTimer += deltaTime;
                 if (positionTimer >= positionUpdateInterval) { // barrel released from donkey kong's hands
                     canUpdatePosition = true;
+                    LOGGER.debug("FlamyBoi released from Donkey Kong and starts moving");
                 }
             }
         } else {
-            System.err.println("Warning: MovableType is null for Barrel");
+            LOGGER.error("MovableType is null for FlamyBoi; movement update skipped");
         }
 
         // check bounds and change direction if needed
@@ -141,6 +145,7 @@ public class FlamyBoi extends MovableGameObject {
                     setDirectionX(-1);
                     setDirectionY(0);
                     flamyBoiState = FlamyBoiState.MOVING;
+                    LOGGER.debug("FlamyBoi switched to MOVING state after landing");
                 } else {
                     setOnGround(false);
                     setDirectionY(1);

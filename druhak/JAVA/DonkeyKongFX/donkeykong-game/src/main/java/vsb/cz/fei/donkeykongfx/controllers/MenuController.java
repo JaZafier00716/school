@@ -12,10 +12,10 @@ import javafx.scene.paint.Paint;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.DonkeyKong;
-import vsb.cz.fei.donkeykongfx.score.Score;
-import vsb.cz.fei.donkeykongfx.score.ScoreException;
-import vsb.cz.fei.donkeykongfx.score.ScoreRepository;
-import vsb.cz.fei.donkeykongfx.score.ScoreStorageInterface;
+import cs.vsb.cz.fei.java2.api.score.Score;
+import cs.vsb.cz.fei.java2.api.score.ScoreException;
+import cs.vsb.cz.fei.java2.db.score.ScoreRepository;
+import cs.vsb.cz.fei.java2.api.score.ScoreStorageInterface;
 
 import java.io.*;
 import java.util.ArrayList;

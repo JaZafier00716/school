@@ -1,25 +1,39 @@
 #!/bin/bash
+set -e
 
-# Script to run DonkeyKongFX application
-# Make sure you've built the project first with: mvn clean package
+# DonkeyKongFX Multi-Module Project Runner
+# Runs the JavaFX application with proper module path configuration
 
-JAR_FILE="target/DonkeyKongFX-0.0.1-SNAPHOST.jar"
-LIBS_DIR="target/libs"
+export JAVA_HOME=/home/jan/.jdks/openjdk-25.0.2
+export PATH="$JAVA_HOME/bin:$PATH"
 
-# Check if JAR file exists
-if [ ! -f "$JAR_FILE" ]; then
-    echo "Error: JAR file not found at $JAR_FILE"
-    echo "Please build the project first with: mvn clean package"
-    exit 1
-fi
+# Run from project root (script location)
+cd "$(dirname "$0")"
 
-# Check if libs directory exists
-if [ ! -d "$LIBS_DIR" ]; then
-    echo "Error: libs directory not found at $LIBS_DIR"
-    echo "Please build the project first with: mvn clean package"
-    exit 1
-fi
+echo "=========================================="
+echo "Building DonkeyKongFX (multi-module)"
+echo "=========================================="
+mvn clean package -DskipTests -q
 
-# Run the application with JavaFX modules on module path
-java --module-path "$LIBS_DIR" --add-modules javafx.controls,javafx.fxml -jar "$JAR_FILE"
+echo ""
+echo "=========================================="
+echo "Starting application..."
+echo "=========================================="
 
+# Build the module path with all required modules and dependencies
+MODULE_PATH="donkeykong-api/target/classes"
+MODULE_PATH="${MODULE_PATH}:donkeykong-db/target/classes"
+MODULE_PATH="${MODULE_PATH}:donkeykong-game/target/classes"
+
+# Add all dependency JARs from libs directory
+for jar in donkeykong-game/target/libs/*.jar; do
+    MODULE_PATH="${MODULE_PATH}:${jar}"
+done
+
+echo "Module path configured with all dependencies"
+echo ""
+
+# Run the modular JavaFX application
+java --module-path "${MODULE_PATH}" \
+     --add-modules javafx.controls,javafx.fxml \
+     --module cs.vsb.cz.fei.java2.game/vsb.cz.fei.donkeykongfx.App

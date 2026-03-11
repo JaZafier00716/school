@@ -1,9 +1,8 @@
-package vsb.cz.fei.donkeykongfx.settings;
+package cs.vsb.cz.fei.java2.api.settings;
 
 import javafx.scene.input.KeyCode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class KeyBindings {

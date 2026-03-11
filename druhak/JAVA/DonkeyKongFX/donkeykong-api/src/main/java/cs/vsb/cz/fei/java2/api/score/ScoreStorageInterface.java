@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.score;
+package cs.vsb.cz.fei.java2.api.score;
 
 import java.util.List;
 

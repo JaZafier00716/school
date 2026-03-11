@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b13cf18b-43bb-4875-b72d-e909f6734631" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/runConfigurations.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/runConfigurations/DonkeyKong.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/INTELLIJ_COPY_PASTE_CONFIG.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/INTELLIJ_QUICK_REF.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/QUICK_START.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/build.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/score/ScoreStorageInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/settings/KeyBindingsStorageInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/src/main/java/cs/vsb/cz/fei/java2/db/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/src/main/java/module-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/src/main/resources/log4j2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/src/test/java/cs/vsb/cz/fei/java2/db/AppTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/module-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/run-from-intellij.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/run-intellij.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/Archive.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/BUILD_AND_RUN.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/score-db.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/score-db.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/DrawingThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/DrawingThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/GameState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/GameState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/IntDimension2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/IntDimension2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/RenderHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/RenderHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/GameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/GameController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/ResizableController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/ResizableController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/ResizableDimension.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/ResizableDimension.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/SettingsAffected.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/SettingsAffected.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/controllers/SettingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/controllers/SettingsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/AnimationData.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/AnimationData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Collisionable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Collisionable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Door.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Door.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/MovableGameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/MovableGameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/MovableType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/MovableType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Princess.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Princess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Renderable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Renderable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/RenderableObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/RenderableObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/EntityState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/EntityState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/barrel/Barrel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/barrel/Barrel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/barrel/BarrelState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/barrel/BarrelState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/donkeykong/DonkeyKong.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/donkeykong/DonkeyKong.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/donkeykong/KongState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/donkeykong/KongState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/flamyboi/FlamyBoi.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/flamyboi/FlamyBoi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/flamyboi/FlamyBoiState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/flamyboi/FlamyBoiState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/Health.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/Health.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/HealthListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/HealthListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerEventType.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerEventType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/entities/player/PlayerState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/ladder/Ladder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/ladder/Ladder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/ladder/TileCoord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/ladder/TileCoord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/platform/Platform.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/platform/Platform.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/staticbarrel/StaticBarrel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/gameobjects/staticbarrel/StaticBarrel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/levels/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/levels/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/score/Score.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/score/Score.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/score/ScoreException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/score/ScoreException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/score/ScoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-db/src/main/java/cs/vsb/cz/fei/java2/db/score/ScoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/score/Utilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/score/Utilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/settings/KeyBindingRow.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/settings/KeyBindingRow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/settings/KeyBindings.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/settings/KeyBindings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/settings/KeyBindingsException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-api/src/main/java/cs/vsb/cz/fei/java2/api/settings/KeyBindingsException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/java/vsb/cz/fei/donkeykongfx/settings/KeyBindingsRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/java/vsb/cz/fei/donkeykongfx/settings/KeyBindingsRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/application.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/application.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/fonts/PressStart2P.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/fonts/PressStart2P.ttf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/game.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/game.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/Arcade - Donkey Kong - Stages - 25 M_50 M - Copy.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/Arcade - Donkey Kong - Stages - 25 M_50 M - Copy.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/Arcade - Donkey Kong - Stages - 25 M_50 M.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/Arcade - Donkey Kong - Stages - 25 M_50 M.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/characters.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/characters.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/door.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/door.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/barrel/climb.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/barrel/climb.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/barrel/roll.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/barrel/roll.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/barrel/stationary.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/barrel/stationary.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/donkeykong/drop.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/donkeykong/drop.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/donkeykong/idle.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/donkeykong/idle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/donkeykong/throw.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/donkeykong/throw.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/flamyboi/fall.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/flamyboi/fall.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/enemies/flamyboi/move.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/enemies/flamyboi/move.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/hearth1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/hearth1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/hearth2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/hearth2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/palette.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/palette.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/player/climb_phase1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/player/climb_phase1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/player/climb_phase2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/player/climb_phase2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/player/death.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/player/death.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/player/run.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/player/run.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/princess.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/princess.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/tiles/blue_tiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/tiles/blue_tiles.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/tiles/orange_tiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/tiles/orange_tiles.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/tiles/pink_tiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/tiles/pink_tiles.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/tiles/red_tiles.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/tiles/red_tiles.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/images/token.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/images/token.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/menu.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/menu.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/src/main/resources/options.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/donkeykong-game/src/main/resources/options.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/state.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/DonkeyKongFX/state.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../JAVA/java2lab02v2" beforeDir="false" afterPath="$PROJECT_DIR$/../../JAVA/java2lab02v2" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/home/jan/Documents/school/druhak/TAMZ/TextLogger" value="3AeokTOxywTqKuRvBCCbWY2Xvf3" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="3AeokTOxywTqKuRvBCCbWY2Xvf3" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_interpreter_path": "/home/jan/.nvm/versions/node/v25.6.1/bin/node",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="Android" type="ReactNative" factoryName="React Native">
+      <working-dir value="$PROJECT_DIR$" />
+      <node-interpreter value="project" />
+      <react-native value="$PROJECT_DIR$/node_modules/@react-native-community/cli" />
+      <platform value="ANDROID" />
+      <envs />
+      <only-packager />
+      <method v="2">
+        <option name="ReactNativePackager" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-WS-253.30387.83" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b13cf18b-43bb-4875-b72d-e909f6734631" name="Changes" comment="" />
+      <created>1772962539599</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1772962539599</updated>
+      <workItem from="1772962540679" duration="164000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

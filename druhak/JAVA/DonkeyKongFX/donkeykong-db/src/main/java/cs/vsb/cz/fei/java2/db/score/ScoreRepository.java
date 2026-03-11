@@ -1,4 +1,4 @@
-package vsb.cz.fei.donkeykongfx.score;
+package cs.vsb.cz.fei.java2.db.score;
 
 
 import org.h2.tools.Server;
