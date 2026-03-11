@@ -14,13 +14,13 @@ const DialogWindow = ({isVisible, text_arr, setIsVisible, remove_item, setText}:
             visible={isVisible}
             transparent={true}
             animationType={"fade"}
-            className={"flex flex-col items-center justify-center"}
+            className={"flex flex-col items-center justify-center w-full"}
         >
             <button
-                className={"flex flex-col items-center justify-center h-full border-white border-2 bg-gray-900/50"}
+                className={"flex flex-col items-center justify-center h-full w-full px-12 border-white border-2 bg-gray-900/50"}
                 onClick={() => setIsVisible(false)}
             >
-                <View className={"flex flex-col items-center justify-center w-1/6 bg-gray-700/50 px-4 py-4 gap-y-5 rounded-xl"}>
+                <View className={"flex flex-col items-center justify-center w-full bg-gray-700/50 px-4 py-4 gap-y-5 rounded-xl"}>
                     {text_arr.length > 0 ? text_arr.map((text, index) => (
                         <button
                             className={"flex flex-row items-center justify-between gap-x-5 bg-gray-700/80 px-4 py-2 rounded-lg w-full"}
@@ -31,7 +31,7 @@ const DialogWindow = ({isVisible, text_arr, setIsVisible, remove_item, setText}:
                             <Button title={"remove"} onPress={() => remove_item(index)}/>
                         </button>
                     )) : (
-                        <Text>No text to display</Text>
+                        <Text className={"text-gray-100 text-lg"}>No text to display</Text>
                     )}
                     <Button title={"Close"} onPress={() => setIsVisible(false)}/>
                 </View>

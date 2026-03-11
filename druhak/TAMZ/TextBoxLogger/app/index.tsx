@@ -63,32 +63,34 @@ export default function Index() {
     return (
         <SafeAreaProvider>
             <SafeAreaView
-                className={"flex flex-col items-center justify-start p-4 gap-y-5"}
+                className={"bg-slate-200 w-full h-full"}
             >
-                <TextInput
-                    editable
-                    multiline
-                    numberOfLines={10}
-                    maxLength={256}
-                    onChangeText={x => setText(x)}
-                    value={text}
-                    className={"bg-slate-200 p-5 border-[1px] border-black h-1/2 w-full"}
-                    placeholder={"Enter some text"}
-                />
-                <View
-                    className={"flex flex-row items-center justify-evenly w-full"}
-                >
-                    <Button title={"Load"} onPress={() => load_text()}/>
-                    <Button title={"Save"} onPress={() => save_text()}/>
-                    <Button title={"Clear"} onPress={() => clear_storage()} />
+                <View className="flex flex-col items-center justify-start gap-y-4 p-4 h-1/2">
+                    <TextInput
+                        editable
+                        multiline
+                        numberOfLines={10}
+                        maxLength={256}
+                        onChangeText={x => setText(x)}
+                        value={text}
+                        className={"bg-slate-50 p-5 border-[1px] border-gray-500 h-1/2 w-full rounded-lg"}
+                        placeholder={"Enter some text"}
+                    />
+                    <View
+                        className={"flex flex-row items-center justify-evenly w-full"}
+                    >
+                        <Button title={"Load"} onPress={() => load_text()}/>
+                        <Button title={"Save"} onPress={() => save_text()}/>
+                        <Button title={"Clear"} onPress={() => clear_storage()} />
+                    </View>
                 </View>
-                <DialogWindow
-                    isVisible={dialog_visible}
-                    setIsVisible={setDialogVisible}
-                    text_arr={arr}
-                    remove_item={(index) => remove_item(index)}
-                    setText={setText}
-                />
+                    <DialogWindow
+                        isVisible={dialog_visible}
+                        setIsVisible={setDialogVisible}
+                        text_arr={arr}
+                        remove_item={(index) => remove_item(index)}
+                        setText={setText}
+                    />
             </SafeAreaView>
         </SafeAreaProvider>
     );
