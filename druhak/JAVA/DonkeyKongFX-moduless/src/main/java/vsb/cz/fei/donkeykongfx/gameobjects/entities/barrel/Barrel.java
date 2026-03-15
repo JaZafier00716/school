@@ -3,22 +3,23 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
-import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
+@Log4j2
 public class Barrel extends MovableGameObject {
-    private static final Logger LOGGER = LogManager.getLogger(Barrel.class);
     private BarrelState barrelState;
     private final AnimationData roll;
     private final AnimationData climb;
     private boolean canUpdatePosition = false;
     private double positionTimer = 0.0;
-    private final double positionUpdateInterval = 1; // seconds
+    @Setter
+    @Getter
     private boolean player_jumped_over = false;
 
     public Barrel(ResizableDimension rd, int height, Point2D position) {
@@ -102,18 +103,20 @@ public class Barrel extends MovableGameObject {
                 type.apply(this, deltaTime);
             } else {
                 positionTimer += deltaTime;
+                // seconds
+                double positionUpdateInterval = 1;
                 if (positionTimer >= positionUpdateInterval) {
                     canUpdatePosition = true;
                     barrelState = BarrelState.ROLLING;
                     setPosition(new Point2D(64, 59));
                     setDirectionX(1);
                     setDirectionY(1);
-                    LOGGER.debug("Barrel released and started rolling from initial spawn point");
+                    log.debug("Barrel released and started rolling from initial spawn point");
                 }
                 return;
             }
         } else {
-            LOGGER.error("MovableType is null for Barrel; movement update skipped");
+            log.error("MovableType is null for Barrel; movement update skipped");
         }
 
         // check bounds and change direction if needed
@@ -134,9 +137,6 @@ public class Barrel extends MovableGameObject {
 
     @Override
     public void hitBy(Collisionable another) {
-        if(another instanceof Ladder) {
-
-        }
         if (another instanceof Platform platform) {
             grounded(platform);
             return;
@@ -155,13 +155,5 @@ public class Barrel extends MovableGameObject {
 
     public void setStateByName(String state) {
         this.barrelState = BarrelState.valueOf(state);
-    }
-
-    public boolean isPlayer_jumped_over() {
-        return player_jumped_over;
-    }
-
-    public void setPlayer_jumped_over(boolean player_jumped_over) {
-        this.player_jumped_over = player_jumped_over;
     }
 }

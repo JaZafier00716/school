@@ -2,30 +2,51 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 
+@Log4j2
 public abstract class MovableGameObject extends GameObject {
-    private static final Logger LOGGER = LogManager.getLogger(MovableGameObject.class);
 
+    @Getter
     private final MovableType type;
+    @Setter
+    @Getter
     private double velocityX;
+    @Setter
+    @Getter
     private double velocityY = 0;
+    @Getter
     private int directionX = 0;
+    @Getter
     private int directionY = 0;
+    @Setter
+    @Getter
     private boolean facingRight = true;
 
+    @Setter
+    @Getter
     private boolean onGround = false;
+    @Setter
+    @Getter
     private boolean onLadder = false;
+    @Getter
     private boolean ladderHold = false;
+    @Setter
+    @Getter
     private Platform standingOnPlatform = null;
 
     protected boolean lastInBounds = true;
+    @Getter
     private final Point2D initPosition;
+    @Setter
     private Point2D prevPosition;
 
+    @Setter
+    @Getter
     private boolean pendingJump = false;
 
     public MovableGameObject(ResizableDimension rd, int defaultHeight, Point2D position, MovableType type) {
@@ -35,15 +56,7 @@ public abstract class MovableGameObject extends GameObject {
         this.initPosition = position;
     }
 
-    public MovableType getType() {
-        return type;
-    }
-
     public abstract String getStateName();
-
-    public int getDirectionX() {
-        return directionX;
-    }
 
     public void setDirectionX(int direction) {
         if (direction < 0) {
@@ -57,64 +70,12 @@ public abstract class MovableGameObject extends GameObject {
         }
     }
 
-    public int getDirectionY() {
-        return directionY;
-    }
-
     public void setDirectionY(int directionY) {
         this.directionY = Integer.compare(directionY, 0);
     }
 
-    public double getVelocityX() {
-        return velocityX;
-    }
-
-    public void setVelocityX(double velocityX) {
-        this.velocityX = velocityX;
-    }
-
-    public double getVelocityY() {
-        return velocityY;
-    }
-
-    public void setVelocityY(double velocityY) {
-        this.velocityY = velocityY;
-    }
-
-    public boolean isOnGround() {
-        return onGround;
-    }
-
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
-    }
-
-    public boolean isFacingRight() {
-        return facingRight;
-    }
-
-    public void setFacingRight(boolean facingRight) {
-        this.facingRight = facingRight;
-    }
-
-    public Point2D getInitPosition() {
-        return initPosition;
-    }
-
     public Point2D getPrevPosition() {
         return prevPosition != null ? prevPosition : getPosition();
-    }
-
-    public void setPrevPosition(Point2D prevPosition) {
-        this.prevPosition = prevPosition;
-    }
-
-    public boolean isPendingJump() {
-        return pendingJump;
-    }
-
-    public void setPendingJump(boolean pendingJump) {
-        this.pendingJump = pendingJump;
     }
 
     public boolean notInBounds() {
@@ -164,7 +125,7 @@ public abstract class MovableGameObject extends GameObject {
                         && currTop <= (platBottom);
 
         if (!crossedFromBelow) {
-            LOGGER.trace("Ceiling collision ignored: no crossing from below (prevTop={}, currTop={}, platBottom={})",
+            log.trace("Ceiling collision ignored: no crossing from below (prevTop={}, currTop={}, platBottom={})",
                     prevTop, currTop, platBottom);
             return;
         }
@@ -181,7 +142,7 @@ public abstract class MovableGameObject extends GameObject {
     }
 
     public void jump() {
-        LOGGER.trace("Jump requested: canJump={}, onGround={}, pendingJump={} for {}",
+        log.trace("Jump requested: canJump={}, onGround={}, pendingJump={} for {}",
                 type != null && type.canJump(), isOnGround(), pendingJump, getClass().getSimpleName());
         if (type == null || !type.canJump()) {
             return;
@@ -196,7 +157,7 @@ public abstract class MovableGameObject extends GameObject {
         setOnGround(false);
         setLadderHold(false);
         setOnLadder(false);
-        LOGGER.debug("Jump executed with impulse {} for {}", impulse, getClass().getSimpleName());
+        log.debug("Jump executed with impulse {} for {}", impulse, getClass().getSimpleName());
     }
 
     public void grounded(Platform platform) {
@@ -254,32 +215,11 @@ public abstract class MovableGameObject extends GameObject {
     }
 
 
-
-    public boolean isOnLadder() {
-        return onLadder;
-    }
-
-    public void setOnLadder(boolean onLadder) {
-        this.onLadder = onLadder;
-    }
-
-    public boolean isLadderHold() {
-        return ladderHold;
-    }
-
     public void setLadderHold(boolean ladderHold) {
         this.ladderHold = ladderHold;
         if(ladderHold) {
             this.onGround = false;
         }
-    }
-
-    public Platform getStandingOnPlatform() {
-        return standingOnPlatform;
-    }
-
-    public void setStandingOnPlatform(Platform standingOnPlatform) {
-        this.standingOnPlatform = standingOnPlatform;
     }
 
     public abstract void setStateByName(String state);

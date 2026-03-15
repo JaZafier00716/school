@@ -9,25 +9,29 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+@Log4j2
 public abstract class ResizableController {
-    private static final Logger LOGGER = LogManager.getLogger(ResizableController.class);
 
+    @Getter
+    @Setter
     private App app;
+    @Getter
     private DrawingThread timer;
     private double fpsSum = 0;
     private double fpsCount = 0;
-    private int avergeFps = 0;
+    private int averageFps = 0;
 
     void printAlert(Exception e) {
-        LOGGER.warn("Handled UI exception shown to the player: {}", e.getMessage(), e);
+        log.warn("Handled UI exception shown to the player: {}", e.getMessage(), e);
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setHeaderText("Loading problem");
         alert.getDialogPane().setContentText(e.getMessage());
@@ -77,23 +81,12 @@ public abstract class ResizableController {
 
     protected abstract void onSizeChanged(double width, double height, String currentPlayer);
 
-    public void setApp(App app) {
-        this.app = app;
-    }
-    public App getApp() {
-        return app;
-    }
-
-    public DrawingThread getTimer() {
-        return timer;
-    }
-
     public void start(DrawingThread timer) {
         if(this.timer != null) {
             try {
                 this.timer.stop();
-            } catch (Exception ignored) {
-                LOGGER.warn("Timer stop failed while replacing with a new timer", ignored);
+            } catch (Exception e) {
+                log.warn("Timer stop failed while replacing with a new timer", e);
             }
         }
         this.timer = timer;
@@ -107,8 +100,8 @@ public abstract class ResizableController {
         if(this.timer != null) {
             try {
                 this.timer.stop();
-            } catch (Exception ignored) {
-                LOGGER.warn("Timer stop failed because timer was already stopped", ignored);
+            } catch (Exception e) {
+                log.warn("Timer stop failed because timer was already stopped", e);
             }
         }
     }
@@ -137,10 +130,10 @@ public abstract class ResizableController {
         fpsSum += 1 / delta;
         fpsCount += 1;
         if (fpsCount >= 100) {
-            avergeFps = (int) (fpsSum / fpsCount);
+            averageFps = (int) (fpsSum / fpsCount);
             fpsSum = 0;
             fpsCount = 0;
         }
-        return avergeFps;
+        return averageFps;
     }
 }

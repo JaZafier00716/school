@@ -3,8 +3,9 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel.Barrel;
@@ -17,9 +18,10 @@ import java.util.List;
 
 import static java.lang.Math.sqrt;
 
-
+@Log4j2
 public class Player extends MovableGameObject {
-    private static final Logger LOGGER = LogManager.getLogger(Player.class);
+    @Setter
+    @Getter
     private String playerName;
     private final AnimationData run;
     private final AnimationData climb_phase1;
@@ -29,8 +31,13 @@ public class Player extends MovableGameObject {
     private PlayerState playerState;
 
     private PlayerState lastPlayerState;
+    @Setter
+    @Getter
     private int score = 0;
+    @Setter
+    @Getter
     private int lastFrameIndex;
+    @Getter
     Health health;
     private final List<PlayerListener> listeners = new ArrayList<>();
 
@@ -43,7 +50,7 @@ public class Player extends MovableGameObject {
     }
 
     private void fireEvent(PlayerEvent event) {
-        LOGGER.trace("Dispatching player event {} to {} listeners", event.type(), listeners.size());
+        log.trace("Dispatching player event {} to {} listeners", event.type(), listeners.size());
         for (PlayerListener l : listeners) l.onPlayerEvent(event);
     }
 
@@ -92,23 +99,7 @@ public class Player extends MovableGameObject {
 
     @Override
     public void renderInternal(GraphicsContext gc) {
-        AnimationData currentAnim;
-        if (this.playerState == PlayerState.IDLE) {
-            currentAnim = switch (lastPlayerState) {
-                case CLIMBING_PHASE1 -> climb_phase1;
-                case CLIMBING_PHASE2 -> climb_phase2;
-                case DEATH -> death;
-                case RUNNING, IDLE -> run;
-            };
-        } else {
-            currentAnim = switch (playerState) {
-                case CLIMBING_PHASE1 -> climb_phase1;
-                case CLIMBING_PHASE2 -> climb_phase2;
-                case DEATH -> death;
-                case RUNNING -> run;
-                default -> throw new IllegalStateException("Unexpected value: " + playerState);
-            };
-        }
+        AnimationData currentAnim = getAnimationData();
 
         drawSpriteFrame(
                 gc,
@@ -131,9 +122,7 @@ public class Player extends MovableGameObject {
         health.render(gc);
     }
 
-
-    @Override
-    public Rectangle2D getBounds() {
+    private AnimationData getAnimationData() {
         AnimationData currentAnim;
         if (this.playerState == PlayerState.IDLE) {
             currentAnim = switch (lastPlayerState) {
@@ -151,6 +140,13 @@ public class Player extends MovableGameObject {
                 default -> throw new IllegalStateException("Unexpected value: " + playerState);
             };
         }
+        return currentAnim;
+    }
+
+
+    @Override
+    public Rectangle2D getBounds() {
+        AnimationData currentAnim = getAnimationData();
 
         return new Rectangle2D(
                 getPosition().getX() * rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
@@ -161,23 +157,7 @@ public class Player extends MovableGameObject {
     }
 
     public Rectangle2D getJumpOverBounds() {
-        AnimationData currentAnim;
-        if (this.playerState == PlayerState.IDLE) {
-            currentAnim = switch (lastPlayerState) {
-                case CLIMBING_PHASE1 -> climb_phase1;
-                case CLIMBING_PHASE2 -> climb_phase2;
-                case DEATH -> death;
-                case RUNNING, IDLE -> run;
-            };
-        } else {
-            currentAnim = switch (playerState) {
-                case CLIMBING_PHASE1 -> climb_phase1;
-                case CLIMBING_PHASE2 -> climb_phase2;
-                case DEATH -> death;
-                case RUNNING -> run;
-                default -> throw new IllegalStateException("Unexpected value: " + playerState);
-            };
-        }
+        AnimationData currentAnim = getAnimationData();
 
         return new Rectangle2D(
                 getPosition().getX() * rd.getScale() + currentAnim.getSize().getWidth() * rd.getScale() / 4,
@@ -193,13 +173,13 @@ public class Player extends MovableGameObject {
             return; // no further collisions when dead
         }
         if(another instanceof Token t) {
-            LOGGER.info("Token collected by player {}", playerName);
+            log.info("Token collected by player {}", playerName);
             score += 100;
             t.setToBeRemoved(true);
             return;
         }
         if(another instanceof Princess) {
-            LOGGER.info("Princess reached by player {}", playerName);
+            log.info("Princess reached by player {}", playerName);
             fireEvent(new PlayerEvent(PlayerEventType.WON));
             return; // no effect when hitting princess
         }
@@ -226,7 +206,7 @@ public class Player extends MovableGameObject {
             return;
         }
         if (another instanceof Barrel || another instanceof FlamyBoi) {
-            LOGGER.warn("Player {} hit by enemy and enters DEATH state", playerName);
+            log.warn("Player {} hit by enemy and enters DEATH state", playerName);
             playerState = PlayerState.DEATH;
             frameIndex = 0;
             setOnLadder(false);
@@ -265,7 +245,7 @@ public class Player extends MovableGameObject {
         if (type != null) {
             type.apply(this, deltaTime);
         } else {
-            LOGGER.error("Player has no movement profile");
+            log.error("Player has no movement profile");
         }
 
         if (isPendingJump() && isOnGround()) {
@@ -301,7 +281,7 @@ public class Player extends MovableGameObject {
                 this.lastFrameIndex = death.getColCount() - 1;
                 this.lastPlayerState = PlayerState.DEATH;
                 playerState = PlayerState.IDLE;
-                LOGGER.warn("Player {} out of bounds, respawning at initial position", playerName);
+                log.warn("Player {} out of bounds, respawning at initial position", playerName);
                 lastInBoundsTimer = 0;
             }
         } else {
@@ -324,7 +304,7 @@ public class Player extends MovableGameObject {
         Platform currentPlatform = this.getStandingOnPlatform();
         if (!isOnLadder() && dirY > 0 && currentPlatform != null && currentPlatform.isLadderEntrance()) {
             // start climbing down the ladder
-            LOGGER.debug("Player {} starts climbing down ladder", playerName);
+            log.debug("Player {} starts climbing down ladder", playerName);
             setOnLadder(true);
             setLadderHold(false);
             this.setDirectionX(0);
@@ -334,7 +314,7 @@ public class Player extends MovableGameObject {
         }
 
         if (dirY != 0) {
-            LOGGER.trace("Vertical movement requested for {} with dirY={} while onLadder={}", playerName, dirY, isOnLadder());
+            log.trace("Vertical movement requested for {} with dirY={} while onLadder={}", playerName, dirY, isOnLadder());
             if(isOnLadder()) {
                 if (isLadderHold()) {
                     setLadderHold(false);
@@ -342,7 +322,7 @@ public class Player extends MovableGameObject {
                 this.setDirectionY(dirY);
                 this.setDirectionX(0);
                 this.setVelocityX(0);
-                LOGGER.trace("Player {} climbing ladder with dirY={}", playerName, dirY);
+                log.trace("Player {} climbing ladder with dirY={}", playerName, dirY);
                     playerState = PlayerState.CLIMBING_PHASE1;
                 return;
             } else { // if player is not on ladder, ignore vertical movement
@@ -351,7 +331,7 @@ public class Player extends MovableGameObject {
         }
 
         if (dirX != 0) {
-            LOGGER.trace("Player {} set to RUNNING with dirX={}", playerName, dirX);
+            log.trace("Player {} set to RUNNING with dirX={}", playerName, dirX);
             setOnLadder(false);
             setLadderHold(false);
             setDirectionX(dirX);
@@ -361,7 +341,7 @@ public class Player extends MovableGameObject {
         }
 
         if (isOnLadder() && playerState == PlayerState.CLIMBING_PHASE1) {
-            LOGGER.trace("Player {} set to IDLE on ladder", playerName);
+            log.trace("Player {} set to IDLE on ladder", playerName);
             setLadderHold(true);
             setDirectionY(0);
             setVelocityY(0);
@@ -372,7 +352,7 @@ public class Player extends MovableGameObject {
             return;
         }
 
-        LOGGER.trace("Player {} set to IDLE", playerName);
+        log.trace("Player {} set to IDLE", playerName);
         this.setDirectionX(dirX);
         this.setDirectionY(dirY);
         playerState = PlayerState.IDLE;
@@ -396,17 +376,6 @@ public class Player extends MovableGameObject {
         this.playerState = PlayerState.valueOf(state);
     }
 
-    public int getScore() {
-        return score;
-    }
-    public Health getHealth() {
-        return health;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public void addScore(int delta) {
         this.score += delta;
     }
@@ -415,12 +384,5 @@ public class Player extends MovableGameObject {
         return playerState == PlayerState.DEATH;
     }
 
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
-    }
 }
 

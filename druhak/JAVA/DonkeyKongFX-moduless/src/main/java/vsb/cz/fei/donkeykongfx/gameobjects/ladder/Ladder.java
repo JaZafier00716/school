@@ -3,7 +3,6 @@ package vsb.cz.fei.donkeykongfx.gameobjects.ladder;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
@@ -59,17 +58,7 @@ public class Ladder extends GameObject {
     }
 
     @Override
-    public void updateState(double deltaTime) {
-
-    }
-
-    @Override
     public void hitBy(Collisionable another) {
-
-    }
-
-    @Override
-    public void update(double deltaTime) {
 
     }
 }

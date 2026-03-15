@@ -3,16 +3,18 @@ package vsb.cz.fei.donkeykongfx.gameobjects.platform;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import lombok.Getter;
+import lombok.Setter;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.GameObject;
-import vsb.cz.fei.donkeykongfx.levels.Level;
 
 public class Platform extends GameObject {
     private final AnimationData platform;
     private final Point2D offset;
+    @Setter
+    @Getter
     private boolean ladderEntrance;
 
     public Platform(ResizableDimension rd, int height, Point2D position, Point2D offset) {
@@ -60,20 +62,4 @@ public class Platform extends GameObject {
 
     }
 
-    @Override
-    public void update(double delta) {
-
-    }
-
-    public void updateState(double delta) {
-
-    }
-
-    public boolean isLadderEntrance() {
-        return ladderEntrance;
-    }
-
-    public void setLadderEntrance(boolean ladderEntrance) {
-        this.ladderEntrance = ladderEntrance;
-    }
 }

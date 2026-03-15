@@ -3,26 +3,22 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.flamyboi;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableGameObject;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableType;
-import vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong.KongState;
-import vsb.cz.fei.donkeykongfx.gameobjects.ladder.Ladder;
 import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
+@Log4j2
 public class FlamyBoi extends MovableGameObject {
-    private static final Logger LOGGER = LogManager.getLogger(FlamyBoi.class);
     FlamyBoiState flamyBoiState;
     AnimationData fall;
     AnimationData move;
     private boolean canUpdatePosition = false;
     private double positionTimer = 0.0;
-    private final double positionUpdateInterval = 0.4; // seconds
 
 
     public FlamyBoi(ResizableDimension rd, int defaultHeight, Point2D position) {
@@ -58,7 +54,7 @@ public class FlamyBoi extends MovableGameObject {
         double fullW = currentAnim.getSize().getWidth() * scale;
         double fullH = currentAnim.getSize().getHeight() * scale;
         double insetW = fullW * 0.1; // use consistent inset proportions
-        Rectangle2D bounds = switch (flamyBoiState) {
+        return switch (flamyBoiState) {
             case FALLING -> new Rectangle2D(
                     getPosition().getX() * rd.getScale() + insetW,
                     getPosition().getY() * rd.getScale() + fullH * 0.2,
@@ -73,7 +69,6 @@ public class FlamyBoi extends MovableGameObject {
             );
 
         };
-        return bounds;
     }
 
     @Override
@@ -98,12 +93,8 @@ public class FlamyBoi extends MovableGameObject {
     @Override
     public void updateState(double deltaTime) {
         switch (flamyBoiState) {
-            case FALLING -> {
-                frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
-            }
-            case MOVING -> {
-                frameIndex = (move.colCount() + frameIndex + 1) % move.colCount();
-            }
+            case FALLING -> frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
+            case MOVING -> frameIndex = (move.colCount() + frameIndex + 1) % move.colCount();
         }
     }
 
@@ -116,13 +107,15 @@ public class FlamyBoi extends MovableGameObject {
                 type.apply(this, deltaTime);
             } else {
                 positionTimer += deltaTime;
+                // seconds
+                double positionUpdateInterval = 0.4;
                 if (positionTimer >= positionUpdateInterval) { // barrel released from donkey kong's hands
                     canUpdatePosition = true;
-                    LOGGER.debug("FlamyBoi released from Donkey Kong and starts moving");
+                    log.debug("FlamyBoi released from Donkey Kong and starts moving");
                 }
             }
         } else {
-            LOGGER.error("MovableType is null for FlamyBoi; movement update skipped");
+            log.error("MovableType is null for FlamyBoi; movement update skipped");
         }
 
         // check bounds and change direction if needed
@@ -145,7 +138,7 @@ public class FlamyBoi extends MovableGameObject {
                     setDirectionX(-1);
                     setDirectionY(0);
                     flamyBoiState = FlamyBoiState.MOVING;
-                    LOGGER.debug("FlamyBoi switched to MOVING state after landing");
+                    log.debug("FlamyBoi switched to MOVING state after landing");
                 } else {
                     setOnGround(false);
                     setDirectionY(1);

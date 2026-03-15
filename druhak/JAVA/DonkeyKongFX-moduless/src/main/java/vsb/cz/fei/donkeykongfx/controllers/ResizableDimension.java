@@ -1,9 +1,11 @@
 package vsb.cz.fei.donkeykongfx.controllers;
 
 import javafx.geometry.Dimension2D;
+import lombok.Getter;
 
 public class ResizableDimension {
     private Dimension2D dimension;
+    @Getter
     private double scale;
 
     public ResizableDimension(Dimension2D dimension) {
@@ -21,10 +23,6 @@ public class ResizableDimension {
 
     public double getHeight() {
         return dimension.getHeight();
-    }
-
-    public double getScale() {
-        return scale;
     }
 
     public void updateSize(Dimension2D dimension) {

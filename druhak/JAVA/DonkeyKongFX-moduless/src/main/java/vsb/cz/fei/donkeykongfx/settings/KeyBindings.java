@@ -1,11 +1,12 @@
 package vsb.cz.fei.donkeykongfx.settings;
 
 import javafx.scene.input.KeyCode;
+import lombok.Getter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
+@Getter
 public class KeyBindings {
     HashMap<String, KeyCode> keys = new HashMap<>();
 
@@ -19,10 +20,6 @@ public class KeyBindings {
         keys.put("climb_up", KeyCode.UP);
         keys.put("climb_down", KeyCode.DOWN);
         keys.put("jump", KeyCode.SPACE);
-    }
-
-    public HashMap<String, KeyCode> getKeys() {
-        return keys;
     }
 
     public Set<String> getAllActions() {

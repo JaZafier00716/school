@@ -5,6 +5,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.App;
@@ -27,8 +30,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Log4j2
 public class Level extends ResizableDimension {
-    private static final Logger LOGGER = LogManager.getLogger(Level.class);
+    @Getter
     private Player player;
     private DonkeyKong donkeyKong;
     private final Princess princess;
@@ -38,6 +42,7 @@ public class Level extends ResizableDimension {
     private final List<GameObject> toBeRemovedEntities = new ArrayList<>();
     private Comparator<Renderable> objectComparator;
     private Comparator<GameObject> entityComparator;
+    @Setter
     boolean pause = false;
 
     public enum GameOverReason {
@@ -52,7 +57,7 @@ public class Level extends ResizableDimension {
     }
 
     private void triggerGameOver(GameOverReason reason) {
-        LOGGER.info("Game over triggered with reason {}", reason);
+        log.info("Game over triggered with reason {}", reason);
         if (gameOverListener != null) {
             gameOverListener.accept(reason);
         }
@@ -282,13 +287,13 @@ public class Level extends ResizableDimension {
                     FlamyBoi flamyBoi = new FlamyBoi(this, 16, new Point2D(36, 59));
                     toBeAddedEntities.add(flamyBoi);
                     dk.setSpawnFlamyBoi(false);
-                    LOGGER.debug("Spawned FlamyBoi at (36,59)");
+                    log.debug("Spawned FlamyBoi at (36,59)");
                 }
                 if (dk.getSpawnBarrel()) {
                     Barrel newBarrel = new Barrel(this, 32, new Point2D(36, 59));
                     toBeAddedEntities.add(newBarrel);
                     dk.setSpawnBarrel(false);
-                    LOGGER.debug("Spawned Barrel at (36,59)");
+                    log.debug("Spawned Barrel at (36,59)");
                 }
             }
             entity.update(deltaTime);
@@ -354,14 +359,6 @@ public class Level extends ResizableDimension {
         toBeAddedEntities.clear();
         objects.sort(objectComparator);
         entities.sort(entityComparator);
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPause(boolean pause) {
-        this.pause = pause;
     }
 
     public GameState toGameState() {

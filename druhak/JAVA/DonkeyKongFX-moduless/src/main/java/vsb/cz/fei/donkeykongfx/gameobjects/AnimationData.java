@@ -9,7 +9,7 @@ public record AnimationData(
         int colCount,
         int rowCount,
         int spacing,
-        boolean drawMirrorred
+        boolean drawMirrored
 ) {
     public AnimationData(String path, int colCount, int rowCount, int spacing) {
         this(

@@ -2,6 +2,7 @@ package vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
 import vsb.cz.fei.donkeykongfx.gameobjects.RenderableObject;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Health extends RenderableObject {
+    @Getter
     private int lifes;
     AnimationData heathBar;
     private final List<HealthListener> listeners = new ArrayList<>();
@@ -64,10 +66,6 @@ public class Health extends RenderableObject {
 
     public boolean playerLost() {
         return lifes <= 0;
-    }
-
-    public int getLifes() {
-        return lifes;
     }
 
     public void setLifes(int lifes) {
