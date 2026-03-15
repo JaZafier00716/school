@@ -1,10 +1,13 @@
 package vsb.cz.fei.donkeykongfx.settings;
 
 import javafx.scene.input.KeyCode;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.*;
 import java.util.HashMap;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class KeyBindingsRepository {
     public static void saveKeyBindings(HashMap<String, KeyCode> keys) throws KeyBindingsException {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter("keybindings.cfg"))) {

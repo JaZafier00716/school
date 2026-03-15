@@ -1,7 +1,11 @@
 package vsb.cz.fei.donkeykongfx.score;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Random;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Utilities {
 	public static final Random RANDOM = new Random();
 	public static final String[] nicks = { "CyberSurfer", "PixelPioneer", "SocialSavvy", "DigitalDynamo", "ByteBuddy", "InstaGuru",

@@ -2,7 +2,9 @@ package vsb.cz.fei.donkeykongfx.controllers;
 
 import javafx.geometry.Dimension2D;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class ResizableDimension {
     private Dimension2D dimension;
     @Getter

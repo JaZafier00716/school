@@ -2,11 +2,13 @@ package vsb.cz.fei.donkeykongfx.settings;
 
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.HashMap;
 import java.util.Set;
 
 @Getter
+@ToString
 public class KeyBindings {
     HashMap<String, KeyCode> keys = new HashMap<>();
 

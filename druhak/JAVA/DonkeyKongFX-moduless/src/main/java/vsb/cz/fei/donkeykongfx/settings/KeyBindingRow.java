@@ -3,8 +3,10 @@ package vsb.cz.fei.donkeykongfx.settings;
 import javafx.scene.input.KeyCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
+@ToString
 public class KeyBindingRow {
     private final String action;
     @Setter
