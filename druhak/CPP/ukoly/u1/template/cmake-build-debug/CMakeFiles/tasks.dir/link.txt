@@ -1,1 +1,1 @@
-/usr/bin/c++  -g -fsanitize=address -Wl,--dependency-file=CMakeFiles/tasks.dir/link.d CMakeFiles/tasks.dir/main.cpp.o CMakeFiles/tasks.dir/tasks.cpp.o -o tasks
+/usr/bin/c++  -g -fsanitize=address -g -Wl,--dependency-file=CMakeFiles/tasks.dir/link.d CMakeFiles/tasks.dir/main.cpp.o CMakeFiles/tasks.dir/tasks.cpp.o -o tasks

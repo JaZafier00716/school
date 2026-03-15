@@ -1,0 +1,4 @@
+/home/jan/Documents/school/druhak/CPP/modal_editor/build/CMakeFiles/editor_core.dir
+/home/jan/Documents/school/druhak/CPP/modal_editor/build/CMakeFiles/test_runner.dir
+/home/jan/Documents/school/druhak/CPP/modal_editor/build/CMakeFiles/edit_cache.dir
+/home/jan/Documents/school/druhak/CPP/modal_editor/build/CMakeFiles/rebuild_cache.dir

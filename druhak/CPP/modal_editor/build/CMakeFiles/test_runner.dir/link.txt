@@ -1,0 +1,1 @@
+/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/test_runner.dir/link.d CMakeFiles/test_runner.dir/tests/test_buffer.cpp.o -o test_runner  libeditor_core.a
