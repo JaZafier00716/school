@@ -4,7 +4,8 @@ from typing import Optional
 
 class TaskCreate(BaseModel):
     title: str
-    description: Optional[str] = None
+    # description: Optional[str] = None
+    description: str | None = None
     completed: bool = False
 
 
