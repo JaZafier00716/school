@@ -1,0 +1,10 @@
+std::move je cast, ktery odstrani referenci, pokud tam nejaka je a pote vrati rvalue referenci na objekt, ktery jsme predali dovnitr
+
+nelze poslat rvalue do nekonstantni reference
+
+pokud vime, ze budeme data kopirovat, vyplati se je rovnou posilat kopii
+
+nepouzivat std::move
+- vynucuje zavolani nejakeho konstruktoru
+- preferovat RVO
+- Muzeme pouzivat v konstruktoru, nebo kdyz vime, ze hodnotu uz nebudeme pouzivat
