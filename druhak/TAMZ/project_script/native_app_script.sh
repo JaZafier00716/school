@@ -116,6 +116,7 @@ if [[ "$mode" == "expo" ]]; then
 	cd "$target_path"
 
 	echo "Installing dependencies"
+	npm install -D autoprefixer postcss
 	npm install nativewind react-native-reanimated react-native-safe-area-context
 	npm install --save-dev tailwindcss@^3.4.17 prettier-plugin-tailwindcss@^0.5.11 babel-preset-expo
 
@@ -187,3 +188,8 @@ else
 		echo "Run 'cd "$target_path" && ionic serve' to start the dev server."
 	fi
 fi
+
+
+echo "Next steps:"
+echo "Add to package.json: devDependencies.autoprefixer (^10.4.27)"
+echo "Add to package.json: devDependencies.postcss (^8.5.8)"

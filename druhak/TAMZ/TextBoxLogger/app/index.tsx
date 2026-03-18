@@ -5,10 +5,16 @@ import { Storage } from "@/lib/storage";
 import DialogWindow from "@/components/DialogWindow";
 
 export default function Index() {
-    const [text, setText] = useState("");
+    const [text, setTextState] = useState("");
     const storage_key = "text_arr";
+    const session_storage_key = "text_session";
     const [arr, setArr] = useState<string[]>([]);
     const [dialog_visible, setDialogVisible] = useState(false);
+
+    const setText = (value: string) => {
+        setTextState(value);
+        void Storage.setItem(session_storage_key, value);
+    };
 
 
 
@@ -54,7 +60,8 @@ export default function Index() {
     useEffect(() => {
         const init = async () => {
             const items = await fetch_text();
-            setText(items[0] ?? "");
+            const sessionText = await Storage.getItem(session_storage_key);
+            setTextState(sessionText !== null ? sessionText : (items[0] ?? ""));
         };
 
         void init();
@@ -71,7 +78,7 @@ export default function Index() {
                         multiline
                         numberOfLines={10}
                         maxLength={256}
-                        onChangeText={x => setText(x)}
+                        onChangeText={setText}
                         value={text}
                         className={"bg-slate-50 p-5 border-[1px] border-gray-500 h-1/2 w-full rounded-lg"}
                         placeholder={"Enter some text"}
