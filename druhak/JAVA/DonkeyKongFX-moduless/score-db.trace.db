@@ -1,3 +1,0 @@
-2025-12-30 17:18:17.221214+01:00 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "SCORES" not found (this database is empty); SQL statement:
-SELECT * FROM Scores [42104-240]

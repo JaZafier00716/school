@@ -2,61 +2,53 @@ package vsb.cz.fei.donkeykongfx.score;
 
 import lombok.extern.log4j.Log4j2;
 import org.h2.tools.Server;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
 public class ScoreRepository {
     private static Server server = null;
-    private static Connection connection;
+    private static EntityManagerFactory entityManagerFactory;
 
-    private static Connection getConnection() {
-        if(connection == null) {
-            try {
-                connection = DriverManager.getConnection("jdbc:h2:./score-db");
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+    private static EntityManagerFactory getEntityManagerFactory() {
+        if (entityManagerFactory == null) {
+            entityManagerFactory = Persistence.createEntityManagerFactory("donkeyKongFX");
         }
-        return connection;
+        return entityManagerFactory;
     }
+
     public static void init() {
-        try(Statement statement = getConnection().createStatement()) {
-            statement.executeUpdate("""
-                CREATE TABLE IF NOT EXISTS Scores (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
-                    points integer
-                );
-                """);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        getEntityManagerFactory();
     }
 
     public static void save(Score score) throws ScoreException {
-        if(score.nickName().isEmpty() || score.nickName().isBlank()) {
+        if (score.getNickName() == null || score.getNickName().isBlank()) {
             return;
         }
-        try(PreparedStatement statement = getConnection().prepareStatement(
-                "INSERT INTO Scores (name, points) VALUES (?, ?)")) {
-            statement.setString(1, score.nickName());
-            statement.setInt(2, score.score());
-            statement.executeUpdate();
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        EntityManager entityManager = getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            entityManager.persist(new Score(score.getNickName(), score.getScore()));
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw new ScoreException("Insert failed", e);
+        } finally {
+            entityManager.close();
         }
     }
 
@@ -67,22 +59,22 @@ public class ScoreRepository {
     }
 
     public static List<Score> load() throws ScoreException {
-        List<Score> scores = new ArrayList<>();
-        try (PreparedStatement statement = getConnection().prepareStatement(
-                "SELECT * FROM Scores"
-        )){
-            ResultSet rs = statement.executeQuery();
-            while(rs.next()) {
-                Score score = new Score(rs.getString("name"), rs.getInt("points"));
-                if(score.nickName().isEmpty() || score.nickName().isBlank()) {
+        EntityManager entityManager = getEntityManagerFactory().createEntityManager();
+        try {
+            List<Score> allScores = entityManager.createQuery("SELECT s FROM Score s", Score.class).getResultList();
+            List<Score> scores = new ArrayList<>();
+            for (Score score : allScores) {
+                if (score.getNickName() == null || score.getNickName().isBlank()) {
                     continue;
                 }
                 scores.add(score);
             }
-        } catch (SQLException e) {
+            return scores;
+        } catch (RuntimeException e) {
             throw new ScoreException("Select failed", e);
+        } finally {
+            entityManager.close();
         }
-        return scores;
     }
 
     public static void startDBWebServer() {

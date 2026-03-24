@@ -30,6 +30,11 @@ import java.net.URL;
 @Log4j2
 public class App extends Application {
 
+    private enum SettingsReturnTarget {
+        MENU,
+        GAME
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -39,6 +44,7 @@ public class App extends Application {
     public static Font pressStartFont;
     @Getter
     private String currentPlayer = "Player";
+    private SettingsReturnTarget settingsReturnTarget = SettingsReturnTarget.MENU;
 
     @Override
     public void start(Stage primaryStage) {
@@ -119,7 +125,7 @@ public class App extends Application {
         mc.startMenu();
     }
 
-    public void switchToSettings() throws IOException {
+    private void switchToSettings() throws IOException {
         log.debug("Switching to settings scene");
         FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/options.fxml"));
         Parent root = settingsLoader.load();
@@ -129,6 +135,24 @@ public class App extends Application {
         URL cssUrl = getClass().getResource("/application.css");
         scene.getStylesheets().add(cssUrl.toString());
         primaryStage.setScene(scene);
+    }
+
+    public void switchToSettingsFromMenu() throws IOException {
+        settingsReturnTarget = SettingsReturnTarget.MENU;
+        switchToSettings();
+    }
+
+    public void switchToSettingsFromGame() throws IOException {
+        settingsReturnTarget = SettingsReturnTarget.GAME;
+        switchToSettings();
+    }
+
+    public void returnFromSettings() throws IOException {
+        if (settingsReturnTarget == SettingsReturnTarget.GAME) {
+            continueGame(currentPlayer);
+        } else {
+            switchToMenu();
+        }
     }
 
 }

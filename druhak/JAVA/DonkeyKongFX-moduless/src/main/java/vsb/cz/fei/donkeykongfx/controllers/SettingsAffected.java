@@ -16,7 +16,12 @@ public abstract class SettingsAffected extends ResizableController{
     protected void loadKeyBindings() {
         try {
             HashMap<String, KeyCode> keyCodes = KeyBindingsRepository.loadKeyBindings();
-            keyBindings = new KeyBindings(keyCodes);
+            if (keyCodes.isEmpty()) {
+                keyBindings = new KeyBindings();
+                log.debug("No saved key bindings found; using defaults");
+            } else {
+                keyBindings = new KeyBindings(keyCodes);
+            }
         } catch (KeyBindingsException e) {
             log.warn("Loading key bindings failed; using defaults", e);
             Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -80,7 +80,8 @@ public class GameController extends SettingsAffected {
             if (getTimer() != null) {
                 stop();
             }
-            getApp().switchToSettings();
+            saveGame();
+            getApp().switchToSettingsFromGame();
         } catch (Exception e) {
             printAlert(e);
         }
@@ -134,7 +135,7 @@ public class GameController extends SettingsAffected {
             text = "You Won!";
             Score score = new Score(level.getPlayer().getPlayerName(), level.getPlayer().getScore());
             ScoreRepository.save(score);
-            log.info("Saved score: {} - {}", score.nickName(), score.score());
+            log.info("Saved score: {} - {}", score.getNickName(), score.getScore());
 
         } else {
             text = "Game Over!";

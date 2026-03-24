@@ -1,7 +1,38 @@
 package vsb.cz.fei.donkeykongfx.score;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-public record Score(String nickName, int score) {
+@Entity
+@Table(name = "Scores")
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class Score {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
+    private String nickName;
+
+    @Column(name = "points")
+    private int score;
+
+    public Score(String nickName, int score) {
+        this.nickName = nickName;
+        this.score = score;
+    }
+
     public static Score generate() {
         return new Score(
                 Utilities.getRandomNick(),

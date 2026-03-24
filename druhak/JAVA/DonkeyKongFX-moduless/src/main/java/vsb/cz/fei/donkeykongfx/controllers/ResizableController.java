@@ -67,7 +67,7 @@ public abstract class ResizableController {
         canvaContainer.heightProperty().addListener((obs, oldVal, newVal) -> {
             double height = newVal.doubleValue();
             double width = height * aspectRatio;
-            onSizeChanged(width, height, app.getCurrentPlayer());
+            onSizeChanged(width, height, resolveCurrentPlayer());
         });
 
         // schedule an initial sizing callback once layout is ready
@@ -75,8 +75,12 @@ public abstract class ResizableController {
             double height = canvaContainer.getHeight();
             if (height <= 0 && canvas != null) height = canvas.getHeight();
             double width = Math.max(0.0, height * aspectRatio);
-            onSizeChanged(width, height, app.getCurrentPlayer());
+            onSizeChanged(width, height, resolveCurrentPlayer());
         });
+    }
+
+    private String resolveCurrentPlayer() {
+        return app != null ? app.getCurrentPlayer() : "Player";
     }
 
     protected abstract void onSizeChanged(double width, double height, String currentPlayer);

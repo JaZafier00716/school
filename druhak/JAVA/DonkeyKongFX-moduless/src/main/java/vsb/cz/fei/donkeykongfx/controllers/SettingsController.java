@@ -53,8 +53,8 @@ public class SettingsController extends SettingsAffected {
             if(getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
-            log.debug("Returning from settings to menu");
-            getApp().switchToMenu();
+            log.debug("Returning from settings to previous screen");
+            getApp().returnFromSettings();
         } catch (Exception e) {
             log.warn("Handled error while switching back to menu from settings", e);
             printAlert(e);

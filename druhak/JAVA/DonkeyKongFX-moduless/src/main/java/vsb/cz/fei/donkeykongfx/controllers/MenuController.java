@@ -70,7 +70,7 @@ public class MenuController extends ResizableController {
                 throw new IllegalStateException("App has not been initialized");
             }
             log.debug("Opening settings from menu");
-            getApp().switchToSettings();
+            getApp().switchToSettingsFromMenu();
         } catch (Exception e) {
             log.warn("Handled error while opening settings from menu", e);
             printAlert(e);
@@ -139,7 +139,7 @@ public class MenuController extends ResizableController {
         assert startButton != null : "fx:id=\"startButton\" was not injected: check your FXML file 'menu.fxml'.";
 
 
-        File stateFile = new File("../../../state.bin");
+        File stateFile = new File("./state.bin");
         if (!stateFile.exists()) {
             continueButton.setDisable(true);
             continueButton.setVisible(false);
@@ -149,7 +149,7 @@ public class MenuController extends ResizableController {
             continueButton.setMinWidth(0);
             log.debug("No saved state found; continue button hidden");
         } else {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("../../../state.bin"))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./state.bin"))) {
                 GameState state = (GameState) ois.readObject();
                 if (state.playerName == null || state.playerName.isEmpty()) {
                     continueButton.setDisable(true);
@@ -169,7 +169,7 @@ public class MenuController extends ResizableController {
             }
         }
 
-        Comparator<Score> comparator = (o1, o2) -> Integer.compare(o2.score(), o1.score());
+        Comparator<Score> comparator = (o1, o2) -> Integer.compare(o2.getScore(), o1.getScore());
 
         // Limit player name length
         playerNameField.setTextFormatter(new TextFormatter<String>(change -> {
@@ -183,8 +183,8 @@ public class MenuController extends ResizableController {
             }
         }));
 
-        columnNickName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().nickName()));
-        columnScore.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().score()));
+        columnNickName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getNickName()));
+        columnScore.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getScore()));
 
         try {
             ArrayList<Score> scores = (ArrayList<Score>) ScoreRepository.load();
