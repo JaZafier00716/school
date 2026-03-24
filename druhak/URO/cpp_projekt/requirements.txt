@@ -1,0 +1,5 @@
+# Legacy Python dependencies from the original implementation.
+# Active rewrite uses C++23 + Qt via CMake (see README.md).
+customtkinter==5.2.2
+darkdetect==0.8.0
+packaging==26.0
