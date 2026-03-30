@@ -1,0 +1,106 @@
+-- CF
+CREATE OR REPLACE FUNCTION [function_name] (
+    [parameters]
+)
+RETURN [return_datatype]
+IS
+    [declaration_section]
+BEGIN
+...
+EXCEPTION
+     WHEN OTHERS THEN
+        dbms_output.put_line('An error has occured: ' || sqlerrm);
+END;
+
+
+-- CP      
+CREATE OR REPLACE PROCEDURE [procedure_name] (
+    [parameters]
+)
+IS
+    [declaration_section]
+BEGIN
+...
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('An error has occured: ' || sqlerrm);
+END;
+
+
+-- CT      
+CREATE OR REPLACE TRIGGER [trigger_name] 
+[BEFORE | AFTER | INSTEAD OF] [INSERT | UPDATE | DELETE]
+ON [table_name]
+FOR EACH ROW
+DECLARE
+declaration_section
+BEGIN
+...
+EXCEPTION
+    WHEN OTHERS THEN
+        dbms_output.put_line('An error has occured: ' || sqlerrm);
+END;
+
+-- CAB -- Create Anonymous Block
+DECLARE
+    -- [Variable, cursor, and type declarations]
+BEGIN
+    -- [Executable statements]
+    
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No records found.');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error has occurred: ' || SQLERRM);
+END;
+
+
+-- CEC - Create Explicit Cursor
+DECLARE
+    CURSOR [cursor_name] IS
+        SELECT [column1], [column2] 
+        FROM [table_name] 
+        WHERE [condition];
+        
+    v_col1 [table_name].[column1]%TYPE;
+    v_col2 [table_name].[column2]%TYPE;
+BEGIN
+    OPEN [cursor_name];
+    LOOP
+        FETCH [cursor_name] INTO v_col1, v_col2;
+        EXIT WHEN [cursor_name]%NOTFOUND;
+        
+        -- [Process the row data here]
+        
+    END LOOP;
+    CLOSE [cursor_name];
+EXCEPTION
+    WHEN OTHERS THEN
+        IF [cursor_name]%ISOPEN THEN
+            CLOSE [cursor_name];
+        END IF;
+        DBMS_OUTPUT.PUT_LINE('An error has occurred: ' || SQLERRM);
+END;
+
+
+-- CIC - Create Implicit Cursor
+BEGIN
+    FOR rec IN (SELECT [column1], [column2] FROM [table_name] WHERE [condition]) 
+    LOOP
+        -- [Access data using rec.column1, rec.column2]
+        DBMS_OUTPUT.PUT_LINE('Value: ' || rec.column1);
+    END LOOP;
+EXCEPTION
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('An error has occurred: ' || SQLERRM);
+END;
+/
+
+-- IF
+IF [condition] THEN
+   ...
+ELSIF [condition] THEN
+   ...
+ELSE
+   ...
+END IF;
