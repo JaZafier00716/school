@@ -1,0 +1,9 @@
+- Vlastni mapa
+- Odpocet po sebrani nebo vice itemy (napr. mince)
+- rozpohybovat robota - navadeni robota na item
+- odrazeni robota, kdyz narazi na hrace
+- bomba se bude pohybovat po mape nahodne - hence nahodny pohyb
+- bomba#1 staticka nebo nahodny pohyb (pocatecni + odrazy) -> reset score
+- bomba#2 nahodny pohyb + po 5 sekundach to same co bomba#1
+- bomba#3 po 10 sekundach navadena na hrace
+- alternativne misto bomb snizovani skore po 10s
