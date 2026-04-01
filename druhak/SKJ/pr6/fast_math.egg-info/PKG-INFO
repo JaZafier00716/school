@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: fast_math
+Version: 0.1
+Summary: A fast math library implemented in C++ and exposed to Python using pybind11.
+Author: JZ
+Requires-Python: >=3.6
+Dynamic: author
+Dynamic: requires-python
+Dynamic: summary

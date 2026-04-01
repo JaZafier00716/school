@@ -1,0 +1,4 @@
+/home/jan/Documents/School/druhak/CPP/ukoly/u6/template/build/CMakeFiles/tasks.dir
+/home/jan/Documents/School/druhak/CPP/ukoly/u6/template/build/CMakeFiles/tests.dir
+/home/jan/Documents/School/druhak/CPP/ukoly/u6/template/build/CMakeFiles/edit_cache.dir
+/home/jan/Documents/School/druhak/CPP/ukoly/u6/template/build/CMakeFiles/rebuild_cache.dir
