@@ -40,6 +40,10 @@ public class ScoreRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
+            if (!ensurePlayerProfile(entityManager, score.getNickName())) {
+                transaction.rollback();
+                return;
+            }
             entityManager.persist(new Score(score.getNickName(), score.getScore()));
             transaction.commit();
         } catch (RuntimeException e) {
@@ -61,7 +65,9 @@ public class ScoreRepository {
     public static List<Score> load() throws ScoreException {
         EntityManager entityManager = getEntityManagerFactory().createEntityManager();
         try {
-            List<Score> allScores = entityManager.createQuery("SELECT s FROM Score s", Score.class).getResultList();
+            List<Score> allScores = entityManager
+                    .createQuery("SELECT s FROM Score s LEFT JOIN FETCH s.playerProfile", Score.class)
+                    .getResultList();
             List<Score> scores = new ArrayList<>();
             for (Score score : allScores) {
                 if (score.getNickName() == null || score.getNickName().isBlank()) {
@@ -115,5 +121,25 @@ public class ScoreRepository {
         } catch (IOException e) {
             log.warn("Cannot read input from keyboard.", e);
         }
+    }
+
+    private static boolean ensurePlayerProfile(EntityManager entityManager, String nickName) {
+        if (nickName == null || nickName.isBlank()) {
+            return false;
+        }
+
+        List<PlayerProfile> players = entityManager
+                .createQuery("SELECT p FROM PlayerProfile p WHERE p.name = :name", PlayerProfile.class)
+                .setParameter("name", nickName)
+                .setMaxResults(1)
+                .getResultList();
+
+        if (!players.isEmpty()) {
+            return true;
+        }
+
+        PlayerProfile playerProfile = new PlayerProfile(nickName);
+        entityManager.persist(playerProfile);
+        return true;
     }
 }

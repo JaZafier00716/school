@@ -5,7 +5,9 @@
              version="3.1">
     <persistence-unit name="donkeyKongFX" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>vsb.cz.fei.donkeykongfx.score.PlayerProfile</class>
         <class>vsb.cz.fei.donkeykongfx.score.Score</class>
+        <class>vsb.cz.fei.donkeykongfx.settings.KeyBindingsSettingsEntity</class>
         <class>vsb.cz.fei.donkeykongfx.settings.KeyBindingEntity</class>
         <properties>
             <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>

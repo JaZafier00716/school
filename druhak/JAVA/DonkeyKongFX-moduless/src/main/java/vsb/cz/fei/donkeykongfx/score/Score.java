@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +26,10 @@ public class Score {
 
     @Column(name = "name", nullable = false)
     private String nickName;
+
+    @ManyToOne
+    @JoinColumn(name = "name", referencedColumnName = "name", insertable = false, updatable = false)
+    private PlayerProfile playerProfile;
 
     @Column(name = "points")
     private int score;

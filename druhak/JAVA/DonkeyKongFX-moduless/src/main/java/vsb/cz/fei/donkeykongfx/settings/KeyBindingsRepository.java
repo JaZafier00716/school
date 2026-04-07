@@ -14,9 +14,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class KeyBindingsRepository {
+    private static final long DEFAULT_SETTINGS_ID = 1L;
     private static EntityManagerFactory entityManagerFactory;
 
     private static EntityManagerFactory getEntityManagerFactory() {
@@ -31,13 +33,22 @@ public class KeyBindingsRepository {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            entityManager.createQuery("DELETE FROM KeyBindingEntity").executeUpdate();
+            KeyBindingsSettingsEntity settings = getOrCreateSettings(entityManager);
+            migrateLegacyBindingsWithoutSettings(entityManager);
+            entityManager.createQuery("DELETE FROM KeyBindingEntity k WHERE k.settings.id = :id")
+                    .setParameter("id", DEFAULT_SETTINGS_ID)
+                    .executeUpdate();
+            List<KeyBindingEntity> newBindings = new ArrayList<>();
             for (String action : keys.keySet()) {
                 KeyCode keyCode = keys.get(action);
                 if (keyCode != null) {
-                    entityManager.persist(new KeyBindingEntity(action, keyCode.getName()));
+                    KeyBindingEntity entity = new KeyBindingEntity(settings, action, keyCode.getName());
+                    entityManager.persist(entity);
+                    newBindings.add(entity);
                 }
             }
+            settings.getBindings().clear();
+            settings.getBindings().addAll(newBindings);
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive()) {
@@ -52,16 +63,28 @@ public class KeyBindingsRepository {
     public static HashMap<String, KeyCode> loadKeyBindings() throws KeyBindingsException {
         HashMap<String, KeyCode> keys = new HashMap<>();
         EntityManager entityManager = getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
         try {
-            List<KeyBindingEntity> entities = entityManager
-                    .createQuery("SELECT k FROM KeyBindingEntity k", KeyBindingEntity.class)
-                    .getResultList();
+            transaction.begin();
+            getOrCreateSettings(entityManager);
+            migrateLegacyBindingsWithoutSettings(entityManager);
+            transaction.commit();
 
-            if (entities.isEmpty()) {
+            KeyBindingsSettingsEntity settings = entityManager
+                    .createQuery(
+                            "SELECT s FROM KeyBindingsSettingsEntity s LEFT JOIN FETCH s.bindings WHERE s.id = :id",
+                            KeyBindingsSettingsEntity.class
+                    )
+                    .setParameter("id", DEFAULT_SETTINGS_ID)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
+
+            if (settings == null || settings.getBindings().isEmpty()) {
                 return loadFromLegacyFileIfPresent();
             }
 
-            for (KeyBindingEntity entity : entities) {
+            for (KeyBindingEntity entity : settings.getBindings()) {
                 KeyCode keyCode = KeyCode.getKeyCode(entity.getKeyName());
                 if (keyCode == null) {
                     throw new KeyBindingsException("Something went wrong: Bad arguments in key bindings data.");
@@ -69,14 +92,36 @@ public class KeyBindingsRepository {
                 keys.put(entity.getAction(), keyCode);
             }
         } catch (KeyBindingsException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
             throw e;
         } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
             throw new KeyBindingsException("Something went wrong: Loading key bindings did in fact fail to load the data.", e);
         } finally {
             entityManager.close();
         }
 
         return keys;
+    }
+
+    private static KeyBindingsSettingsEntity getOrCreateSettings(EntityManager entityManager) {
+        KeyBindingsSettingsEntity settings = entityManager.find(KeyBindingsSettingsEntity.class, DEFAULT_SETTINGS_ID);
+        if (settings == null) {
+            settings = new KeyBindingsSettingsEntity(DEFAULT_SETTINGS_ID);
+            entityManager.persist(settings);
+        }
+        return settings;
+    }
+
+    private static void migrateLegacyBindingsWithoutSettings(EntityManager entityManager) {
+        entityManager
+                .createNativeQuery("UPDATE KeyBindings SET settings_id = ? WHERE settings_id IS NULL")
+                .setParameter(1, DEFAULT_SETTINGS_ID)
+                .executeUpdate();
     }
 
     private static HashMap<String, KeyCode> loadFromLegacyFileIfPresent() throws KeyBindingsException {

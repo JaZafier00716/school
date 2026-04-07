@@ -9,6 +9,7 @@ module cz.vsb.fei.donkeykongfx {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     exports vsb.cz.fei.donkeykongfx;
+    exports vsb.cz.fei.donkeykongfx.score;
 
     opens vsb.cz.fei.donkeykongfx.controllers to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.score to javafx.base, org.hibernate.orm.core;
