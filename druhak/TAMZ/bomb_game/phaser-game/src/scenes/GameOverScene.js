@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import Phaser, { Scene } from "phaser";
 
 export class GameOverScene extends Scene {
     end_points = 0;
@@ -44,7 +44,9 @@ export class GameOverScene extends Scene {
             1
         )
         gameover_text.setOrigin(0.5, 0.5);
-        gameover_text.postFX.addShine();
+        if (this.renderer.type === Phaser.WEBGL && gameover_text.postFX) {
+            gameover_text.postFX.addShine();
+        }
 
         this.add.bitmapText(
             this.scale.width / 2,

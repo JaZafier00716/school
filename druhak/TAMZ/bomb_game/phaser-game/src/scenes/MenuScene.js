@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import Phaser, { Scene } from "phaser";
 
 export class MenuScene extends Scene {
     constructor() {
@@ -37,7 +37,9 @@ export class MenuScene extends Scene {
             1
         )
         logo_game.setOrigin(0.5, 0.5);
-        logo_game.postFX.addShine();
+        if (this.renderer.type === Phaser.WEBGL && logo_game.postFX) {
+            logo_game.postFX.addShine();
+        }
 
         const start_msg = this.add.bitmapText(
             this.scale.width / 2,

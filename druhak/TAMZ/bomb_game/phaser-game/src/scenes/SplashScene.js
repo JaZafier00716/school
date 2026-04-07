@@ -1,4 +1,4 @@
-import { Scene } from "phaser";
+import Phaser, { Scene } from "phaser";
 
 export class SplashScene extends Scene {
 
@@ -12,8 +12,11 @@ export class SplashScene extends Scene {
 
     create() {
         const logo = this.add.image(this.scale.width / 2, this.scale.height / 2, "logo");
-        const fx = logo.postFX.addShine(1, .2, 5);
-        
+
+        if (this.renderer.type === Phaser.WEBGL && logo.postFX) {
+            logo.postFX.addShine(1, 0.2, 5);
+        }
+
         this.time.addEvent({
             delay: 2000,
             callback: () => {
