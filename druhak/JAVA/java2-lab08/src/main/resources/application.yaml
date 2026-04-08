@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: java2-lab08
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:file:./db/score-db
+    username: sa
+    driverClassName: org.h2.Driver
+
+  jpa:
+    properties:
+      jakarta:
+        persistence:
+          schema-generation:
+            database.action: create
