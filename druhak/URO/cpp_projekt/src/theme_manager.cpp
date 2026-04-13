@@ -66,6 +66,17 @@ QPushButton#dangerButton {
 QPushButton#dangerButton:hover {
     background-color: %13;
 }
+QPushButton#historyCardButton {
+    background-color: %14;
+    color: palette(window-text);
+    border: 1px solid %3;
+    border-radius: 10px;
+    text-align: left;
+    padding: 10px;
+}
+QPushButton#historyCardButton:hover {
+    background-color: %15;
+}
 QLineEdit {
     border-radius: 6px;
     border: 1px solid palette(mid);

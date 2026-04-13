@@ -13,6 +13,8 @@ if (Qt6_FOUND)
     add_executable(discgolf_tracker
         src/main.cpp
         src/course_window.cpp
+        src/game_history_window.cpp
+        src/round_repository.cpp
         src/settings_dialog.cpp
         src/round_summary_dialog.cpp
         src/theme_manager.cpp
@@ -20,6 +22,7 @@ if (Qt6_FOUND)
 
     target_include_directories(discgolf_tracker PRIVATE include)
     target_link_libraries(discgolf_tracker PRIVATE Qt6::Widgets)
+    target_compile_definitions(discgolf_tracker PRIVATE DG_PROJECT_ROOT="${CMAKE_SOURCE_DIR}")
     set_target_properties(discgolf_tracker PROPERTIES
         AUTOMOC ON
         AUTORCC ON

@@ -1,4 +1,7 @@
+/home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/discgolf_tracker.dir
 /home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/model_smoke_test.dir
 /home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/test.dir
 /home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/edit_cache.dir
 /home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/rebuild_cache.dir
+/home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/discgolf_tracker_autogen_timestamp_deps.dir
+/home/jan/Documents/School/druhak/URO/cpp_projekt/build/CMakeFiles/discgolf_tracker_autogen.dir

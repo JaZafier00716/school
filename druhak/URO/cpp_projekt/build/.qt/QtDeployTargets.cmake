@@ -1,0 +1,4 @@
+set(__QT_DEPLOY_TARGET_discgolf_tracker_FILE /home/jan/Documents/School/druhak/URO/cpp_projekt/build/discgolf_tracker)
+set(__QT_DEPLOY_TARGET_discgolf_tracker_TYPE EXECUTABLE)
+set(__QT_DEPLOY_TARGET_model_smoke_test_FILE /home/jan/Documents/School/druhak/URO/cpp_projekt/build/model_smoke_test)
+set(__QT_DEPLOY_TARGET_model_smoke_test_TYPE EXECUTABLE)

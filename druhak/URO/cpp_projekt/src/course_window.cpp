@@ -1,5 +1,6 @@
 #include "course_window.hpp"
 
+#include "game_history_window.hpp"
 #include "round_summary_dialog.hpp"
 #include "settings_dialog.hpp"
 #include "theme_manager.hpp"
@@ -44,11 +45,16 @@ CourseWindow::CourseWindow(AppState& state, QWidget* parent)
     titleLayout->addWidget(title);
     titleLayout->addWidget(subtitle);
 
+    auto* historyButton = new QPushButton("History", topCard);
+    historyButton->setObjectName("secondaryButton");
+    connect(historyButton, &QPushButton::clicked, this, [this] { openHistory(); });
+
     auto* settingsButton = new QPushButton("Settings", topCard);
     settingsButton->setObjectName("secondaryButton");
     connect(settingsButton, &QPushButton::clicked, this, [this] { openSettings(); });
 
     topLayout->addWidget(titleWrap, 1);
+    topLayout->addWidget(historyButton);
     topLayout->addWidget(settingsButton);
     root->addWidget(topCard);
 
@@ -198,6 +204,15 @@ void CourseWindow::openSettings() {
 
 void CourseWindow::openRoundSummary() {
     RoundSummaryDialog dialog(state_, this);
+    dialog.exec();
+    if (dialog.shouldJumpToFirstHole()) {
+        currentHoleIndex_ = 0;
+    }
+    updateUiFromState();
+}
+
+void CourseWindow::openHistory() {
+    GameHistoryWindow dialog(this);
     dialog.exec();
 }
 

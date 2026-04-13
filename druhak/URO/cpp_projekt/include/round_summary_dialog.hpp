@@ -10,16 +10,21 @@ namespace dg {
 
 class RoundSummaryDialog final : public QDialog {
 public:
-    explicit RoundSummaryDialog(const AppState& state, QWidget* parent = nullptr);
+    explicit RoundSummaryDialog(AppState& state, QWidget* parent = nullptr);
+    [[nodiscard]] bool wasRoundSaved() const { return wasRoundSaved_; }
+    [[nodiscard]] bool shouldJumpToFirstHole() const { return shouldJumpToFirstHole_; }
 
 private:
-    const AppState& state_;
+    AppState& state_;
     QLabel* parLabel_ {nullptr};
     QLabel* totalThrowsLabel_ {nullptr};
     QLabel* averageLabel_ {nullptr};
     QTableWidget* holeTable_ {nullptr};
+    bool wasRoundSaved_ {false};
+    bool shouldJumpToFirstHole_ {false};
 
     void populateTable();
+    void refreshStats();
 };
 
 } // namespace dg

@@ -32,6 +32,7 @@ private:
     void goToNextHole();
     void openSettings();
     void openRoundSummary();
+    void openHistory();
 };
 
 } // namespace dg

@@ -127,6 +127,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named discgolf_tracker
+
+# Build rule for target.
+discgolf_tracker: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 discgolf_tracker
+.PHONY : discgolf_tracker
+
+# fast build rule for target.
+discgolf_tracker/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/build
+.PHONY : discgolf_tracker/fast
+
+#=============================================================================
 # Target rules for targets named model_smoke_test
 
 # Build rule for target.
@@ -138,6 +151,224 @@ model_smoke_test: cmake_check_build_system
 model_smoke_test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/model_smoke_test.dir/build.make CMakeFiles/model_smoke_test.dir/build
 .PHONY : model_smoke_test/fast
+
+#=============================================================================
+# Target rules for targets named discgolf_tracker_autogen_timestamp_deps
+
+# Build rule for target.
+discgolf_tracker_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 discgolf_tracker_autogen_timestamp_deps
+.PHONY : discgolf_tracker_autogen_timestamp_deps
+
+# fast build rule for target.
+discgolf_tracker_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker_autogen_timestamp_deps.dir/build.make CMakeFiles/discgolf_tracker_autogen_timestamp_deps.dir/build
+.PHONY : discgolf_tracker_autogen_timestamp_deps/fast
+
+#=============================================================================
+# Target rules for targets named discgolf_tracker_autogen
+
+# Build rule for target.
+discgolf_tracker_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 discgolf_tracker_autogen
+.PHONY : discgolf_tracker_autogen
+
+# fast build rule for target.
+discgolf_tracker_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker_autogen.dir/build.make CMakeFiles/discgolf_tracker_autogen.dir/build
+.PHONY : discgolf_tracker_autogen/fast
+
+discgolf_tracker_autogen/mocs_compilation.o: discgolf_tracker_autogen/mocs_compilation.cpp.o
+.PHONY : discgolf_tracker_autogen/mocs_compilation.o
+
+# target to build an object file
+discgolf_tracker_autogen/mocs_compilation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/discgolf_tracker_autogen/mocs_compilation.cpp.o
+.PHONY : discgolf_tracker_autogen/mocs_compilation.cpp.o
+
+discgolf_tracker_autogen/mocs_compilation.i: discgolf_tracker_autogen/mocs_compilation.cpp.i
+.PHONY : discgolf_tracker_autogen/mocs_compilation.i
+
+# target to preprocess a source file
+discgolf_tracker_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/discgolf_tracker_autogen/mocs_compilation.cpp.i
+.PHONY : discgolf_tracker_autogen/mocs_compilation.cpp.i
+
+discgolf_tracker_autogen/mocs_compilation.s: discgolf_tracker_autogen/mocs_compilation.cpp.s
+.PHONY : discgolf_tracker_autogen/mocs_compilation.s
+
+# target to generate assembly for a file
+discgolf_tracker_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/discgolf_tracker_autogen/mocs_compilation.cpp.s
+.PHONY : discgolf_tracker_autogen/mocs_compilation.cpp.s
+
+src/course_window.o: src/course_window.cpp.o
+.PHONY : src/course_window.o
+
+# target to build an object file
+src/course_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/course_window.cpp.o
+.PHONY : src/course_window.cpp.o
+
+src/course_window.i: src/course_window.cpp.i
+.PHONY : src/course_window.i
+
+# target to preprocess a source file
+src/course_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/course_window.cpp.i
+.PHONY : src/course_window.cpp.i
+
+src/course_window.s: src/course_window.cpp.s
+.PHONY : src/course_window.s
+
+# target to generate assembly for a file
+src/course_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/course_window.cpp.s
+.PHONY : src/course_window.cpp.s
+
+src/game_history_window.o: src/game_history_window.cpp.o
+.PHONY : src/game_history_window.o
+
+# target to build an object file
+src/game_history_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/game_history_window.cpp.o
+.PHONY : src/game_history_window.cpp.o
+
+src/game_history_window.i: src/game_history_window.cpp.i
+.PHONY : src/game_history_window.i
+
+# target to preprocess a source file
+src/game_history_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/game_history_window.cpp.i
+.PHONY : src/game_history_window.cpp.i
+
+src/game_history_window.s: src/game_history_window.cpp.s
+.PHONY : src/game_history_window.s
+
+# target to generate assembly for a file
+src/game_history_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/game_history_window.cpp.s
+.PHONY : src/game_history_window.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/round_repository.o: src/round_repository.cpp.o
+.PHONY : src/round_repository.o
+
+# target to build an object file
+src/round_repository.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_repository.cpp.o
+.PHONY : src/round_repository.cpp.o
+
+src/round_repository.i: src/round_repository.cpp.i
+.PHONY : src/round_repository.i
+
+# target to preprocess a source file
+src/round_repository.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_repository.cpp.i
+.PHONY : src/round_repository.cpp.i
+
+src/round_repository.s: src/round_repository.cpp.s
+.PHONY : src/round_repository.s
+
+# target to generate assembly for a file
+src/round_repository.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_repository.cpp.s
+.PHONY : src/round_repository.cpp.s
+
+src/round_summary_dialog.o: src/round_summary_dialog.cpp.o
+.PHONY : src/round_summary_dialog.o
+
+# target to build an object file
+src/round_summary_dialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_summary_dialog.cpp.o
+.PHONY : src/round_summary_dialog.cpp.o
+
+src/round_summary_dialog.i: src/round_summary_dialog.cpp.i
+.PHONY : src/round_summary_dialog.i
+
+# target to preprocess a source file
+src/round_summary_dialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_summary_dialog.cpp.i
+.PHONY : src/round_summary_dialog.cpp.i
+
+src/round_summary_dialog.s: src/round_summary_dialog.cpp.s
+.PHONY : src/round_summary_dialog.s
+
+# target to generate assembly for a file
+src/round_summary_dialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/round_summary_dialog.cpp.s
+.PHONY : src/round_summary_dialog.cpp.s
+
+src/settings_dialog.o: src/settings_dialog.cpp.o
+.PHONY : src/settings_dialog.o
+
+# target to build an object file
+src/settings_dialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/settings_dialog.cpp.o
+.PHONY : src/settings_dialog.cpp.o
+
+src/settings_dialog.i: src/settings_dialog.cpp.i
+.PHONY : src/settings_dialog.i
+
+# target to preprocess a source file
+src/settings_dialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/settings_dialog.cpp.i
+.PHONY : src/settings_dialog.cpp.i
+
+src/settings_dialog.s: src/settings_dialog.cpp.s
+.PHONY : src/settings_dialog.s
+
+# target to generate assembly for a file
+src/settings_dialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/settings_dialog.cpp.s
+.PHONY : src/settings_dialog.cpp.s
+
+src/theme_manager.o: src/theme_manager.cpp.o
+.PHONY : src/theme_manager.o
+
+# target to build an object file
+src/theme_manager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/theme_manager.cpp.o
+.PHONY : src/theme_manager.cpp.o
+
+src/theme_manager.i: src/theme_manager.cpp.i
+.PHONY : src/theme_manager.i
+
+# target to preprocess a source file
+src/theme_manager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/theme_manager.cpp.i
+.PHONY : src/theme_manager.cpp.i
+
+src/theme_manager.s: src/theme_manager.cpp.s
+.PHONY : src/theme_manager.s
+
+# target to generate assembly for a file
+src/theme_manager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/discgolf_tracker.dir/build.make CMakeFiles/discgolf_tracker.dir/src/theme_manager.cpp.s
+.PHONY : src/theme_manager.cpp.s
 
 tests/model_smoke.o: tests/model_smoke.cpp.o
 .PHONY : tests/model_smoke.o
@@ -172,7 +403,34 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
+	@echo "... discgolf_tracker_autogen"
+	@echo "... discgolf_tracker_autogen_timestamp_deps"
+	@echo "... discgolf_tracker"
 	@echo "... model_smoke_test"
+	@echo "... discgolf_tracker_autogen/mocs_compilation.o"
+	@echo "... discgolf_tracker_autogen/mocs_compilation.i"
+	@echo "... discgolf_tracker_autogen/mocs_compilation.s"
+	@echo "... src/course_window.o"
+	@echo "... src/course_window.i"
+	@echo "... src/course_window.s"
+	@echo "... src/game_history_window.o"
+	@echo "... src/game_history_window.i"
+	@echo "... src/game_history_window.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/round_repository.o"
+	@echo "... src/round_repository.i"
+	@echo "... src/round_repository.s"
+	@echo "... src/round_summary_dialog.o"
+	@echo "... src/round_summary_dialog.i"
+	@echo "... src/round_summary_dialog.s"
+	@echo "... src/settings_dialog.o"
+	@echo "... src/settings_dialog.i"
+	@echo "... src/settings_dialog.s"
+	@echo "... src/theme_manager.o"
+	@echo "... src/theme_manager.i"
+	@echo "... src/theme_manager.s"
 	@echo "... tests/model_smoke.o"
 	@echo "... tests/model_smoke.i"
 	@echo "... tests/model_smoke.s"
