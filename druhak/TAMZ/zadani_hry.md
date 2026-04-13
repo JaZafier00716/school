@@ -7,3 +7,10 @@
 - bomba#2 nahodny pohyb + po 5 sekundach to same co bomba#1
 - bomba#3 po 10 sekundach navadena na hrace
 - alternativne misto bomb snizovani skore po 10s
+
+- hudba na pozadi
+- sound effects: item, bomb, game over
+- menu - best score top 5 - standalone window, start game btn, audio on/off, 
+- play button pro start hrani audia na zacatku pokud neni zvuk ok - browser ho blokuje (audio context) - potrebuje user gesture
+- game over screen - player's score no longer resets
+- 
