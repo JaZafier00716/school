@@ -13,9 +13,7 @@ export class SplashScene extends Scene {
     create() {
         const logo = this.add.image(this.scale.width / 2, this.scale.height / 2, "logo");
 
-        if (this.renderer.type === Phaser.WEBGL && logo.postFX) {
-            logo.postFX.addShine(1, 0.2, 5);
-        }
+        // Skip postFX here to avoid canvas readback warnings in strict browser privacy modes.
 
         this.time.addEvent({
             delay: 2000,
@@ -23,7 +21,7 @@ export class SplashScene extends Scene {
                 const main_camera = this.cameras.main.fadeOut(1000, 0, 0, 0);
                 // Fadeout complete
                 main_camera.once("camerafadeoutcomplete", () => {
-                    this.scene.start("MainScene");
+                    this.scene.start("MenuScene");
                 });
             }
         });

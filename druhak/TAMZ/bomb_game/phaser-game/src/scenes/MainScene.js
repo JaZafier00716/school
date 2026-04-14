@@ -7,6 +7,11 @@ export class MainScene extends Scene {
         this.player = null;
         this.robot = null;
         this.cursors = null;
+        this.moveLeft = false;
+        this.moveRight = false;
+        this.moveUp = false;
+        this.moveDown = false;
+        this.keyboardHandlers = null;
 
         this.coins = null;
         this.randomMines = null;
@@ -22,12 +27,22 @@ export class MainScene extends Scene {
         this.randomMineRespawnDelay = 3000;
         this.homingMineRespawnDelay = 4000;
         this.explosionTextureKey = "main-mine-explode";
+        this.defaultExplosionDurationMs = 900;
+        this.mineRampDurationMs = 60000;
+        this.mineRampCheckIntervalMs = 5000;
+        this.baseRandomMineTarget = 2;
+        this.baseHomingMineTarget = 1;
+        this.mineKillRadius = 72;
+        this.isGameOver = false;
+        this.gameStartTime = 0;
+        this.minePopulationTimer = null;
         this.coinTiers = [];
 
         this.mapScale = 0.5;
         this.mapPixelWidth = 0;
         this.mapPixelHeight = 0;
         this.collisionLayer = null;
+        this.backgroundMusic = null;
     }
 
     preload() {
@@ -51,11 +66,25 @@ export class MainScene extends Scene {
         // Tilemap background (map.json request mapped to existing json_map.json).
         this.load.tilemapTiledJSON("main-map", "assets/json_map.json");
         this.load.image("map_tiles", "assets/mountain_landscape.png");
+
+        // Sounds are served from /public/sounds via Vite static public path.
+        this.load.audio("main-player-coin-pick-sfx", "sounds/item_picking_player.mp3");
+        this.load.audio("main-robot-coin-pick-sfx", "sounds/coin_picking.mp3");
+        this.load.audio("main-explosion-sfx", "sounds/explosion.mp3");
+        this.load.audio("main-background-music", "sounds/background.mp3");
     }
 
     create() {
         const width = this.scale.width;
         const height = this.scale.height;
+
+        this.isGameOver = false;
+        this.score = 0;
+        this.moveLeft = false;
+        this.moveRight = false;
+        this.moveUp = false;
+        this.moveDown = false;
+        this.keyboardHandlers = null;
 
         this.cameras.main.setBackgroundColor("#101622");
 
@@ -88,7 +117,19 @@ export class MainScene extends Scene {
         // Robot and player physically deflect each other.
         this.physics.add.collider(this.player, this.robot);
 
-        this.cursors = this.input.keyboard.createCursorKeys();
+        this.input.keyboard.enabled = true;
+        this.input.keyboard.resetKeys();
+        this.input.keyboard.addCapture([
+            Phaser.Input.Keyboard.KeyCodes.LEFT,
+            Phaser.Input.Keyboard.KeyCodes.RIGHT,
+            Phaser.Input.Keyboard.KeyCodes.UP,
+            Phaser.Input.Keyboard.KeyCodes.DOWN
+        ]);
+        this.bindKeyboardControls();
+
+        this.time.delayedCall(0, () => {
+            this.input.keyboard?.resetKeys?.();
+        });
 
         this.coins = this.physics.add.group();
         this.spawnCoin();
@@ -104,12 +145,49 @@ export class MainScene extends Scene {
         this.physics.add.overlap(this.robot, this.coins, this.handleCoinCollected, null, this);
         this.physics.add.overlap(this.player, this.randomMines, this.handleRandomMineHit, null, this);
         this.physics.add.overlap(this.player, this.homingMines, this.handleHomingMineHit, null, this);
+        this.physics.add.collider(this.robot, this.randomMines);
+        this.physics.add.collider(this.robot, this.homingMines);
+
+        this.gameStartTime = this.time.now;
+        this.minePopulationTimer = this.time.addEvent({
+            delay: this.mineRampCheckIntervalMs,
+            loop: true,
+            callback: this.rebalanceMinePopulation,
+            callbackScope: this
+        });
 
         // Collision layer is rendered for visuals only (no physics colliders attached).
 
         // Keep the player centered by following them with the main camera.
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.centerOn(this.player.x, this.player.y);
+
+        if (this.cache.audio.exists("main-background-music")) {
+            this.backgroundMusic = this.sound.add("main-background-music", {
+                loop: true,
+                volume: 0.12
+            });
+            this.backgroundMusic.play();
+        }
+
+        const cleanupSceneResources = () => {
+            this.input.keyboard?.resetKeys?.();
+            this.unbindKeyboardControls();
+
+            if (this.backgroundMusic) {
+                this.backgroundMusic.stop();
+                this.backgroundMusic.destroy();
+                this.backgroundMusic = null;
+            }
+
+            if (this.minePopulationTimer) {
+                this.minePopulationTimer.remove(false);
+                this.minePopulationTimer = null;
+            }
+        };
+
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, cleanupSceneResources);
+        this.events.once(Phaser.Scenes.Events.DESTROY, cleanupSceneResources);
 
         this.scoreText = this.add.text(16, 16, "Score: 0", {
             fontSize: "24px",
@@ -118,27 +196,27 @@ export class MainScene extends Scene {
     }
 
     update() {
-        if (!this.player || !this.robot) {
+        if (this.isGameOver || !this.player || !this.robot) {
             return;
         }
 
         this.player.setVelocity(0, 0);
 
-        if (this.cursors.left.isDown) {
+        if (this.moveLeft) {
             this.player.setVelocityX(-this.playerSpeed);
             this.player.flipX = true;
-        } else if (this.cursors.right.isDown) {
+        } else if (this.moveRight) {
             this.player.setVelocityX(this.playerSpeed);
             this.player.flipX = false;
         }
 
-        if (this.cursors.up.isDown) {
+        if (this.moveUp) {
             this.player.setVelocityY(-this.playerSpeed);
-        } else if (this.cursors.down.isDown) {
+        } else if (this.moveDown) {
             this.player.setVelocityY(this.playerSpeed);
         }
 
-        if (this.cursors.left.isDown || this.cursors.right.isDown || this.cursors.up.isDown || this.cursors.down.isDown) {
+        if (this.moveLeft || this.moveRight || this.moveUp || this.moveDown) {
             this.player.anims.play("main-player-run", true);
         } else {
             this.player.anims.stop();
@@ -158,6 +236,77 @@ export class MainScene extends Scene {
             }
             this.physics.moveToObject(mine, this.player, this.homingMineSpeed);
         });
+    }
+
+    bindKeyboardControls() {
+        this.unbindKeyboardControls();
+
+        const down = (key) => {
+            if (key === "LEFT") this.moveLeft = true;
+            if (key === "RIGHT") this.moveRight = true;
+            if (key === "UP") this.moveUp = true;
+            if (key === "DOWN") this.moveDown = true;
+        };
+
+        const up = (key) => {
+            if (key === "LEFT") this.moveLeft = false;
+            if (key === "RIGHT") this.moveRight = false;
+            if (key === "UP") this.moveUp = false;
+            if (key === "DOWN") this.moveDown = false;
+        };
+
+        const leftDown = () => down("LEFT");
+        const leftUp = () => up("LEFT");
+        const rightDown = () => down("RIGHT");
+        const rightUp = () => up("RIGHT");
+        const upDown = () => down("UP");
+        const upUp = () => up("UP");
+        const downDown = () => down("DOWN");
+        const downUp = () => up("DOWN");
+
+        this.keyboardHandlers = {
+            leftDown,
+            leftUp,
+            rightDown,
+            rightUp,
+            upDown,
+            upUp,
+            downDown,
+            downUp
+        };
+
+        this.input.keyboard.on("keydown-LEFT", leftDown);
+        this.input.keyboard.on("keyup-LEFT", leftUp);
+        this.input.keyboard.on("keydown-RIGHT", rightDown);
+        this.input.keyboard.on("keyup-RIGHT", rightUp);
+        this.input.keyboard.on("keydown-UP", upDown);
+        this.input.keyboard.on("keyup-UP", upUp);
+        this.input.keyboard.on("keydown-DOWN", downDown);
+        this.input.keyboard.on("keyup-DOWN", downUp);
+
+        this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+            this.moveLeft = false;
+            this.moveRight = false;
+            this.moveUp = false;
+            this.moveDown = false;
+            this.unbindKeyboardControls();
+        });
+    }
+
+    unbindKeyboardControls() {
+        if (!this.keyboardHandlers) {
+            return;
+        }
+
+        this.input.keyboard.off("keydown-LEFT", this.keyboardHandlers.leftDown);
+        this.input.keyboard.off("keyup-LEFT", this.keyboardHandlers.leftUp);
+        this.input.keyboard.off("keydown-RIGHT", this.keyboardHandlers.rightDown);
+        this.input.keyboard.off("keyup-RIGHT", this.keyboardHandlers.rightUp);
+        this.input.keyboard.off("keydown-UP", this.keyboardHandlers.upDown);
+        this.input.keyboard.off("keyup-UP", this.keyboardHandlers.upUp);
+        this.input.keyboard.off("keydown-DOWN", this.keyboardHandlers.downDown);
+        this.input.keyboard.off("keyup-DOWN", this.keyboardHandlers.downUp);
+        this.keyboardHandlers = null;
     }
 
     buildDerivedTextures() {
@@ -299,9 +448,29 @@ export class MainScene extends Scene {
                 start: 0,
                 end: explodeFrameCount - 1
             }),
-            frameRate: 18,
+            frameRate: 10,
             repeat: 0
         });
+    }
+
+    getExplosionDurationMs() {
+        try {
+            if (!this.cache.audio.exists("main-explosion-sfx")) {
+                return this.defaultExplosionDurationMs;
+            }
+
+            const probe = this.sound.add("main-explosion-sfx");
+            const seconds = probe?.totalDuration || probe?.duration || 0;
+            probe?.destroy();
+
+            if (Number.isFinite(seconds) && seconds > 0) {
+                return Math.round(seconds * 1000);
+            }
+        } catch (_error) {
+            // Fall through to default duration if audio metadata is unavailable.
+        }
+
+        return this.defaultExplosionDurationMs;
     }
 
     fitSprite(sprite, maxSize) {
@@ -390,6 +559,40 @@ export class MainScene extends Scene {
         return mine;
     }
 
+    getMineRampFactor() {
+        if (!this.gameStartTime) {
+            return 0;
+        }
+
+        const elapsed = this.time.now - this.gameStartTime;
+        return Phaser.Math.Clamp(elapsed / this.mineRampDurationMs, 0, 1);
+    }
+
+    getActiveGroupCount(group) {
+        return group.getChildren().filter((child) => child.active).length;
+    }
+
+    rebalanceMinePopulation() {
+        if (!this.scene.isActive()) {
+            return;
+        }
+
+        const rampFactor = this.getMineRampFactor();
+        const targetRandom = Math.max(this.baseRandomMineTarget, Math.floor(this.baseRandomMineTarget * (1 + rampFactor)));
+        const targetHoming = Math.max(this.baseHomingMineTarget, Math.floor(this.baseHomingMineTarget * (1 + rampFactor)));
+
+        const currentRandom = this.getActiveGroupCount(this.randomMines);
+        const currentHoming = this.getActiveGroupCount(this.homingMines);
+
+        for (let i = currentRandom; i < targetRandom; i += 1) {
+            this.spawnRandomMine();
+        }
+
+        for (let i = currentHoming; i < targetHoming; i += 1) {
+            this.spawnHomingMine();
+        }
+    }
+
     explodeMine(mine) {
         if (!mine || !mine.active) {
             return;
@@ -397,23 +600,35 @@ export class MainScene extends Scene {
 
         const mineType = mine.getData("mineType") || "random";
         const respawnDelay = mine.getData("respawnDelay") || this.randomMineRespawnDelay;
+        const explosionDurationMs = this.getExplosionDurationMs();
         console.log(`[MainScene] ${mineType} bomb exploded at (${Math.round(mine.x)}, ${Math.round(mine.y)})`);
+
+        if (this.cache.audio.exists("main-explosion-sfx")) {
+            this.sound.play("main-explosion-sfx", { volume: 0.5 });
+        }
 
         const explosion = this.add.sprite(mine.x, mine.y, this.explosionTextureKey, 0);
         this.fitSprite(explosion, 56);
+
+        if (this.player?.active) {
+            const distanceToPlayer = Phaser.Math.Distance.Between(mine.x, mine.y, this.player.x, this.player.y);
+            if (distanceToPlayer <= this.mineKillRadius) {
+                this.triggerGameOver();
+            }
+        }
 
         mine.disableBody(true, true);
         mine.destroy();
 
         if (this.anims.exists("main-mine-explode-anim")) {
-            explosion.play("main-mine-explode-anim");
+            explosion.play({ key: "main-mine-explode-anim", duration: explosionDurationMs });
             explosion.once(Phaser.Animations.Events.ANIMATION_COMPLETE, () => {
                 if (explosion.scene) {
                     explosion.destroy();
                 }
             });
         } else {
-            this.time.delayedCall(260, () => {
+            this.time.delayedCall(explosionDurationMs, () => {
                 if (explosion.scene) {
                     explosion.destroy();
                 }
@@ -434,27 +649,58 @@ export class MainScene extends Scene {
     }
 
     handleHomingMineHit(_player, mine) {
-        this.score = 0;
-        this.scoreText.setText("Score: 0");
         this.explodeMine(mine);
     }
 
     handleRandomMineHit(_player, mine) {
-        this.score = 0;
-        this.scoreText.setText("Score: 0");
         this.explodeMine(mine);
     }
 
-    handleCoinCollected(_collector, coin) {
+    triggerGameOver() {
+        if (this.isGameOver) {
+            return;
+        }
+
+        this.isGameOver = true;
+
+        if (this.minePopulationTimer) {
+            this.minePopulationTimer.remove(false);
+            this.minePopulationTimer = null;
+        }
+
+        if (this.player?.body) {
+            this.player.body.enable = false;
+            this.player.setVelocity(0, 0);
+            this.player.setVisible(false);
+        }
+
+        this.time.delayedCall(120, () => {
+            this.scene.start("GameOverScene", { score: this.score });
+        });
+    }
+
+    handleCoinCollected(collector, coin) {
         if (!coin.active) {
             return;
         }
 
         const value = coin.getData("coinValue") || 1;
         coin.disableBody(true, true);
-        this.score += value;
-        this.scoreText.setText(`Score: ${this.score}`);
-        console.log(`[MainScene] coin picked up for +${value}, score=${this.score}`);
+        const isPlayerCollector = collector === this.player;
+
+        if (isPlayerCollector) {
+            if (this.cache.audio.exists("main-player-coin-pick-sfx")) {
+                this.sound.play("main-player-coin-pick-sfx", { volume: 0.5 });
+            }
+            this.score += value;
+            this.scoreText.setText(`Score: ${this.score}`);
+            console.log(`[MainScene] player picked up coin for +${value}, score=${this.score}`);
+        } else {
+            if (this.cache.audio.exists("main-robot-coin-pick-sfx")) {
+                this.sound.play("main-robot-coin-pick-sfx", { volume: 0.5 });
+            }
+            console.log(`[MainScene] robot picked up coin for +${value}, score unchanged=${this.score}`);
+        }
 
         this.time.delayedCall(3000, () => {
             if (!coin.scene) {

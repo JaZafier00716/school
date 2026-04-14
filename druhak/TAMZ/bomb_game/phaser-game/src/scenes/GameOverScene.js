@@ -1,78 +1,92 @@
 import Phaser, { Scene } from "phaser";
+import { loadTopScores, saveScore } from "../utils/gameStateStorage";
 
 export class GameOverScene extends Scene {
-    end_points = 0;
     constructor() {
         super("GameOverScene");
+        this.finalScore = 0;
+    }
+
+    preload() {
+        this.load.audio("main-game-over-sfx", ["sounds/game_over.mp3", "sounds/game_over"]);
     }
 
     init(data) {
-        this.cameras.main.fadeIn(1000, 0, 0, 0);
-        this.end_points = data.points || 0;
+        this.cameras.main.fadeIn(350, 0, 0, 0);
+        this.finalScore = data?.score || 0;
     }
 
     create() {
-        // Backgrounds
-        this.add.image(0, 0, "background")
-            .setOrigin(0, 0);
-        this.add.image(0, this.scale.height, "floor")
-            .setOrigin(0, 1);
+        const topScores = saveScore(this.finalScore);
 
-        // Rectangles to show the text
-        // Background rectangles
-        this.add.rectangle(
-            0,
-            this.scale.height / 2,
-            this.scale.width,
-            120,
-            0xffffff
-        ).setAlpha(.8).setOrigin(0, 0.5);
-        this.add.rectangle(
-            0,
-            this.scale.height / 2 + 105,
-            this.scale.width,
-            90,
-            0x000000
-        ).setAlpha(.8).setOrigin(0, 0.5);
+        this.add.rectangle(0, 0, this.scale.width, this.scale.height, 0x0a0a14).setOrigin(0, 0);
 
-        const gameover_text = this.add.bitmapText(
-            this.scale.width / 2,
-            this.scale.height / 2,
-            "knighthawks",
-            "GAME\nOVER",
-            62,
-            1
-        )
-        gameover_text.setOrigin(0.5, 0.5);
-        if (this.renderer.type === Phaser.WEBGL && gameover_text.postFX) {
-            gameover_text.postFX.addShine();
+        const panel = this.add.rectangle(
+            this.scale.width * 0.5,
+            this.scale.height * 0.5,
+            620,
+            430,
+            0x1f2937,
+            0.96
+        );
+        panel.setStrokeStyle(3, 0xf87171, 0.85);
+
+        this.add.text(this.scale.width * 0.5, 105, "Game Over", {
+            fontSize: "52px",
+            color: "#f9fafb",
+            fontStyle: "bold"
+        }).setOrigin(0.5);
+
+        this.add.text(this.scale.width * 0.5, 170, `Score: ${this.finalScore}`, {
+            fontSize: "30px",
+            color: "#fde68a",
+            fontStyle: "bold"
+        }).setOrigin(0.5);
+
+        const scoreList = (topScores.length > 0 ? topScores : loadTopScores())
+            .map((score, index) => `${index + 1}. ${score}`)
+            .join("\n");
+
+        this.add.text(this.scale.width * 0.5, 220, "Top 5", {
+            fontSize: "24px",
+            color: "#fca5a5",
+            fontStyle: "bold"
+        }).setOrigin(0.5);
+
+        this.add.text(this.scale.width * 0.5, 250, scoreList || "No scores yet", {
+            fontSize: "22px",
+            color: "#e5e7eb",
+            align: "center"
+        }).setOrigin(0.5, 0);
+
+        this.createButton(this.scale.width * 0.5, 410, "Play Again", () => {
+            this.scene.start("MainScene");
+        });
+
+        this.createButton(this.scale.width * 0.5, 470, "Back To Menu", () => {
+            this.scene.start("MenuScene");
+        });
+
+        if (this.cache.audio.exists("main-game-over-sfx")) {
+            this.sound.play("main-game-over-sfx", { volume: 0.7 });
+        } else {
+            console.warn("[GameOverScene] game over sound is unavailable on this device/browser.");
         }
+    }
 
-        this.add.bitmapText(
-            this.scale.width / 2,
-            this.scale.height / 2 + 85,
-            "pixelfont",
-            `YOUR POINTS: ${this.end_points}`,
-            24
-        ).setOrigin(0.5, 0.5);
+    createButton(x, y, label, onClick) {
+        const button = this.add.rectangle(x, y, 270, 46, 0xb91c1c, 0.96)
+            .setStrokeStyle(2, 0xfca5a5)
+            .setInteractive({ useHandCursor: true });
 
-        this.add.bitmapText(
-            this.scale.width / 2,
-            this.scale.height / 2 + 130,
-            "pixelfont",
-            "CLICK TO RESTART",
-            24
-        ).setOrigin(0.5, 0.5);
+        this.add.text(x, y, label, {
+            fontSize: "21px",
+            color: "#fef2f2",
+            fontStyle: "bold"
+        }).setOrigin(0.5);
 
-        // Click to restart
-        this.time.addEvent({
-            delay: 1000,
-            callback: () => {
-                this.input.on("pointerdown", () => {
-                    this.scene.start("MainScene");
-                });
-            }
-        
-        })
+        button.on("pointerover", () => button.setFillStyle(0xdc2626, 0.98));
+        button.on("pointerout", () => button.setFillStyle(0xb91c1c, 0.96));
+        button.on("pointerdown", onClick);
     }
 }
