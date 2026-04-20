@@ -36,7 +36,18 @@ export class MainScene extends Scene {
         this.isGameOver = false;
         this.gameStartTime = 0;
         this.minePopulationTimer = null;
+        this.coinPileSpawnTimer = null;
         this.coinTiers = [];
+        this.coinPileDelayStartMs = 5000;
+        this.coinPileDelayMinMs = 3000;
+        this.coinPileDelayDecay = 0.9;
+        this.coinPileCurrentDelayMs = this.coinPileDelayStartMs;
+        this.robotCoinTravelTimesMs = [];
+        this.robotCoinTravelWindowSize = 10;
+        this.gameOverTransitionPending = false;
+        this.pendingGameOverTimer = null;
+        this.pendingGameOverSound = null;
+        this.pendingGameOverSoundCompleteHandler = null;
 
         this.mapScale = 0.5;
         this.mapPixelWidth = 0;
@@ -79,6 +90,13 @@ export class MainScene extends Scene {
         const height = this.scale.height;
 
         this.isGameOver = false;
+        this.gameOverTransitionPending = false;
+        this.pendingGameOverTimer = null;
+        this.pendingGameOverSound = null;
+        this.pendingGameOverSoundCompleteHandler = null;
+        this.coinPileSpawnTimer = null;
+        this.coinPileCurrentDelayMs = this.coinPileDelayStartMs;
+        this.robotCoinTravelTimesMs = [];
         this.score = 0;
         this.moveLeft = false;
         this.moveRight = false;
@@ -103,7 +121,7 @@ export class MainScene extends Scene {
         this.player = this.physics.add.sprite(worldWidth * 0.25, worldHeight * 0.5, "main-player-run-0", 0);
         this.player.setCollideWorldBounds(true);
         this.player.setBounce(1);
-        this.player.setScale(2);
+        this.player.setScale(1.5);
         this.player.body.setSize(this.player.frame.width * 0.6, this.player.frame.height * 0.85, true);
 
         this.robot = this.physics.add.sprite(worldWidth * 0.75, worldHeight * 0.5, "main-robot", 0);
@@ -133,6 +151,7 @@ export class MainScene extends Scene {
 
         this.coins = this.physics.add.group();
         this.spawnCoin();
+        this.scheduleNextCoinPileSpawn();
 
         this.randomMines = this.physics.add.group();
         this.homingMines = this.physics.add.group();
@@ -171,8 +190,10 @@ export class MainScene extends Scene {
         }
 
         const cleanupSceneResources = () => {
+            this.cancelPendingGameOverTransition();
             this.input.keyboard?.resetKeys?.();
             this.unbindKeyboardControls();
+            this.input.keyboard.enabled = true;
 
             if (this.backgroundMusic) {
                 this.backgroundMusic.stop();
@@ -183,6 +204,11 @@ export class MainScene extends Scene {
             if (this.minePopulationTimer) {
                 this.minePopulationTimer.remove(false);
                 this.minePopulationTimer = null;
+            }
+
+            if (this.coinPileSpawnTimer) {
+                this.coinPileSpawnTimer.remove(false);
+                this.coinPileSpawnTimer = null;
             }
         };
 
@@ -196,7 +222,7 @@ export class MainScene extends Scene {
     }
 
     update() {
-        if (this.isGameOver || !this.player || !this.robot) {
+        if (this.isGameOver || this.gameOverTransitionPending || !this.player || !this.robot) {
             return;
         }
 
@@ -493,11 +519,16 @@ export class MainScene extends Scene {
     }
 
     spawnCoin() {
+        if (this.gameOverTransitionPending || this.isGameOver) {
+            return null;
+        }
+
         const point = this.randomPoint(24);
         const tier = this.pickCoinTier();
         const coin = this.coins.create(point.x, point.y, tier.key, tier.frame);
 
         coin.setData("coinValue", tier.value);
+        coin.setData("spawnedAtMs", this.time.now);
         this.fitSprite(coin, 28);
         return coin;
     }
@@ -529,7 +560,68 @@ export class MainScene extends Scene {
         return this.coinTiers[index];
     }
 
+    getRobotMeanCoinTravelTimeMs() {
+        if (this.robotCoinTravelTimesMs.length === 0) {
+            return null;
+        }
+
+        const total = this.robotCoinTravelTimesMs.reduce((sum, value) => sum + value, 0);
+        return total / this.robotCoinTravelTimesMs.length;
+    }
+
+    recordRobotCoinTravelTime(coin) {
+        const spawnedAtMs = coin?.getData("spawnedAtMs");
+        if (!Number.isFinite(spawnedAtMs)) {
+            return;
+        }
+
+        const elapsedMs = this.time.now - spawnedAtMs;
+        if (!Number.isFinite(elapsedMs) || elapsedMs <= 0) {
+            return;
+        }
+
+        this.robotCoinTravelTimesMs.push(elapsedMs);
+        if (this.robotCoinTravelTimesMs.length > this.robotCoinTravelWindowSize) {
+            this.robotCoinTravelTimesMs.shift();
+        }
+    }
+
+    getAdaptiveCoinPileDelayMs() {
+        const meanRobotTravelMs = this.getRobotMeanCoinTravelTimeMs();
+        const dynamicFloorMs = Number.isFinite(meanRobotTravelMs)
+            ? Math.max(this.coinPileDelayMinMs, meanRobotTravelMs)
+            : this.coinPileDelayMinMs;
+        const targetFloorMs = Math.min(this.coinPileDelayStartMs, dynamicFloorMs);
+
+        return Math.max(targetFloorMs, this.coinPileCurrentDelayMs * this.coinPileDelayDecay);
+    }
+
+    scheduleNextCoinPileSpawn() {
+        if (!this.scene.isActive() || this.gameOverTransitionPending || this.isGameOver) {
+            return;
+        }
+
+        if (this.coinPileSpawnTimer) {
+            this.coinPileSpawnTimer.remove(false);
+            this.coinPileSpawnTimer = null;
+        }
+
+        this.coinPileSpawnTimer = this.time.delayedCall(this.coinPileCurrentDelayMs, () => {
+            if (!this.scene.isActive() || this.gameOverTransitionPending || this.isGameOver) {
+                return;
+            }
+
+            this.spawnCoin();
+            this.coinPileCurrentDelayMs = this.getAdaptiveCoinPileDelayMs();
+            this.scheduleNextCoinPileSpawn();
+        });
+    }
+
     spawnRandomMine() {
+        if (this.gameOverTransitionPending || this.isGameOver) {
+            return null;
+        }
+
         const point = this.randomPoint(40);
         const mine = this.randomMines.create(point.x, point.y, "main-random-mine");
 
@@ -544,6 +636,10 @@ export class MainScene extends Scene {
     }
 
     spawnHomingMine() {
+        if (this.gameOverTransitionPending || this.isGameOver) {
+            return null;
+        }
+
         const point = this.randomPoint(40);
         const mine = this.homingMines.create(point.x, point.y, "main-homing-mine");
 
@@ -573,7 +669,7 @@ export class MainScene extends Scene {
     }
 
     rebalanceMinePopulation() {
-        if (!this.scene.isActive()) {
+        if (!this.scene.isActive() || this.gameOverTransitionPending || this.isGameOver) {
             return;
         }
 
@@ -594,7 +690,7 @@ export class MainScene extends Scene {
     }
 
     explodeMine(mine) {
-        if (!mine || !mine.active) {
+        if (!mine || !mine.active || this.gameOverTransitionPending || this.isGameOver) {
             return;
         }
 
@@ -603,8 +699,11 @@ export class MainScene extends Scene {
         const explosionDurationMs = this.getExplosionDurationMs();
         console.log(`[MainScene] ${mineType} bomb exploded at (${Math.round(mine.x)}, ${Math.round(mine.y)})`);
 
-        if (this.cache.audio.exists("main-explosion-sfx")) {
-            this.sound.play("main-explosion-sfx", { volume: 0.5 });
+        const explosionSound = this.cache.audio.exists("main-explosion-sfx")
+            ? this.sound.add("main-explosion-sfx", { volume: 0.5 })
+            : null;
+        if (explosionSound) {
+            explosionSound.play();
         }
 
         const explosion = this.add.sprite(mine.x, mine.y, this.explosionTextureKey, 0);
@@ -613,7 +712,7 @@ export class MainScene extends Scene {
         if (this.player?.active) {
             const distanceToPlayer = Phaser.Math.Distance.Between(mine.x, mine.y, this.player.x, this.player.y);
             if (distanceToPlayer <= this.mineKillRadius) {
-                this.triggerGameOver();
+                this.triggerGameOver(explosionSound);
             }
         }
 
@@ -636,7 +735,7 @@ export class MainScene extends Scene {
         }
 
         this.time.delayedCall(respawnDelay, () => {
-            if (!this.scene.isActive()) {
+            if (!this.scene.isActive() || this.gameOverTransitionPending || this.isGameOver) {
                 return;
             }
 
@@ -649,38 +748,108 @@ export class MainScene extends Scene {
     }
 
     handleHomingMineHit(_player, mine) {
+        if (this.gameOverTransitionPending || this.isGameOver) {
+            return;
+        }
+
         this.explodeMine(mine);
     }
 
     handleRandomMineHit(_player, mine) {
-        this.explodeMine(mine);
-    }
-
-    triggerGameOver() {
-        if (this.isGameOver) {
+        if (this.gameOverTransitionPending || this.isGameOver) {
             return;
         }
 
-        this.isGameOver = true;
+        this.explodeMine(mine);
+    }
 
-        if (this.minePopulationTimer) {
-            this.minePopulationTimer.remove(false);
-            this.minePopulationTimer = null;
+    triggerGameOver(explosionSound = null) {
+        if (this.isGameOver || this.gameOverTransitionPending) {
+            return;
         }
+
+        this.gameOverTransitionPending = true;
+        this.freezePlayerInput();
+
+        const startGameOverScene = () => {
+            if (this.isGameOver) {
+                return;
+            }
+
+            this.isGameOver = true;
+            this.cancelPendingGameOverTransition();
+            this.scene.start("GameOverScene", { score: this.score });
+        };
+
+        const fallbackDelay = this.getExplosionDurationMs();
+        this.pendingGameOverTimer = this.time.delayedCall(fallbackDelay + 50, () => {
+            startGameOverScene();
+        });
+
+        if (explosionSound) {
+            this.pendingGameOverSound = explosionSound;
+            this.pendingGameOverSoundCompleteHandler = () => {
+                startGameOverScene();
+            };
+            this.pendingGameOverSound.once(Phaser.Sound.Events.COMPLETE, this.pendingGameOverSoundCompleteHandler);
+        }
+    }
+
+    freezePlayerInput() {
+        this.moveLeft = false;
+        this.moveRight = false;
+        this.moveUp = false;
+        this.moveDown = false;
+
+        this.input.keyboard?.resetKeys?.();
+        this.unbindKeyboardControls();
+        this.input.keyboard.enabled = false;
+
+        this.player?.anims?.stop?.();
+        this.robot?.anims?.stop?.();
+
+        this.physics.world.pause();
 
         if (this.player?.body) {
-            this.player.body.enable = false;
             this.player.setVelocity(0, 0);
-            this.player.setVisible(false);
         }
 
-        this.time.delayedCall(120, () => {
-            this.scene.start("GameOverScene", { score: this.score });
-        });
+        if (this.robot?.body) {
+            this.robot.setVelocity(0, 0);
+        }
+
+        if (this.randomMines) {
+            this.randomMines.getChildren().forEach((mine) => {
+                mine.setVelocity(0, 0);
+            });
+        }
+
+        if (this.homingMines) {
+            this.homingMines.getChildren().forEach((mine) => {
+                mine.setVelocity(0, 0);
+            });
+        }
+    }
+
+    cancelPendingGameOverTransition() {
+        if (this.pendingGameOverTimer) {
+            this.pendingGameOverTimer.remove(false);
+            this.pendingGameOverTimer = null;
+        }
+
+        if (this.pendingGameOverSound) {
+            if (this.pendingGameOverSoundCompleteHandler) {
+                this.pendingGameOverSound.off(Phaser.Sound.Events.COMPLETE, this.pendingGameOverSoundCompleteHandler);
+            }
+            this.pendingGameOverSound.stop();
+            this.pendingGameOverSound.destroy();
+            this.pendingGameOverSound = null;
+            this.pendingGameOverSoundCompleteHandler = null;
+        }
     }
 
     handleCoinCollected(collector, coin) {
-        if (!coin.active) {
+        if (!coin.active || this.gameOverTransitionPending || this.isGameOver) {
             return;
         }
 
@@ -696,6 +865,7 @@ export class MainScene extends Scene {
             this.scoreText.setText(`Score: ${this.score}`);
             console.log(`[MainScene] player picked up coin for +${value}, score=${this.score}`);
         } else {
+            this.recordRobotCoinTravelTime(coin);
             if (this.cache.audio.exists("main-robot-coin-pick-sfx")) {
                 this.sound.play("main-robot-coin-pick-sfx", { volume: 0.5 });
             }
@@ -703,13 +873,14 @@ export class MainScene extends Scene {
         }
 
         this.time.delayedCall(3000, () => {
-            if (!coin.scene) {
+            if (!coin.scene || this.gameOverTransitionPending || this.isGameOver) {
                 return;
             }
 
             const point = this.randomPoint(24);
             const tier = this.pickCoinTier();
             coin.setData("coinValue", tier.value);
+            coin.setData("spawnedAtMs", this.time.now);
             coin.enableBody(true, point.x, point.y, true, true);
             coin.setTexture(tier.key, tier.frame);
         });
