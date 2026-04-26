@@ -1,0 +1,146 @@
+You are a senior software engineer.
+
+Generate a simple Java backend application (no fancy UI needed, console or minimal REST API is enough) that works with a Oracle SQL database.
+
+The application is part of a university project for Information Systems (Database Systems II). The goal is NOT production readiness but correct implementation of database logic and transactional behavior.
+
+---
+
+## TECHNOLOGY REQUIREMENTS
+
+- Java 21+
+- JDBC (or simple ORM if necessary, but JDBC preferred for transparency)
+- Oracle Database (T-SQL database)
+- Simple frontend website
+- Simple REST API (Spring Boot optional but preferred)
+- Focus on correctness of database operations, not UI
+
+---
+
+## DATABASE DOMAIN
+
+The system is a catering menu management system.
+
+Main entities:
+- users
+- roles
+- projects
+- project_collaborators
+- menus
+- menu_versions
+- sections
+- menu_items
+- items
+- templates
+
+---
+
+## CORE FUNCTION TO IMPLEMENT
+
+Implement a complex transactional feature:
+
+### CreateNewMenuVersion
+
+This function must:
+
+1. Accept:
+   - menu_id
+   - user_id
+
+2. Validate:
+   - user has access to project (via project_collaborators)
+
+3. Retrieve:
+   - active_version_id from projects
+
+4. Create:
+   - new menu_versions record (increment version_number)
+
+5. Copy:
+   - all sections from active version to new version
+   - all menu_items linked to those sections
+   - preserve structure using old_section_id → new_section_id mapping
+
+6. Update:
+   - optionally set new version as active version in projects
+
+7. Must be implemented in TWO ways:
+   a) SQL Server stored procedure (T-SQL transaction)
+   b) Java service layer (JDBC transaction)
+
+---
+
+## IMPORTANT REQUIREMENTS
+
+- Must use explicit SQL transactions
+- Must include rollback on error
+- Must ensure referential integrity
+- Must use proper mapping between old and new IDs
+- Must demonstrate multi-table DML operations (INSERT + SELECT + UPDATE)
+- Must NOT be only SELECT queries
+
+---
+
+## OUTPUT EXPECTED
+
+Generate:
+
+1. SQL Server schema (if needed adjustments)
+2. Stored procedure for CreateNewMenuVersion
+3. Java service class:
+   - MenuService
+   - method createNewMenuVersion(menuId, userId)
+   - transactional JDBC handling
+
+4. Simple explanation of flow
+
+---
+
+## SIMPLICITY RULE
+
+Do not focus on UI, styling, authentication frameworks or frontend.
+Focus only on:
+- database logic
+- transaction correctness
+- correctness of copying versioned data
+
+---
+
+## MUST INCLUDE
+
+1. PL/SQL stored procedure:
+   - Uses transaction
+   - Uses RETURNING INTO
+   - Uses sequences
+   - Includes EXCEPTION handling
+
+2. Java implementation:
+   - Uses JDBC
+   - Uses manual transaction (commit/rollback)
+   - Calls stored procedure
+   - Also implements logic directly in Java (for comparison)
+
+---
+
+## DATABASE FEATURES
+
+- versioning system (menu_versions)
+- copying sections and menu_items
+- mapping old_section_id → new_section_id
+- validation using project_collaborators
+
+---
+
+## IMPORTANT
+
+- Use Oracle syntax (NOT SQL Server)
+- Use DATE instead of datetime
+- Use NUMBER instead of int/bit
+- Use VARCHAR2 instead of nvarchar
+
+---
+
+This is an academic assignment focused on database systems.
+Do NOT overengineer. Focus on correctness.
+
+This is an academic assignment, not a production system.
