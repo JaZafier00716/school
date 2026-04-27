@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Section</title>
+</head>
+<body>
+<h1>Create Section</h1>
+<form th:action="@{/ui/sections/create}" th:object="${request}" method="post">
+    <input type="hidden" th:field="*{versionId}"/>
+    <p>Version ID: <span th:text="${versionId}"></span></p>
+    <label>Name: <input type="text" th:field="*{name}"/></label><br/>
+    <label>Display Order: <input type="number" th:field="*{displayOrder}"/></label><br/>
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
