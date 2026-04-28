@@ -158,7 +158,7 @@ Zajišťuje vytvoření nové verze menu jako snapshotu aktuální verze.
     created_at
 )
 SELECT
-    v_section_map[mi.section_id],   -- mapování staré → nové sekce
+    v_section_map[mi.section_id],
     mi.item_id,
     mi.servings_per_person,
     mi.price_at_version,
