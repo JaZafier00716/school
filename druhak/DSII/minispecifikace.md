@@ -148,46 +148,29 @@ Zajišťuje vytvoření nové verze menu jako snapshotu aktuální verze.
    Při kopírování se využívá mapování sekcí, aby položky odkazovaly na nové sekce.
 
 ```sql
-   FOR EACH item_rec IN (
-        SELECT section_id, item_id, servings_per_person,
-               price_at_version, display_order, notes
-        FROM menu_items
-        WHERE section_id IN (
-            SELECT section_id
-            FROM sections
-            WHERE version_id = v_active_version_id
-        )
-    ) LOOP
-
-        INSERT INTO menu_items (
-            section_id,
-            item_id,
-            servings_per_person,
-            price_at_version,
-            display_order,
-            notes,
-            created_at
-        )
-        VALUES (
-            v_section_map[item_rec.section_id],
-            item_rec.item_id,
-            item_rec.servings_per_person,
-            item_rec.price_at_version,
-            item_rec.display_order,
-            item_rec.notes,
-            CURRENT_TIMESTAMP
-        );
-
-    END LOOP;
-```
-
-7. **(Volitelné) Nastavení nové verze jako aktivní**  
-   V závislosti na návrhu systému může být nová verze nastavena jako aktivní aktualizací `projects.active_version_id`.
-
-```sql
-    UPDATE projects
-    SET active_version_id = v_new_version_id
-    WHERE project_id = v_project_id;
+ INSERT INTO menu_items (
+    section_id,
+    item_id,
+    servings_per_person,
+    price_at_version,
+    display_order,
+    notes,
+    created_at
+)
+SELECT
+    v_section_map[mi.section_id],   -- mapování staré → nové sekce
+    mi.item_id,
+    mi.servings_per_person,
+    mi.price_at_version,
+    mi.display_order,
+    mi.notes,
+    CURRENT_TIMESTAMP
+FROM menu_items mi
+WHERE mi.section_id IN (
+    SELECT section_id
+    FROM sections
+    WHERE version_id = v_active_version_id
+);
 ```
 
 8. **Commit / Rollback**  
