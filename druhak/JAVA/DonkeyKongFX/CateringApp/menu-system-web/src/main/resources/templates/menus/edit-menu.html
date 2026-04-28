@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Menu</title>
+</head>
+<body>
+<h1>Edit Menu</h1>
+<p th:if="${message}" th:text="${message}"></p>
+<p>Menu ID: <span th:text="${menuId}"></span></p>
+
+<h2>Versions</h2>
+<table border="1">
+    <tr>
+        <th>Version ID</th>
+        <th>Version Number</th>
+        <th>With Prices</th>
+        <th>Open</th>
+    </tr>
+    <tr th:each="version : ${versions}">
+        <td th:text="${version.versionId}"></td>
+        <td th:text="${version.versionNumber}"></td>
+        <td th:text="${version.withPrices}"></td>
+        <td><a th:href="@{/ui/menus/{id}/edit(id=${menuId},versionId=${version.versionId})}">Show Sections</a></td>
+    </tr>
+</table>
+
+<h3>Clone New Version</h3>
+<form th:action="@{/ui/menus/{id}/versions(id=${menuId})}" th:object="${cloneRequest}" method="post">
+    <label>User ID: <input type="number" th:field="*{userId}"/></label>
+    <button type="submit">Clone Version</button>
+</form>
+
+<h3>Switch Active Version (Project)</h3>
+<form th:action="@{/ui/projects/{id}/active-version(id=${menu.projectId},menuId=${menuId})}" th:object="${activeVersionRequest}" method="post">
+    <label>Version ID: <input type="number" th:field="*{versionId}"/></label>
+    <button type="submit">Switch Active</button>
+</form>
+
+<h2>Sections For Version <span th:text="${selectedVersionId}"></span></h2>
+<p><a th:if="${selectedVersionId != null}" th:href="@{/ui/sections/create(versionId=${selectedVersionId})}">Create Section</a></p>
+<table border="1" th:if="${!#lists.isEmpty(sections)}">
+    <tr>
+        <th>Section ID</th>
+        <th>Name</th>
+        <th>Display Order</th>
+        <th>Edit</th>
+    </tr>
+    <tr th:each="section : ${sections}">
+        <td th:text="${section.sectionId}"></td>
+        <td th:text="${section.name}"></td>
+        <td th:text="${section.displayOrder}"></td>
+        <td><a th:href="@{/ui/sections/{id}/edit(id=${section.sectionId})}">Edit</a></td>
+    </tr>
+</table>
+
+<p><a th:href="@{/ui/menus/create}">Back to Create Menu</a></p>
+</body>
+</html>
