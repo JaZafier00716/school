@@ -1,0 +1,5 @@
+ulozena procedura
+
+implementace v aplikaci - plsql/tsql, v jave, nepouzivat zadne ormka, 
+vytvoreni zakladniho orm rucne, vytvoreni vlastnich metod, ktere potom nasledne pouzijeme
+- muzeme pouzit jdbc pro low level, zadny hibernate ani podobny framework
