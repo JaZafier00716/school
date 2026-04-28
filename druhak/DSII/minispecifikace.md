@@ -34,55 +34,7 @@ Zajišťuje vytvoření nové verze menu jako snapshotu aktuální verze.
    Následně je ověřeno, že uživatel (`p_user_id`) má přístup k projektu v tabulce `project_collaborators`.  
    V opačném případě je vyvolána chyba.
 
-2. **Získání aktuální verze menu**  
-   Načte se `active_version_id` z tabulky `projects` dle `project_id`.  
-   Je ověřeno, že aktivní verze existuje.
-
-3. **Výpočet čísla nové verze**  
-   Z tabulky `menu_versions` se zjistí `MAX(version_number) + 1`.
-
-4. **Vytvoření nové verze menu**  
-   Vytvoří se nový záznam v tabulce `menu_versions` na základě aktivní verze.
-
-5. **Kopírování sekcí**  
-   Pro každou sekci z aktuální verze se vytvoří nový záznam v tabulce `sections`.  
-   Mezi starými a novými sekcemi je vytvořeno mapování: old_section_id -> new_section_id.
-
-6. **Kopírování položek menu**  
-   Pro každou sekci se zkopírují položky z tabulky `menu_items`.  
-   Při kopírování se využívá mapování sekcí, aby položky odkazovaly na nové sekce.
-
-7. **(Volitelné) Nastavení nové verze jako aktivní**  
-   V závislosti na návrhu systému může být nová verze nastavena jako aktivní aktualizací `projects.active_version_id`.
-
-8. **Commit / Rollback**  
-   Pokud všechny kroky proběhnou úspěšně, transakce se commitne.  
-   V případě chyby se provede rollback, aby nedošlo k nekonzistenci dat.
-
----
-
-## Pseudokód
 ```sql
-FUNCTION CreateNewMenuVersion(
-    p_menu_id IN NUMBER,
-    p_user_id IN NUMBER
-) RETURN NUMBER
-IS
-
-    v_new_version_id NUMBER;
-    v_new_version_number NUMBER;
-    v_project_id NUMBER;
-    v_active_version_id NUMBER;
-
-    -- mapování starých sekcí na nové
-    TYPE section_map_type IS MAP<NUMBER, NUMBER>;
-    v_section_map section_map_type;
-
-BEGIN
-
-    -- =========================
-    -- 1. VALIDACE PŘÍSTUPU
-    -- =========================
     SELECT project_id
     INTO v_project_id
     FROM menus
@@ -96,12 +48,14 @@ BEGIN
     ) THEN
         RAISE ERROR 'User has no access to this project';
     END IF;
+```
 
+2. **Získání aktuální verze menu**  
+   Načte se `active_version_id` z tabulky `projects` dle `project_id`.  
+   Je ověřeno, že aktivní verze existuje.
 
-    -- =========================
-    -- 2. ZÍSKÁNÍ AKTIVNÍ VERZE
-    -- =========================
-    SELECT active_version_id
+```sql
+   SELECT active_version_id
     INTO v_active_version_id
     FROM projects
     WHERE project_id = v_project_id;
@@ -118,12 +72,13 @@ BEGIN
     ) THEN
         RAISE ERROR 'Active version does not exist';
     END IF;
+```
 
+3. **Výpočet čísla nové verze**  
+   Z tabulky `menu_versions` se zjistí `MAX(version_number) + 1`.
 
-    -- =========================
-    -- 3. VÝPOČET ČÍSLA VERZE
-    -- =========================
-    SELECT MAX(version_number) + 1
+```sql
+   SELECT MAX(version_number) + 1
     INTO v_new_version_number
     FROM menu_versions
     WHERE menu_id = p_menu_id;
@@ -131,13 +86,13 @@ BEGIN
     IF v_new_version_number IS NULL THEN
         v_new_version_number := 1;
     END IF;
+```
 
+4. **Vytvoření nové verze menu**  
+   Vytvoří se nový záznam v tabulce `menu_versions` na základě aktivní verze.
 
-    -- =========================
-    -- 4. VYTVOŘENÍ NOVÉ VERZE
-    -- =========================
+```sql
     INSERT INTO menu_versions (
-        version_id,
         menu_id,
         template_id,
         version_number,
@@ -145,7 +100,6 @@ BEGIN
         created_at
     )
     SELECT
-        NEXT_ID(),                -- pseudokód pro sekvenci
         mv.menu_id,
         mv.template_id,
         v_new_version_number,
@@ -154,11 +108,13 @@ BEGIN
     FROM menu_versions mv
     WHERE mv.version_id = v_active_version_id
     RETURNING version_id INTO v_new_version_id;
+```
 
+5. **Kopírování sekcí**  
+   Pro každou sekci z aktuální verze se vytvoří nový záznam v tabulce `sections`.  
+   Mezi starými a novými sekcemi je vytvořeno mapování: old_section_id -> new_section_id.
 
-    -- =========================
-    -- 5. KOPÍROVÁNÍ SEKCÍ
-    -- =========================
+```sql
     FOR EACH section IN (
         SELECT section_id, name, display_order
         FROM sections
@@ -168,14 +124,12 @@ BEGIN
         DECLARE v_new_section_id NUMBER;
 
         INSERT INTO sections (
-            section_id,
             version_id,
             name,
             display_order,
             created_at
         )
         VALUES (
-            NEXT_ID(),
             v_new_version_id,
             section.name,
             section.display_order,
@@ -187,12 +141,14 @@ BEGIN
         v_section_map[section.section_id] := v_new_section_id;
 
     END LOOP;
+```
 
+6. **Kopírování položek menu**  
+   Pro každou sekci se zkopírují položky z tabulky `menu_items`.  
+   Při kopírování se využívá mapování sekcí, aby položky odkazovaly na nové sekce.
 
-    -- =========================
-    -- 6. KOPÍROVÁNÍ POLOŽEK
-    -- =========================
-    FOR EACH item_rec IN (
+```sql
+   FOR EACH item_rec IN (
         SELECT section_id, item_id, servings_per_person,
                price_at_version, display_order, notes
         FROM menu_items
@@ -204,7 +160,6 @@ BEGIN
     ) LOOP
 
         INSERT INTO menu_items (
-            menu_item_id,
             section_id,
             item_id,
             servings_per_person,
@@ -214,7 +169,6 @@ BEGIN
             created_at
         )
         VALUES (
-            NEXT_ID(),
             v_section_map[item_rec.section_id],
             item_rec.item_id,
             item_rec.servings_per_person,
@@ -225,23 +179,25 @@ BEGIN
         );
 
     END LOOP;
+```
 
+7. **(Volitelné) Nastavení nové verze jako aktivní**  
+   V závislosti na návrhu systému může být nová verze nastavena jako aktivní aktualizací `projects.active_version_id`.
 
-    -- =========================
-    -- 7. (VOLITELNÉ) AKTIVACE
-    -- =========================
+```sql
     UPDATE projects
     SET active_version_id = v_new_version_id
     WHERE project_id = v_project_id;
+```
 
+8. **Commit / Rollback**  
+   Pokud všechny kroky proběhnou úspěšně, transakce se commitne.  
+   V případě chyby se provede rollback, aby nedošlo k nekonzistenci dat.
 
-    -- =========================
-    -- 8. COMMIT
-    -- =========================
+```sql
     COMMIT;
 
     RETURN v_new_version_id;
-
 
 EXCEPTION
 
