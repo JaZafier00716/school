@@ -34,195 +34,163 @@ Zajišťuje vytvoření nové verze menu jako snapshotu aktuální verze.
    Následně je ověřeno, že uživatel (`p_user_id`) má přístup k projektu v tabulce `project_collaborators`.  
    V opačném případě je vyvolána chyba.
 
+```sql
+    SELECT project_id
+    INTO v_project_id
+    FROM menus
+    WHERE menu_id = p_menu_id;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM project_collaborators
+        WHERE project_id = v_project_id
+          AND user_id = p_user_id
+    ) THEN
+        RAISE ERROR 'User has no access to this project';
+    END IF;
+```
+
 2. **Získání aktuální verze menu**  
    Načte se `active_version_id` z tabulky `projects` dle `project_id`.  
    Je ověřeno, že aktivní verze existuje.
 
+```sql
+   SELECT active_version_id
+    INTO v_active_version_id
+    FROM projects
+    WHERE project_id = v_project_id;
+
+    IF v_active_version_id IS NULL THEN
+        RAISE ERROR 'No active version set';
+    END IF;
+
+    -- ověření existence verze
+    IF NOT EXISTS (
+        SELECT 1
+        FROM menu_versions
+        WHERE version_id = v_active_version_id
+    ) THEN
+        RAISE ERROR 'Active version does not exist';
+    END IF;
+```
+
 3. **Výpočet čísla nové verze**  
    Z tabulky `menu_versions` se zjistí `MAX(version_number) + 1`.
 
+```sql
+   SELECT MAX(version_number) + 1
+    INTO v_new_version_number
+    FROM menu_versions
+    WHERE menu_id = p_menu_id;
+
+    IF v_new_version_number IS NULL THEN
+        v_new_version_number := 1;
+    END IF;
+```
+
 4. **Vytvoření nové verze menu**  
    Vytvoří se nový záznam v tabulce `menu_versions` na základě aktivní verze.
+
+```sql
+    INSERT INTO menu_versions (
+        menu_id,
+        template_id,
+        version_number,
+        with_prices,
+        created_at
+    )
+    SELECT
+        mv.menu_id,
+        mv.template_id,
+        v_new_version_number,
+        mv.with_prices,
+        CURRENT_TIMESTAMP
+    FROM menu_versions mv
+    WHERE mv.version_id = v_active_version_id
+    RETURNING version_id INTO v_new_version_id;
+```
 
 5. **Kopírování sekcí**  
    Pro každou sekci z aktuální verze se vytvoří nový záznam v tabulce `sections`.  
    Mezi starými a novými sekcemi je vytvořeno mapování: old_section_id -> new_section_id.
 
+```sql
+    FOR EACH section IN (
+        SELECT section_id, name, display_order
+        FROM sections
+        WHERE version_id = v_active_version_id
+    ) LOOP
+
+        DECLARE v_new_section_id NUMBER;
+
+        INSERT INTO sections (
+            version_id,
+            name,
+            display_order,
+            created_at
+        )
+        VALUES (
+            v_new_version_id,
+            section.name,
+            section.display_order,
+            CURRENT_TIMESTAMP
+        )
+        RETURNING section_id INTO v_new_section_id;
+
+        -- mapování old → new
+        v_section_map[section.section_id] := v_new_section_id;
+
+    END LOOP;
+```
+
 6. **Kopírování položek menu**  
    Pro každou sekci se zkopírují položky z tabulky `menu_items`.  
    Při kopírování se využívá mapování sekcí, aby položky odkazovaly na nové sekce.
 
-7. **(Volitelné) Nastavení nové verze jako aktivní**  
-   V závislosti na návrhu systému může být nová verze nastavena jako aktivní aktualizací `projects.active_version_id`.
+```sql
+ INSERT INTO menu_items (
+    section_id,
+    item_id,
+    servings_per_person,
+    price_at_version,
+    display_order,
+    notes,
+    created_at
+)
+SELECT
+    v_section_map[mi.section_id],
+    mi.item_id,
+    mi.servings_per_person,
+    mi.price_at_version,
+    mi.display_order,
+    mi.notes,
+    CURRENT_TIMESTAMP
+FROM menu_items mi
+WHERE mi.section_id IN (
+    SELECT section_id
+    FROM sections
+    WHERE version_id = v_active_version_id
+);
+```
 
 8. **Commit / Rollback**  
    Pokud všechny kroky proběhnou úspěšně, transakce se commitne.  
    V případě chyby se provede rollback, aby nedošlo k nekonzistenci dat.
 
----
-
-## Pseudokód
 ```sql
-PROCEDURE CreateNewMenuVersion(
- p_menu_id IN NUMBER,
- p_user_id IN NUMBER
-) IS
+    COMMIT;
 
- v_new_version_id NUMBER;
- v_new_version_number NUMBER;
- v_project_id NUMBER;
- v_active_version_id NUMBER;
+    RETURN v_new_version_id;
 
- TYPE section_map_type IS TABLE OF NUMBER INDEX BY NUMBER;
- v_section_map section_map_type;
-
-BEGIN
-
--- 1. validace přístupu
-SELECT m.project_id
-INTO v_project_id
-FROM menus m
-WHERE m.menu_id = p_menu_id;
-
-IF NOT EXISTS (
- SELECT 1
- FROM project_collaborators pc
- WHERE pc.project_id = v_project_id
-   AND pc.user_id = p_user_id
-) THEN
- RAISE_APPLICATION_ERROR(-20001, 'User has no access to this project');
-END IF;
-
--- 2. zjištění aktivní verze
-SELECT active_version_id
-INTO v_active_version_id
-FROM projects
-WHERE project_id = v_project_id;
-
--- 2b. validace existence aktivní verze
-IF v_active_version_id IS NULL THEN
-    RAISE_APPLICATION_ERROR(-20004, 'No active version set for this project');
-END IF;
-
--- ověření, že verze existuje
-DECLARE
-    v_dummy NUMBER;
-BEGIN
-    SELECT 1
-    INTO v_dummy
-    FROM menu_versions
-    WHERE version_id = v_active_version_id;
 EXCEPTION
+
     WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20005, 'Active version does not exist');
-END;
+        ROLLBACK;
+        RAISE ERROR 'Menu or project not found';
 
--- 3. výpočet čísla nové verze
-SELECT NVL(MAX(version_number), 0) + 1
-INTO v_new_version_number
-FROM menu_versions
-WHERE menu_id = p_menu_id;
-
--- 4. vytvoření nové verze
-INSERT INTO menu_versions (
- version_id,
- menu_id,
- template_id,
- version_number,
- with_prices,
- created_at
-)
-SELECT
- menu_versions_seq.NEXTVAL,
- mv.menu_id,
- mv.template_id,
- v_new_version_number,
- mv.with_prices,
- SYSDATE
-FROM menu_versions mv
-WHERE mv.version_id = v_active_version_id
-RETURNING version_id INTO v_new_version_id;
-
--- 5. kopírování sekcí
-FOR rec IN (
- SELECT section_id, name, display_order
- FROM sections
- WHERE version_id = v_active_version_id
-) LOOP
-
- DECLARE
-     v_new_section_id NUMBER;
- BEGIN
-     INSERT INTO sections (
-         section_id,
-         version_id,
-         name,
-         display_order,
-         created_at
-     )
-     VALUES (
-         sections_seq.NEXTVAL,
-         v_new_version_id,
-         rec.name,
-         rec.display_order,
-         SYSDATE
-     )
-     RETURNING section_id INTO v_new_section_id;
-
-     v_section_map(rec.section_id) := v_new_section_id;
- END;
-
-END LOOP;
-
--- 6. kopírování položek
-FOR rec IN (
- SELECT section_id, item_id, servings_per_person,
-        price_at_version, display_order, notes
- FROM menu_items
- WHERE section_id IN (
-     SELECT section_id
-     FROM sections
-     WHERE version_id = v_active_version_id
- )
-) LOOP
-
- INSERT INTO menu_items (
-     menu_item_id,
-     section_id,
-     item_id,
-     servings_per_person,
-     price_at_version,
-     display_order,
-     notes,
-     created_at
- )
- VALUES (
-     menu_items_seq.NEXTVAL,
-     v_section_map(rec.section_id),
-     rec.item_id,
-     rec.servings_per_person,
-     rec.price_at_version,
-     rec.display_order,
-     rec.notes,
-     SYSDATE
- );
-
-END LOOP;
-
-COMMIT;
-
-EXCEPTION
-
-WHEN NO_DATA_FOUND THEN
- ROLLBACK;
- RAISE_APPLICATION_ERROR(-20002, 'Menu or project not found');
-
-WHEN TOO_MANY_ROWS THEN
- ROLLBACK;
- RAISE_APPLICATION_ERROR(-20003, 'Unexpected multiple rows');
-
-WHEN OTHERS THEN
- ROLLBACK;
- RAISE_APPLICATION_ERROR(-20099, 'Unexpected error: ' || SQLERRM);
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE ERROR 'Unexpected error';
 
 END;
+```
