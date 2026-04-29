@@ -63,6 +63,7 @@ async function fetchRoute(from: LatLng, to: LatLng): Promise<RoutePoint[]> {
 
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const headingSamplesRef = useRef<number[]>([]);
+  const isMountedRef = useRef(true);
 
   const [permissionError, setPermissionError] = useState<string | null>(null);
   const [sensorGranted, setSensorGranted] = useState<boolean>(false);
@@ -193,20 +194,32 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   const selectTarget = useCallback(
     async (point: LatLng) => {
-      setTarget(point);
+      if (!isMountedRef.current) return;
+
+      if (isMountedRef.current) {
+        setTarget(point);
+      }
 
       if (!currentPosition) {
-        setRoutePoints([]);
+        if (isMountedRef.current) {
+          setRoutePoints([]);
+        }
         return;
       }
 
-      setIsFetchingRoute(true);
+      if (isMountedRef.current) {
+        setIsFetchingRoute(true);
+      }
 
       try {
         const path = await fetchRoute(currentPosition, point);
-        setRoutePoints(path);
+        if (isMountedRef.current) {
+          setRoutePoints(path);
+        }
       } finally {
-        setIsFetchingRoute(false);
+        if (isMountedRef.current) {
+          setIsFetchingRoute(false);
+        }
       }
     },
     [currentPosition]
@@ -256,6 +269,12 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     ]
   );
 
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+
   return <NavigationContext.Provider value={value}>{children}</NavigationContext.Provider>;
 }
 
@@ -268,5 +287,3 @@ export function useNavigationDashboard() {
 
   return context;
 }
-
-

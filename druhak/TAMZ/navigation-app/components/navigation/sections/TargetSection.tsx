@@ -1,4 +1,3 @@
-import { Link } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 
 import { SectionCard } from '../SectionCard';
@@ -21,12 +20,6 @@ export function TargetSection() {
           </Text>
 
           <View style={styles.buttonRow}>
-            <Link href="/(tabs)/map" asChild>
-              <Pressable style={styles.primaryButton}>
-                <Text style={styles.primaryButtonText}>Open Map</Text>
-              </Pressable>
-            </Link>
-
             <Pressable onPress={clearTarget} style={styles.secondaryButton}>
               <Text style={styles.secondaryButtonText}>Clear Target</Text>
             </Pressable>
@@ -35,11 +28,6 @@ export function TargetSection() {
       ) : (
         <View style={styles.emptyState}>
           <Text style={styles.readoutMuted}>No target selected yet.</Text>
-          <Link href="/(tabs)/map" asChild>
-            <Pressable style={styles.primaryButton}>
-              <Text style={styles.primaryButtonText}>Choose on Map</Text>
-            </Pressable>
-          </Link>
         </View>
       )}
     </SectionCard>
@@ -54,9 +42,6 @@ const styles = {
     gap: 10,
   },
   buttonRow: {
-    flexDirection: 'row' as const,
-    flexWrap: 'wrap' as const,
-    gap: 8,
     marginTop: 4,
   },
   readout: {
@@ -65,17 +50,6 @@ const styles = {
   },
   readoutMuted: {
     color: '#94a0b5',
-    fontSize: 13,
-  },
-  primaryButton: {
-    backgroundColor: '#202735',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  primaryButtonText: {
-    color: '#f2f2f2',
-    fontWeight: '600' as const,
     fontSize: 13,
   },
   secondaryButton: {

@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { MapSection } from '@/components/navigation/sections/MapSection';
-import { TargetSheet } from '@/components/navigation/sections/TargetSheet';
+import { TargetSection } from '@/components/navigation/sections/TargetSection';
 
 export default function MapTabScreen() {
   return (
@@ -12,10 +12,12 @@ export default function MapTabScreen() {
         <Text style={styles.subtitle}>Choose a destination and keep the compass pinned over the map.</Text>
       </View>
 
-      <View style={styles.mapArea}>
-        <MapSection />
-        <TargetSheet bottomOffset={14} />
-      </View>
+      <ScrollView style={styles.scrollContainer} contentContainerStyle={styles.scrollContent}>
+        <View style={styles.mapArea}>
+          <MapSection />
+        </View>
+        <TargetSection />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -26,6 +28,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#050608',
     paddingHorizontal: 14,
     paddingBottom: 14,
+    gap: 12,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: 14,
+    paddingBottom: 24,
     gap: 12,
   },
   header: {
