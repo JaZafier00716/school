@@ -8,26 +8,34 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Main application entry point.
- * Demonstrates calling the CreateNewMenuVersion stored function and verifying results.
+ * Demonstrates calling the CreateNewMenuVersion stored function or Java implementation and verifying results.
  */
 public class MainApp {
     private static final Logger logger = LoggerFactory.getLogger(MainApp.class);
+
+    private enum ExecutionMode {
+        DATABASE,
+        JAVA
+    }
+
+    private record ResolvedArgs(ExecutionMode mode, long menuId, long userId) {
+    }
 
     public static void main(String[] args) {
         logger.info("=== Menu System Console Application ===");
         logger.info("Starting application...");
 
         try {
-            // Parse command line arguments or use defaults
-            long menuId = parseMenuId(args);
-            long userId = parseUserId(args);
+            ResolvedArgs resolvedArgs = parseArguments(args);
 
             // Initialize DAO
             MenuVersionDaoInterface menuVersionDao = new MenuVersionDao();
 
-            // Call the stored function to create new menu version
-            logger.info("Creating new menu version...");
-            long newVersionId = menuVersionDao.createNewMenuVersion(menuId, userId);
+            // Call the selected implementation to create new menu version
+            logger.info("Creating new menu version using {} implementation...", resolvedArgs.mode());
+            long newVersionId = resolvedArgs.mode() == ExecutionMode.JAVA
+                    ? menuVersionDao.createNewMenuVersionInJava(resolvedArgs.menuId(), resolvedArgs.userId())
+                    : menuVersionDao.createNewMenuVersion(resolvedArgs.menuId(), resolvedArgs.userId());
 
             // Verify the created version
             logger.info("Verifying created version...");
@@ -40,45 +48,51 @@ public class MainApp {
 
         } catch (Exception e) {
             logger.error("Application error: {}", e.getMessage());
-            e.printStackTrace();
+            logger.error("Full stack trace:", e);
             System.exit(1);
         }
     }
 
-    /**
-     * Parses menu ID from command line arguments or returns default.
-     *
-     * @param args Command line arguments
-     * @return Menu ID
-     */
-    private static long parseMenuId(String[] args) {
+    private static ResolvedArgs parseArguments(String[] args) {
+        ExecutionMode mode = ExecutionMode.DATABASE;
+        int offset = 0;
+
         if (args.length > 0) {
-            try {
-                return Long.parseLong(args[0]);
-            } catch (NumberFormatException e) {
-                logger.warn("Invalid menu ID argument: {}, using default", args[0]);
+            ExecutionMode parsedMode = parseMode(args[0]);
+            if (parsedMode != null) {
+                mode = parsedMode;
+                offset = 1;
             }
         }
-        logger.info("Using default menu ID: 1");
-        return 1;
+
+        long menuId = parseLongArgument(args, offset, 1, "menu ID");
+        long userId = parseLongArgument(args, offset + 1, 1, "user ID");
+        return new ResolvedArgs(mode, menuId, userId);
     }
 
-    /**
-     * Parses user ID from command line arguments or returns default.
-     *
-     * @param args Command line arguments
-     * @return User ID
-     */
-    private static long parseUserId(String[] args) {
-        if (args.length > 1) {
+    private static ExecutionMode parseMode(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return switch (value.toLowerCase()) {
+            case "java" -> ExecutionMode.JAVA;
+            case "database", "db", "stored", "stored-function", "function" -> ExecutionMode.DATABASE;
+            default -> null;
+        };
+    }
+
+    private static long parseLongArgument(String[] args, int index, long defaultValue, String label) {
+        if (index < args.length) {
             try {
-                return Long.parseLong(args[1]);
+                return Long.parseLong(args[index]);
             } catch (NumberFormatException e) {
-                logger.warn("Invalid user ID argument: {}, using default", args[1]);
+                logger.warn("Invalid {} argument: {}, using default", label, args[index]);
             }
         }
-        logger.info("Using default user ID: 1");
-        return 1;
+
+        logger.info("Using default {}: {}", label, defaultValue);
+        return defaultValue;
     }
 
     /**

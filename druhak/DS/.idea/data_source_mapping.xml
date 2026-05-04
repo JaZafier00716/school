@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/console.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv3.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv4.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/cv5.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/746bedce-bff9-47eb-9214-82ce900d3b61/test_prac.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
-    <file url="file://$PROJECT_DIR$/projekt.sql" value="746bedce-bff9-47eb-9214-82ce900d3b61" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd/console.sql" value="e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd/console_1.sql" value="e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd" />
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd/console_2.sql" value="e4b92bed-1f2a-419c-a0f0-9ae4ca5c59fd" />
   </component>
 </project>

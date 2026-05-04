@@ -13,17 +13,24 @@ public interface MenuVersionDaoInterface {
      * @param menuId Menu ID
      * @param userId User ID
      * @return Version ID of the newly created menu version
-     * @throws Exception if operation fails
      */
-    long createNewMenuVersion(long menuId, long userId) throws Exception;
+    long createNewMenuVersion(long menuId, long userId);
+
+    /**
+     * Creates a new menu version using the Java/JDBC implementation.
+     *
+     * @param menuId Menu ID
+     * @param userId User ID
+     * @return Version ID of the newly created menu version
+     */
+    long createNewMenuVersionInJava(long menuId, long userId);
 
     /**
      * Retrieves a menu version by its ID.
      *
      * @param versionId Version ID
      * @return MenuVersionDto or null if not found
-     * @throws Exception if operation fails
      */
-    MenuVersionDto getMenuVersion(long versionId) throws Exception;
+    MenuVersionDto getMenuVersion(long versionId);
 }
 

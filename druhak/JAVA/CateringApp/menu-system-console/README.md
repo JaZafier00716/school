@@ -1,12 +1,13 @@
 # Menu System Console Application
 
-Pure backend console application for creating menu versions using Oracle JDBC and stored procedures.
+Pure backend console application for creating menu versions using Oracle JDBC and a Java-side clone implementation.
 
 ## Overview
 
 This console application demonstrates:
 - Plain JDBC database connection (no ORM)
 - Calling Oracle stored functions
+- Running the same clone flow directly in Java
 - Pure data access layer (DAO) pattern
 - No frontend, no Spring, no Hibernate
 - Clean layered architecture
@@ -83,11 +84,28 @@ mvn clean install -DskipTests
 
 ## Running the Application
 
+Choose the implementation at runtime:
+
+- `database` — call the Oracle stored function
+- `java` — run the JDBC implementation in `MenuVersionDao`
+
 ### Default Parameters (Menu ID: 1, User ID: 1)
 
 ```bash
 cd menu-system-console
 java -jar target/menu-system-console-1.0.0.jar
+```
+
+### Stored Function Mode
+
+```bash
+java -jar target/menu-system-console-1.0.0.jar database 1 1
+```
+
+### Java Mode
+
+```bash
+java -jar target/menu-system-console-1.0.0.jar java 1 1
 ```
 
 ### With Custom Menu and User IDs
