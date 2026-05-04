@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 
 import { MapCompassOverlay } from '../MapCompassOverlay';
@@ -56,7 +56,7 @@ export function MapSection() {
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     minHeight: 0,
@@ -72,6 +72,6 @@ const styles = {
     width: '100%',
     borderRadius: 12,
   },
-};
+});
 
 

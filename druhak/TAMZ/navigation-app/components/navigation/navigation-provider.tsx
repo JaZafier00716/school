@@ -64,6 +64,7 @@ async function fetchRoute(from: LatLng, to: LatLng): Promise<RoutePoint[]> {
 export function NavigationProvider({ children }: { children: ReactNode }) {
   const headingSamplesRef = useRef<number[]>([]);
   const isMountedRef = useRef(true);
+  const routeRequestIdRef = useRef(0);
 
   const [permissionError, setPermissionError] = useState<string | null>(null);
   const [sensorGranted, setSensorGranted] = useState<boolean>(false);
@@ -196,28 +197,24 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     async (point: LatLng) => {
       if (!isMountedRef.current) return;
 
-      if (isMountedRef.current) {
-        setTarget(point);
-      }
+      const requestId = ++routeRequestIdRef.current;
+
+      setTarget(point);
 
       if (!currentPosition) {
-        if (isMountedRef.current) {
-          setRoutePoints([]);
-        }
+        setRoutePoints([]);
         return;
       }
 
-      if (isMountedRef.current) {
-        setIsFetchingRoute(true);
-      }
+      setIsFetchingRoute(true);
 
       try {
         const path = await fetchRoute(currentPosition, point);
-        if (isMountedRef.current) {
+        if (isMountedRef.current && routeRequestIdRef.current === requestId) {
           setRoutePoints(path);
         }
       } finally {
-        if (isMountedRef.current) {
+        if (isMountedRef.current && routeRequestIdRef.current === requestId) {
           setIsFetchingRoute(false);
         }
       }
@@ -226,8 +223,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   );
 
   const clearTarget = useCallback(() => {
+    routeRequestIdRef.current += 1;
     setTarget(null);
     setRoutePoints([]);
+    setIsFetchingRoute(false);
   }, []);
 
   const value = useMemo<NavigationContextValue>(

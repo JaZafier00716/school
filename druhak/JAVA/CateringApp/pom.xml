@@ -16,6 +16,7 @@
         <module>menu-system-persistence</module>
         <module>menu-system-service</module>
         <module>menu-system-web</module>
+        <module>menu-system-console</module>
     </modules>
 
     <properties>

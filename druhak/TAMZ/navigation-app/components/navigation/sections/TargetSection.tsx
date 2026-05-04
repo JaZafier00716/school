@@ -3,9 +3,11 @@ import { Pressable, Text, View } from 'react-native';
 import { SectionCard } from '../SectionCard';
 import { useNavigationDashboard } from '../navigation-provider';
 import { formatDistance } from '../navigation-math';
+import { NavigationArrow } from '../NavigationArrow';
 
 export function TargetSection() {
-  const { bearingToTarget, clearTarget, distanceToTarget, target } = useNavigationDashboard();
+  const { bearingToTarget, clearTarget, distanceToTarget, target, relativeArrowRotation } =
+    useNavigationDashboard();
 
   return (
     <SectionCard title="Target Details">
@@ -18,6 +20,8 @@ export function TargetSection() {
           <Text style={styles.readout}>
             Distance: {distanceToTarget != null ? formatDistance(distanceToTarget) : '--'}
           </Text>
+
+          <NavigationArrow rotation={relativeArrowRotation} />
 
           <View style={styles.buttonRow}>
             <Pressable onPress={clearTarget} style={styles.secondaryButton}>
