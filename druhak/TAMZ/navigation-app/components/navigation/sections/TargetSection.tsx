@@ -14,7 +14,7 @@ import { SectionCard } from '../SectionCard';
 import { useNavigationDashboard } from '../navigation-provider';
 import { formatDistance } from '../navigation-math';
 import { NavigationArrow } from '../NavigationArrow';
-import { getAllLocations, saveLocation, deleteLocation, type SavedLocation } from '../location-store';
+import { saveLocation, deleteLocation } from '../location-store';
 
 type NominatimResult = {
   place_id: number;
@@ -24,22 +24,22 @@ type NominatimResult = {
 };
 
 export function TargetSection() {
-  const { bearingToTarget, clearTarget, distanceToTarget, target, relativeArrowRotation, selectTarget } =
-    useNavigationDashboard();
+  const {
+    bearingToTarget,
+    clearTarget,
+    distanceToTarget,
+    target,
+    relativeArrowRotation,
+    selectTarget,
+    savedLocations,
+    refreshSavedLocations,
+  } = useNavigationDashboard();
 
   const [query, setQuery] = useState('');
   const [searching, setSearching] = useState(false);
   const [searchedOnce, setSearchedOnce] = useState(false);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [results, setResults] = useState<NominatimResult[]>([]);
-  const [saved, setSaved] = useState<SavedLocation[]>([]);
-
-  useEffect(() => {
-    void (async () => {
-      const items = await getAllLocations();
-      setSaved(items);
-    })();
-  }, []);
 
   useEffect(() => {
     if (!query || query.trim().length < 2) {
@@ -110,8 +110,9 @@ export function TargetSection() {
       latitude,
       longitude,
     });
-    setSaved((s) => [savedItem, ...s.filter((x) => x.id !== savedItem.id)]);
-  }, []);
+    await refreshSavedLocations();
+    return savedItem;
+  }, [refreshSavedLocations]);
 
   const onSearchPress = useCallback(async () => {
     const trimmed = query.trim();
@@ -129,16 +130,16 @@ export function TargetSection() {
     async (name?: string) => {
       if (!target) return;
       const title = name ?? `Saved ${new Date().toLocaleString()}`;
-      const savedItem = await saveLocation({ name: title, latitude: target.latitude, longitude: target.longitude });
-      setSaved((s) => [savedItem, ...s.filter((x) => x.id !== savedItem.id)]);
+      await saveLocation({ name: title, latitude: target.latitude, longitude: target.longitude });
+      await refreshSavedLocations();
     },
-    [target]
+    [target, refreshSavedLocations]
   );
 
   const onDelete = useCallback(async (id: string) => {
     await deleteLocation(id);
-    setSaved((s) => s.filter((x) => x.id !== id));
-  }, []);
+    await refreshSavedLocations();
+  }, [refreshSavedLocations]);
 
   const renderResult = (item: NominatimResult) => (
     <View style={styles.resultRow}>
@@ -159,7 +160,7 @@ export function TargetSection() {
     </View>
   );
 
-  const renderSaved = (item: SavedLocation) => (
+  const renderSaved = (item: (typeof savedLocations)[number]) => (
     <View style={styles.savedRow}>
       <Pressable onPress={() => void selectTarget({ latitude: item.latitude, longitude: item.longitude })} style={{ flex: 1 }}>
         <Text style={styles.resultText}>{item.name}</Text>
@@ -232,11 +233,11 @@ export function TargetSection() {
         {targetInfo}
 
         <Text style={styles.sectionTitle}>Saved locations</Text>
-        {saved.length === 0 ? (
+        {savedLocations.length === 0 ? (
           <Text style={styles.readoutMuted}>No saved locations yet.</Text>
         ) : (
           <View>
-            {saved.map((item) => (
+            {savedLocations.map((item) => (
               <View key={item.id}>{renderSaved(item)}</View>
             ))}
           </View>

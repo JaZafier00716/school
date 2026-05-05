@@ -8,6 +8,7 @@ import {
   normalizeDegrees,
   smoothHeadingSamples,
 } from './navigation-math';
+import { getAllLocations, type SavedLocation } from './location-store';
 
 export type RoutePoint = LatLng;
 
@@ -26,8 +27,10 @@ type NavigationContextValue = {
   bearingToTarget: number | null;
   relativeArrowRotation: number;
   speedKmh: number | null;
+  savedLocations: SavedLocation[];
   selectTarget: (point: LatLng) => Promise<void>;
   clearTarget: () => void;
+  refreshSavedLocations: () => Promise<void>;
 };
 
 const NavigationContext = createContext<NavigationContextValue | null>(null);
@@ -74,6 +77,14 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
   const [magHeading, setMagHeading] = useState<number>(0);
   const [target, setTarget] = useState<LatLng | null>(null);
   const [routePoints, setRoutePoints] = useState<RoutePoint[]>([]);
+  const [savedLocations, setSavedLocations] = useState<SavedLocation[]>([]);
+
+  const refreshSavedLocations = useCallback(async () => {
+    const saved = await getAllLocations();
+    if (isMountedRef.current) {
+      setSavedLocations(saved);
+    }
+  }, []);
 
   const currentPosition = useMemo<LatLng | null>(() => {
     if (!coords) return null;
@@ -193,6 +204,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     return () => clearInterval(headingTimerId);
   }, []);
 
+  useEffect(() => {
+    void refreshSavedLocations();
+  }, [refreshSavedLocations]);
+
   const selectTarget = useCallback(
     async (point: LatLng) => {
       if (!isMountedRef.current) return;
@@ -245,8 +260,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       bearingToTarget,
       relativeArrowRotation,
       speedKmh,
+      savedLocations,
       selectTarget,
       clearTarget,
+      refreshSavedLocations,
     }),
     [
       permissionError,
@@ -263,8 +280,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       bearingToTarget,
       relativeArrowRotation,
       speedKmh,
+      savedLocations,
       selectTarget,
       clearTarget,
+      refreshSavedLocations,
     ]
   );
 
