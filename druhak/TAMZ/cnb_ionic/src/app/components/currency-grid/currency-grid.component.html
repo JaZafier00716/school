@@ -1,0 +1,34 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="section-title">All currencies</ion-card-title>
+    <ion-card-subtitle>Tap a tile to select the target currency.</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-grid class="currency-grid">
+      <ion-row>
+        <ion-col
+          *ngFor="let currency of currencies; trackBy: trackByCode"
+          size="12"
+          sizeSm="6"
+          sizeMd="4"
+          sizeLg="3"
+        >
+          <button
+            type="button"
+            class="currency-tile"
+            [class.selected]="currency.code === selectedCurrencyCode"
+            (click)="selectCurrency(currency)"
+          >
+            <div class="tile-code">{{ currency.code }}</div>
+            <div class="tile-label">{{ currency.curr_label }}</div>
+            <div class="tile-country">{{ currency.country_label }}</div>
+            <div class="tile-rate">{{ currency.unit }} = {{ currency.rate }} CZK</div>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <p *ngIf="!currencies.length" class="muted-text">No currencies loaded yet.</p>
+  </ion-card-content>
+</ion-card>
+

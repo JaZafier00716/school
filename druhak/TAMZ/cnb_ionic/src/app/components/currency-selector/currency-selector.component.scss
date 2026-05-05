@@ -1,0 +1,22 @@
+:host {
+  display: block;
+}
+
+.selection-summary {
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --background: transparent;
+}
+
+.helper-text {
+  margin-top: 10px;
+}
+
+.currency-list {
+  margin-top: 8px;
+}
+
+ion-item.selected {
+  --background: rgba(0, 102, 204, 0.12);
+}
+

@@ -1,0 +1,12 @@
+<ion-card class="error-card" color="danger">
+  <ion-card-content>
+    <div class="error-layout">
+      <div>
+        <h2>{{ title }}</h2>
+        <p>{{ message }}</p>
+      </div>
+      <ion-button color="light" fill="solid" (click)="retry.emit()">Retry</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>
+

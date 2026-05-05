@@ -1,0 +1,8 @@
+{
+  "name": "cnb-ionic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
+

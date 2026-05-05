@@ -1,0 +1,61 @@
+@import '~@ionic/angular/css/core.css';
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+@import '~@ionic/angular/css/display.css';
+
+@import './theme/variables.scss';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--ion-color-light);
+}
+
+body {
+  /* Ensure readable default text color even if theme variables are missing */
+  color: var(--ion-color-dark, #222);
+}
+
+ion-app {
+  background: linear-gradient(180deg, rgba(0, 102, 204, 0.08) 0%, rgba(255, 255, 255, 1) 30%);
+}
+
+ion-content {
+  --background: transparent;
+}
+
+ion-card {
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(12, 42, 84, 0.08);
+}
+
+.page-shell {
+  padding-bottom: 24px;
+}
+
+.section-title {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+}
+
+.muted-text {
+  color: var(--ion-color-medium);
+}
+
+
+/* Temporary debug override --- forces visible text while diagnosing rendering issues */
+ion-app, ion-app * {
+  color: #222 !important;
+  background-color: transparent !important;
+}
+
+

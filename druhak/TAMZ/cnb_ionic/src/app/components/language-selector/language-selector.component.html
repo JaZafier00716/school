@@ -1,0 +1,16 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="section-title">Language</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-segment [value]="language" (ionChange)="onSegmentChange($event)" [disabled]="disabled">
+      <ion-segment-button value="en">
+        <ion-label>English</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="cs">
+        <ion-label>Čeština</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-card-content>
+</ion-card>
+

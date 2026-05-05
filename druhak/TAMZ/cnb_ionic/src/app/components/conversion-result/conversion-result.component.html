@@ -1,0 +1,45 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="section-title">Conversion result</ion-card-title>
+  </ion-card-header>
+  <ion-card-content *ngIf="selectedCurrency; else emptyState">
+    <div class="result-value">{{ convertedAmount | number: '1.2-4' }}</div>
+    <div class="result-caption">
+      {{ amountCZK | number: '1.0-2' }} CZK → {{ selectedCurrency.code }}
+    </div>
+
+    <ion-list lines="none" class="detail-list">
+      <ion-item>
+        <ion-label>Country</ion-label>
+        <ion-note slot="end">{{ selectedCurrency.country_label }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Currency</ion-label>
+        <ion-note slot="end">{{ selectedCurrency.curr_label }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Code</ion-label>
+        <ion-note slot="end">{{ selectedCurrency.code }}</ion-note>
+      </ion-item>
+      <ion-item>
+        <ion-label>Exchange rate</ion-label>
+        <ion-note slot="end">{{ selectedCurrency.unit }} {{ selectedCurrency.code }} = {{ selectedCurrency.rate }} CZK</ion-note>
+      </ion-item>
+      <ion-item *ngIf="apiResponse">
+        <ion-label>Date</ion-label>
+        <ion-note slot="end">{{ apiResponse.date }}</ion-note>
+      </ion-item>
+      <ion-item *ngIf="apiResponse">
+        <ion-label>Cached</ion-label>
+        <ion-note slot="end">{{ apiResponse.cached ? 'Yes' : 'No' }}</ion-note>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+
+  <ng-template #emptyState>
+    <ion-card-content>
+      <p class="muted-text">Choose a currency to see the converted amount.</p>
+    </ion-card-content>
+  </ng-template>
+</ion-card>
+

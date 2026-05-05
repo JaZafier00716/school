@@ -1,0 +1,27 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="section-title">Date mode</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-label>
+        <h2>Use custom date</h2>
+        <p>Disable this to stream live CNB rates via SSE.</p>
+      </ion-label>
+      <ion-toggle [checked]="customDateEnabled" (ionChange)="onToggleChange($event)"></ion-toggle>
+    </ion-item>
+
+    <div *ngIf="customDateEnabled" class="datetime-wrap">
+      <ion-datetime
+        presentation="date"
+        [value]="selectedDate"
+        [min]="minDate"
+        [max]="maxDate"
+        (ionChange)="onDateChange($event)"
+      ></ion-datetime>
+    </div>
+
+    <ion-chip color="primary" *ngIf="!customDateEnabled">Live SSE mode</ion-chip>
+  </ion-card-content>
+</ion-card>
+
