@@ -1,0 +1,13 @@
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/MainApp.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuCloneSchemaIds.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuVersionCloneInsertDao.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuVersionCloneQueriesDao.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuVersionCloneWorkflow.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuVersionDao.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/MenuVersionDaoInterface.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dao/TransactionsDao.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/db/Database.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/db/DatabaseConfig.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dto/MenuVersionDto.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/com/example/cateringapp/dto/ProjectDto.java
+/home/jan/Documents/School/druhak/DSII/menu-system-console/src/main/java/module-info.java

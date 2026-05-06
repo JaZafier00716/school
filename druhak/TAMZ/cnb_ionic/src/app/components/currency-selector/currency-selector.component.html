@@ -1,42 +1,37 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title class="section-title">Choose currency</ion-card-title>
+    <ion-card-title class="section-title">{{ labels.title }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-item lines="none" class="selection-summary">
       <ion-label>
-        <h2>{{ selectedCurrency ? selectedCurrency.code : 'No currency selected' }}</h2>
+        <h2>{{ selectedCurrency ? selectedCurrency.code : labels.summaryEmpty }}</h2>
         <p *ngIf="selectedCurrency; else emptySelection">
           {{ selectedCurrency.curr_label }} · {{ selectedCurrency.country_label }}
         </p>
         <ng-template #emptySelection>
-          <p>Open the search to pick a currency from the CNB list.</p>
+          <p>{{ labels.summaryHint }}</p>
         </ng-template>
       </ion-label>
       <ion-button fill="outline" color="primary" (click)="openModal()" [disabled]="loading || !currencies.length">
-        Search
+        {{ labels.searchButton }}
       </ion-button>
     </ion-item>
 
-    <p class="muted-text helper-text">Search by country, currency label, code, unit, or rate.</p>
+    <p class="muted-text helper-text">{{ labels.helperText }}</p>
 
     <ion-modal [isOpen]="isModalOpen" (didDismiss)="closeModal()">
       <ng-template>
         <ion-header>
           <ion-toolbar color="primary">
-            <ion-title>Select currency</ion-title>
+            <ion-title>{{ labels.modalTitle }}</ion-title>
             <ion-buttons slot="end">
-              <ion-button fill="clear" color="light" (click)="closeModal()">Close</ion-button>
+              <ion-button fill="clear" color="light" (click)="closeModal()">{{ labels.close }}</ion-button>
             </ion-buttons>
           </ion-toolbar>
         </ion-header>
         <ion-content class="ion-padding">
-          <ion-searchbar
-            [(ngModel)]="searchTerm"
-            placeholder="Search currencies"
-            animated="true"
-            debounce="150"
-          ></ion-searchbar>
+          <ion-searchbar [(ngModel)]="searchTerm" [placeholder]="labels.searchPlaceholder" animated="true" debounce="150"></ion-searchbar>
 
           <ion-list lines="full" class="currency-list">
             <ion-item
@@ -55,7 +50,7 @@
 
             <ion-item *ngIf="!filteredCurrencies.length">
               <ion-label>
-                <p>No currencies matched your search.</p>
+                <p>{{ labels.emptyResults }}</p>
               </ion-label>
             </ion-item>
           </ion-list>

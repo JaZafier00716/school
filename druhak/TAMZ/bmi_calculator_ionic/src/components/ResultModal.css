@@ -1,0 +1,43 @@
+.result-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--ion-border-color, #e0e0e0);
+}
+
+.result-message {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.result-message p {
+  margin: 0;
+}
+
+.result-bmi-display {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--ion-color-primary-tint, #e8f2ff);
+  border-radius: 0.5rem;
+}
+
+.result-bmi-value {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--ion-color-primary, #0071e3);
+  margin: 0;
+}
+
+.result-bmi-category {
+  font-size: 1rem;
+  color: var(--ion-color-medium, #727272);
+  margin: 0.5rem 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+

@@ -1,0 +1,7 @@
+.error-text {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--ion-color-danger, #eb445c);
+}
+

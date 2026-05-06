@@ -4,6 +4,7 @@ import { Component, Input } from '@angular/core';
   selector: 'app-loading-state',
   templateUrl: './loading-state.component.html',
   styleUrls: ['./loading-state.component.scss'],
+  standalone: false,
 })
 export class LoadingStateComponent {
   @Input() message = 'Loading...';

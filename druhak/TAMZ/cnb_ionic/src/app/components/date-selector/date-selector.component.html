@@ -1,27 +1,40 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title class="section-title">Date mode</ion-card-title>
+    <ion-card-title class="section-title">{{ labels.title }}</ion-card-title>
   </ion-card-header>
   <ion-card-content>
     <ion-item lines="none">
       <ion-label>
-        <h2>Use custom date</h2>
-        <p>Disable this to stream live CNB rates via SSE.</p>
+        <h2>{{ labels.customLabel }}</h2>
+        <p>{{ labels.description }}</p>
       </ion-label>
       <ion-toggle [checked]="customDateEnabled" (ionChange)="onToggleChange($event)"></ion-toggle>
     </ion-item>
 
     <div *ngIf="customDateEnabled" class="datetime-wrap">
-      <ion-datetime
-        presentation="date"
-        [value]="selectedDate"
-        [min]="minDate"
-        [max]="maxDate"
-        (ionChange)="onDateChange($event)"
-      ></ion-datetime>
+      <ion-item lines="none">
+        <ion-label>
+          <h2>{{ labels.pickDate }}</h2>
+          <p>{{ selectedDate }}</p>
+        </ion-label>
+        <ion-datetime-button datetime="custom-date-picker" (click)="onDateButtonClick()"></ion-datetime-button>
+      </ion-item>
+
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            id="custom-date-picker"
+            presentation="date"
+            [value]="selectedDate"
+            [min]="minDate"
+            [max]="maxDate"
+            (ionChange)="onDateChange($event)"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
     </div>
 
-    <ion-chip color="primary" *ngIf="!customDateEnabled">Live SSE mode</ion-chip>
+    <ion-chip color="primary" *ngIf="!customDateEnabled">{{ labels.liveMode }}</ion-chip>
   </ion-card-content>
 </ion-card>
 

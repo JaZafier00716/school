@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 import { APIResponse, AppLanguage } from '../models/currency.model';
 
@@ -9,7 +9,7 @@ import { APIResponse, AppLanguage } from '../models/currency.model';
 export class CurrencyService {
   private readonly apiUrl = 'http://linedu.vsb.cz/~mor03/TAMZ/cnb_json.php';
 
-  constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient, private readonly ngZone: NgZone) {}
 
   loadRates(options: {
     language: AppLanguage;
@@ -46,17 +46,17 @@ export class CurrencyService {
       eventSource.onmessage = (event) => {
         try {
           const payload = JSON.parse(event.data) as APIResponse;
-          observer.next(payload);
+          this.ngZone.run(() => observer.next(payload));
           settled = true;
         } catch (error) {
-          observer.error(error);
+          this.ngZone.run(() => observer.error(error));
           eventSource.close();
         }
       };
 
       eventSource.onerror = (error) => {
         if (!settled) {
-          observer.error(error);
+          this.ngZone.run(() => observer.error(error));
         }
         eventSource.close();
       };

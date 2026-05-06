@@ -1,7 +1,7 @@
 <ion-card>
   <ion-card-header>
-    <ion-card-title class="section-title">All currencies</ion-card-title>
-    <ion-card-subtitle>Tap a tile to select the target currency.</ion-card-subtitle>
+    <ion-card-title class="section-title">{{ labels.title }}</ion-card-title>
+    <ion-card-subtitle>{{ labels.subtitle }}</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
     <ion-grid class="currency-grid">
@@ -28,7 +28,7 @@
       </ion-row>
     </ion-grid>
 
-    <p *ngIf="!currencies.length" class="muted-text">No currencies loaded yet.</p>
+    <p *ngIf="!currencies.length" class="muted-text">{{ labels.empty }}</p>
   </ion-card-content>
 </ion-card>
 

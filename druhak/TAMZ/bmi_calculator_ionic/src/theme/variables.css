@@ -1,0 +1,113 @@
+/* Global CSS variables for theming */
+:root {
+  /**
+   * Primary colors
+   */
+  --ion-color-primary: #0071e3;
+  --ion-color-primary-rgb: 0, 113, 227;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #005dc5;
+  --ion-color-primary-tint: #e8f2ff;
+
+  /**
+   * Secondary colors
+   */
+  --ion-color-secondary: #3dc9f8;
+  --ion-color-secondary-rgb: 61, 201, 248;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #36b3da;
+  --ion-color-secondary-tint: #50cff9;
+
+  /**
+   * Danger colors
+   */
+  --ion-color-danger: #eb445c;
+  --ion-color-danger-rgb: 235, 68, 92;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c51;
+  --ion-color-danger-tint: #ed576d;
+
+  /**
+   * Dark colors
+   */
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /**
+   * Medium colors
+   */
+  --ion-color-medium: #727272;
+  --ion-color-medium-rgb: 114, 114, 114;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #645e64;
+  --ion-color-medium-tint: #808080;
+
+  /**
+   * Light colors
+   */
+  --ion-color-light: #f4f4f4;
+  --ion-color-light-rgb: 244, 244, 244;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f5f5;
+
+  /**
+   * Success colors
+   */
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  /**
+   * Warning colors
+   */
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffce52;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  background-color: #f1f5f9;
+}
+
+/* Remove default margins on typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Utility classes */
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.block {
+  display: block;
+}
+

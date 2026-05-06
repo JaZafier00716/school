@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Currency Converter</ion-title>
+    <ion-title>{{ copy.appTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,12 +8,12 @@
   <div class="page-shell home-shell">
     <ion-card class="hero-card">
       <ion-card-header>
-        <ion-card-title class="hero-title">CZK exchange rates</ion-card-title>
-        <ion-card-subtitle>Convert Czech koruna into live or historical foreign currencies.</ion-card-subtitle>
+        <ion-card-title class="hero-title">{{ copy.heroTitle }}</ion-card-title>
+        <ion-card-subtitle>{{ copy.heroSubtitle }}</ion-card-subtitle>
       </ion-card-header>
       <ion-card-content>
         <ion-item lines="none" class="amount-item">
-          <ion-label position="stacked">Amount in CZK</ion-label>
+          <ion-label position="stacked">{{ copy.amountLabel }}</ion-label>
           <ion-input
             type="number"
             inputmode="decimal"
@@ -25,25 +25,32 @@
         </ion-item>
 
         <div class="hero-meta">
-          <ion-chip color="primary" *ngIf="customDateEnabled; else liveModeChip">Historical date: {{ selectedDate }}</ion-chip>
+          <ion-chip color="primary" *ngIf="customDateEnabled; else liveModeChip">{{ copy.historicalDateChip }} {{ selectedDate }}</ion-chip>
           <ng-template #liveModeChip>
-            <ion-chip color="secondary">Live SSE mode</ion-chip>
+            <ion-chip color="secondary">{{ copy.liveModeChip }}</ion-chip>
           </ng-template>
-          <ion-chip outline="true" *ngIf="apiResponse">Data date: {{ apiResponse.date }}</ion-chip>
+          <ion-chip outline="true" *ngIf="apiResponse">{{ copy.dataDateChip }} {{ apiResponse.date }}</ion-chip>
         </div>
       </ion-card-content>
     </ion-card>
 
-    <app-error-banner *ngIf="error" [message]="error" (retry)="refreshRates()"></app-error-banner>
+    <app-error-banner
+      *ngIf="error"
+      [title]="copy.errorTitle"
+      [message]="copy.errorMessage"
+      [retryLabel]="copy.errorRetry"
+      (retry)="refreshRates()"
+    ></app-error-banner>
     <app-loading-state
       *ngIf="loading"
-      message="Loading exchange rates..."
-      subMessage="Live rates are streamed with SSE when custom date is disabled."
+      [message]="copy.loadingMessage"
+      [subMessage]="copy.loadingSubMessage"
     ></app-loading-state>
 
     <app-language-selector
       [language]="selectedLanguage"
       [disabled]="loading"
+      [labels]="copy.language"
       (languageChange)="onLanguageChange($event)"
     ></app-language-selector>
 
@@ -52,6 +59,7 @@
       [selectedDate]="selectedDate"
       [minDate]="minDate"
       [maxDate]="maxDate"
+      [labels]="copy.date"
       (customDateEnabledChange)="onCustomDateEnabledChange($event)"
       (selectedDateChange)="onDateChange($event)"
     ></app-date-selector>
@@ -61,6 +69,7 @@
       [selectedCurrency]="selectedCurrency"
       [selectedCurrencyCode]="selectedCurrencyCode"
       [loading]="loading"
+      [labels]="copy.currencySelector"
       (currencyChange)="onCurrencySelected($event)"
     ></app-currency-selector>
 
@@ -69,11 +78,13 @@
       [apiResponse]="apiResponse"
       [amountCZK]="amountCZK"
       [convertedAmount]="convertedAmount"
+      [labels]="copy.conversionResult"
     ></app-conversion-result>
 
     <app-currency-grid
       [currencies]="currencies"
       [selectedCurrencyCode]="selectedCurrencyCode"
+      [labels]="copy.currencyGrid"
       (currencySelected)="onCurrencySelected($event)"
     ></app-currency-grid>
   </div>
