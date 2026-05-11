@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="donkeykong-db" type="Application" factoryName="Application">
+    <envs />
+    <option name="MAIN_CLASS_NAME" value="cz.vsb.fei.donkeykong.DonkeykongDbApplication" />
+    <module name="donkeykong-db" />
+    <option name="PROGRAM_PARAMETERS" value="" />
+    <option name="VM_PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
+

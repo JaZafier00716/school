@@ -1,0 +1,21 @@
+module vsb.cz.fei.donkeykongfx {
+    requires javafx.controls;
+    requires javafx.fxml;
+    // Open packages for JavaFX FXML and for reflection-based libraries
+    opens vsb.cz.fei.donkeykongfx;
+    opens vsb.cz.fei.donkeykongfx.controllers;
+    opens vsb.cz.fei.donkeykongfx.settings;
+    opens vsb.cz.fei.donkeykongfx.score;
+    opens vsb.cz.fei.donkeykongfx.gameobjects;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.entities;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.entities.player;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.entities.barrel;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.entities.donkeykong;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.platform;
+    opens vsb.cz.fei.donkeykongfx.gameobjects.ladder;
+    exports vsb.cz.fei.donkeykongfx;
+    exports vsb.cz.fei.donkeykongfx.controllers;
+    exports vsb.cz.fei.donkeykongfx.settings;
+    exports vsb.cz.fei.donkeykongfx.score;
+}
+

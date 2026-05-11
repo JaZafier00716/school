@@ -1,0 +1,15 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: donkeykong-web
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+
+# Configuration for connecting to the donkeykong-db service
+donkeykong:
+  db:
+    base-url: ${DONKEYKONG_DB_URL:http://localhost:8082}
+
