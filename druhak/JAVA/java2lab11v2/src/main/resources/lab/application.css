@@ -1,0 +1,81 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+Label {
+    -fx-font-size: 20.0px;
+    -fx-padding: 10.0px;
+    -fx-text-fill: white;
+    -fx-font-weight: 900;
+}
+
+#name{
+    -fx-font-weight: 900;
+    -fx-font-size: 20.0px;
+    -fx-padding: 10.0px;
+    -fx-background-color: RGBA(255.0,0.0,0.0,0.5);
+    -fx-background-insets:5.0px;
+}
+#panel {
+    -fx-background-image:url("game-background.jpg");
+    -fx-background-size: stretch;
+}
+
+#menuPanel {
+    -fx-background-image:url("red-monster-menu-background.jpg");
+    -fx-background-size: stretch;
+}
+
+.playButtons {
+    -fx-background-color: RGBA(255.0,0.0,0.0,0.5);
+    -fx-font-weight: 900;
+    -fx-font-size: 15.0px;
+    -fx-text-fill: white;
+}
+#playButton:hover {
+    -fx-background-color: RGBA(255.0,0.0,0.0,0.5);
+    -fx-text-fill: white;
+}
+
+.scoreButton {
+    -fx-background-color: RGBA(100.0,0.0,0.0,0.8);
+    -fx-border-color: RGBA(100.0,0.0,0.0,0.8);
+    -fx-border-width:3px;
+    -fx-border-radius:30.0px;
+    -fx-text-fill: white;
+    -fx-font-size: 20.0px;
+    -fx-font-family: "TRON";
+    -fx-background-radius:30.0px;
+}
+
+.scoreButton:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.7), 50.0, 0.7, 0.0, 0.0);
+    -fx-background-color : RGBA(50,0,0,0.8);
+}
+
+.difficultButton .radio{
+    visibility: hidden;
+}
+.difficultButton .dot{
+    -fx-background-color: red;
+}
+
+.difficultButton {
+    -fx-background-color: RGBA(100.0,0.0,0.0,0.8);
+    -fx-border-color: RGBA(100.0,0.0,0.0,0.8);
+    -fx-border-width:3px;
+    -fx-border-radius:30.0px;
+    -fx-text-fill: white;
+    -fx-font-size: 20.0px;
+    -fx-font-family: "TRON";
+    -fx-background-radius:30.0px;
+}
+
+.difficultButton:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 0, 0.7), 50.0, 0.7, 0.0, 0.0);
+    -fx-background-color : RGBA(50,0,0,0.8);
+}
+
+.difficultButton:selected{
+    -fx-background-color : RGBA(100,0,0,0.9);
+    -fx-border-color:RGBA(255,255,0,0.9);
+}
+
