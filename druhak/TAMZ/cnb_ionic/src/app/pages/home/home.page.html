@@ -28,8 +28,8 @@
           <ion-chip color="primary" *ngIf="customDateEnabled; else liveModeChip">{{ copy.historicalDateChip }} {{ selectedDate }}</ion-chip>
           <ng-template #liveModeChip>
             <ion-chip color="secondary">{{ copy.liveModeChip }}</ion-chip>
+            <ion-chip outline="true">{{ copy.todayChip }} {{ todayDate }}</ion-chip>
           </ng-template>
-          <ion-chip outline="true" *ngIf="apiResponse">{{ copy.dataDateChip }} {{ apiResponse.date }}</ion-chip>
         </div>
       </ion-card-content>
     </ion-card>

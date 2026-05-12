@@ -8,7 +8,7 @@ export interface ConversionResultLabels {
   currency: string;
   code: string;
   exchangeRate: string;
-  date: string;
+  publicationDate: string;
   cached: string;
   yes: string;
   no: string;
@@ -32,7 +32,7 @@ export class ConversionResultComponent {
     currency: 'Currency',
     code: 'Code',
     exchangeRate: 'Exchange rate',
-    date: 'Date',
+    publicationDate: 'CNB publication date',
     cached: 'Cached',
     yes: 'Yes',
     no: 'No',

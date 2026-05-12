@@ -11,7 +11,7 @@ const COPY = {
     amountLabel: 'Amount in CZK',
     historicalDateChip: 'Historical date:',
     liveModeChip: 'Live SSE mode',
-    dataDateChip: 'Data date:',
+    todayChip: 'Today:',
     errorTitle: 'Could not load exchange rates',
     errorMessage: 'Unable to load currency data. Please try again.',
     errorRetry: 'Retry',
@@ -47,7 +47,7 @@ const COPY = {
       currency: 'Currency',
       code: 'Code',
       exchangeRate: 'Exchange rate',
-      date: 'Date',
+      publicationDate: 'CNB publication date',
       cached: 'Cached',
       yes: 'Yes',
       no: 'No',
@@ -65,7 +65,7 @@ const COPY = {
     amountLabel: 'Částka v CZK',
     historicalDateChip: 'Historické datum:',
     liveModeChip: 'Režim živého SSE',
-    dataDateChip: 'Datum dat:',
+    todayChip: 'Dnes:',
     errorTitle: 'Kurzovní data se nepodařilo načíst',
     errorMessage: 'Nepodařilo se načíst měnová data. Zkuste to prosím znovu.',
     errorRetry: 'Zkusit znovu',
@@ -101,7 +101,7 @@ const COPY = {
       currency: 'Měna',
       code: 'Kód',
       exchangeRate: 'Kurz',
-      date: 'Datum',
+      publicationDate: 'Datum publikace ČNB',
       cached: 'Uloženo v mezipaměti',
       yes: 'Ano',
       no: 'Ne',
@@ -126,6 +126,7 @@ export class HomePage implements OnInit, OnDestroy {
   selectedDate = this.getTodayIsoDate();
   minDate = '2000-01-01';
   maxDate = this.getTodayIsoDate();
+  todayDate = this.getTodayIsoDate();
 
   currencies: CurrencyData[] = [];
   apiResponse: APIResponse | null = null;

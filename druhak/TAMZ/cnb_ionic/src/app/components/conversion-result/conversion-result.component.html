@@ -26,7 +26,7 @@
         <ion-note slot="end">{{ selectedCurrency.unit }} {{ selectedCurrency.code }} = {{ selectedCurrency.rate }} CZK</ion-note>
       </ion-item>
       <ion-item *ngIf="apiResponse">
-        <ion-label>{{ labels.date }}</ion-label>
+        <ion-label>{{ labels.publicationDate }}</ion-label>
         <ion-note slot="end">{{ apiResponse.date }}</ion-note>
       </ion-item>
       <ion-item *ngIf="apiResponse">
