@@ -4,7 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -21,5 +25,8 @@ public class HighScore {
     private String playerName;
 
     private Integer score;
+
+    @OneToMany(mappedBy = "highScore")
+    private Set<GameResult> gameResults = new HashSet<>();
 }
 
