@@ -29,14 +29,14 @@
                            <children>
                               <TableView id="scoreTable" fx:id="scoreTable" maxWidth="-Infinity" prefHeight="170.0" prefWidth="250.0" styleClass="red-style" stylesheets="@application.css">
                                 <columns>
-                                  <TableColumn fx:id="columnNickName" prefWidth="144.0" text="Nickname" />
-                                  <TableColumn fx:id="columnScore" prefWidth="102.0" text="Score" />
+                                  <TableColumn fx:id="columnNickName" prefWidth="144.0" text="%menu.nickname" />
+                                  <TableColumn fx:id="columnScore" prefWidth="102.0" text="%menu.score" />
                                 </columns>
                                  <columnResizePolicy>
                                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                                  </columnResizePolicy>
                               </TableView>
-                              <TextField fx:id="playerNameField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="Player name">
+                              <TextField fx:id="playerNameField" maxWidth="-Infinity" prefHeight="40.0" prefWidth="250.0" promptText="%menu.playerName">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -46,7 +46,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <graphic>
-                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Continue" textAlignment="CENTER" translateY="5.0">
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="%menu.continue" textAlignment="CENTER" translateY="5.0">
                                        <font>
                                           <Font name="Consolas Bold" size="25.0" />
                                        </font>
@@ -58,7 +58,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <graphic>
-                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Start" textAlignment="CENTER" translateY="5.0">
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="%menu.start" textAlignment="CENTER" translateY="5.0">
                                        <font>
                                           <Font name="Consolas Bold" size="25.0" />
                                        </font>
@@ -70,7 +70,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <graphic>
-                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Options" textAlignment="CENTER">
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="%menu.options" textAlignment="CENTER">
                                        <font>
                                           <Font name="Consolas Bold" size="25.0" />
                                        </font>
@@ -85,7 +85,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                                  <graphic>
-                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Quit" textAlignment="CENTER">
+                                    <Text fill="TRANSPARENT" lineSpacing="1.0" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="%menu.quit" textAlignment="CENTER">
                                        <font>
                                           <Font name="Consolas Bold" size="25.0" />
                                        </font>
@@ -110,7 +110,7 @@
                   <Insets top="50.0" />
                </BorderPane.margin>
                <top>
-                  <Text id="titleText" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Donkey Kong" textAlignment="CENTER" wrappingWidth="1000.0" BorderPane.alignment="CENTER" />
+                  <Text id="titleText" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="%menu.title" textAlignment="CENTER" wrappingWidth="1000.0" BorderPane.alignment="CENTER" />
                </top>
             </BorderPane>
          </top>

@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +21,13 @@ import java.util.List;
 public class ScoreRestClient {
     private static final String BASE_URL = System.getenv().getOrDefault(
             "DONKEYKONG_WEB_URL",
-            "http://localhost:8081"
+            "http://localhost:8080"
     );
     private static final String SCORES_API = BASE_URL + "/api/v1/high-scores";
 
-    private static final HttpClient httpClient = HttpClient.newHttpClient();
+    private static final HttpClient httpClient = HttpClient.newBuilder()
+            .connectTimeout(Duration.ofSeconds(2))
+            .build();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     // This no-op init method keeps compatibility with existing game code
@@ -44,6 +47,7 @@ public class ScoreRestClient {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(SCORES_API))
+                    .timeout(Duration.ofSeconds(3))
                     .GET()
                     .build();
 
@@ -68,8 +72,11 @@ public class ScoreRestClient {
             return scores;
 
         } catch (IOException | InterruptedException e) {
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
             log.error("Error loading scores from remote service", e);
-              throw new ScoreException("Load failed: " + describeCause(e), e);
+            throw new ScoreException("Load failed: " + describeCause(e), e);
         }
     }
 
@@ -90,6 +97,7 @@ public class ScoreRestClient {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(SCORES_API))
+                    .timeout(Duration.ofSeconds(3))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
                     .build();
@@ -103,29 +111,32 @@ public class ScoreRestClient {
             log.debug("Score saved: {} - {}", score.getNickName(), score.getScore());
 
         } catch (IOException | InterruptedException e) {
+            if (e instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
             log.error("Error saving score to remote service", e);
-              throw new ScoreException("Save failed: " + describeCause(e), e);
+            throw new ScoreException("Save failed: " + describeCause(e), e);
         }
     }
 
-          private static String describeCause(Throwable e) {
-            if (e == null) {
-              return "unknown error";
-            }
-            String message = e.getMessage();
-            if (message != null && !message.isBlank()) {
-              return message;
-            }
-            Throwable cause = e.getCause();
-            if (cause != null && cause != e) {
-              String causeMessage = cause.getMessage();
-              if (causeMessage != null && !causeMessage.isBlank()) {
+    private static String describeCause(Throwable e) {
+        if (e == null) {
+            return "unknown error";
+        }
+        String message = e.getMessage();
+        if (message != null && !message.isBlank()) {
+            return message;
+        }
+        Throwable cause = e.getCause();
+        if (cause != null && cause != e) {
+            String causeMessage = cause.getMessage();
+            if (causeMessage != null && !causeMessage.isBlank()) {
                 return causeMessage;
-              }
-              return cause.getClass().getSimpleName();
             }
-            return e.getClass().getSimpleName();
-          }
+            return cause.getClass().getSimpleName();
+        }
+        return e.getClass().getSimpleName();
+    }
 
     /**
      * Save multiple scores to the remote service
@@ -170,7 +181,5 @@ public class ScoreRestClient {
             this.score = score;
         }
     }
+
 }
-
-
-

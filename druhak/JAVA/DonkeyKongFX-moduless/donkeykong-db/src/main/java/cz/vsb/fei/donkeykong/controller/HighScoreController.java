@@ -1,12 +1,15 @@
 package cz.vsb.fei.donkeykong.controller;
 
+import cz.vsb.fei.donkeykong.entity.GameResult;
 import cz.vsb.fei.donkeykong.entity.HighScore;
+import cz.vsb.fei.donkeykong.repository.GameResultRepository;
 import cz.vsb.fei.donkeykong.repository.HighScoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,9 @@ public class HighScoreController {
 
     @Autowired
     private HighScoreRepository highScoreRepository;
+
+    @Autowired
+    private GameResultRepository gameResultRepository;
 
     /**
      * Get all high scores
@@ -43,6 +49,15 @@ public class HighScoreController {
     public ResponseEntity<HighScore> createHighScore(@RequestBody HighScore highScore) {
         highScore.setId(null);
         HighScore savedHighScore = highScoreRepository.save(highScore);
+        gameResultRepository.save(new GameResult(
+                null,
+                savedHighScore.getPlayerName(),
+                savedHighScore.getScore(),
+                LocalDateTime.now(),
+                null,
+                null,
+                savedHighScore
+        ));
         return ResponseEntity.status(HttpStatus.CREATED).body(savedHighScore);
     }
 
@@ -87,7 +102,7 @@ public class HighScoreController {
      */
     @GetMapping("/top/10")
     public ResponseEntity<List<HighScore>> getTop10HighScores() {
-        List<HighScore> topScores = highScoreRepository.findTop10HighScores();
+        List<HighScore> topScores = highScoreRepository.findTop10ByOrderByScoreDesc();
         return ResponseEntity.ok(topScores);
     }
 
@@ -109,4 +124,3 @@ public class HighScoreController {
         return ResponseEntity.noContent().build();
     }
 }
-

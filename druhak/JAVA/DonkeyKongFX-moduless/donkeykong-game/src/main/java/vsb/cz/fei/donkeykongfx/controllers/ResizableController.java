@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
+import vsb.cz.fei.donkeykongfx.I18n;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -37,7 +38,7 @@ public abstract class ResizableController {
         }
         log.warn("Handled UI exception shown to the player: {}", message, e);
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setHeaderText("Loading problem");
+        alert.setHeaderText(I18n.get("alert.loadingProblem"));
         alert.getDialogPane().setContentText(message);
         // expandable stacktrace detail
         StringWriter sw = new StringWriter();

@@ -1,6 +1,6 @@
 # DonkeyKong-Moduleless: Lab09 Project Context
 
-**⚠️ IMPORTANT**: DO NOT CREATE ANY NEW MD FILES OR SHELL SCRIPTS. Any documentation updates should ONLY modify this file. Any automation should be done via IDE run configurations, Maven commands, or Java code only.
+**⚠️ IMPORTANT**: DO NOT CREATE ANY NEW MD FILES OR SHELL SCRIPTS. Documentation updates should normally modify this file only; when run/startup behavior changes, also update `IDE_RUN_CONFIGURATION.md`. Any automation should be done via IDE run configurations, Maven commands, or Java code only.
 
 ---
 
@@ -11,9 +11,9 @@
 **Date**: May 12, 2026
 
 ### Architecture
-- **Database Service** (Port 8082): JPA persistence layer + REST API
-- **Web Service** (Port 8080): Thymeleaf UI + REST proxy gateway
-- **Game Service**: Independent game logic (unchanged)
+- **Database Service** (Port 8080 by default, falls back upward if busy): JPA persistence layer + REST API
+- **Web Service** (Port 8080 by default, falls back upward if busy): Thymeleaf UI + REST proxy gateway
+- **Game Service**: Independent JavaFX game client
 - **Communication**: RestTemplate inter-service calls
 
 ---
@@ -30,6 +30,7 @@
 | Navigation | ✅ | Tabs between High Scores & Game Results |
 | Swagger/OpenAPI | ✅ | springdoc-openapi dependency + UI |
 | Entity Relationships | ✅ | GameResult.@ManyToOne → HighScore |
+| Game Result Capture | ✅ | Creating a HighScore also records a GameResult |
 | Build Status | ✅ | All 4 modules: SUCCESS (8.1s) |
 
 ---
@@ -55,7 +56,7 @@ Code Gen:      Lombok
 
 ```
 DonkeyKongFX-moduless/
-├── donkeykong-db/                    # Database Service (Port 8082)
+├── donkeykong-db/                    # Database Service (Port 8080, fallback upward)
 │   ├── src/main/java/.../entity/
 │   │   ├── GameResult.java          # @Entity with @ManyToOne to HighScore
 │   │   └── HighScore.java           # @Entity with @OneToMany GameResults
@@ -65,10 +66,10 @@ DonkeyKongFX-moduless/
 │   │   ├── GameResultController.java # REST API (8 endpoints)
 │   │   └── HighScoreController.java
 │   ├── src/main/resources/
-│   │   └── application.yaml         # Port 8082, H2 config
+│   │   └── application.yaml         # Port 8080 default, H2 config
 │   └── pom.xml                      # Spring Boot 4.0.5 parent
 │
-├── donkeykong-web/                   # Web Service (Port 8080)
+├── donkeykong-web/                   # Web Service (Port 8080, fallback upward)
 │   ├── src/main/java/.../entity/
 │   │   ├── GameResult.java (DTO)    # Data Transfer Object
 │   │   └── HighScore.java (DTO)
@@ -77,18 +78,18 @@ DonkeyKongFX-moduless/
 │   │   ├── GameResultUIController.java # Thymeleaf UI logic
 │   │   └── HighScoreUIController.java
 │   ├── src/main/resources/
-│   │   ├── application.yaml         # Port 8080, DB URL config
+│   │   ├── application.yaml         # Port 8080 default, DB URL config
 │   │   └── templates/
 │   │       ├── index.html           # High Scores page
 │   │       ├── game-results.html    # Game Results page
 │   │       └── ...
 │   └── pom.xml
 │
-├── donkeykong-game/                  # Game Application (Unchanged)
+├── donkeykong-game/                  # Game Application
 │   ├── src/main/java/vsb/cz/fei/donkeykongfx/
-│   │   ├── score/                   # Score entities (unchanged)
-│   │   ├── settings/                # Settings entities (unchanged)
-│   │   └── [Game logic untouched]
+│   │   ├── score/                   # Score entities
+│   │   ├── settings/                # Settings entities
+│   │   └── [Game logic]
 │   └── pom.xml
 │
 ├── pom.xml                           # Parent POM
@@ -161,8 +162,8 @@ import lombok.*;
 - lombok (provided)
 
 ### Port Configuration:
-- **Database Service**: Port 8082 (application.yaml)
-- **Web Service**: Port 8080 (application.yaml)
+- **Database Service**: Port 8080 by default; runtime falls back to the next free port
+- **Web Service**: Port 8080 by default; runtime falls back to the next free port
 
 ---
 
@@ -238,11 +239,14 @@ java -jar donkeykong-web/target/donkeykong-web-0.0.1-SNAPSHOT.jar
 ```
 
 ### Access Points
-- 🏠 Main UI: http://localhost:8080
-- 🎯 Game Results: http://localhost:8080/ui/game-results
-- 📊 High Scores: http://localhost:8080/ui/high-scores
-- 📡 REST API: http://localhost:8082/api/v1/game-results
-- 📚 Swagger UI: http://localhost:8082/swagger-ui/index.html
+- 🏠 Main UI when Web runs alone: http://localhost:8080
+- 🎯 Game Results when Web runs alone: http://localhost:8080/ui/game-results
+- 📊 High Scores when Web runs alone: http://localhost:8080/ui/high-scores
+- 🏠 Main UI when DB starts first: http://localhost:8081
+- 🎯 Game Results when DB starts first: http://localhost:8081/ui/game-results
+- 📊 High Scores when DB starts first: http://localhost:8081/ui/high-scores
+- 📡 DB REST API: http://localhost:8080/api/v1/game-results by default
+- 📚 DB Swagger UI: http://localhost:8080/swagger-ui/index.html by default
 
 ---
 
@@ -251,7 +255,7 @@ java -jar donkeykong-web/target/donkeykong-web-0.0.1-SNAPSHOT.jar
 ### Database Service (donkeykong-db/src/main/resources/application.yaml)
 ```yaml
 server:
-  port: 8082
+  port: 8080
 
 spring:
   application:
@@ -282,14 +286,14 @@ spring:
 
 donkeykong:
   db:
-    base-url: ${DONKEYKONG_DB_URL:http://localhost:8082}
+    base-url: ${DONKEYKONG_DB_URL:http://localhost:8080}
 ```
 
 ---
 
 ## 🧪 REST API Endpoints
 
-### Database Service (http://localhost:8082)
+### Database Service (http://localhost:8080 by default)
 
 **Create**:
 ```http
@@ -390,12 +394,13 @@ See: `pom.xml` in root directory
 
 ## 🚨 Important Notes
 
-1. **Game Module**: Completely untouched - no modifications
+1. **Game Module**: Continue is only available for the saved player; starting a new game deletes the previous save; finished games delete the save
 2. **Database**: H2 in-memory (file-based at ./db/score-db)
 3. **Schema Generation**: JPA creates schema on startup
-4. **Service Communication**: Always start Database Service BEFORE Web Service
-5. **Port Conflicts**: Ensure ports 8080 & 8082 are free
-6. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL
+4. **Result Recording**: Creating a HighScore also creates a GameResult so both UI tabs stay populated
+5. **Service Communication**: Always start Database Service BEFORE Web Service
+6. **Port Conflicts**: Services try port 8080 first, then move upward if it is busy; DB first usually means DB on 8080 and Web on 8081
+7. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL if DB cannot run on 8080
 
 ---
 
@@ -405,7 +410,7 @@ See: `pom.xml` in root directory
 ```bash
 # Check what's using the port
 lsof -i :8080
-lsof -i :8082
+lsof -i :8081
 
 # Kill if needed
 pkill -f "java.*donkeykong"
@@ -434,7 +439,7 @@ mvn clean package -U
 → See `IDE_RUN_CONFIGURATION.md`
 
 **For API Testing**:
-→ Use Swagger UI at http://localhost:8082/swagger-ui/index.html
+→ Use Swagger UI at http://localhost:8080/swagger-ui/index.html by default
 
 **For Code Style**:
 → Follow guidelines in "Coding Style & Labs Compliance" section above
@@ -472,5 +477,3 @@ mvn clean package -U
 ---
 
 **Next Step**: Set up IDE Run Configuration using instructions in `IDE_RUN_CONFIGURATION.md`
-
-

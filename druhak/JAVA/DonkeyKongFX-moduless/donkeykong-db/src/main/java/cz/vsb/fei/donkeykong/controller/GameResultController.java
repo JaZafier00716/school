@@ -21,18 +21,19 @@ public class GameResultController {
      * Get all game results
      */
     @GetMapping
-    public ResponseEntity<List<GameResult>> getAllGameResults() {
+    public ResponseEntity<List<GameResultDto>> getAllGameResults() {
         List<GameResult> results = gameResultRepository.findAll();
-        return ResponseEntity.ok(results);
+        return ResponseEntity.ok(results.stream().map(GameResultController::toDto).toList());
     }
 
     /**
      * Get game result by ID
      */
     @GetMapping("/{id}")
-    public ResponseEntity<GameResult> getGameResultById(@PathVariable Long id) {
+    public ResponseEntity<GameResultDto> getGameResultById(@PathVariable Long id) {
         Optional<GameResult> result = gameResultRepository.findById(id);
-        return result.map(ResponseEntity::ok)
+        return result.map(GameResultController::toDto)
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -40,17 +41,17 @@ public class GameResultController {
      * Create a new game result
      */
     @PostMapping
-    public ResponseEntity<GameResult> createGameResult(@RequestBody GameResult gameResult) {
+    public ResponseEntity<GameResultDto> createGameResult(@RequestBody GameResult gameResult) {
         gameResult.setId(null);
         GameResult savedResult = gameResultRepository.save(gameResult);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedResult);
+        return ResponseEntity.status(HttpStatus.CREATED).body(toDto(savedResult));
     }
 
     /**
      * Update an existing game result
      */
     @PutMapping("/{id}")
-    public ResponseEntity<GameResult> updateGameResult(@PathVariable Long id, @RequestBody GameResult gameResultDetails) {
+    public ResponseEntity<GameResultDto> updateGameResult(@PathVariable Long id, @RequestBody GameResult gameResultDetails) {
         Optional<GameResult> existingResult = gameResultRepository.findById(id);
 
         if (existingResult.isPresent()) {
@@ -72,7 +73,7 @@ public class GameResultController {
             }
 
             GameResult updatedResult = gameResultRepository.save(gameResult);
-            return ResponseEntity.ok(updatedResult);
+            return ResponseEntity.ok(toDto(updatedResult));
         } else {
             return ResponseEntity.notFound().build();
         }
@@ -95,18 +96,18 @@ public class GameResultController {
      * Get last 10 games
      */
     @GetMapping("/last/10")
-    public ResponseEntity<List<GameResult>> getLast10Games() {
-        List<GameResult> results = gameResultRepository.findLast10Games();
-        return ResponseEntity.ok(results);
+    public ResponseEntity<List<GameResultDto>> getLast10Games() {
+        List<GameResult> results = gameResultRepository.findTop10ByOrderByPlayedAtDesc();
+        return ResponseEntity.ok(results.stream().map(GameResultController::toDto).toList());
     }
 
     /**
      * Get game results by player name
      */
     @GetMapping("/player/{playerName}")
-    public ResponseEntity<List<GameResult>> getResultsByPlayer(@PathVariable String playerName) {
+    public ResponseEntity<List<GameResultDto>> getResultsByPlayer(@PathVariable String playerName) {
         List<GameResult> results = gameResultRepository.findByPlayerNameOrderByPlayedAtDesc(playerName);
-        return ResponseEntity.ok(results);
+        return ResponseEntity.ok(results.stream().map(GameResultController::toDto).toList());
     }
 
     /**
@@ -117,6 +118,27 @@ public class GameResultController {
         gameResultRepository.deleteAll();
         return ResponseEntity.noContent().build();
     }
+
+    private static GameResultDto toDto(GameResult result) {
+        return new GameResultDto(
+                result.getId(),
+                result.getPlayerName(),
+                result.getScore(),
+                result.getPlayedAt(),
+                result.getLevel(),
+                result.getDuration(),
+                null
+        );
+    }
+
+    public record GameResultDto(
+            Long id,
+            String playerName,
+            Integer score,
+            java.time.LocalDateTime playedAt,
+            Integer level,
+            Integer duration,
+            Long highScoreId
+    ) {
+    }
 }
-
-

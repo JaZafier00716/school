@@ -11,6 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import lombok.extern.log4j.Log4j2;
+import vsb.cz.fei.donkeykongfx.I18n;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindingRow;
 
 @Log4j2
@@ -67,7 +68,7 @@ public class SettingsController extends SettingsAffected {
         columnAction.setCellValueFactory(new PropertyValueFactory<>("action"));
         columnKey.setCellValueFactory(new PropertyValueFactory<>("keyName"));
         columnButton.setCellFactory(col -> new TableCell<>() {
-            private final Button btn = new Button("Change Key");
+            private final Button btn = new Button(I18n.get("settings.changeKey"));
             {
                 btn.setCursor(Cursor.HAND);
                 btn.setOnAction(e -> {
@@ -138,7 +139,7 @@ public class SettingsController extends SettingsAffected {
         } catch (Exception e) {
             log.warn("Handled key binding conflict for action {} with key {}", action, newKey, e);
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Key Binding Conflict");
+            alert.setHeaderText(I18n.get("settings.keyBindingConflict"));
             alert.setContentText(e.getMessage());
             alert.showAndWait();
             return;
@@ -152,7 +153,7 @@ public class SettingsController extends SettingsAffected {
 
     void initSettingsTabs() {
         SettingsTabs.getTabs().clear();
-        SettingsTabs.getTabs().add(new Tab("Key Bindings", KeyBindingsTable));
+        SettingsTabs.getTabs().add(new Tab(I18n.get("settings.keyBindings"), KeyBindingsTable));
     }
 
     @FXML

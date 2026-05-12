@@ -6,7 +6,9 @@ import javafx.scene.canvas.GraphicsContext;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 
-public class DonkeyKong extends MovableGameObject {
+public class DonkeyKong extends MovableGameObject implements Runnable, AutonomousEntity {
+    private static final long THREAD_SLEEP_MS = 50;
+
     private KongState kongState;
     private final AnimationData idle;
     private final AnimationData throwing;
@@ -14,6 +16,9 @@ public class DonkeyKong extends MovableGameObject {
     private final double custom_scale;
     private boolean canAddBarrel = true;
     private boolean canAddFlamyBoi = true;
+    private volatile boolean behaviorRunning = false;
+    private volatile boolean behaviorPaused = false;
+    private Thread behaviorThread;
 
     // Main menu constructor
     public DonkeyKong(ResizableDimension rd, int height, double scale, Point2D position) {
@@ -60,7 +65,7 @@ public class DonkeyKong extends MovableGameObject {
     }
 
     @Override
-    public Rectangle2D getBounds() {
+    public synchronized Rectangle2D getBounds() {
         AnimationData currentAnim = switch (kongState) {
             case IDLE -> idle;
             case THROWING -> throwing;
@@ -75,12 +80,12 @@ public class DonkeyKong extends MovableGameObject {
     }
 
     @Override
-    public void hitBy(Collisionable another) {
+    public synchronized void hitBy(Collisionable another) {
 
     }
 
     @Override
-    protected void renderInternal(GraphicsContext gc) {
+    protected synchronized void renderInternal(GraphicsContext gc) {
         AnimationData currentAnim = switch (kongState) {
             case IDLE -> idle;
             case THROWING -> throwing;
@@ -99,7 +104,7 @@ public class DonkeyKong extends MovableGameObject {
         );
     }
 
-    public void updateState(double deltaTime) {
+    public synchronized void updateState(double deltaTime) {
         switch (kongState) {
             case IDLE -> frameIndex = ((frameIndex + 1)) % idle.getColCount();
             case THROWING -> {
@@ -118,31 +123,78 @@ public class DonkeyKong extends MovableGameObject {
         }
     }
 
-    public boolean getSpawnFlamyBoi() {
+    public synchronized boolean getSpawnFlamyBoi() {
         return kongState == KongState.DROPPING && frameIndex == 1 && canAddFlamyBoi;
     }
 
-    public void setSpawnFlamyBoi(boolean canAddFlamyBoi) {
+    public synchronized void setSpawnFlamyBoi(boolean canAddFlamyBoi) {
         this.canAddFlamyBoi = canAddFlamyBoi;
     }
 
-    public boolean getSpawnBarrel() {
+    public synchronized boolean getSpawnBarrel() {
         return kongState == KongState.THROWING && frameIndex == 1 && canAddBarrel;
     }
 
-    public void setSpawnBarrel(boolean canAddBarrel) {
+    public synchronized void setSpawnBarrel(boolean canAddBarrel) {
         this.canAddBarrel = canAddBarrel;
     }
 
     @Override
-    public void update(double deltaTime) {
+    public synchronized void update(double deltaTime) {
         updateTimer(deltaTime);
     }
 
-    public String getStateName() {
+    public synchronized String getStateName() {
         return kongState.name();
     }
-    public void setStateByName(String state) {
+
+    public synchronized void setStateByName(String state) {
         this.kongState = KongState.valueOf(state);
+    }
+
+    @Override
+    public void startBehaviorThread() {
+        if (behaviorThread != null && behaviorThread.isAlive()) {
+            return;
+        }
+        behaviorRunning = true;
+        behaviorThread = new Thread(this, "DonkeyKong-" + Integer.toHexString(System.identityHashCode(this)));
+        behaviorThread.setDaemon(true);
+        behaviorThread.start();
+    }
+
+    @Override
+    public void stopBehaviorThread() {
+        behaviorRunning = false;
+        Thread thread = behaviorThread;
+        if (thread != null) {
+            thread.interrupt();
+        }
+    }
+
+    @Override
+    public void setBehaviorPaused(boolean paused) {
+        behaviorPaused = paused;
+    }
+
+    @Override
+    public void run() {
+        long lastTick = System.nanoTime();
+        while (behaviorRunning && !isToBeRemoved()) {
+            long now = System.nanoTime();
+            double deltaTime = (now - lastTick) / 1_000_000_000D;
+            lastTick = now;
+
+            if (!behaviorPaused) {
+                update(Math.min(deltaTime, 0.1));
+            }
+
+            try {
+                Thread.sleep(THREAD_SLEEP_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                behaviorRunning = false;
+            }
+        }
     }
 }

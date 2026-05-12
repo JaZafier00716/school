@@ -59,7 +59,7 @@ public class App extends Application {
             pressStartFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 18);
 
             primaryStage.resizableProperty();
-            primaryStage.setTitle("Donkey Kong FX");
+            primaryStage.setTitle(I18n.get("app.title"));
 
             switchToMenu();
 
@@ -90,7 +90,7 @@ public class App extends Application {
     public void switchToGame(String playerName) throws IOException {
         log.info("Switching to game for player {}", playerName);
         this.currentPlayer = playerName;
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"), I18n.bundle());
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
         gc.setApp(this);
@@ -104,7 +104,7 @@ public class App extends Application {
     public void continueGame(String playerName) throws IOException {
         this.currentPlayer = playerName;
         log.info("Continuing game for player {}", playerName);
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"));
+        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("/game.fxml"), I18n.bundle());
         Parent root = gameLoader.load();
         gc = gameLoader.getController();
         gc.setApp(this);
@@ -117,7 +117,7 @@ public class App extends Application {
 
     public void switchToMenu() throws IOException {
         log.debug("Switching to menu scene");
-        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/menu.fxml"));
+        FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("/menu.fxml"), I18n.bundle());
         Parent root = menuLoader.load();
         MenuController mc = menuLoader.getController();
         mc.setApp(this);
@@ -130,7 +130,7 @@ public class App extends Application {
 
     private void switchToSettings() throws IOException {
         log.debug("Switching to settings scene");
-        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/options.fxml"));
+        FXMLLoader settingsLoader = new FXMLLoader(getClass().getResource("/options.fxml"), I18n.bundle());
         Parent root = settingsLoader.load();
         SettingsController sc = settingsLoader.getController();
         sc.setApp(this);

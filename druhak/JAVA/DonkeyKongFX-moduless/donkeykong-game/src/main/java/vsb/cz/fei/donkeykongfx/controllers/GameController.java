@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.DrawingThread;
 import vsb.cz.fei.donkeykongfx.GameState;
+import vsb.cz.fei.donkeykongfx.I18n;
 import vsb.cz.fei.donkeykongfx.levels.Level;
 import vsb.cz.fei.donkeykongfx.score.Score;
 import vsb.cz.fei.donkeykongfx.score.ScoreException;
@@ -67,7 +68,9 @@ public class GameController extends SettingsAffected {
             if (getTimer() != null) {
                 stop();
             }
-            saveGame();
+            if (!isGameOverVisible()) {
+                saveGame();
+            }
             getApp().switchToMenu();
         } catch (Exception e) {
             printAlert(e);
@@ -80,7 +83,9 @@ public class GameController extends SettingsAffected {
             if (getTimer() != null) {
                 stop();
             }
-            saveGame();
+            if (!isGameOverVisible()) {
+                saveGame();
+            }
             getApp().switchToSettingsFromGame();
         } catch (Exception e) {
             printAlert(e);
@@ -89,7 +94,9 @@ public class GameController extends SettingsAffected {
 
     @FXML
     void onQuitButton() {
-        saveGame();
+        if (!isGameOverVisible()) {
+            saveGame();
+        }
         System.exit(0);
     }
 
@@ -124,7 +131,7 @@ public class GameController extends SettingsAffected {
         }
     }
 
-    private void showGameOver(Level.GameOverReason reason) throws ScoreException {
+    private void showGameOver(Level.GameOverReason reason) {
         gameOverContainer.setVisible(true);
         gameOverContainer.setDisable(false);
         gameOverContainer.setOpacity(1.0);
@@ -132,13 +139,17 @@ public class GameController extends SettingsAffected {
 
         String text;
         if (Objects.requireNonNull(reason) == Level.GameOverReason.PLAYER_WON) {
-            text = "You Won!";
+            text = I18n.get("game.won");
             Score score = new Score(level.getPlayer().getPlayerName(), level.getPlayer().getScore());
-            ScoreRestClient.save(score);
-            log.info("Saved score: {} - {}", score.getNickName(), score.getScore());
+            try {
+                ScoreRestClient.save(score);
+                log.info("Saved score: {} - {}", score.getNickName(), score.getScore());
+            } catch (ScoreException e) {
+                log.warn("Score service unavailable; game-over screen will still be shown", e);
+            }
 
         } else {
-            text = "Game Over!";
+            text = I18n.get("game.over");
             log.info("Game over for player {}", level.getPlayer().getPlayerName());
         }
         // Delete save file on game over
@@ -151,6 +162,10 @@ public class GameController extends SettingsAffected {
         gameOverContainer.setDisable(true);
         gameOverContainer.setOpacity(0.0);
         gameOverContainer.toBack();
+    }
+
+    private boolean isGameOverVisible() {
+        return gameOverContainer != null && gameOverContainer.isVisible();
     }
 
     // key state flags to support simultaneous keys
@@ -300,12 +315,9 @@ public class GameController extends SettingsAffected {
                 if(getTimer() != null) {
                     stop();
                 }
-                try {
-                    showGameOver(reason);
-                } catch (ScoreException e) {
-                    throw new RuntimeException(e);
-                }
+                showGameOver(reason);
             }));
+            level.startAutonomousEntities();
         }
 
         start(new DrawingThread(
@@ -378,5 +390,13 @@ public class GameController extends SettingsAffected {
         } else {
             log.warn("Failed to delete save file at {}", file.getAbsolutePath());
         }
+    }
+
+    @Override
+    public void stop() {
+        if (level != null) {
+            level.stopAutonomousEntities();
+        }
+        super.stop();
     }
 }

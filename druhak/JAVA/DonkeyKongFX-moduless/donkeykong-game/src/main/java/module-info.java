@@ -28,7 +28,7 @@ module vsb.cz.fei.donkeykongfx {
     opens vsb.cz.fei.donkeykongfx to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.controllers to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.settings to javafx.fxml, org.hibernate.orm.core;
-    opens vsb.cz.fei.donkeykongfx.score to javafx.fxml, com.fasterxml.jackson.databind;
+    opens vsb.cz.fei.donkeykongfx.score to javafx.fxml, com.fasterxml.jackson.databind, org.hibernate.orm.core;
     opens vsb.cz.fei.donkeykongfx.gameobjects to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.gameobjects.entities to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.gameobjects.entities.player to javafx.fxml;

@@ -2,19 +2,12 @@ package vsb.cz.fei.donkeykongfx.gameobjects;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import lombok.Getter;
-import lombok.Setter;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class RenderableObject implements Renderable{
     protected ResizableDimension rd;
-    @Getter
-    @Setter
     private int height;
-    @Setter
-    @Getter
     private Point2D position;
-    @Setter
     private double frameDuration = 0.2; // seconds per frame
     private double frameTimer = 0;
 
@@ -24,8 +17,28 @@ public abstract class RenderableObject implements Renderable{
         this.position = position;
     }
 
+    public synchronized int getHeight() {
+        return height;
+    }
+
+    public synchronized void setHeight(int height) {
+        this.height = height;
+    }
+
+    public synchronized Point2D getPosition() {
+        return position;
+    }
+
+    public synchronized void setPosition(Point2D position) {
+        this.position = position;
+    }
+
+    public synchronized void setFrameDuration(double frameDuration) {
+        this.frameDuration = frameDuration;
+    }
+
     @Override
-    public final void updateTimer(double deltaTime) {
+    public final synchronized void updateTimer(double deltaTime) {
         frameTimer += deltaTime;
         if (frameTimer >= frameDuration) {
             updateState(deltaTime);

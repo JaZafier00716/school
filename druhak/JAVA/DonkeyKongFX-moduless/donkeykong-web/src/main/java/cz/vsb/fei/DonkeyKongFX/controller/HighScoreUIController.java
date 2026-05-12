@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/ui")
+@RequestMapping({"", "/ui"})
 @Log4j2
 public class HighScoreUIController {
 
@@ -114,4 +114,3 @@ public class HighScoreUIController {
         }
     }
 }
-

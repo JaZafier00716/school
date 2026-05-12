@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.AnimationData;
+import vsb.cz.fei.donkeykongfx.gameobjects.AutonomousEntity;
 import vsb.cz.fei.donkeykongfx.gameobjects.Collisionable;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableGameObject;
 import vsb.cz.fei.donkeykongfx.gameobjects.MovableType;
@@ -13,12 +14,17 @@ import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
 @Log4j2
-public class FlamyBoi extends MovableGameObject {
+public class FlamyBoi extends MovableGameObject implements Runnable, AutonomousEntity {
+    private static final long THREAD_SLEEP_MS = 16;
+
     FlamyBoiState flamyBoiState;
     AnimationData fall;
     AnimationData move;
     private boolean canUpdatePosition = false;
     private double positionTimer = 0.0;
+    private volatile boolean behaviorRunning = false;
+    private volatile boolean behaviorPaused = false;
+    private Thread behaviorThread;
 
 
     public FlamyBoi(ResizableDimension rd, int defaultHeight, Point2D position) {
@@ -45,7 +51,7 @@ public class FlamyBoi extends MovableGameObject {
     }
 
     @Override
-    public Rectangle2D getBounds() {
+    public synchronized Rectangle2D getBounds() {
         AnimationData currentAnim = switch (flamyBoiState) {
             case FALLING -> fall;
             case MOVING -> move;
@@ -72,7 +78,7 @@ public class FlamyBoi extends MovableGameObject {
     }
 
     @Override
-    protected void renderInternal(GraphicsContext gc) {
+    protected synchronized void renderInternal(GraphicsContext gc) {
         AnimationData currentAnim = switch (flamyBoiState) {
             case FALLING -> fall;
             case MOVING -> move;
@@ -91,7 +97,7 @@ public class FlamyBoi extends MovableGameObject {
     }
 
     @Override
-    public void updateState(double deltaTime) {
+    public synchronized void updateState(double deltaTime) {
         switch (flamyBoiState) {
             case FALLING -> frameIndex = (fall.colCount() + frameIndex + 1) % fall.colCount();
             case MOVING -> frameIndex = (move.colCount() + frameIndex + 1) % move.colCount();
@@ -99,7 +105,7 @@ public class FlamyBoi extends MovableGameObject {
     }
 
     @Override
-    public void update(double deltaTime) {
+    public synchronized void update(double deltaTime) {
         updateTimer(deltaTime);
         MovableType type = getType();
         if (type != null) {
@@ -129,7 +135,7 @@ public class FlamyBoi extends MovableGameObject {
         }
     }
 
-    public void hitBy(Collisionable another) {
+    public synchronized void hitBy(Collisionable another) {
         // Handle collisions if necessary
         if (another instanceof Platform platform) {
             if (flamyBoiState == FlamyBoiState.FALLING) {
@@ -159,7 +165,53 @@ public class FlamyBoi extends MovableGameObject {
         return flamyBoiState.name();
     }
 
-    public void setStateByName(String state) {
+    public synchronized void setStateByName(String state) {
         this.flamyBoiState = FlamyBoiState.valueOf(state);
+    }
+
+    @Override
+    public void startBehaviorThread() {
+        if (behaviorThread != null && behaviorThread.isAlive()) {
+            return;
+        }
+        behaviorRunning = true;
+        behaviorThread = new Thread(this, "FlamyBoi-" + Integer.toHexString(System.identityHashCode(this)));
+        behaviorThread.setDaemon(true);
+        behaviorThread.start();
+    }
+
+    @Override
+    public void stopBehaviorThread() {
+        behaviorRunning = false;
+        Thread thread = behaviorThread;
+        if (thread != null) {
+            thread.interrupt();
+        }
+    }
+
+    @Override
+    public void setBehaviorPaused(boolean paused) {
+        behaviorPaused = paused;
+    }
+
+    @Override
+    public void run() {
+        long lastTick = System.nanoTime();
+        while (behaviorRunning && !isToBeRemoved()) {
+            long now = System.nanoTime();
+            double deltaTime = (now - lastTick) / 1_000_000_000D;
+            lastTick = now;
+
+            if (!behaviorPaused) {
+                update(Math.min(deltaTime, 0.05));
+            }
+
+            try {
+                Thread.sleep(THREAD_SLEEP_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                behaviorRunning = false;
+            }
+        }
     }
 }

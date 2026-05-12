@@ -302,7 +302,7 @@
                         <td th:text="${result.level ?: 'N/A'}">N/A</td>
                         <td th:text="${result.duration ?: 'N/A'}">N/A</td>
                         <td>
-                            <span th:text="${#dates.format(result.playedAt, 'dd.MM.yyyy HH:mm:ss')}" class="date-time">-</span>
+                            <span th:text="${result.playedAt != null ? #temporals.format(result.playedAt, 'dd.MM.yyyy HH:mm:ss') : '-'}" class="date-time">-</span>
                         </td>
                         <td>
                             <div class="actions">
@@ -326,8 +326,8 @@
         <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 0.9em;">
             <p>Donkey Kong Game Results Manager</p>
             <p>
-                <a href="http://localhost:8082/swagger-ui.html" style="color: #667eea; text-decoration: none;">API Documentation</a> |
-                <a href="http://localhost:8082" style="color: #667eea; text-decoration: none;">Database API</a> |
+                <a href="http://localhost:8080/swagger-ui.html" style="color: #667eea; text-decoration: none;">API Documentation</a> |
+                <a href="http://localhost:8080" style="color: #667eea; text-decoration: none;">Database API</a> |
                 <a href="http://localhost:8080" style="color: #667eea; text-decoration: none;">Web Server</a>
             </p>
         </div>
@@ -353,5 +353,3 @@
     </script>
 </body>
 </html>
-
-

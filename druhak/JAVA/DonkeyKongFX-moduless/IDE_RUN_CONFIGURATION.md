@@ -1,7 +1,7 @@
 # JetBrains IDE Run Configuration Setup
 
 ## Overview
-This guide sets up JetBrains IntelliJ IDEA to run both services (Database Service on 8082 and Web Service on 8080) using play buttons.
+This guide sets up JetBrains IntelliJ IDEA to run both services using play buttons. Each Spring service tries port `8080` first and automatically moves upward if the port is busy. When you start the Database Service first, it normally uses `8080`; the Web Service then normally uses `8081`.
 
 ---
 
@@ -22,7 +22,7 @@ This guide sets up JetBrains IntelliJ IDEA to run both services (Database Servic
 4. **For Web Service**:
    - Name: `DonkeyKong Web Service`
    - Main class: `org.springframework.boot.loader.JarLauncher`
-   - VM options: `-Dspring.profiles.active=dev -DDONKEYKONG_DB_URL=http://localhost:8082`
+   - VM options: `-Dspring.profiles.active=dev`
    - Working directory: `$PROJECT_DIR$/donkeykong-web`
    - Module classpath: `donkeykong-web`
    - Click ✅ (Apply)
@@ -53,7 +53,7 @@ This guide sets up JetBrains IntelliJ IDEA to run both services (Database Servic
 ### Step 3: Configuration Details
 Both modules should have Spring Boot auto-detected configs with:
 - **VM options**: `-Dspring.config.location=classpath:application.yaml`
-- **Environment variables**: `DONKEYKONG_DB_URL=http://localhost:8082`
+- **Environment variables**: leave empty for the normal DB-first run
 - **Working directory**: Module root
 
 ---
@@ -67,7 +67,7 @@ If Spring Boot plugin detection doesn't work:
 2. **Name**: `DonkeyKong DB Service`
 3. **Working directory**: `$PROJECT_DIR$/donkeykong-db`
 4. **Command line**: `spring-boot:run -DSPRING_CONFIG_LOCATION=classpath:application.yaml`
-5. **Environment variables**: `DONKEYKONG_DB_URL=http://localhost:8082`
+5. **Environment variables**: leave empty
 6. Click ✅
 
 ### Web Service Configuration  
@@ -75,7 +75,7 @@ If Spring Boot plugin detection doesn't work:
 2. **Name**: `DonkeyKong Web Service`
 3. **Working directory**: `$PROJECT_DIR$/donkeykong-web`
 4. **Command line**: `spring-boot:run -DSPRING_CONFIG_LOCATION=classpath:application.yaml`
-5. **Environment variables**: `DONKEYKONG_DB_URL=http://localhost:8082`
+5. **Environment variables**: leave empty for the normal DB-first run
 6. Click ✅
 
 ### Run Both Together
@@ -96,10 +96,10 @@ If Spring Boot plugin detection doesn't work:
 ### Method 2: Run Individual Services
 1. From toolbar dropdown, select: **DonkeyKong DB Service**
 2. Click **Green Play ▶️ button**
-3. Wait for message: `Tomcat started on port(s): 8082`
+3. Wait for message: `Tomcat started on port 8080`
 4. From toolbar dropdown, select: **DonkeyKong Web Service**
 5. Click **Green Play ▶️ button**
-6. Wait for message: `Tomcat started on port(s): 8080`
+6. Wait for message: `Tomcat started on port 8081`
 
 ### Method 3: Debug Mode
 - Click **Bug 🐞 icon** instead of Play button to run with debugger
@@ -111,18 +111,18 @@ If Spring Boot plugin detection doesn't work:
 After starting services:
 
 1. **Check Database Service**:
-   - Open: http://localhost:8082/swagger-ui/index.html
+   - Open: http://localhost:8080/swagger-ui/index.html
    - Should see Swagger API documentation
    - Try: GET /api/v1/game-results
 
 2. **Check Web Service**:
-   - Open: http://localhost:8080
+   - Open: http://localhost:8081
    - Should see High Scores page
    - Navigate to "🎯 Game Results" tab
 
 3. **Check Integration**:
-   - Create a game result via http://localhost:8082/swagger-ui/index.html
-   - Verify it appears in http://localhost:8080/ui/game-results
+   - Create a game result via http://localhost:8080/swagger-ui/index.html
+   - Verify it appears in http://localhost:8081/ui/game-results
 
 ---
 
@@ -135,18 +135,15 @@ The applications use default profiles:
 - No VM options needed (already configured)
 
 ### If You Want Custom Ports
-Edit the respective `application.yaml`:
+Prefer VM options or environment variables so the source defaults stay unchanged.
 
-**donkeykong-db/src/main/resources/application.yaml**:
+- Set a fixed service port with `-Dserver.port=9090` or `SERVER_PORT=9090`
+- If the DB is not on `8080`, set the Web Service environment variable: `DONKEYKONG_DB_URL=http://localhost:<db-port>`
+
+The source defaults are:
 ```yaml
 server:
-  port: 8082  # Change here
-```
-
-**donkeykong-web/src/main/resources/application.yaml**:
-```yaml
-server:
-  port: 8080  # Change here
+  port: 8080
 ```
 
 ---
@@ -160,9 +157,9 @@ server:
 4. Open Run Configurations again
 
 ### Port Already in Use
-1. Kill existing Java processes: `pkill -f java`
-2. Or change ports in `application.yaml` files
-3. Update `DONKEYKONG_DB_URL` to new port if changed
+1. Check the console; the service should move from `8080` to the next free port automatically.
+2. If DB did not start on `8080`, set `DONKEYKONG_DB_URL=http://localhost:<db-port>` for the Web Service.
+3. Kill old Java processes only if you want the default ports back: `pkill -f java`
 
 ### Spring Boot Plugin Not Auto-Detecting
 1. Install Spring Boot plugin: **File → Settings → Plugins → Search "Spring Boot"**
@@ -220,5 +217,4 @@ To share with team: Commit these XML files to Git
 ---
 
 **Status**: Ready for play button execution ✅
-
 

@@ -1,5 +1,6 @@
 package cz.vsb.fei.donkeykong.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,9 +28,9 @@ public class GameResult {
 
     private Integer duration;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "high_score_id")
     private HighScore highScore;
 }
-
 

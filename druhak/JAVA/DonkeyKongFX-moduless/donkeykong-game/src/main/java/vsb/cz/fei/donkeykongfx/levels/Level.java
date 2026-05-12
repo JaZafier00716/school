@@ -4,14 +4,11 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import vsb.cz.fei.donkeykongfx.App;
 import vsb.cz.fei.donkeykongfx.GameState;
+import vsb.cz.fei.donkeykongfx.I18n;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 import vsb.cz.fei.donkeykongfx.gameobjects.*;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.EntityState;
@@ -28,6 +25,7 @@ import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.text.MessageFormat;
 import java.util.function.Consumer;
 
 @Log4j2
@@ -42,7 +40,6 @@ public class Level extends ResizableDimension {
     private final List<GameObject> toBeRemovedEntities = new ArrayList<>();
     private Comparator<Renderable> objectComparator;
     private Comparator<GameObject> entityComparator;
-    @Setter
     boolean pause = false;
 
     public enum GameOverReason {
@@ -54,6 +51,40 @@ public class Level extends ResizableDimension {
 
     public void setOnGameOver(Consumer<GameOverReason> gameOverListener) {
         this.gameOverListener = gameOverListener;
+    }
+
+    public synchronized void setPause(boolean pause) {
+        this.pause = pause;
+        for (GameObject entity : entities) {
+            if (entity instanceof AutonomousEntity autonomousEntity) {
+                autonomousEntity.setBehaviorPaused(pause);
+            }
+        }
+    }
+
+    public synchronized void startAutonomousEntities() {
+        for (GameObject entity : entities) {
+            startAutonomousEntity(entity);
+        }
+    }
+
+    public synchronized void stopAutonomousEntities() {
+        for (GameObject entity : entities) {
+            stopAutonomousEntity(entity);
+        }
+    }
+
+    private void startAutonomousEntity(GameObject entity) {
+        if (entity instanceof AutonomousEntity autonomousEntity) {
+            autonomousEntity.setBehaviorPaused(pause);
+            autonomousEntity.startBehaviorThread();
+        }
+    }
+
+    private void stopAutonomousEntity(GameObject entity) {
+        if (entity instanceof AutonomousEntity autonomousEntity) {
+            autonomousEntity.stopBehaviorThread();
+        }
     }
 
     private void triggerGameOver(GameOverReason reason) {
@@ -263,7 +294,7 @@ public class Level extends ResizableDimension {
         }
     }
 
-    public void draw(GraphicsContext gc) {
+    public synchronized void draw(GraphicsContext gc) {
         renderScore(gc);
         for (Renderable entity : objects) {
             entity.render(gc);
@@ -273,7 +304,7 @@ public class Level extends ResizableDimension {
         }
     }
 
-    public void update(double deltaTime) {
+    public synchronized void update(double deltaTime) {
         if (pause) {
             return;
         }
@@ -296,7 +327,9 @@ public class Level extends ResizableDimension {
                     log.debug("Spawned Barrel at (36,59)");
                 }
             }
-            entity.update(deltaTime);
+            if (!(entity instanceof AutonomousEntity)) {
+                entity.update(deltaTime);
+            }
         }
         for (GameObject o1 : entities) {
             if (o1 instanceof Collisionable c1) {
@@ -353,15 +386,21 @@ public class Level extends ResizableDimension {
             }
         }
 
+        for (GameObject entity : toBeRemovedEntities) {
+            stopAutonomousEntity(entity);
+        }
         entities.removeAll(toBeRemovedEntities);
         toBeRemovedEntities.clear();
         entities.addAll(toBeAddedEntities);
+        for (GameObject entity : toBeAddedEntities) {
+            startAutonomousEntity(entity);
+        }
         toBeAddedEntities.clear();
         objects.sort(objectComparator);
         entities.sort(entityComparator);
     }
 
-    public GameState toGameState() {
+    public synchronized GameState toGameState() {
         GameState state = new GameState();
         state.playerName = this.player.getPlayerName();
         state.levelHeight = this.getHeight();
@@ -396,7 +435,8 @@ public class Level extends ResizableDimension {
         return state;
     }
 
-    public void fromGameState(GameState state) {
+    public synchronized void fromGameState(GameState state) {
+        stopAutonomousEntities();
         this.updateSize(new Dimension2D(state.levelWidth, state.levelHeight));
         entities.clear();
         entities.add(princess);
@@ -444,6 +484,6 @@ public class Level extends ResizableDimension {
         gc.setFill(Color.WHITE);
         gc.setFont(App.pressStartFont);
         gc.setImageSmoothing(false);
-        gc.fillText("SCORE: " + player.getScore(), 150*getScale(), 10*getScale());
+        gc.fillText(MessageFormat.format(I18n.get("game.score"), player.getScore()), 150*getScale(), 10*getScale());
     }
 }

@@ -12,12 +12,17 @@ import vsb.cz.fei.donkeykongfx.gameobjects.platform.Platform;
 import vsb.cz.fei.donkeykongfx.gameobjects.entities.player.Player;
 
 @Log4j2
-public class Barrel extends MovableGameObject {
+public class Barrel extends MovableGameObject implements Runnable, AutonomousEntity {
+    private static final long THREAD_SLEEP_MS = 16;
+
     private BarrelState barrelState;
     private final AnimationData roll;
     private final AnimationData climb;
     private boolean canUpdatePosition = false;
     private double positionTimer = 0.0;
+    private volatile boolean behaviorRunning = false;
+    private volatile boolean behaviorPaused = false;
+    private Thread behaviorThread;
     @Setter
     @Getter
     private boolean player_jumped_over = false;
@@ -47,7 +52,7 @@ public class Barrel extends MovableGameObject {
     }
 
     @Override
-    public Rectangle2D getBounds() {
+    public synchronized Rectangle2D getBounds() {
         AnimationData currentAnim = switch (barrelState) {
             case ROLLING -> roll;
             case CLIMBING -> climb;
@@ -69,7 +74,7 @@ public class Barrel extends MovableGameObject {
     }
 
     @Override
-    protected void renderInternal(GraphicsContext gc) {
+    protected synchronized void renderInternal(GraphicsContext gc) {
         AnimationData currentAnim = switch (barrelState) {
             case ROLLING -> roll;
             case CLIMBING -> climb;
@@ -87,7 +92,7 @@ public class Barrel extends MovableGameObject {
         );
     }
 
-    public void updateState(double deltaTime) {
+    public synchronized void updateState(double deltaTime) {
         switch (barrelState) {
             case ROLLING -> frameIndex = (roll.getColCount() + frameIndex + getDirectionX()) % roll.getColCount();
             case CLIMBING -> frameIndex = (frameIndex + 1) % climb.getColCount();
@@ -95,7 +100,7 @@ public class Barrel extends MovableGameObject {
     }
 
     @Override
-    public void update(double deltaTime) {
+    public synchronized void update(double deltaTime) {
         updateTimer(deltaTime);
         MovableType type = getType();
         if (type != null) {
@@ -136,7 +141,7 @@ public class Barrel extends MovableGameObject {
     }
 
     @Override
-    public void hitBy(Collisionable another) {
+    public synchronized void hitBy(Collisionable another) {
         if (another instanceof Platform platform) {
             grounded(platform);
             return;
@@ -153,7 +158,53 @@ public class Barrel extends MovableGameObject {
         return barrelState.name();
     }
 
-    public void setStateByName(String state) {
+    public synchronized void setStateByName(String state) {
         this.barrelState = BarrelState.valueOf(state);
+    }
+
+    @Override
+    public void startBehaviorThread() {
+        if (behaviorThread != null && behaviorThread.isAlive()) {
+            return;
+        }
+        behaviorRunning = true;
+        behaviorThread = new Thread(this, "Barrel-" + Integer.toHexString(System.identityHashCode(this)));
+        behaviorThread.setDaemon(true);
+        behaviorThread.start();
+    }
+
+    @Override
+    public void stopBehaviorThread() {
+        behaviorRunning = false;
+        Thread thread = behaviorThread;
+        if (thread != null) {
+            thread.interrupt();
+        }
+    }
+
+    @Override
+    public void setBehaviorPaused(boolean paused) {
+        behaviorPaused = paused;
+    }
+
+    @Override
+    public void run() {
+        long lastTick = System.nanoTime();
+        while (behaviorRunning && !isToBeRemoved()) {
+            long now = System.nanoTime();
+            double deltaTime = (now - lastTick) / 1_000_000_000D;
+            lastTick = now;
+
+            if (!behaviorPaused) {
+                update(Math.min(deltaTime, 0.05));
+            }
+
+            try {
+                Thread.sleep(THREAD_SLEEP_MS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                behaviorRunning = false;
+            }
+        }
     }
 }

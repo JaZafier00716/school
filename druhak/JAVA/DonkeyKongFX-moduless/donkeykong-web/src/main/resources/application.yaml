@@ -11,5 +11,4 @@ spring:
 # Configuration for connecting to the donkeykong-db service
 donkeykong:
   db:
-    base-url: ${DONKEYKONG_DB_URL:http://localhost:8082}
-
+    base-url: ${DONKEYKONG_DB_URL:http://localhost:8080}

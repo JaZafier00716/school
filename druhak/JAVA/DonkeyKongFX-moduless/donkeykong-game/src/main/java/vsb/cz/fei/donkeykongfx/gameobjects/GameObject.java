@@ -4,14 +4,10 @@ import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import lombok.Getter;
-import lombok.Setter;
 import vsb.cz.fei.donkeykongfx.controllers.ResizableDimension;
 
 public abstract class GameObject extends RenderableObject implements Collisionable {
     protected int frameIndex;
-    @Getter
-    @Setter
     private boolean toBeRemoved = false;
 
 
@@ -22,6 +18,14 @@ public abstract class GameObject extends RenderableObject implements Collisionab
 
 
     public abstract Rectangle2D getBounds();
+
+    public synchronized boolean isToBeRemoved() {
+        return toBeRemoved;
+    }
+
+    public synchronized void setToBeRemoved(boolean toBeRemoved) {
+        this.toBeRemoved = toBeRemoved;
+    }
 
 
     @Override

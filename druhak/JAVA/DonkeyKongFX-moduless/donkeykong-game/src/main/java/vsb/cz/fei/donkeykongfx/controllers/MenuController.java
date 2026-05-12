@@ -23,10 +23,13 @@ import java.util.Comparator;
 
 @Log4j2
 public class MenuController extends ResizableController {
+    private static final File STATE_FILE = new File("./state.bin");
+
     private ResizableDimension rd;
     DonkeyKong menuDonkeyKong;
     private long lastFrame = 0;
     private final int MaxPlayerNameLength = 12;
+    private String savedPlayerName;
 
 
     @FXML
@@ -97,6 +100,7 @@ public class MenuController extends ResizableController {
             if (getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
             }
+            deleteSave();
             log.info("Starting new game for player {}", playerNameField.getText());
             getApp().switchToGame(playerNameField.getText());
         } catch (Exception e) {
@@ -113,6 +117,10 @@ public class MenuController extends ResizableController {
             }
             if (getApp() == null) {
                 throw new IllegalStateException("App has not been initialized");
+            }
+            if (!canContinueCurrentPlayer()) {
+                updateContinueButton();
+                return;
             }
             log.info("Continuing game for player {}", playerNameField.getText());
             getApp().continueGame(playerNameField.getText());
@@ -139,27 +147,18 @@ public class MenuController extends ResizableController {
         assert startButton != null : "fx:id=\"startButton\" was not injected: check your FXML file 'menu.fxml'.";
 
 
-        File stateFile = new File("./state.bin");
-        if (!stateFile.exists()) {
-            continueButton.setDisable(true);
-            continueButton.setVisible(false);
-            continueButton.setMaxHeight(0);
-            continueButton.setMinHeight(0);
-            continueButton.setMaxHeight(0);
-            continueButton.setMinWidth(0);
+        if (!STATE_FILE.exists()) {
+            hideContinueButton();
             log.debug("No saved state found; continue button hidden");
         } else {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./state.bin"))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(STATE_FILE))) {
                 GameState state = (GameState) ois.readObject();
                 if (state.playerName == null || state.playerName.isEmpty()) {
-                    continueButton.setDisable(true);
-                    continueButton.setVisible(false);
-                    continueButton.setMaxHeight(0);
-                    continueButton.setMinHeight(0);
-                    continueButton.setMaxHeight(0);
-                    continueButton.setMinWidth(0);
+                    savedPlayerName = null;
+                    hideContinueButton();
                     log.warn("Saved state exists but player name is missing; continue button hidden");
                 } else {
+                    savedPlayerName = state.playerName;
                     playerNameField.setText(state.playerName);
                     log.debug("Loaded saved player name {} into menu", state.playerName);
                 }
@@ -182,6 +181,8 @@ public class MenuController extends ResizableController {
                 return null;
             }
         }));
+        playerNameField.textProperty().addListener((observable, oldValue, newValue) -> updateContinueButton());
+        updateContinueButton();
 
         columnNickName.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getNickName()));
         columnScore.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getScore()));
@@ -195,8 +196,7 @@ public class MenuController extends ResizableController {
             }
             log.debug("Loaded {} score rows into menu leaderboard", scoreTable.getItems().size());
         } catch (ScoreException e) {
-            log.warn("Handled error while loading leaderboard", e);
-            printAlert(e);
+            log.warn("Leaderboard unavailable; using fallback scores: {}", e.getMessage());
         }
 
         if(scoreTable.getItems().isEmpty()) {
@@ -208,6 +208,33 @@ public class MenuController extends ResizableController {
         scoreTable.getItems().sort(comparator);
 
         installSizeListener();
+    }
+
+    private boolean canContinueCurrentPlayer() {
+        return savedPlayerName != null && savedPlayerName.equals(playerNameField.getText()) && STATE_FILE.exists();
+    }
+
+    private void updateContinueButton() {
+        if (canContinueCurrentPlayer()) {
+            continueButton.setDisable(false);
+            continueButton.setVisible(true);
+            continueButton.setManaged(true);
+        } else {
+            hideContinueButton();
+        }
+    }
+
+    private void hideContinueButton() {
+        continueButton.setDisable(true);
+        continueButton.setVisible(false);
+        continueButton.setManaged(false);
+    }
+
+    private void deleteSave() {
+        if (STATE_FILE.exists() && !STATE_FILE.delete()) {
+            log.warn("Failed to delete save file at {}", STATE_FILE.getAbsolutePath());
+        }
+        savedPlayerName = null;
     }
 
     public void startMenu() {

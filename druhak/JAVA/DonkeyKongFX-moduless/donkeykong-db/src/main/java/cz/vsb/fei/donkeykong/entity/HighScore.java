@@ -1,5 +1,6 @@
 package cz.vsb.fei.donkeykong.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,7 +27,7 @@ public class HighScore {
 
     private Integer score;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "highScore")
     private Set<GameResult> gameResults = new HashSet<>();
 }
-
