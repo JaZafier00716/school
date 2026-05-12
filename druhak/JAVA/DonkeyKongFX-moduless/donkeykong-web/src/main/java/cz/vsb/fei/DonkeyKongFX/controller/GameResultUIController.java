@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,10 +33,11 @@ public class GameResultUIController {
      * Display all game results in a table
      */
     @GetMapping({"", "/"})
-    public String index(Model model) {
+    public String index(@RequestParam(required = false) String player, Model model) {
         try {
             // Fetch all game results from the database service
-            GameResult[] results = restTemplate.getForObject(getDbUrl(""), GameResult[].class);
+            String path = hasText(player) ? "/player/" + encode(player) : "";
+            GameResult[] results = restTemplate.getForObject(getDbUrl(path), GameResult[].class);
             List<GameResult> gameResultsList = results != null ? Arrays.asList(results) : new ArrayList<>();
 
             // Sort by played_at descending (newest first)
@@ -57,6 +60,7 @@ public class GameResultUIController {
             model.addAttribute("totalGames", totalGames);
             model.addAttribute("highestScore", highestScore);
             model.addAttribute("topPlayer", topPlayer);
+            model.addAttribute("searchPlayer", player);
 
             log.info("Loaded {} game results", sortedResults.size());
         } catch (Exception e) {
@@ -66,6 +70,14 @@ public class GameResultUIController {
         }
 
         return "game-results";
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 
     /**
@@ -114,5 +126,4 @@ public class GameResultUIController {
         }
     }
 }
-
 

@@ -13,5 +13,7 @@ public interface HighScoreRepository extends JpaRepository<HighScore, Long> {
 
     List<HighScore> findTop10ByOrderByScoreDesc();
 
+    List<HighScore> findTop10ByOrderByIdDesc();
+
     Integer countByPlayerName(String playerName);
 }

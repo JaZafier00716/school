@@ -1,12 +1,15 @@
 package cz.vsb.fei.donkeykong.controller;
 
 import cz.vsb.fei.donkeykong.entity.GameResult;
+import cz.vsb.fei.donkeykong.entity.Player;
 import cz.vsb.fei.donkeykong.repository.GameResultRepository;
+import cz.vsb.fei.donkeykong.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,12 +20,15 @@ public class GameResultController {
     @Autowired
     private GameResultRepository gameResultRepository;
 
+    @Autowired
+    private PlayerRepository playerRepository;
+
     /**
      * Get all game results
      */
     @GetMapping
     public ResponseEntity<List<GameResultDto>> getAllGameResults() {
-        List<GameResult> results = gameResultRepository.findAll();
+        List<GameResult> results = gameResultRepository.findAllByOrderByPlayedAtDesc();
         return ResponseEntity.ok(results.stream().map(GameResultController::toDto).toList());
     }
 
@@ -43,6 +49,10 @@ public class GameResultController {
     @PostMapping
     public ResponseEntity<GameResultDto> createGameResult(@RequestBody GameResult gameResult) {
         gameResult.setId(null);
+        if (gameResult.getPlayedAt() == null) {
+            gameResult.setPlayedAt(LocalDateTime.now());
+        }
+        setPlayer(gameResult);
         GameResult savedResult = gameResultRepository.save(gameResult);
         return ResponseEntity.status(HttpStatus.CREATED).body(toDto(savedResult));
     }
@@ -58,6 +68,7 @@ public class GameResultController {
             GameResult gameResult = existingResult.get();
             if (gameResultDetails.getPlayerName() != null) {
                 gameResult.setPlayerName(gameResultDetails.getPlayerName());
+                setPlayer(gameResult);
             }
             if (gameResultDetails.getScore() != null) {
                 gameResult.setScore(gameResultDetails.getScore());
@@ -129,6 +140,16 @@ public class GameResultController {
                 result.getDuration(),
                 null
         );
+    }
+
+    private void setPlayer(GameResult gameResult) {
+        if (gameResult.getPlayerName() == null || gameResult.getPlayerName().isBlank()) {
+            gameResult.setPlayer(null);
+            return;
+        }
+        Player player = playerRepository.findByName(gameResult.getPlayerName())
+                .orElseGet(() -> playerRepository.save(new Player(gameResult.getPlayerName())));
+        gameResult.setPlayer(player);
     }
 
     public record GameResultDto(

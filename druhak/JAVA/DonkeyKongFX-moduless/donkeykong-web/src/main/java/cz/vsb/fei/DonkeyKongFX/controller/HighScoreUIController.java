@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,10 +33,11 @@ public class HighScoreUIController {
      * Display all high scores in a table
      */
     @GetMapping({"", "/"})
-    public String index(Model model) {
+    public String index(@RequestParam(required = false) String player, Model model) {
         try {
             // Fetch all high scores from the database service
-            HighScore[] scores = restTemplate.getForObject(getDbUrl(""), HighScore[].class);
+            String path = hasText(player) ? "/player/" + encode(player) : "";
+            HighScore[] scores = restTemplate.getForObject(getDbUrl(path), HighScore[].class);
             List<HighScore> highScoresList = scores != null ? Arrays.asList(scores) : new ArrayList<>();
 
             // Sort by score descending
@@ -49,6 +52,7 @@ public class HighScoreUIController {
             model.addAttribute("highScores", sortedScores);
             model.addAttribute("highestScore", highestScore);
             model.addAttribute("topPlayer", topPlayer);
+            model.addAttribute("searchPlayer", player);
 
             log.info("Loaded {} high scores", sortedScores.size());
         } catch (Exception e) {
@@ -64,8 +68,8 @@ public class HighScoreUIController {
      * Display high scores page (alternative route)
      */
     @GetMapping("/high-scores")
-    public String highScores(Model model) {
-        return index(model);
+    public String highScores(@RequestParam(required = false) String player, Model model) {
+        return index(player, model);
     }
 
     /**
@@ -112,5 +116,13 @@ public class HighScoreUIController {
             log.error("Error fetching high scores", e);
             return new ArrayList<>();
         }
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.isBlank();
+    }
+
+    private String encode(String value) {
+        return URLEncoder.encode(value, StandardCharsets.UTF_8);
     }
 }

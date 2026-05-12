@@ -5,11 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
@@ -27,7 +26,10 @@ public class HighScore {
 
     private Integer score;
 
+    private LocalDateTime playedAt;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "highScore")
-    private Set<GameResult> gameResults = new HashSet<>();
+    @ToString.Exclude
+    @ManyToOne
+    private Player player;
 }

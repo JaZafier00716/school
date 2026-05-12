@@ -44,12 +44,26 @@
             font-size: 0.95em;
         }
 
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
+	        .controls {
+	            display: flex;
+	            gap: 10px;
+	            margin-bottom: 30px;
+	            flex-wrap: wrap;
+	        }
+
+	        .search-form {
+	            display: flex;
+	            gap: 10px;
+	            margin-bottom: 20px;
+	        }
+
+	        .search-form input {
+	            flex: 1;
+	            padding: 10px 12px;
+	            border: 1px solid #ddd;
+	            border-radius: 5px;
+	            font-size: 1em;
+	        }
 
         .btn {
             padding: 10px 20px;
@@ -241,9 +255,9 @@
                 padding: 10px;
             }
 
-            .controls {
-                flex-direction: column;
-            }
+	            .controls, .search-form {
+	                flex-direction: column;
+	            }
 
             .btn {
                 width: 100%;
@@ -279,12 +293,18 @@
             </div>
         </div>
 
-        <!-- Controls -->
-        <div class="controls">
-            <button class="btn btn-primary" onclick="location.reload()">🔄 Refresh</button>
-            <button class="btn btn-warning" onclick="confirmDeleteAll()">🗑️ Delete All</button>
-            <a href="/ui/game-results" class="btn btn-primary">🎯 View Game Results</a>
-        </div>
+	        <!-- Controls -->
+	        <form class="search-form" action="/ui/high-scores" method="get">
+	            <input type="text" name="player" placeholder="Search player leaderboard" th:value="${searchPlayer}">
+	            <button class="btn btn-primary" type="submit">Search</button>
+	            <a th:if="${searchPlayer != null && !#strings.isEmpty(searchPlayer)}" href="/ui/high-scores" class="btn btn-warning">Clear</a>
+	        </form>
+
+	        <div class="controls">
+	            <button class="btn btn-primary" onclick="location.reload()">🔄 Refresh</button>
+	            <button class="btn btn-warning" onclick="confirmDeleteAll()">🗑️ Delete All</button>
+	            <a href="/ui/game-results" class="btn btn-primary">🎯 View Game Results</a>
+	        </div>
 
         <!-- High Scores Table -->
         <div th:if="${highScores.size() > 0}">

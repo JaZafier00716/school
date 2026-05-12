@@ -22,15 +22,15 @@
 
 | Requirement | Status | Implementation |
 |---|---|---|
-| JPA Entity | ✅ | GameResult.java (6 fields) + HighScore.java |
-| Spring Data Repository | ✅ | GameResultRepository with custom queries |
+| JPA Entity | ✅ | Player.java + HighScore.java + GameResult.java |
+| Spring Data Repository | ✅ | PlayerRepository, HighScoreRepository, GameResultRepository |
 | Full CRUD REST API | ✅ | 8 endpoints (POST, GET×2, PUT, DELETE×2) |
 | Web UI Table | ✅ | game-results.html (Thymeleaf, 358 lines) |
 | Delete Functionality | ✅ | Delete buttons with confirmation dialogs |
 | Navigation | ✅ | Tabs between High Scores & Game Results |
 | Swagger/OpenAPI | ✅ | springdoc-openapi dependency + UI |
-| Entity Relationships | ✅ | GameResult.@ManyToOne → HighScore |
-| Game Result Capture | ✅ | Creating a HighScore also records a GameResult |
+| Entity Relationships | ✅ | Player.@OneToMany → GameResult / GameResult.@ManyToOne → Player |
+| Leaderboard View | ✅ | High scores are derived from GameResult as the source of truth |
 | Build Status | ✅ | All 4 modules: SUCCESS (8.1s) |
 
 ---
@@ -41,7 +41,7 @@
 Spring Boot:   4.0.5
 Java:          25
 Maven:         3.8+
-Database:      H2 (in-memory)
+Database:      H2 file database (./db/score-db)
 ORM:           Spring Data JPA
 Templates:     Thymeleaf 3.1.x
 API Docs:      SpringDoc OpenAPI
@@ -58,10 +58,13 @@ Code Gen:      Lombok
 DonkeyKongFX-moduless/
 ├── donkeykong-db/                    # Database Service (Port 8080, fallback upward)
 │   ├── src/main/java/.../entity/
-│   │   ├── GameResult.java          # @Entity with @ManyToOne to HighScore
-│   │   └── HighScore.java           # @Entity with @OneToMany GameResults
+│   │   ├── Player.java              # @Entity with @OneToMany GameResults
+│   │   ├── GameResult.java          # Played game source of truth
+│   │   └── HighScore.java           # Compatibility request shape
 │   ├── src/main/java/.../repository/
-│   │   └── GameResultRepository.java # Spring Data JPA + custom queries
+│   │   ├── PlayerRepository.java
+│   │   ├── HighScoreRepository.java
+│   │   └── GameResultRepository.java
 │   ├── src/main/java/.../controller/
 │   │   ├── GameResultController.java # REST API (8 endpoints)
 │   │   └── HighScoreController.java
@@ -169,10 +172,23 @@ import lombok.*;
 
 ## 🔄 Entity Relationships
 
-### GameResult ⟷ HighScore (Many-to-One)
+### Player -> GameResult (One-to-Many)
 
 ```java
 // Database Module
+@Entity
+public class Player {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @OneToMany(mappedBy = "player")
+    private Set<GameResult> gameResults = new HashSet<>();
+}
+
 @Entity
 public class GameResult {
     @Id
@@ -182,28 +198,12 @@ public class GameResult {
     private String playerName;
     private Integer score;
     private LocalDateTime playedAt;
-    private Integer level;
-    private Integer duration;
-    
+
     @ManyToOne
-    @JoinColumn(name = "high_score_id")
-    private HighScore highScore;  // Foreign key
+    private Player player;
 }
 
-@Entity
-public class HighScore {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    private String playerName;
-    private Integer score;
-    
-    @OneToMany(mappedBy = "highScore")
-    private Set<GameResult> gameResults = new HashSet<>();
-}
-
-// Web Module (DTOs)
+// Web Module (DTO)
 @Data
 public class GameResult {
     @JsonProperty(access = READ_ONLY)
@@ -213,9 +213,11 @@ public class GameResult {
     private LocalDateTime playedAt;
     private Integer level;
     private Integer duration;
-    private Long highScoreId;  // For API transfer
+    private Long highScoreId;  // Null; high scores are derived from GameResult
 }
 ```
+
+GameResult is the source of truth. High score endpoints are leaderboard views derived from GameResult rows so game history and leaderboard data do not diverge.
 
 ---
 
@@ -339,7 +341,7 @@ Runtime Errors: 0
 
 | Test | Requirement | Status |
 |---|---|---|
-| entityClassesAnnotationTest | 2 @Entity classes | ✅ PASS |
+| entityClassesAnnotationTest | 3 @Entity classes | ✅ PASS |
 | manyToOnePropertyAnnotationTest | 1 @ManyToOne field | ✅ PASS |
 
 ---
@@ -360,10 +362,12 @@ public interface GameResultRepository extends JpaRepository<GameResult, Long> {
 }
 ```
 
+Current UI/API result reads use `GameResultRepository` as the source of truth. `HighScore` remains as the lightweight request/response shape used by the game client and high-score endpoints.
+
 ### DTO Pattern (Web Module)
 - GameResult DTO has @JsonProperty(access = READ_ONLY) on ID
 - Prevents client modification of server-generated IDs
-- Includes highScoreId for relationship transfer
+- GameResult DTO keeps highScoreId for compatibility, but high scores are now derived from GameResult
 
 ### Proxy Pattern (Web Module)
 - GameResultController proxies all requests to Database Service via RestTemplate
@@ -372,7 +376,7 @@ public interface GameResultRepository extends JpaRepository<GameResult, Long> {
 
 ### Thymeleaf Templates
 - Server-side rendering (no SPA)
-- Date formatting: `#dates.format(date, 'dd.MM.yyyy HH:mm:ss')`
+- Date formatting: `#temporals.format(date, 'dd.MM.yyyy HH:mm:ss')`
 - Safe operators: `${result.duration ?: 'N/A'}`
 - Form submission via POST (HTML forms can't send DELETE)
 
@@ -380,9 +384,8 @@ public interface GameResultRepository extends JpaRepository<GameResult, Long> {
 
 ## 📦 Dependencies Management
 
-### Parent POM (Spring Boot 4.0.5)
-All child modules inherit Spring Boot Bill of Materials  
-See: `pom.xml` in root directory
+### Maven Modules
+The JavaFX game inherits from the root parent POM. The DB and Web modules use their own Spring Boot 4.0.5 parent POMs.
 
 ### Key Versions
 - **Lombok**: 1.18.42
@@ -395,9 +398,9 @@ See: `pom.xml` in root directory
 ## 🚨 Important Notes
 
 1. **Game Module**: Continue is only available for the saved player; starting a new game deletes the previous save; finished games delete the save
-2. **Database**: H2 in-memory (file-based at ./db/score-db)
-3. **Schema Generation**: JPA creates schema on startup
-4. **Result Recording**: Creating a HighScore also creates a GameResult so both UI tabs stay populated
+2. **Database**: H2 file database at ./db/score-db
+3. **Schema Generation**: JPA updates schema on startup
+4. **Result Recording**: GameResult is the source of truth; High Scores UI/API shows leaderboard rows derived from GameResult
 5. **Service Communication**: Always start Database Service BEFORE Web Service
 6. **Port Conflicts**: Services try port 8080 first, then move upward if it is busy; DB first usually means DB on 8080 and Web on 8081
 7. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL if DB cannot run on 8080

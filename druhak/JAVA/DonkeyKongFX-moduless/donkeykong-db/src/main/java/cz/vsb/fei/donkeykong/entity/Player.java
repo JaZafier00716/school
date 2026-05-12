@@ -4,31 +4,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class GameResult {
+public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @EqualsAndHashCode.Include
     private Long id;
 
-    private String playerName;
-
-    private Integer score;
-
-    private LocalDateTime playedAt;
-
-    private Integer level;
-
-    private Integer duration;
+    @Column(nullable = false, unique = true)
+    private String name;
 
     @JsonIgnore
-    @ManyToOne
-    private Player player;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "player")
+    private Set<GameResult> gameResults = new HashSet<>();
+
+    public Player(String name) {
+        this.name = name;
+    }
 }
