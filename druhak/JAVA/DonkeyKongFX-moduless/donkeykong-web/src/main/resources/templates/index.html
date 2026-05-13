@@ -4,280 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donkey Kong - High Scores Manager</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            max-width: 1000px;
-            width: 100%;
-            padding: 40px;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 2.5em;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 0.95em;
-        }
-
-	        .controls {
-	            display: flex;
-	            gap: 10px;
-	            margin-bottom: 30px;
-	            flex-wrap: wrap;
-	        }
-
-	        .search-form {
-	            display: flex;
-	            gap: 10px;
-	            margin-bottom: 20px;
-	        }
-
-	        .search-form input {
-	            flex: 1;
-	            padding: 10px 12px;
-	            border: 1px solid #ddd;
-	            border-radius: 5px;
-	            font-size: 1em;
-	        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #764ba2;
-        }
-
-        .btn-danger {
-            background: #ff6b6b;
-            color: white;
-            padding: 8px 15px;
-            font-size: 0.9em;
-        }
-
-        .btn-danger:hover {
-            background: #ff5252;
-        }
-
-        .btn-warning {
-            background: #ffa500;
-            color: white;
-            padding: 8px 15px;
-            font-size: 0.9em;
-        }
-
-        .btn-warning:hover {
-            background: #ff8c00;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        thead {
-            background: #667eea;
-            color: white;
-        }
-
-        th, td {
-            padding: 15px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tbody tr:hover {
-            background: #f5f5f5;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .rank {
-            font-weight: bold;
-            color: #667eea;
-            text-align: center;
-            width: 50px;
-        }
-
-        .actions {
-            display: flex;
-            gap: 5px;
-            justify-content: center;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-        }
-
-        .stat-card h3 {
-            color: #667eea;
-            font-size: 0.9em;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .stat-card .value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-info {
-            background: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 500px;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            color: #333;
-        }
-
-        .modal-footer {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            table {
-                font-size: 0.9em;
-            }
-
-            th, td {
-                padding: 10px;
-            }
-
-	            .controls, .search-form {
-	                flex-direction: column;
-	            }
-
-            .btn {
-                width: 100%;
-                text-align: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/donkeykong.css}" href="/css/donkeykong.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🎮 Donkey Kong - High Scores</h1>
+    <div class="container container-narrow">
+        <h1>Donkey Kong - High Scores</h1>
         <p class="subtitle">View and manage your game scores</p>
 
-        <!-- Navigation Tabs -->
-        <div style="display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #667eea;">
-            <a href="/ui/high-scores" style="padding: 10px 20px; color: #764ba2; font-weight: bold; text-decoration: none; border-bottom: 3px solid #764ba2; margin-bottom: -2px;">📊 High Scores</a>
-            <a href="/ui/game-results" style="padding: 10px 20px; color: #667eea; font-weight: bold; text-decoration: none;">🎯 Game Results</a>
+        <div class="nav-tabs">
+            <a href="/ui/high-scores" class="nav-link active">High Scores</a>
+            <a href="/ui/game-results" class="nav-link">Game Results</a>
         </div>
 
-        <!-- Stats -->
         <div class="stats">
             <div class="stat-card">
                 <h3>Total Scores</h3>
@@ -293,38 +31,36 @@
             </div>
         </div>
 
-	        <!-- Controls -->
-	        <form class="search-form" action="/ui/high-scores" method="get">
-	            <input type="text" name="player" placeholder="Search player leaderboard" th:value="${searchPlayer}">
-	            <button class="btn btn-primary" type="submit">Search</button>
-	            <a th:if="${searchPlayer != null && !#strings.isEmpty(searchPlayer)}" href="/ui/high-scores" class="btn btn-warning">Clear</a>
-	        </form>
+        <form class="search-form" action="/ui/high-scores" method="get">
+            <input type="text" name="player" placeholder="Search player leaderboard" th:value="${searchPlayer}">
+            <button class="btn btn-primary" type="submit">Search</button>
+            <a th:if="${searchPlayer != null && !#strings.isEmpty(searchPlayer)}" href="/ui/high-scores" class="btn btn-warning">Clear</a>
+        </form>
 
-	        <div class="controls">
-	            <button class="btn btn-primary" onclick="location.reload()">🔄 Refresh</button>
-	            <button class="btn btn-warning" onclick="confirmDeleteAll()">🗑️ Delete All</button>
-	            <a href="/ui/game-results" class="btn btn-primary">🎯 View Game Results</a>
-	        </div>
+        <div class="controls">
+            <button class="btn btn-primary" onclick="location.reload()">Refresh</button>
+            <button class="btn btn-warning" onclick="confirmDeleteAll()">Delete All</button>
+            <a href="/ui/game-results" class="btn btn-primary">View Game Results</a>
+        </div>
 
-        <!-- High Scores Table -->
         <div th:if="${highScores.size() > 0}">
             <table>
                 <thead>
                     <tr>
                         <th class="rank">#</th>
                         <th>Player Name</th>
-                        <th style="text-align: right;">Score</th>
-                        <th style="text-align: center;">Actions</th>
+                        <th class="score-cell">Score</th>
+                        <th class="center-cell">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="score, status : ${highScores}">
                         <td class="rank" th:text="${status.count}">1</td>
                         <td th:text="${score.playerName}">Unknown</td>
-                        <td style="text-align: right; font-weight: bold; color: #667eea;" th:text="${score.score}">0</td>
+                        <td class="score-cell" th:text="${score.score}">0</td>
                         <td>
                             <div class="actions">
-                                <form th:action="@{/ui/high-scores/{id}/delete(id=${score.id})}" method="post" style="display: inline;">
+                                <form th:action="@{/ui/high-scores/{id}/delete(id=${score.id})}" method="post" class="inline-form">
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this score?')">Delete</button>
                                 </form>
                             </div>
@@ -334,18 +70,16 @@
             </table>
         </div>
 
-        <!-- Empty State -->
         <div th:if="${highScores.isEmpty()}" class="empty-state">
             <h2>No High Scores Yet</h2>
             <p>There are no high scores in the database. Play the game and set your first score!</p>
         </div>
 
-        <!-- Footer -->
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 0.9em;">
+        <div class="footer">
             <p>Donkey Kong High Scores Manager</p>
             <p>
-                <a href="http://localhost:8080/swagger-ui.html" style="color: #667eea; text-decoration: none;">API Documentation</a> |
-                <a href="http://localhost:8080" style="color: #667eea; text-decoration: none;">Database API</a>
+                <a href="http://localhost:8080/swagger-ui.html">Database API Documentation</a> |
+                <a href="http://localhost:8080">Database API</a>
             </p>
         </div>
     </div>

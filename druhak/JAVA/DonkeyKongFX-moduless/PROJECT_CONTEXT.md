@@ -12,7 +12,7 @@
 
 ### Architecture
 - **Database Service** (Port 8080 by default, falls back upward if busy): JPA persistence layer + REST API
-- **Web Service** (Port 8080 by default, falls back upward if busy): Thymeleaf UI + REST proxy gateway
+- **Web Service** (Port 8081 by default, falls back upward if busy): Thymeleaf UI + REST proxy gateway
 - **Game Service**: Independent JavaFX game client
 - **Communication**: RestTemplate inter-service calls
 
@@ -166,7 +166,7 @@ import lombok.*;
 
 ### Port Configuration:
 - **Database Service**: Port 8080 by default; runtime falls back to the next free port
-- **Web Service**: Port 8080 by default; runtime falls back to the next free port
+- **Web Service**: Port 8081 by default; runtime falls back to the next free port
 
 ---
 
@@ -241,12 +241,9 @@ java -jar donkeykong-web/target/donkeykong-web-0.0.1-SNAPSHOT.jar
 ```
 
 ### Access Points
-- 🏠 Main UI when Web runs alone: http://localhost:8080
-- 🎯 Game Results when Web runs alone: http://localhost:8080/ui/game-results
-- 📊 High Scores when Web runs alone: http://localhost:8080/ui/high-scores
-- 🏠 Main UI when DB starts first: http://localhost:8081
-- 🎯 Game Results when DB starts first: http://localhost:8081/ui/game-results
-- 📊 High Scores when DB starts first: http://localhost:8081/ui/high-scores
+- 🏠 Main UI: http://localhost:8081
+- 🎯 Game Results: http://localhost:8081/ui/game-results
+- 📊 High Scores: http://localhost:8081/ui/high-scores
 - 📡 DB REST API: http://localhost:8080/api/v1/game-results by default
 - 📚 DB Swagger UI: http://localhost:8080/swagger-ui/index.html by default
 
@@ -257,7 +254,7 @@ java -jar donkeykong-web/target/donkeykong-web-0.0.1-SNAPSHOT.jar
 ### Database Service (donkeykong-db/src/main/resources/application.yaml)
 ```yaml
 server:
-  port: 8080
+  port: 8081
 
 spring:
   application:
@@ -402,8 +399,8 @@ The JavaFX game inherits from the root parent POM. The DB and Web modules use th
 3. **Schema Generation**: JPA updates schema on startup
 4. **Result Recording**: GameResult is the source of truth; High Scores UI/API shows leaderboard rows derived from GameResult
 5. **Service Communication**: Always start Database Service BEFORE Web Service
-6. **Port Conflicts**: Services try port 8080 first, then move upward if it is busy; DB first usually means DB on 8080 and Web on 8081
-7. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL if DB cannot run on 8080
+6. **Port Conflicts**: DB starts from port 8080; Web starts from port 8081; both move upward if their default port is busy
+7. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL if DB cannot run on 8080; DONKEYKONG_WEB_URL can override the game client's Web Service URL if Web cannot run on 8081
 
 ---
 

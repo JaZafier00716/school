@@ -5,11 +5,9 @@
     <option name="MAIN_CLASS_NAME" value="vsb.cz.fei.donkeykongfx.App" />
     <module name="donkeykong-game" />
     <option name="PROGRAM_PARAMETERS" value="" />
-    <option name="VM_PARAMETERS" value="--module-path $PROJECT_DIR$/donkeykong-game/target/classes:$PROJECT_DIR$/donkeykong-game/target/libs --add-modules javafx.controls,javafx.fxml" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
   </configuration>
 </component>
-

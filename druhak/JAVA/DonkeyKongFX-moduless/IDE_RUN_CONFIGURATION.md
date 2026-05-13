@@ -1,7 +1,7 @@
 # JetBrains IDE Run Configuration Setup
 
 ## Overview
-This guide sets up JetBrains IntelliJ IDEA to run both services using play buttons. Each Spring service tries port `8080` first and automatically moves upward if the port is busy. When you start the Database Service first, it normally uses `8080`; the Web Service then normally uses `8081`.
+This guide sets up JetBrains IntelliJ IDEA to run both services using play buttons. The Database Service uses port `8080` by default, and the Web Service uses port `8081` by default. The Web Service proxies requests to the Database Service at `http://localhost:8080`.
 
 ---
 
@@ -142,8 +142,12 @@ Prefer VM options or environment variables so the source defaults stay unchanged
 
 The source defaults are:
 ```yaml
-server:
-  port: 8080
+donkeykong-db:
+  server.port: 8080
+
+donkeykong-web:
+  server.port: 8081
+  donkeykong.db.base-url: http://localhost:8080
 ```
 
 ---
@@ -157,7 +161,7 @@ server:
 4. Open Run Configurations again
 
 ### Port Already in Use
-1. Check the console; the service should move from `8080` to the next free port automatically.
+1. Check the console; the Database Service should start on `8080` and the Web Service should start on `8081`.
 2. If DB did not start on `8080`, set `DONKEYKONG_DB_URL=http://localhost:<db-port>` for the Web Service.
 3. Kill old Java processes only if you want the default ports back: `pkill -f java`
 
@@ -217,4 +221,3 @@ To share with team: Commit these XML files to Git
 ---
 
 **Status**: Ready for play button execution ✅
-

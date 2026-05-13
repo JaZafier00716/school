@@ -21,7 +21,7 @@ import java.util.List;
 public class ScoreRestClient {
     private static final String BASE_URL = System.getenv().getOrDefault(
             "DONKEYKONG_WEB_URL",
-            "http://localhost:8080"
+            "http://localhost:8081"
     );
     private static final String SCORES_API = BASE_URL + "/api/v1/high-scores";
 

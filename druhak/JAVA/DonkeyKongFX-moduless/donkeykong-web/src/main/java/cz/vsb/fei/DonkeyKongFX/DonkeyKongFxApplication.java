@@ -11,7 +11,7 @@ public class DonkeyKongFxApplication {
 
 	public static void main(String[] args) {
 		if (System.getProperty("server.port") == null && System.getenv("SERVER_PORT") == null) {
-			System.setProperty("server.port", String.valueOf(findPort(8080)));
+			System.setProperty("server.port", String.valueOf(findPort(8081)));
 		}
 		SpringApplication.run(DonkeyKongFxApplication.class, args);
 	}
