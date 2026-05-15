@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Controller
@@ -33,25 +34,33 @@ public class GameResultUIController {
      * Display all game results in a table
      */
     @GetMapping({"", "/"})
-    public String index(@RequestParam(required = false) String player, Model model) {
+    public String index(@RequestParam(required = false) String player,
+                        @RequestParam(defaultValue = "playedAt") String sort,
+                        @RequestParam(defaultValue = "desc") String direction,
+                        Model model) {
         try {
             // Fetch all game results from the database service
             String path = hasText(player) ? "/player/" + encode(player) : "";
             GameResult[] results = restTemplate.getForObject(getDbUrl(path), GameResult[].class);
             List<GameResult> gameResultsList = results != null ? Arrays.asList(results) : new ArrayList<>();
 
-            // Sort by played_at descending (newest first)
+            String safeSort = normalizeSort(sort);
+            String safeDirection = "asc".equalsIgnoreCase(direction) ? "asc" : "desc";
+            Comparator<GameResult> comparator = comparatorFor(safeSort, safeDirection);
+
             List<GameResult> sortedResults = gameResultsList.stream()
-                    .sorted(Comparator.comparing(GameResult::getPlayedAt, Comparator.nullsLast(Comparator.reverseOrder())))
+                    .sorted(comparator)
                     .collect(Collectors.toList());
 
             // Calculate statistics
             Integer totalGames = sortedResults.size();
             Integer highestScore = sortedResults.stream()
                     .map(GameResult::getScore)
+                    .filter(Objects::nonNull)
                     .max(Comparator.naturalOrder())
                     .orElse(null);
             String topPlayer = sortedResults.stream()
+                    .filter(result -> result.getScore() != null)
                     .max(Comparator.comparingInt(GameResult::getScore))
                     .map(GameResult::getPlayerName)
                     .orElse(null);
@@ -61,6 +70,9 @@ public class GameResultUIController {
             model.addAttribute("highestScore", highestScore);
             model.addAttribute("topPlayer", topPlayer);
             model.addAttribute("searchPlayer", player);
+            model.addAttribute("sort", safeSort);
+            model.addAttribute("direction", safeDirection);
+            model.addAttribute("nextDirection", "asc".equals(safeDirection) ? "desc" : "asc");
 
             log.info("Loaded {} game results", sortedResults.size());
         } catch (Exception e) {
@@ -78,6 +90,34 @@ public class GameResultUIController {
 
     private String encode(String value) {
         return URLEncoder.encode(value, StandardCharsets.UTF_8);
+    }
+
+    private String normalizeSort(String sort) {
+        return switch (sort == null ? "" : sort) {
+            case "playerName", "score", "level", "duration", "deaths", "playedAt" -> sort;
+            default -> "playedAt";
+        };
+    }
+
+    private Comparator<GameResult> comparatorFor(String sort, String direction) {
+        boolean ascending = "asc".equals(direction);
+        return switch (sort) {
+            case "playerName" -> compareNullable(GameResult::getPlayerName, String.CASE_INSENSITIVE_ORDER, ascending);
+            case "score" -> compareNullable(GameResult::getScore, Integer::compareTo, ascending);
+            case "level" -> compareNullable(GameResult::getLevel, Integer::compareTo, ascending);
+            case "duration" -> compareNullable(GameResult::getDuration, Double::compareTo, ascending);
+            case "deaths" -> compareNullable(GameResult::getDeaths, Integer::compareTo, ascending);
+            case "playedAt" -> compareNullable(GameResult::getPlayedAt, Comparator.naturalOrder(), ascending);
+            default -> compareNullable(GameResult::getPlayedAt, Comparator.naturalOrder(), ascending);
+        };
+    }
+
+    private <T> Comparator<GameResult> compareNullable(Function<GameResult, T> extractor, Comparator<T> valueComparator, boolean ascending) {
+        Comparator<GameResult> values = Comparator.comparing(extractor, Comparator.nullsLast(valueComparator));
+        if (!ascending) {
+            values = values.reversed();
+        }
+        return Comparator.comparing((GameResult result) -> extractor.apply(result) == null).thenComparing(values);
     }
 
     /**
@@ -126,4 +166,3 @@ public class GameResultUIController {
         }
     }
 }
-

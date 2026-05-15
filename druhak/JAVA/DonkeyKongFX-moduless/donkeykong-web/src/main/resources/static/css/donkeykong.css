@@ -71,6 +71,8 @@ h1 {
     display: flex;
     gap: 10px;
     margin-bottom: 24px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .nav-link {
@@ -89,6 +91,28 @@ h1 {
 
 .nav-link.active {
     border-bottom: 3px solid var(--dk-orange-light);
+}
+
+.language-form {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.language-form label {
+    color: var(--dk-muted);
+    font-size: 9px;
+}
+
+.language-form select {
+    background: #222222;
+    border: 2px solid var(--dk-red);
+    color: var(--dk-text);
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+    min-height: 34px;
+    padding: 6px;
 }
 
 .stats {
@@ -118,6 +142,14 @@ h1 {
     color: var(--dk-text);
     font-size: 20px;
     line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.stat-detail {
+    color: var(--dk-muted);
+    font-size: 9px;
+    line-height: 1.6;
+    margin-top: 8px;
     overflow-wrap: anywhere;
 }
 
@@ -215,6 +247,17 @@ th {
     text-shadow: 0 1px 0 var(--dk-orange);
 }
 
+.sort-link {
+    color: inherit;
+    display: inline-flex;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.sort-link:hover {
+    color: var(--dk-orange-light);
+}
+
 tbody tr:hover {
     background: rgba(225, 102, 0, 0.12);
 }
@@ -299,11 +342,17 @@ tbody tr:hover {
         font-size: 22px;
     }
 
-    .controls,
-    .search-form,
-    .nav-tabs {
-        flex-direction: column;
-    }
+	    .controls,
+	    .search-form,
+	    .nav-tabs {
+	        flex-direction: column;
+	    }
+
+        .language-form {
+            align-items: stretch;
+            margin-left: 0;
+            width: 100%;
+        }
 
     .btn,
     .search-form input {

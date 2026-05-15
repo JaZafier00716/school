@@ -5,7 +5,6 @@ module vsb.cz.fei.donkeykongfx {
 
     // Java standard modules
     requires java.net.http;
-    requires java.sql;
 
     // JSON
     requires com.fasterxml.jackson.databind;
@@ -17,18 +16,11 @@ module vsb.cz.fei.donkeykongfx {
     requires org.apache.logging.log4j;
     requires org.apache.logging.log4j.core;
 
-    // JPA / Hibernate
-    requires jakarta.persistence;
-    requires org.hibernate.orm.core;
-
-    // Embedded DB (H2) - may be provided as automatic module
-    requires com.h2database;
-
     // Open packages used by JavaFX FXML and reflection-based libs
     opens vsb.cz.fei.donkeykongfx to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.controllers to javafx.fxml;
-    opens vsb.cz.fei.donkeykongfx.settings to javafx.fxml, org.hibernate.orm.core;
-    opens vsb.cz.fei.donkeykongfx.score to javafx.fxml, com.fasterxml.jackson.databind, org.hibernate.orm.core;
+    opens vsb.cz.fei.donkeykongfx.settings to javafx.fxml;
+    opens vsb.cz.fei.donkeykongfx.score to javafx.fxml, com.fasterxml.jackson.databind;
     opens vsb.cz.fei.donkeykongfx.gameobjects to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.gameobjects.entities to javafx.fxml;
     opens vsb.cz.fei.donkeykongfx.gameobjects.entities.player to javafx.fxml;

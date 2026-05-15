@@ -3,104 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donkey Kong - High Scores Manager</title>
+    <title th:text="#{dashboard.title}">Donkey Kong - Dashboard</title>
     <link rel="stylesheet" th:href="@{/css/donkeykong.css}" href="/css/donkeykong.css">
 </head>
 <body>
     <div class="container container-narrow">
-        <h1>Donkey Kong - High Scores</h1>
-        <p class="subtitle">View and manage your game scores</p>
+        <h1 th:text="#{dashboard.title}">Donkey Kong - Dashboard</h1>
+        <p class="subtitle" th:text="#{dashboard.subtitle}">Best game statistics</p>
 
         <div class="nav-tabs">
-            <a href="/ui/high-scores" class="nav-link active">High Scores</a>
-            <a href="/ui/game-results" class="nav-link">Game Results</a>
+            <a href="/ui/dashboard" class="nav-link active" th:text="#{nav.dashboard}">Dashboard</a>
+            <a href="/ui/game-results" class="nav-link" th:text="#{nav.gameResults}">Game Results</a>
+            <form class="language-form" method="get">
+                <label for="language" th:text="#{language.label}">Language</label>
+                <select id="language" name="lang" onchange="this.form.submit()">
+                    <option value="en" th:selected="${#locale.language == 'en'}" th:text="#{language.english}">English</option>
+                    <option value="cs" th:selected="${#locale.language == 'cs'}" th:text="#{language.czech}">Čeština</option>
+                    <option value="de" th:selected="${#locale.language == 'de'}" th:text="#{language.german}">Deutsch</option>
+                </select>
+            </form>
         </div>
 
         <div class="stats">
             <div class="stat-card">
-                <h3>Total Scores</h3>
-                <div class="value" th:text="${highScores.size() ?: 0}">0</div>
+                <h3 th:text="#{dashboard.fastestTime}">Fastest Time</h3>
+                <div class="value" th:if="${fastestGame != null}" th:text="${fastestTime}">0.000 s</div>
+                <div class="value" th:if="${fastestGame == null}">N/A</div>
+                <p class="stat-detail" th:if="${fastestGame != null}" th:text="${fastestGame.playerName}">Player</p>
             </div>
             <div class="stat-card">
-                <h3>Highest Score</h3>
-                <div class="value" th:text="${highestScore ?: 'N/A'}">N/A</div>
+                <h3 th:text="#{dashboard.mostGames}">Most Games</h3>
+                <div class="value" th:if="${mostGamesPlayer != null}" th:text="${mostGamesCount}">0</div>
+                <div class="value" th:if="${mostGamesPlayer == null}">N/A</div>
+                <p class="stat-detail" th:if="${mostGamesPlayer != null}" th:text="${mostGamesPlayer}">Player</p>
             </div>
             <div class="stat-card">
-                <h3>Top Player</h3>
-                <div class="value" th:text="${topPlayer ?: 'None'}">None</div>
+                <h3 th:text="#{dashboard.highestScore}">Highest Score</h3>
+                <div class="value" th:if="${highestScoreGame != null}" th:text="${highestScoreGame.score}">0</div>
+                <div class="value" th:if="${highestScoreGame == null}">N/A</div>
+                <p class="stat-detail" th:if="${highestScoreGame != null}" th:text="${highestScoreGame.playerName}">Player</p>
             </div>
         </div>
-
-        <form class="search-form" action="/ui/high-scores" method="get">
-            <input type="text" name="player" placeholder="Search player leaderboard" th:value="${searchPlayer}">
-            <button class="btn btn-primary" type="submit">Search</button>
-            <a th:if="${searchPlayer != null && !#strings.isEmpty(searchPlayer)}" href="/ui/high-scores" class="btn btn-warning">Clear</a>
-        </form>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="location.reload()">Refresh</button>
-            <button class="btn btn-warning" onclick="confirmDeleteAll()">Delete All</button>
-            <a href="/ui/game-results" class="btn btn-primary">View Game Results</a>
+            <button class="btn btn-primary" onclick="location.reload()" th:text="#{button.refresh}">Refresh</button>
+            <a href="/ui/game-results" class="btn btn-primary" th:text="#{button.viewGameResults}">View Game Results</a>
         </div>
 
-        <div th:if="${highScores.size() > 0}">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="rank">#</th>
-                        <th>Player Name</th>
-                        <th class="score-cell">Score</th>
-                        <th class="center-cell">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="score, status : ${highScores}">
-                        <td class="rank" th:text="${status.count}">1</td>
-                        <td th:text="${score.playerName}">Unknown</td>
-                        <td class="score-cell" th:text="${score.score}">0</td>
-                        <td>
-                            <div class="actions">
-                                <form th:action="@{/ui/high-scores/{id}/delete(id=${score.id})}" method="post" class="inline-form">
-                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this score?')">Delete</button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div th:if="${highScores.isEmpty()}" class="empty-state">
-            <h2>No High Scores Yet</h2>
-            <p>There are no high scores in the database. Play the game and set your first score!</p>
+        <div th:if="${totalGames == null || totalGames == 0}" class="empty-state">
+            <h2 th:text="#{dashboard.noGamesTitle}">No Games Yet</h2>
+            <p th:text="#{dashboard.noGamesText}">There are no game results in the database.</p>
         </div>
 
         <div class="footer">
-            <p>Donkey Kong High Scores Manager</p>
+            <p th:text="#{dashboard.footer}">Donkey Kong Dashboard</p>
             <p>
-                <a href="http://localhost:8080/swagger-ui.html">Database API Documentation</a> |
-                <a href="http://localhost:8080">Database API</a>
+                <a href="http://localhost:8080/swagger-ui.html" th:text="#{link.dbDocs}">Database API Documentation</a> |
+                <a href="http://localhost:8080" th:text="#{link.dbApi}">Database API</a>
             </p>
         </div>
     </div>
-
-    <script>
-        function confirmDeleteAll() {
-            if (confirm('Are you absolutely sure you want to delete ALL high scores? This cannot be undone!')) {
-                fetch('/ui/high-scores/delete-all', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    }
-                })
-                .then(response => {
-                    if (response.ok) {
-                        location.reload();
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-            }
-        }
-    </script>
 </body>
 </html>

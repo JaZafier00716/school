@@ -142,7 +142,7 @@ public class GameController extends SettingsAffected {
             text = I18n.get("game.won");
             Score score = new Score(level.getPlayer().getPlayerName(), level.getPlayer().getScore());
             try {
-                ScoreRestClient.save(score);
+                ScoreRestClient.save(score, level.getCurrentLevelNumber(), level.getDurationSeconds(), level.getDeathCount());
                 log.info("Saved score: {} - {}", score.getNickName(), score.getScore());
             } catch (ScoreException e) {
                 log.warn("Score service unavailable; game-over screen will still be shown", e);
@@ -385,7 +385,9 @@ public class GameController extends SettingsAffected {
 
     public void deleteSave() {
         File file = new File("./state.bin");
-        if (file.delete()) {
+        if (!file.exists()) {
+            log.debug("No save file found to delete at {}", file.getAbsolutePath());
+        } else if (file.delete()) {
             log.debug("Save file deleted successfully");
         } else {
             log.warn("Failed to delete save file at {}", file.getAbsolutePath());

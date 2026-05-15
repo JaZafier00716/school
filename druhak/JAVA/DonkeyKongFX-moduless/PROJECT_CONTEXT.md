@@ -8,7 +8,7 @@
 
 **Project**: DonkeyKong-Moduleless (Lab09 - Spring Boot Multi-Tier Architecture)
 **Status**: COMPLETE & VERIFIED ✅
-**Date**: May 12, 2026
+**Date**: May 14, 2026
 
 ### Architecture
 - **Database Service** (Port 8080 by default, falls back upward if busy): JPA persistence layer + REST API
@@ -22,15 +22,15 @@
 
 | Requirement | Status | Implementation |
 |---|---|---|
-| JPA Entity | ✅ | Player.java + HighScore.java + GameResult.java |
-| Spring Data Repository | ✅ | PlayerRepository, HighScoreRepository, GameResultRepository |
-| Full CRUD REST API | ✅ | 8 endpoints (POST, GET×2, PUT, DELETE×2) |
-| Web UI Table | ✅ | game-results.html (Thymeleaf, 358 lines) |
+| JPA Entity | ✅ | Player.java + GameLevel.java + GameResult.java |
+| Spring Data Repository | ✅ | PlayerRepository, GameLevelRepository, GameResultRepository |
+| Full CRUD REST API | ✅ | Game result CRUD + read-only game level endpoints |
+| Web UI Table | ✅ | game-results.html with sortable columns |
 | Delete Functionality | ✅ | Delete buttons with confirmation dialogs |
-| Navigation | ✅ | Tabs between High Scores & Game Results |
+| Navigation | ✅ | Dashboard, Game Results, Settings |
 | Swagger/OpenAPI | ✅ | springdoc-openapi dependency + UI |
-| Entity Relationships | ✅ | Player.@OneToMany → GameResult / GameResult.@ManyToOne → Player |
-| Leaderboard View | ✅ | High scores are derived from GameResult as the source of truth |
+| Entity Relationships | ✅ | Player 1:N GameResult and GameLevel 1:N GameResult |
+| Dashboard View | ✅ | Fastest time, most games, highest score derived from GameResult |
 | Build Status | ✅ | All 4 modules: SUCCESS (8.1s) |
 
 ---
@@ -41,7 +41,7 @@
 Spring Boot:   4.0.5
 Java:          25
 Maven:         3.8+
-Database:      H2 file database (./db/score-db)
+Database:      H2 file database (./db/score-db) for backend gameplay data only
 ORM:           Spring Data JPA
 Templates:     Thymeleaf 3.1.x
 API Docs:      SpringDoc OpenAPI
@@ -59,31 +59,30 @@ DonkeyKongFX-moduless/
 ├── donkeykong-db/                    # Database Service (Port 8080, fallback upward)
 │   ├── src/main/java/.../entity/
 │   │   ├── Player.java              # @Entity with @OneToMany GameResults
-│   │   ├── GameResult.java          # Played game source of truth
-│   │   └── HighScore.java           # Compatibility request shape
+│   │   ├── GameLevel.java           # @Entity with @OneToMany GameResults
+│   │   └── GameResult.java          # Played game source of truth
 │   ├── src/main/java/.../repository/
 │   │   ├── PlayerRepository.java
-│   │   ├── HighScoreRepository.java
+│   │   ├── GameLevelRepository.java
 │   │   └── GameResultRepository.java
 │   ├── src/main/java/.../controller/
-│   │   ├── GameResultController.java # REST API (8 endpoints)
-│   │   └── HighScoreController.java
+│   │   ├── GameResultController.java # Game result REST API
+│   │   └── GameLevelController.java
 │   ├── src/main/resources/
 │   │   └── application.yaml         # Port 8080 default, H2 config
 │   └── pom.xml                      # Spring Boot 4.0.5 parent
 │
 ├── donkeykong-web/                   # Web Service (Port 8080, fallback upward)
 │   ├── src/main/java/.../entity/
-│   │   ├── GameResult.java (DTO)    # Data Transfer Object
-│   │   └── HighScore.java (DTO)
+│   │   └── GameResult.java (DTO)    # Data Transfer Object
 │   ├── src/main/java/.../controller/
 │   │   ├── GameResultController.java # REST proxy to DB service
 │   │   ├── GameResultUIController.java # Thymeleaf UI logic
-│   │   └── HighScoreUIController.java
+│   │   └── DashboardUIController.java
 │   ├── src/main/resources/
 │   │   ├── application.yaml         # Port 8080 default, DB URL config
 │   │   └── templates/
-│   │       ├── index.html           # High Scores page
+│   │       ├── dashboard.html       # Dashboard page
 │   │       ├── game-results.html    # Game Results page
 │   │       └── ...
 │   └── pom.xml
@@ -91,7 +90,7 @@ DonkeyKongFX-moduless/
 ├── donkeykong-game/                  # Game Application
 │   ├── src/main/java/vsb/cz/fei/donkeykongfx/
 │   │   ├── score/                   # Score entities
-│   │   ├── settings/                # Settings entities
+│   │   ├── settings/                # Local key/language settings stored in cfg files
 │   │   └── [Game logic]
 │   └── pom.xml
 │
@@ -172,7 +171,7 @@ import lombok.*;
 
 ## 🔄 Entity Relationships
 
-### Player -> GameResult (One-to-Many)
+### Player/GameLevel -> GameResult (One-to-Many)
 
 ```java
 // Database Module
@@ -190,17 +189,41 @@ public class Player {
 }
 
 @Entity
+public class GameLevel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private Integer levelNumber;
+
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany(mappedBy = "gameLevel")
+    private Set<GameResult> gameResults = new HashSet<>();
+}
+
+@Entity
 public class GameResult {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
+    @Transient
     private String playerName;
     private Integer score;
     private LocalDateTime playedAt;
+    @Transient
+    private Integer level;
+    private Double duration;
+    private Integer deaths;
 
     @ManyToOne
     private Player player;
+
+    @ManyToOne
+    private GameLevel gameLevel;
 }
 
 // Web Module (DTO)
@@ -212,12 +235,25 @@ public class GameResult {
     private Integer score;
     private LocalDateTime playedAt;
     private Integer level;
-    private Integer duration;
-    private Long highScoreId;  // Null; high scores are derived from GameResult
+    private Double duration;
+    private Integer deaths;
 }
 ```
 
-GameResult is the source of truth. High score endpoints are leaderboard views derived from GameResult rows so game history and leaderboard data do not diverge.
+GameResult is the source of truth. Dashboard statistics are derived from GameResult rows so game history and summary data do not diverge. The REST DTO exposes `playerName` and `level`, while the database stores those relationships as `player_id` and `game_level_id`.
+
+Expected backend tables after cleanup:
+- `GAME_RESULT`
+- `GAME_LEVEL`
+- `PLAYER`
+
+Legacy/local tables and columns removed from the active schema:
+- `KEYBINDINGS`
+- `KEYBINDINGSSETTINGS`
+- `SCORES`
+- `PLAYERS`
+- `GAME_RESULT.PLAYER_NAME`
+- `GAME_RESULT.LEVEL`
 
 ---
 
@@ -234,17 +270,21 @@ mvn clean package -DskipTests
 **Manual CLI** (if not using IDE):
 ```bash
 # Terminal 1
-java -jar donkeykong-db/target/donkeykong-db-0.0.1-SNAPSHOT.jar
+DONKEYKONG_SCORE_DB_URL='jdbc:h2:file:/absolute/path/to/project/db/score-db;AUTO_SERVER=TRUE' \
+  java -jar donkeykong-db/target/donkeykong-db-0.0.1-SNAPSHOT.jar
 
 # Terminal 2  
 java -jar donkeykong-web/target/donkeykong-web-0.0.1-SNAPSHOT.jar
 ```
 
+When launching directly from the IDE, use the project root as the working directory so the default `./db/score-db` points at the shared project database.
+
 ### Access Points
 - 🏠 Main UI: http://localhost:8081
 - 🎯 Game Results: http://localhost:8081/ui/game-results
-- 📊 High Scores: http://localhost:8081/ui/high-scores
+- 📊 Dashboard: http://localhost:8081/ui/dashboard
 - 📡 DB REST API: http://localhost:8080/api/v1/game-results by default
+- 📡 DB Level API: http://localhost:8080/api/v1/game-levels by default
 - 📚 DB Swagger UI: http://localhost:8080/swagger-ui/index.html by default
 
 ---
@@ -263,7 +303,7 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:file:./db/score-db
+    url: ${DONKEYKONG_SCORE_DB_URL:jdbc:h2:file:./db/score-db;AUTO_SERVER=TRUE}
     username: sa
     driverClassName: org.h2.Driver
   jpa:
@@ -349,22 +389,23 @@ Runtime Errors: 0
 ```java
 @Repository
 public interface GameResultRepository extends JpaRepository<GameResult, Long> {
-    List<GameResult> findByPlayerNameOrderByPlayedAtDesc(String playerName);
+    List<GameResult> findByPlayer_NameOrderByPlayedAtDesc(String playerName);
     
     @Query(value = "SELECT * FROM GameResult ORDER BY played_at DESC LIMIT 10", 
            nativeQuery = true)
     List<GameResult> findLast10Games();
     
-    Integer countByPlayerName(String playerName);
+    List<GameResult> findTop10ByOrderByPlayedAtDesc();
 }
 ```
 
-Current UI/API result reads use `GameResultRepository` as the source of truth. `HighScore` remains as the lightweight request/response shape used by the game client and high-score endpoints.
+Current UI/API result reads use `GameResultRepository` as the source of truth. The dashboard computes fastest time, most games, and highest score from saved game results.
 
 ### DTO Pattern (Web Module)
 - GameResult DTO has @JsonProperty(access = READ_ONLY) on ID
 - Prevents client modification of server-generated IDs
-- GameResult DTO keeps highScoreId for compatibility, but high scores are now derived from GameResult
+- GameResult DTO includes playerName, score, playedAt, level, duration, and deaths
+- JavaFX key bindings and language preference are local client settings in `keybindings.cfg` and `settings.cfg`, not backend database tables
 
 ### Proxy Pattern (Web Module)
 - GameResultController proxies all requests to Database Service via RestTemplate
@@ -397,7 +438,7 @@ The JavaFX game inherits from the root parent POM. The DB and Web modules use th
 1. **Game Module**: Continue is only available for the saved player; starting a new game deletes the previous save; finished games delete the save
 2. **Database**: H2 file database at ./db/score-db
 3. **Schema Generation**: JPA updates schema on startup
-4. **Result Recording**: GameResult is the source of truth; High Scores UI/API shows leaderboard rows derived from GameResult
+4. **Result Recording**: GameResult is the source of truth; Dashboard UI/API shows leaderboard rows derived from GameResult
 5. **Service Communication**: Always start Database Service BEFORE Web Service
 6. **Port Conflicts**: DB starts from port 8080; Web starts from port 8081; both move upward if their default port is busy
 7. **Environment Variables**: DONKEYKONG_DB_URL can override database service URL if DB cannot run on 8080; DONKEYKONG_WEB_URL can override the game client's Web Service URL if Web cannot run on 8081

@@ -10,13 +10,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import lombok.extern.log4j.Log4j2;
 import vsb.cz.fei.donkeykongfx.I18n;
 import vsb.cz.fei.donkeykongfx.settings.KeyBindingRow;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsException;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
 @Log4j2
 public class SettingsController extends SettingsAffected {
     private Comparator<KeyBindingRow> comparator;
+    private ComboBox<LanguageOption> languageSelect;
     @FXML
     private Label ChangeKeyActionLabel;
 
@@ -154,6 +158,40 @@ public class SettingsController extends SettingsAffected {
     void initSettingsTabs() {
         SettingsTabs.getTabs().clear();
         SettingsTabs.getTabs().add(new Tab(I18n.get("settings.keyBindings"), KeyBindingsTable));
+        SettingsTabs.getTabs().add(new Tab(I18n.get("settings.language"), createLanguagePane()));
+    }
+
+    private VBox createLanguagePane() {
+        Label label = new Label(I18n.get("settings.language"));
+        languageSelect = new ComboBox<>();
+        languageSelect.getItems().addAll(
+                new LanguageOption("en", "English"),
+                new LanguageOption("cs", "Čeština"),
+                new LanguageOption("de", "Deutsch")
+        );
+        languageSelect.setValue(languageSelect.getItems().stream()
+                .filter(option -> option.languageTag().equals(I18n.locale().getLanguage()))
+                .findFirst()
+                .orElse(languageSelect.getItems().getFirst()));
+        languageSelect.setOnAction(event -> saveLanguage(languageSelect.getValue()));
+        VBox box = new VBox(16, label, languageSelect);
+        box.setStyle("-fx-padding: 24;");
+        return box;
+    }
+
+    private void saveLanguage(LanguageOption languageOption) {
+        if (languageOption == null) {
+            return;
+        }
+        try {
+            KeyBindingsRepository.saveLanguageTag(languageOption.languageTag());
+            I18n.setLocaleTag(languageOption.languageTag());
+            initSettingsTabs();
+            log.info("Changed language to {}", languageOption.languageTag());
+        } catch (KeyBindingsException e) {
+            log.warn("Saving language failed", e);
+            printAlert(e);
+        }
     }
 
     @FXML
@@ -179,5 +217,12 @@ public class SettingsController extends SettingsAffected {
     @Override
     protected void onSizeChanged(double width, double height, String currentPlayer) {
 
+    }
+
+    private record LanguageOption(String languageTag, String label) {
+        @Override
+        public String toString() {
+            return label;
+        }
     }
 }

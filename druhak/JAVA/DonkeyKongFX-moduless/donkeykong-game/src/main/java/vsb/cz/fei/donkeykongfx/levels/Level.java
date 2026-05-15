@@ -30,6 +30,9 @@ import java.util.function.Consumer;
 
 @Log4j2
 public class Level extends ResizableDimension {
+    private static final int LEVEL_NUMBER = 1;
+    private static final int STARTING_LIVES = 5;
+
     @Getter
     private Player player;
     private DonkeyKong donkeyKong;
@@ -40,6 +43,7 @@ public class Level extends ResizableDimension {
     private final List<GameObject> toBeRemovedEntities = new ArrayList<>();
     private Comparator<Renderable> objectComparator;
     private Comparator<GameObject> entityComparator;
+    private double elapsedSeconds = 0;
     boolean pause = false;
 
     public enum GameOverReason {
@@ -308,6 +312,7 @@ public class Level extends ResizableDimension {
         if (pause) {
             return;
         }
+        elapsedSeconds += Math.max(0, deltaTime);
         for (GameObject entity : entities) {
             if (entity instanceof GameObject o && o.isToBeRemoved()) {
                 toBeRemovedEntities.add(entity);
@@ -407,6 +412,7 @@ public class Level extends ResizableDimension {
         state.levelWidth = this.getWidth();
         state.score = player.getScore();
         state.lives = player.getHealth().getLifes();
+        state.duration = getDurationSeconds();
         for (GameObject entity : entities) {
             EntityState es = new EntityState();
             switch (entity) {
@@ -438,6 +444,7 @@ public class Level extends ResizableDimension {
     public synchronized void fromGameState(GameState state) {
         stopAutonomousEntities();
         this.updateSize(new Dimension2D(state.levelWidth, state.levelHeight));
+        this.elapsedSeconds = state.duration;
         entities.clear();
         entities.add(princess);
         for (EntityState es : state.entities) {
@@ -485,5 +492,17 @@ public class Level extends ResizableDimension {
         gc.setFont(App.pressStartFont);
         gc.setImageSmoothing(false);
         gc.fillText(MessageFormat.format(I18n.get("game.score"), player.getScore()), 150*getScale(), 10*getScale());
+    }
+
+    public int getCurrentLevelNumber() {
+        return LEVEL_NUMBER;
+    }
+
+    public double getDurationSeconds() {
+        return Math.max(0.001, elapsedSeconds);
+    }
+
+    public int getDeathCount() {
+        return Math.max(0, STARTING_LIVES - player.getHealth().getLifes());
     }
 }

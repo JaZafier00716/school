@@ -15,7 +15,7 @@ This guide sets up JetBrains IntelliJ IDEA to run both services using play butto
    - Name: `DonkeyKong DB Service`
    - Main class: `org.springframework.boot.loader.JarLauncher`
    - VM options: `-Dspring.profiles.active=dev`
-   - Working directory: `$PROJECT_DIR$/donkeykong-db`
+   - Working directory: `$PROJECT_DIR$`
    - Module classpath: `donkeykong-db`
    - Click ✅ (Apply)
 
@@ -23,7 +23,7 @@ This guide sets up JetBrains IntelliJ IDEA to run both services using play butto
    - Name: `DonkeyKong Web Service`
    - Main class: `org.springframework.boot.loader.JarLauncher`
    - VM options: `-Dspring.profiles.active=dev`
-   - Working directory: `$PROJECT_DIR$/donkeykong-web`
+   - Working directory: `$PROJECT_DIR$`
    - Module classpath: `donkeykong-web`
    - Click ✅ (Apply)
 
@@ -54,7 +54,7 @@ This guide sets up JetBrains IntelliJ IDEA to run both services using play butto
 Both modules should have Spring Boot auto-detected configs with:
 - **VM options**: `-Dspring.config.location=classpath:application.yaml`
 - **Environment variables**: leave empty for the normal DB-first run
-- **Working directory**: Module root
+- **Working directory**: `$PROJECT_DIR$` so both services and the JavaFX game share `./db/score-db`
 
 ---
 
@@ -65,15 +65,15 @@ If Spring Boot plugin detection doesn't work:
 ### Database Service Configuration
 1. **Run → Edit Configurations → +Maven**
 2. **Name**: `DonkeyKong DB Service`
-3. **Working directory**: `$PROJECT_DIR$/donkeykong-db`
+3. **Working directory**: `$PROJECT_DIR$`
 4. **Command line**: `spring-boot:run -DSPRING_CONFIG_LOCATION=classpath:application.yaml`
-5. **Environment variables**: leave empty
+5. **Environment variables**: `DONKEYKONG_SCORE_DB_URL=jdbc:h2:file:$PROJECT_DIR$/db/score-db;AUTO_SERVER=TRUE`
 6. Click ✅
 
 ### Web Service Configuration  
 1. **Run → Edit Configurations → +Maven**
 2. **Name**: `DonkeyKong Web Service`
-3. **Working directory**: `$PROJECT_DIR$/donkeykong-web`
+3. **Working directory**: `$PROJECT_DIR$`
 4. **Command line**: `spring-boot:run -DSPRING_CONFIG_LOCATION=classpath:application.yaml`
 5. **Environment variables**: leave empty for the normal DB-first run
 6. Click ✅
@@ -117,8 +117,8 @@ After starting services:
 
 2. **Check Web Service**:
    - Open: http://localhost:8081
-   - Should see High Scores page
-   - Navigate to "🎯 Game Results" tab
+   - Should see the Dashboard page
+   - Navigate to "Game Results" tab
 
 3. **Check Integration**:
    - Create a game result via http://localhost:8080/swagger-ui/index.html
@@ -133,12 +133,15 @@ The applications use default profiles:
 - Database Service: Reads from `donkeykong-db/src/main/resources/application.yaml`
 - Web Service: Reads from `donkeykong-web/src/main/resources/application.yaml`
 - No VM options needed (already configured)
+- For Maven `spring-boot:run` configurations, keep `DONKEYKONG_SCORE_DB_URL` set as shown above so the DB service writes to the project-level `db/score-db` file instead of a module-local `donkeykong-db/db/score-db` file.
 
 ### If You Want Custom Ports
 Prefer VM options or environment variables so the source defaults stay unchanged.
 
 - Set a fixed service port with `-Dserver.port=9090` or `SERVER_PORT=9090`
 - If the DB is not on `8080`, set the Web Service environment variable: `DONKEYKONG_DB_URL=http://localhost:<db-port>`
+- If you need a custom H2 file location, set the Database Service environment variable:
+  `DONKEYKONG_SCORE_DB_URL=jdbc:h2:file:/absolute/path/score-db;AUTO_SERVER=TRUE`
 
 The source defaults are:
 ```yaml

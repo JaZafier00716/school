@@ -96,6 +96,9 @@ public class GameResultController {
             if (gameResultDetails.getDuration() != null) {
                 gameResult.setDuration(gameResultDetails.getDuration());
             }
+            if (gameResultDetails.getDeaths() != null) {
+                gameResult.setDeaths(gameResultDetails.getDeaths());
+            }
 
             restTemplate.put(getDbUrl("/" + id), gameResult);
             return ResponseEntity.ok(gameResult);
@@ -161,5 +164,4 @@ public class GameResultController {
         }
     }
 }
-
 

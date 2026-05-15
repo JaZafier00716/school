@@ -18,17 +18,25 @@ public class GameResult {
     @EqualsAndHashCode.Include
     private Long id;
 
+    @Transient
     private String playerName;
 
     private Integer score;
 
     private LocalDateTime playedAt;
 
+    @Transient
     private Integer level;
 
-    private Integer duration;
+    private Double duration;
+
+    private Integer deaths;
 
     @JsonIgnore
     @ManyToOne
     private Player player;
+
+    @JsonIgnore
+    @ManyToOne
+    private GameLevel gameLevel;
 }

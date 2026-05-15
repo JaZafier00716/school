@@ -1,4 +1,8 @@
 target/
+*.lock.db
+*.trace.db
+keybindings.cfg
+settings.cfg
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

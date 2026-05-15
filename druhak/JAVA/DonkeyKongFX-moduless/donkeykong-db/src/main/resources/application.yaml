@@ -8,7 +8,7 @@ spring:
     console:
       enabled: true
   datasource:
-    url: jdbc:h2:file:./db/score-db
+    url: ${DONKEYKONG_SCORE_DB_URL:jdbc:h2:file:./db/score-db;AUTO_SERVER=TRUE}
     username: sa
     driverClassName: org.h2.Driver
 

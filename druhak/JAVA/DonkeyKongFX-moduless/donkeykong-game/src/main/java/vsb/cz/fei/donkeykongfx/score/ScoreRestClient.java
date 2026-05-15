@@ -2,6 +2,7 @@ package vsb.cz.fei.donkeykongfx.score;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class ScoreRestClient {
             "DONKEYKONG_WEB_URL",
             "http://localhost:8081"
     );
-    private static final String SCORES_API = BASE_URL + "/api/v1/high-scores";
+    private static final String SCORES_API = BASE_URL + "/api/v1/game-results";
 
     private static final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(2))
@@ -84,6 +85,13 @@ public class ScoreRestClient {
      * Save a single score to the remote service
      */
     public static void save(Score score) throws ScoreException {
+        save(score, null, null, null);
+    }
+
+    /**
+     * Save a single score with game metadata to the remote service
+     */
+    public static void save(Score score, Integer level, Double duration, Integer deaths) throws ScoreException {
         if (score.getNickName() == null || score.getNickName().isBlank()) {
             return;
         }
@@ -92,6 +100,9 @@ public class ScoreRestClient {
             ScoreDTO dto = new ScoreDTO();
             dto.setPlayerName(score.getNickName());
             dto.setScore(score.getScore());
+            dto.setLevel(level);
+            dto.setDuration(duration);
+            dto.setDeaths(deaths);
 
             String jsonBody = objectMapper.writeValueAsString(dto);
 
@@ -148,13 +159,16 @@ public class ScoreRestClient {
     }
 
     /**
-     * DTO for transferring score data via REST API
-     * Maps to the HighScore DTO in donkeykong-web
+     * DTO for transferring game result data via REST API
      */
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ScoreDTO {
         private Long id;
         private String playerName;
         private Integer score;
+        private Integer level;
+        private Double duration;
+        private Integer deaths;
 
         // Getters and setters
         public Long getId() {
@@ -179,6 +193,30 @@ public class ScoreRestClient {
 
         public void setScore(Integer score) {
             this.score = score;
+        }
+
+        public Integer getLevel() {
+            return level;
+        }
+
+        public void setLevel(Integer level) {
+            this.level = level;
+        }
+
+        public Double getDuration() {
+            return duration;
+        }
+
+        public void setDuration(Double duration) {
+            this.duration = duration;
+        }
+
+        public Integer getDeaths() {
+            return deaths;
+        }
+
+        public void setDeaths(Integer deaths) {
+            this.deaths = deaths;
         }
     }
 

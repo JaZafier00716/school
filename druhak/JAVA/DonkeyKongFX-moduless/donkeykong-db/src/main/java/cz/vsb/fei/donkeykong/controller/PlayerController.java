@@ -40,7 +40,7 @@ public class PlayerController {
     }
 
     private PlayerDto toDto(Player player) {
-        List<GameResult> results = gameResultRepository.findByPlayerNameOrderByScoreDesc(player.getName());
+        List<GameResult> results = gameResultRepository.findByPlayer_NameOrderByScoreDesc(player.getName());
         Integer highestScore = results.isEmpty() ? null : results.get(0).getScore();
         double averageScore = results.stream()
                 .mapToInt(result -> result.getScore() == null ? 0 : result.getScore())

@@ -1,8 +1,10 @@
 package cz.vsb.fei.donkeykong.controller;
 
 import cz.vsb.fei.donkeykong.entity.GameResult;
+import cz.vsb.fei.donkeykong.entity.GameLevel;
 import cz.vsb.fei.donkeykong.entity.Player;
 import cz.vsb.fei.donkeykong.repository.GameResultRepository;
+import cz.vsb.fei.donkeykong.repository.GameLevelRepository;
 import cz.vsb.fei.donkeykong.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,9 @@ public class GameResultController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private GameLevelRepository gameLevelRepository;
 
     /**
      * Get all game results
@@ -53,6 +58,7 @@ public class GameResultController {
             gameResult.setPlayedAt(LocalDateTime.now());
         }
         setPlayer(gameResult);
+        setGameLevel(gameResult);
         GameResult savedResult = gameResultRepository.save(gameResult);
         return ResponseEntity.status(HttpStatus.CREATED).body(toDto(savedResult));
     }
@@ -78,9 +84,13 @@ public class GameResultController {
             }
             if (gameResultDetails.getLevel() != null) {
                 gameResult.setLevel(gameResultDetails.getLevel());
+                setGameLevel(gameResult);
             }
             if (gameResultDetails.getDuration() != null) {
                 gameResult.setDuration(gameResultDetails.getDuration());
+            }
+            if (gameResultDetails.getDeaths() != null) {
+                gameResult.setDeaths(gameResultDetails.getDeaths());
             }
 
             GameResult updatedResult = gameResultRepository.save(gameResult);
@@ -117,7 +127,7 @@ public class GameResultController {
      */
     @GetMapping("/player/{playerName}")
     public ResponseEntity<List<GameResultDto>> getResultsByPlayer(@PathVariable String playerName) {
-        List<GameResult> results = gameResultRepository.findByPlayerNameOrderByPlayedAtDesc(playerName);
+        List<GameResult> results = gameResultRepository.findByPlayer_NameOrderByPlayedAtDesc(playerName);
         return ResponseEntity.ok(results.stream().map(GameResultController::toDto).toList());
     }
 
@@ -133,13 +143,27 @@ public class GameResultController {
     private static GameResultDto toDto(GameResult result) {
         return new GameResultDto(
                 result.getId(),
-                result.getPlayerName(),
+                resolvePlayerName(result),
                 result.getScore(),
                 result.getPlayedAt(),
-                result.getLevel(),
+                resolveLevelNumber(result),
                 result.getDuration(),
-                null
+                result.getDeaths()
         );
+    }
+
+    private static String resolvePlayerName(GameResult result) {
+        if (result.getPlayerName() != null && !result.getPlayerName().isBlank()) {
+            return result.getPlayerName();
+        }
+        return result.getPlayer() == null ? null : result.getPlayer().getName();
+    }
+
+    private static Integer resolveLevelNumber(GameResult result) {
+        if (result.getLevel() != null) {
+            return result.getLevel();
+        }
+        return result.getGameLevel() == null ? null : result.getGameLevel().getLevelNumber();
     }
 
     private void setPlayer(GameResult gameResult) {
@@ -152,14 +176,25 @@ public class GameResultController {
         gameResult.setPlayer(player);
     }
 
+    private void setGameLevel(GameResult gameResult) {
+        if (gameResult.getLevel() == null) {
+            gameResult.setGameLevel(null);
+            return;
+        }
+        GameLevel gameLevel = gameLevelRepository.findByLevelNumber(gameResult.getLevel())
+                .orElseGet(() -> gameLevelRepository.save(new GameLevel(gameResult.getLevel(),
+                        "Level " + gameResult.getLevel())));
+        gameResult.setGameLevel(gameLevel);
+    }
+
     public record GameResultDto(
             Long id,
             String playerName,
             Integer score,
             java.time.LocalDateTime playedAt,
             Integer level,
-            Integer duration,
-            Long highScoreId
+            Double duration,
+            Integer deaths
     ) {
     }
 }

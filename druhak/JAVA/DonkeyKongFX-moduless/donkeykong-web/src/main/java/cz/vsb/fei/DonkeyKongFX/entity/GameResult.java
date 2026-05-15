@@ -1,6 +1,5 @@
 package cz.vsb.fei.DonkeyKongFX.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class GameResult {
 
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     private String playerName;
@@ -27,9 +25,7 @@ public class GameResult {
 
     private Integer level;
 
-    private Integer duration;
+    private Double duration;
 
-    private Long highScoreId;
+    private Integer deaths;
 }
-
-

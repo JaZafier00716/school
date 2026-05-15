@@ -11,15 +11,10 @@ public interface GameResultRepository extends JpaRepository<GameResult, Long> {
 
     List<GameResult> findAllByOrderByPlayedAtDesc();
 
-    List<GameResult> findByPlayerNameOrderByPlayedAtDesc(String playerName);
+    List<GameResult> findByPlayer_NameOrderByPlayedAtDesc(String playerName);
 
-    List<GameResult> findByPlayerNameOrderByScoreDesc(String playerName);
+    List<GameResult> findByPlayer_NameOrderByScoreDesc(String playerName);
 
     List<GameResult> findTop10ByOrderByPlayedAtDesc();
 
-    List<GameResult> findTop10ByOrderByScoreDesc();
-
-    boolean existsByPlayerNameAndScoreAndPlayedAt(String playerName, Integer score, java.time.LocalDateTime playedAt);
-
-    Integer countByPlayerName(String playerName);
 }

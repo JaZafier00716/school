@@ -13,9 +13,16 @@ import vsb.cz.fei.donkeykongfx.controllers.GameController;
 import vsb.cz.fei.donkeykongfx.controllers.MenuController;
 import vsb.cz.fei.donkeykongfx.controllers.SettingsController;
 import vsb.cz.fei.donkeykongfx.score.ScoreRestClient;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsException;
+import vsb.cz.fei.donkeykongfx.settings.KeyBindingsRepository;
 
 import java.io.IOException;
 import java.net.URL;
+
+/*
+    TODO: Add language selection - at least 3 languages - cz, en, de
+    TODO: Add third entity
+ */
 
 /**
  * DonkeyKong Game Application
@@ -56,6 +63,7 @@ public class App extends Application {
         ScoreRestClient.startDBWebServer();
         try {
             this.primaryStage = primaryStage;
+            loadLanguage();
             pressStartFont = Font.loadFont(getClass().getResourceAsStream("/fonts/PressStart2P.ttf"), 18);
 
             primaryStage.resizableProperty();
@@ -85,6 +93,15 @@ public class App extends Application {
     private void exitProgram(WindowEvent evt) {
         log.info("Application shutdown requested by window close event");
         System.exit(0);
+    }
+
+    private void loadLanguage() {
+        try {
+            I18n.setLocaleTag(KeyBindingsRepository.loadLanguageTag());
+        } catch (KeyBindingsException e) {
+            log.warn("Loading language failed, using default language", e);
+            I18n.setLocaleTag("en");
+        }
     }
 
     public void switchToGame(String playerName) throws IOException {
