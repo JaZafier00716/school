@@ -1,3 +1,6 @@
 [submodule "UPR/tetris_clone"]
 	path = UPR/tetris_clone
 	url = https://github.com/jazafier00716/tetris_clone
+[submodule "druhak/JAVA/DonkeyKongFX"]
+	path = druhak/JAVA/DonkeyKongFX
+	url = https://github.com/JaZafier00716/donkey-kong-fx
